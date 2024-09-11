@@ -1,11 +1,8 @@
 # PSI project repository.
 
 ## Team
-Team members:
-- Tadas
-- Arnas
-- Darius
-- 
+Currently this is 4 people team.
+Team members will be added later.
 
 ## Project speed
 Possible project themes:
