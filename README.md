@@ -14,4 +14,5 @@ Possible project themes:
 * speed reading a sentence with question after (take texts from VBA?? texts from something else)
 * žodynas
 * mouse tracker text?
-* speed redrawing (could not this idea on web)
+* speed redrawing (could not find this idea on web)
+* 
