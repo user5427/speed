@@ -1,5 +1,9 @@
 # PSI project repository.
 
+# How to push and pull:
+Before commiting to the project please make sure that you are on a seperate branch. **Avoid commiting directly to main branch.**
+Create a pull request when you want to merge your work with the main branch.
+
 ## Team
 Currently this is 4 people team.
 Team members will be added later.
@@ -13,3 +17,4 @@ Possible project themes:
 * mouse tracker text?
 * speed redrawing (could not find this idea on web)
 * 
+
