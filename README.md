@@ -86,4 +86,5 @@ Blazor will be used for the frontend.
 - [How to commit to the project](Info/GitInfo.md) - all about branches and commit messages. 
 - [Time tracking](Info/Time_tracking.md) - time tracking for the project.
 - [Task management](Info/Task_management.md) - how to manage tasks in a project.
-- [Task table](Info/Tasks.xlsx) - Task table (excel file)
+- [Task table](Info/Tasks.xlsx) - Task table (excel file).
+- [Roles](Info/Roles.md) - roles in the project.
