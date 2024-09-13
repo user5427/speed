@@ -14,7 +14,7 @@ Example:
 - Branch name: `AA-1-Add-Login-Page`
 - This branch name is used for the task number 1 and the feature is to add a login page.
 
-[Task table](Tasks.xlsx)
+[Task table](Tasks.xlsx) (excel file)
 
 # commit message
 
