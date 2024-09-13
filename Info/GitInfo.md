@@ -14,7 +14,7 @@ Example:
 - Branch name: `AA-1-Add-Login-Page`
 - This branch name is used for the task number 1 and the feature is to add a login page.
 
-[Task table](Info/Tasks.xlsx)
+[Task table](Tasks.xlsx)
 
 # commit message
 
@@ -38,4 +38,4 @@ The commit may include hashtags such as:
 - `#hotfix` - for hotfixes
 --?>
 
-[Main page](README.md)
+[Main page](../README.md)
