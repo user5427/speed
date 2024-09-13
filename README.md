@@ -10,6 +10,7 @@ Currently, this is **4** people team.
 - Tadas
 - Arnas
 - Darius
+- ?? sorry dont want to make a mistake typing your name
 
 <img src="https://imgur.com/TyNHcmc.png"> <?--this nice looking png may be changed later--?>
 
@@ -40,6 +41,7 @@ The user will be able to see the statistics of his reading speed and the number 
 <!-- You can leave these for me (user5742) as I like doing cool diagrams and nice looking stuff... -->
 <!-- We still need to discuss how we will be doing things... -->
 ### Program structure: 
+<img src="https://imgur.com/zRjXn1a.png" width="800">
 
 #### Program functionality:
 - User registration and login
@@ -76,7 +78,6 @@ Blazor will be used for the frontend.
 
 #### Working program example (real):
 -->
-
 
 ### Useful links:
 - [How to commit to the project](Info/GitInfo.md) - all about branches and commit messages. 
