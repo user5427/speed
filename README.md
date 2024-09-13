@@ -1,4 +1,7 @@
-# PSI project repository
+<img src="https://imgur.com/kUVTVxL.png">
+
+
+# Speed Reader - PSI project repository
 
 <img src="https://imgur.com/TyNHcmc.png"> <?--this nice looking png may be changed later--?>
 
