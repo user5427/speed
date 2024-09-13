@@ -69,7 +69,7 @@ Blazor will be used for the frontend.
 <img src="https://imgur.com/FlfCJb1.png" width="800">
 
 #### Basic UML task diagram:
-<img src="https://imgur.com/1PjVI81.png" width="800">
+<img src="https://imgur.com/1PjVI81.png" width="500">
 
 <!-- 
 ### Program visuals/vission:
