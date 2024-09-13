@@ -1,1 +1,1 @@
-Task id - 1, add info on commits and tasks => 1h
+Task id - 1, add info on commits, tasks, started work on alpha, beta, final versions, nicer looking readme.md => 3h
