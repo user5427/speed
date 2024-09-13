@@ -1,6 +1,6 @@
 # PSI project repository
 
-<img src="https://imgur.com/TyNHcmc.png" width="500"> <?--this nice looking png may be changed later--?>
+<img src="https://imgur.com/TyNHcmc.png"> <?--this nice looking png may be changed later--?>
 
 
 ## Team
@@ -10,7 +10,9 @@ Currently, this is **4** people team.
 - Tadas
 - Arnas
 - Darius
-- 
+
+<img src="https://imgur.com/TyNHcmc.png"> <?--this nice looking png may be changed later--?>
+
 
 ## Project
 ### Theme: Speedreading with questions after
@@ -18,7 +20,7 @@ Theme explanation: the user has to read an article as fast as possible and then 
 ### Versions:
 There are 3 versions of the project:
 
-<img src="https://imgur.com/advAPfw.png" width="500">
+<img src="https://imgur.com/advAPfw.png" width="800">
 
 - [Alpha](Info/versions/Alpha.md)
 - [Beta](Info/versions/Beta.md)
@@ -30,7 +32,16 @@ The aim of the project is to create a speedreading application with questions af
 The application will be used for **educational purposes**.
 Users will be able to **learn** new information **faster** about topics they are interested in.
 
-### Project functionality:
+### Project working principle:
+The user will choose the topic of the article, the difficulty of the questions, the number of questions, and the speed of reading.
+The user will read the article as fast as possible and then answer the questions about the article.
+The user will be able to see the statistics of his reading speed and the number of correct answers.
+
+<!-- You can leave these for me (user5742) as I like doing cool diagrams and nice looking stuff... -->
+<!-- We still need to discuss how we will be doing things... -->
+### Program structure: 
+
+#### Program functionality:
 - User registration and login
 - User profile
 - User settings
@@ -42,25 +53,29 @@ Users will be able to **learn** new information **faster** about topics they are
 - User can choose the speed of reading
 - etc.
 
-<!-- You can leave these for me (user5742) as I like doing cool diagrams and nice looking stuff... -->
-<!-- We still need to discuss how we will be doing things... -->
-<!-- ### Program structure: 
-
 #### Frontend:
 Blazor will be used for the frontend.
+
+<!-- 
 #### Backend:
 
 #### Used technologies:
 
 #### Database:
-
+-->
 #### Program flowchart:
+<img src="https://imgur.com/FlfCJb1.png" width="800">
 
-#### UML task diagram:
+#### Basic UML task diagram:
+<img src="https://imgur.com/1PjVI81.png" width="800">
 
+<!-- 
 ### Program visuals/vission:
 
-### Program working example (simulated): -->
+#### Program working example (simulated): 
+
+#### Working program example (real):
+-->
 
 
 ### Useful links:

@@ -5,4 +5,4 @@ The aim of the final version:
 - Make final improvements to the UI
 - Make a nice final presentation of the project
 
-[Main page](../README.md)
+[Main page](../README.md) 
