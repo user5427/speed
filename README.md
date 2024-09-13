@@ -88,3 +88,4 @@ Blazor will be used for the frontend.
 - [Task management](Info/Task_management.md) - how to manage tasks in a project.
 - [Task table](Info/Tasks.xlsx) - Task table (excel file).
 - [Roles](Info/Roles.md) - roles in the project.
+- [Lab assignments from VMA](Info/WhatToDo.md) - what to do in the project.
