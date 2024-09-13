@@ -16,6 +16,7 @@ Currently, this is **4** people team.
 ### Theme: Speedreading with questions after
 Theme explanation: the user has to read an article as fast as possible and then answer questions about the article. The user must concentrate on reading and understanding the article. He must avoid distractions like having inside thoughts or looking at the clock.
 ### Versions:
+There are 3 versions of the project:
 
 <img src="https://imgur.com/advAPfw.png" width="500">
 
@@ -42,24 +43,24 @@ Users will be able to **learn** new information **faster** about topics they are
 - etc.
 
 <!-- You can leave these for me (user5742) as I like doing cool diagrams and nice looking stuff... -->
-
+<!-- We still need to discuss how we will be doing things... -->
 <!-- ### Program structure: 
 
 #### Frontend:
-
+Blazor will be used for the frontend.
 #### Backend:
 
 #### Used technologies:
 
-#### Program flowchart:
-
 #### Database:
+
+#### Program flowchart:
 
 #### UML task diagram:
 
-### Program visuals:
+### Program visuals/vission:
 
-### Program working example: -->
+### Program working example (simulated): -->
 
 
 ### Useful links:
