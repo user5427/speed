@@ -41,7 +41,7 @@ The user will be able to see the statistics of his reading speed and the number 
 <!-- You can leave these for me (user5742) as I like doing cool diagrams and nice looking stuff... -->
 <!-- We still need to discuss how we will be doing things... -->
 ### Program structure: 
-<img src="https://imgur.com/zRjXn1a.png" width="800">
+<img src="https://imgur.com/1qm5tt6.png" width="800">
 
 #### Program functionality:
 - User registration and login
