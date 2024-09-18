@@ -19,7 +19,7 @@ Currently, this is **4** people team.
 
 
 ## Project
-### Ideao: Speedreading with questions after
+### Idea: Speedreading with questions after
 A speed reading improvement application with lessons on various subjects. Lessons consist of exercises that not only improve the user's reading speed but also teach them something new in the selected subjects.
 ### Versions:
 The 3 versions of the project:
