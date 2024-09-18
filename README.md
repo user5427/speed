@@ -13,16 +13,16 @@ Currently, this is **4** people team.
 - Tadas
 - Arnas
 - Darius
-- ?? sorry dont want to make a mistake typing your name
+- Adrian
 
 <img src="https://imgur.com/TyNHcmc.png"> <?--this nice looking png may be changed later--?>
 
 
 ## Project
-### Theme: Speedreading with questions after
-Theme explanation: the user has to read an article as fast as possible and then answer questions about the article. The user must concentrate on reading and understanding the article. He must avoid distractions like having inside thoughts or looking at the clock.
+### Idea: Speedreading with questions after
+A speed reading improvement application with lessons on various subjects. Lessons consist of exercises that not only improve the user's reading speed but also teach them something new in the selected subjects.
 ### Versions:
-There are 3 versions of the project:
+The 3 versions of the project:
 
 <img src="https://imgur.com/advAPfw.png" width="800">
 
@@ -31,15 +31,15 @@ There are 3 versions of the project:
 - [Final](Info/versions/Final.md)
 
 
-### Project aim:
-The aim of the project is to create a speedreading application with questions after reading. 
+### Project goal:
+To create a speedreading application with questions after every paragraph. 
 The application will be used for **educational purposes**.
 Users will be able to **learn** new information **faster** about topics they are interested in.
 
 ### Project working principle:
-The user will choose the topic of the article, the difficulty of the questions, the number of questions, and the speed of reading.
-The user will read the article as fast as possible and then answer the questions about the article.
-The user will be able to see the statistics of his reading speed and the number of correct answers.
+The user will choose the topic of the article and the reading speed.
+The user will read the selected article as fast as possible and, to test their comprehension, answer questions related to the text.
+The user will be able to see the statistics of his reading speed and improvment over time.
 
 <!-- You can leave these for me (user5742) as I like doing cool diagrams and nice looking stuff... -->
 <!-- We still need to discuss how we will be doing things... -->
@@ -51,10 +51,9 @@ The user will be able to see the statistics of his reading speed and the number 
 - User profile
 - User settings
 - User statistics
+- Different reading speed improvment exercises
 - Speed reading articles with questions after reading
 - User can choose the topic of the article
-- User can choose the difficulty of the questions
-- User can choose the number of questions
 - User can choose the speed of reading
 - etc.
 
