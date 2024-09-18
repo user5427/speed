@@ -73,18 +73,18 @@ Blazor will be used for the frontend.
 #### Basic UML task diagram:
 <img src="https://imgur.com/1PjVI81.png" width="500">
 
-<!-- 
 ### Program visuals/vission:
-
+# WIP
 #### Program working example (simulated): 
+# WIP
 
-#### Working program example (real):
--->
+<!-- #### Working program example (real): -->
 
 ### Useful links:
 - [How to commit to the project](Info/GitInfo.md) - all about branches and commit messages. 
 - [Time tracking](Info/Time_tracking.md) - time tracking for the project.
 - [Task management](Info/Task_management.md) - how to manage tasks in a project.
 - [Task table](Info/Tasks.xlsx) - Task table (excel file).
+  - [Task text file](Tasks.txt) - (text file).
 - [Roles](Info/Roles.md) - roles in the project.
 - [Lab assignments from VMA](Info/WhatToDo.md) - what to do in the project.
