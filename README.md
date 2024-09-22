@@ -58,15 +58,14 @@ The user will be able to see the statistics of his reading speed and improvment 
 - etc.
 
 #### Frontend:
-Blazor will be used for the frontend.
+ReactJs
 
-<!-- 
 #### Backend:
-
+Asp.Net Core Web API
 #### Used technologies:
 
 #### Database:
--->
+MS database
 #### Program flowchart:
 <img src="https://imgur.com/FlfCJb1.png" width="800">
 
