@@ -2,9 +2,9 @@ namespace SpeedReaderAPI.Entities;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.Attributes;
 using SpeedReaderAPI.Constants;
+using SpeedReaderAPI.DTOs;
 
 public class Question
 {

@@ -1,6 +1,6 @@
 namespace SpeedReaderAPI.Services;
-using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.DTOs.Requests;
+using SpeedReaderAPI.Entities;
 
 public interface IQuestionService
 {

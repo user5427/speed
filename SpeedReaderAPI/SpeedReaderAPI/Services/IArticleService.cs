@@ -1,7 +1,7 @@
 namespace SpeedReaderAPI.Services;
-using SpeedReaderAPI.Entities;
-using SpeedReaderAPI.DTOs.Responses;
 using SpeedReaderAPI.DTOs.Requests;
+using SpeedReaderAPI.DTOs.Responses;
+using SpeedReaderAPI.Entities;
 
 public interface IArticleService
 {

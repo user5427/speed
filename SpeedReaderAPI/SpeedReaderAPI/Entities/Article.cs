@@ -1,8 +1,8 @@
 ﻿namespace SpeedReaderAPI.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SpeedReaderAPI.DTOs.Responses;
 using SpeedReaderAPI.Constants;
+using SpeedReaderAPI.DTOs.Responses;
 public class Article
 {
     [Key]

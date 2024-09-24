@@ -1,8 +1,8 @@
-using SpeedReaderAPI.Entities;
-using SpeedReaderAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs.Requests;
 using SpeedReaderAPI.DTOs.Responses;
+using SpeedReaderAPI.Entities;
 namespace SpeedReaderAPI.Services;
 
 
