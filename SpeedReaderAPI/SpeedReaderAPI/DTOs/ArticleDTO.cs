@@ -14,6 +14,6 @@ namespace SpeedReaderAPI.DTOs
          ErrorMessage = "Title must be between {2} and {1} characters.")]
         public string Title { get; init; }
         public int Id { get; set; }
-        public string? CategoryTitle { get; set; }
+        public string? CategoryTitle { get; set; } //-
     }
 }
