@@ -1,3 +1,8 @@
 namespace SpeedReaderAPI.DTOs;
 
-public record QuestionDTO(int Id, string Question, string[] AnswerChoices);
+public class QuestionDTO {
+    public int Id { get; set; }
+    public string Question { get; set; }
+    public string[] AnswerChoices { get; set; }
+    public int CorrectAnswerIndex { get; set; }
+}

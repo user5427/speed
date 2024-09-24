@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SpeedReaderAPI.DTOs.Models;
 using SpeedReaderAPI.DTOs.Requests;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
@@ -24,6 +25,7 @@ public class ArticlesController : ControllerBase
     [HttpPost("{categoryId?}")]
     public async Task<IActionResult> CreateArticle(int? categoryId, [FromBody] ArticleRequest createArticle)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
             var article = await _articleService.CreateArticleAsync(categoryId, createArticle);
@@ -39,6 +41,7 @@ public class ArticlesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllArticles()
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
             var articles = await _articleService.GetAllArticlesAsync();
@@ -53,6 +56,7 @@ public class ArticlesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetArticleById(int id)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
             var article = await _articleService.GetArticleByIdAsync(id);
@@ -69,6 +73,7 @@ public class ArticlesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateArticle(int id, [FromBody] ArticleRequest request)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
             var updatedArticle = await _articleService.UpdateArticleAsync(id, request);
@@ -84,6 +89,7 @@ public class ArticlesController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteArticle(int id)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
             await _articleService.DeleteArticleAsync(id);

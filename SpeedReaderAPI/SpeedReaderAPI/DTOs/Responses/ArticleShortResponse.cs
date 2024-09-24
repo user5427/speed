@@ -1,3 +1,8 @@
 namespace SpeedReaderAPI.DTOs.Responses;
 
-public record ArticleShortResponse(int Id, string Title, string? CategoryTitle);
+public class ArticleShortResponse {
+    public int Id { get; init; }
+    public string Title { get; init; }
+    public string? CategoryTitle { get; init; }
+
+}

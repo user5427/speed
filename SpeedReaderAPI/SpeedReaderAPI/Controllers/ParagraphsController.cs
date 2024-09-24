@@ -23,6 +23,7 @@ public class ParagraphsController : ControllerBase
     [HttpPost("{articleId}")]
     public async Task<ActionResult<int>> CreateParagraph(int articleId, [FromBody] ParagraphRequest request)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
             var paragraph = await _paragraphService.CreateParagraphAsync(articleId, request);
@@ -41,6 +42,7 @@ public class ParagraphsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateParagraph(int id, [FromBody] ParagraphRequest request)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
             var updatedParagraph = await _paragraphService.UpdateParagraphAsync(id, request);
@@ -57,6 +59,7 @@ public class ParagraphsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteParagraph(int id)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
             await _paragraphService.DeleteParagraphAsync(id);
