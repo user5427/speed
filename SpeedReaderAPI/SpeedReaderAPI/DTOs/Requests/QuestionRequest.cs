@@ -3,19 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using SpeedReaderAPI.Attributes;
 using SpeedReaderAPI.Constants;
 
-public class QuestionRequest
+public class QuestionRequest : QuestionDTO
 {
-    [Required(ErrorMessage = "Question is required.")]
-    [StringLength(ValidationConstants.MaxQuestionTextLength,
-                MinimumLength = ValidationConstants.MinQuestionTextLength,
-                ErrorMessage = "Question must be between {2} and {1} characters.")]
-    public string Question { get; init; }
-
-    [AnswerChoicesValidation]
-    public string[] AnswerChoices { get; init; }
-
-    [Required(ErrorMessage = "Correct answer choice is required.")]
-    [StringLength(ValidationConstants.MaxAnswerChoiceLength,
-        ErrorMessage = "Correct answer choice cannot exceed {1} characters.")]
-    public string CorrectAnswerChoice { get; init; }
+    public int ParagraphId { get; init; }
 }

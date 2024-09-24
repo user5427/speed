@@ -30,8 +30,4 @@ public class Question
 
     public virtual Paragraph? Paragraph { get; set; }
 
-    public QuestionDTO ToDTO()
-    {
-        return new QuestionDTO(Id, QuestionText, AnswerChoices);
-    }
 }

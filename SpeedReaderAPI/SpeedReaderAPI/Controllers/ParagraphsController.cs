@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using SpeedReaderAPI.DTOs.Models;
 using SpeedReaderAPI.DTOs.Requests;
+using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
 
@@ -26,12 +28,17 @@ public class ParagraphsController : ControllerBase
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var paragraph = await _paragraphService.CreateParagraphAsync(articleId, request);
-            return Ok(paragraph.Id);
+            var paragraph = await _paragraphService.CreateParagraphAsync(request);
+            response.Status = true;
+            response.Message = "Success";
+            response.Data = paragraph;
+            return Ok(response);
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 
@@ -45,12 +52,17 @@ public class ParagraphsController : ControllerBase
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var updatedParagraph = await _paragraphService.UpdateParagraphAsync(id, request);
-            return Ok(updatedParagraph.Id);
+            var updatedParagraph = await _paragraphService.UpdateParagraphAsync(request);
+            response.Status = true;
+            response.Message = "Success";
+            response.Data = updatedParagraph;
+            return Ok(response);
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
 
         }
     }
@@ -63,11 +75,15 @@ public class ParagraphsController : ControllerBase
         try
         {
             await _paragraphService.DeleteParagraphAsync(id);
-            return NoContent();
+            response.Status = true;
+            response.Message = "Deleted successfully";
+            return Ok(response);
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 }

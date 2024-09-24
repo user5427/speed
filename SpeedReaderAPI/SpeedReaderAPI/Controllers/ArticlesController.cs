@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SpeedReaderAPI.DTOs.Models;
 using SpeedReaderAPI.DTOs.Requests;
+using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
 
@@ -23,33 +24,44 @@ public class ArticlesController : ControllerBase
 
     // POST
     [HttpPost("{categoryId?}")]
-    public async Task<IActionResult> CreateArticle(int? categoryId, [FromBody] ArticleRequest createArticle)
+    public async Task<IActionResult> CreateArticle([FromBody] ArticleRequest createArticle)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var article = await _articleService.CreateArticleAsync(categoryId, createArticle);
-            return Ok(article.Id);
+            var article = await _articleService.CreateArticleAsync(createArticle);
+            response.Status = true;
+            response.Message = "Success";
+            response.Data = article;
+            return Ok(response);
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            // TODO: Log the exception, because we dont want to show the sure exception, showing server structure is a bad practise
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 
     // GET
     [HttpGet]
-    public async Task<IActionResult> GetAllArticles()
+    public async Task<IActionResult> GetAllArticles(int pageIndex = 0, int pageSize = 10)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var articles = await _articleService.GetAllArticlesAsync();
-            return Ok(articles);
+            var articles = await _articleService.GetAllArticlesAsync(pageIndex, pageSize);
+            response.Status = true;
+            response.Message = "Success";
+            response.Data = articles;
+            return Ok(response);
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 
@@ -60,28 +72,38 @@ public class ArticlesController : ControllerBase
         try
         {
             var article = await _articleService.GetArticleByIdAsync(id);
-            return Ok(article);
+            response.Status = true;
+            response.Message = "Success";
+            response.Data = article;
+            return Ok(response);
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 
 
     // PUT
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateArticle(int id, [FromBody] ArticleRequest request)
+    public async Task<IActionResult> UpdateArticle([FromBody] ArticleRequest request)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var updatedArticle = await _articleService.UpdateArticleAsync(id, request);
-            return Ok(updatedArticle.Id);
+            var article = await _articleService.UpdateArticleAsync(request);
+            response.Status = true;
+            response.Message = "Success";
+            response.Data = article;
+            return Ok(response);
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 
@@ -93,11 +115,15 @@ public class ArticlesController : ControllerBase
         try
         {
             await _articleService.DeleteArticleAsync(id);
-            return Ok();
+            response.Status = true;
+            response.Message = "Deleted successfully";
+            return Ok(response);
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 }

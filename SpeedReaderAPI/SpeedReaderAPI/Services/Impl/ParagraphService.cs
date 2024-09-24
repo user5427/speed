@@ -21,44 +21,76 @@ public class ParagraphService : IParagraphService
 
     // CREATE
 
-    public async Task<Paragraph> CreateParagraphAsync(int articleId, ParagraphRequest request)
+    public async Task<Object> CreateParagraphAsync(ParagraphRequest request)
     {
-        var article = await _context.Article.FindAsync(articleId)
-                        ?? throw new Exception("Article not found!");
-        var paragraph = new Paragraph
+        try
         {
-            ArticleId = articleId,
-            Text = request.Text
-        };
-        _context.Paragraph.Add(paragraph);
-        await _context.SaveChangesAsync();
+            var postedParagraph = _mapper.Map<Paragraph>(request);
 
-        return paragraph;
+            _context.Paragraph.Add(postedParagraph);
+            await _context.SaveChangesAsync();
+
+            var responseData = _mapper.Map<ParagraphResponse>(postedParagraph);
+            return responseData;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 
     // READ
 
     // UPDATE
 
-    public async Task<Paragraph> UpdateParagraphAsync(int paragraphId, ParagraphRequest request)
+    public async Task<Object> UpdateParagraphAsync(ParagraphRequest request)
     {
-        var paragraph = await _context.Paragraph.FindAsync(paragraphId)
-                            ?? throw new Exception("Paragraph not found!");
+        try
+        {
+            var postedParagraph = _mapper.Map<Paragraph>(request);
+            var paragraphFound = _context.Paragraph.Where(x => x.Id == postedParagraph.Id).FirstOrDefault();
+            if (paragraphFound == null)
+            {
+                throw new Exception("Paragrahp not found!");
+            }
 
-        paragraph.Text = request.Text;
+            paragraphFound.Text = postedParagraph.Text;
+            paragraphFound.ArticleId = postedParagraph.ArticleId;
+            paragraphFound.Questions = postedParagraph.Questions;
 
-        await _context.SaveChangesAsync();
-        return paragraph;
+            await _context.SaveChangesAsync();
+
+            var responseData = _mapper.Map<ParagraphResponse>(paragraphFound);
+            return responseData;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 
     // DELETE
 
     public async Task DeleteParagraphAsync(int paragraphId)
     {
-        var paragraph = await _context.Paragraph.FindAsync(paragraphId); ;
-        if (paragraph == null) return;
+        try
+        {
+            var paragrapghFound = _context.Paragraph.Where(x => x.Id == paragraphId).FirstOrDefault();
 
-        _context.Paragraph.Remove(paragraph);
-        await _context.SaveChangesAsync();
+            if (paragrapghFound == null)
+            {
+                throw new Exception("Paragrahp not found!");
+            }
+
+            _context.Paragraph.Remove(paragrapghFound);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 }

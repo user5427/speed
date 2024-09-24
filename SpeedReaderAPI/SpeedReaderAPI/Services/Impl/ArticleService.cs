@@ -44,48 +44,92 @@ public class ArticleService : IArticleService
 
     // GET BY ID
 
-    public async Task<ArticleLongResponse> GetArticleByIdAsync(int id)
+    public async Task<Object> GetArticleByIdAsync(int id)
     {
-        var article = await _context.Article
-                            .Include(a => a.Paragraphs)
-                                .ThenInclude(p => p.Questions)
-                            .FirstOrDefaultAsync(a => a.Id == id)
-                ?? throw new Exception("Article not found!");
+        try
+        {
+            var article = _mapper.Map<ArticleLongResponse>(_context.Article.FirstOrDefault(a => a.Id == id));
+            return article;
+        }
+        catch (Exception)
+        {
 
-        return article.ToLongResponse();
+            throw;
+        }
+
     }
 
     // CREATE
-    public async Task<Article> CreateArticleAsync(int? categoryId, ArticleRequest request)
+    public async Task<Object> CreateArticleAsync(ArticleRequest request)
     {
-        // (validate category)    
+        // (validate category)
+        try
+        {
+            var postedArticle = _mapper.Map<Article>(request);
 
-        var article = new Article { Title = request.Title };
-        await _context.Article.AddAsync(article);
-        await _context.SaveChangesAsync();
-        return article;
+            await _context.Article.AddAsync(postedArticle);
+            await _context.SaveChangesAsync();
+
+            var responseData = _mapper.Map<ArticleLongResponse>(postedArticle);
+
+            return responseData;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
     }
 
     // UPDATE
 
-    public async Task<Article> UpdateArticleAsync(int articleId, ArticleRequest request)
+    public async Task<Object> UpdateArticleAsync(ArticleRequest request)
     {
-        var article = await _context.Article.FindAsync(articleId)
-                        ?? throw new Exception("Article not found!");
+        try
+        {
+            var postedArticle = _mapper.Map<Article>(request);
 
-        article.Title = request.Title;
+            var articleFound = _context.Article.Where(x => x.Id == postedArticle.Id).FirstOrDefault();
+            if (articleFound == null)
+            {
+                throw new Exception("Article not found!");
+            }
 
-        await _context.SaveChangesAsync();
-        return article;
+            articleFound.Title = postedArticle.Title;
+            articleFound.Paragraphs = postedArticle.Paragraphs;
+
+            await _context.SaveChangesAsync();
+
+            var responseData = _mapper.Map<ArticleLongResponse>(articleFound);
+            return responseData;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 
     // DELETE
     public async Task DeleteArticleAsync(int articleId)
     {
-        var article = await _context.Article.FindAsync(articleId); ;
-        if (article == null) return;
+        try
+        {
+            var articleFound = _context.Article.Where(x => x.Id == articleId).FirstOrDefault();
 
-        _context.Article.Remove(article);
-        await _context.SaveChangesAsync();
+            if (articleFound == null)
+            {
+                throw new Exception("Article not found!");
+            }
+
+            _context.Article.Remove(articleFound);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 }

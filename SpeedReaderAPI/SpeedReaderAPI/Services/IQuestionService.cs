@@ -5,14 +5,14 @@ using SpeedReaderAPI.Entities;
 public interface IQuestionService
 {
     // CREATE
-    Task<Question> CreateQuestionAsync(int paragraphId, QuestionRequest request);
+    Task<Object> CreateQuestionAsync(QuestionRequest request);
 
 
     // READ
 
 
     // UPDATE
-    Task<Question> UpdateQuestionAsync(int questionId, QuestionRequest request);
+    Task<Object> UpdateQuestionAsync(QuestionRequest request);
 
 
     // DELETE

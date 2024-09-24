@@ -1,8 +1,6 @@
 namespace SpeedReaderAPI.DTOs.Responses;
 
-public class ParagraphResponse {
-    public ParagraphDTO Paragraph { get; set; }
+public class ParagraphResponse : ParagraphDTO {
     public string? NextHref { get; set; }
-
 
 }
