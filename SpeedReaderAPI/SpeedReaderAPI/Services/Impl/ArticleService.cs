@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs.Requests;
@@ -10,32 +11,38 @@ public class ArticleService : IArticleService
 {
 
     private readonly ApplicationContext _context;
+    private readonly IMapper _mapper;
 
-    public ArticleService(ApplicationContext context)
+    public ArticleService(ApplicationContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
-
-    // CREATE
-    public async Task<Article> CreateArticleAsync(int? categoryId, ArticleRequest request)
-    {
-        // (validate category)    
-
-        var article = new Article { Title = request.Title };
-        await _context.Article.AddAsync(article);
-        await _context.SaveChangesAsync();
-        return article;
-    }
-
+    
     // GET
 
-    public async Task<ICollection<ArticleShortResponse>> GetAllArticlesAsync()
+    public async Task<Object> GetAllArticlesAsync(int pageIndex = 0, int pageSize = 10)
     {
-        return await _context.Article
-            .Select(article => article.ToShortResponse())
-            .ToListAsync();
+        try
+        {
+            var articleCount = _context.Article.Count();
+            var articleList = _mapper.Map<List<ArticleShortResponse>>(_context.Article.Skip(pageIndex * pageSize).Take(pageSize).ToList());
+            return new
+            {
+                Articles = articleCount,
+                ArticleList = articleList
+            };
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
+
+    // GET BY ID
 
     public async Task<ArticleLongResponse> GetArticleByIdAsync(int id)
     {
@@ -46,6 +53,17 @@ public class ArticleService : IArticleService
                 ?? throw new Exception("Article not found!");
 
         return article.ToLongResponse();
+    }
+
+    // CREATE
+    public async Task<Article> CreateArticleAsync(int? categoryId, ArticleRequest request)
+    {
+        // (validate category)    
+
+        var article = new Article { Title = request.Title };
+        await _context.Article.AddAsync(article);
+        await _context.SaveChangesAsync();
+        return article;
     }
 
     // UPDATE

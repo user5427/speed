@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs.Requests;
@@ -10,10 +11,12 @@ public class ParagraphService : IParagraphService
 {
 
     private readonly ApplicationContext _context;
+    private readonly IMapper _mapper;
 
-    public ParagraphService(ApplicationContext context)
+    public ParagraphService(ApplicationContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     // CREATE

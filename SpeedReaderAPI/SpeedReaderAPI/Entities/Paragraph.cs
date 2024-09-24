@@ -21,9 +21,4 @@ public class Paragraph
 
     public virtual Article? Article { get; set; }
     public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
-
-    public ParagraphDTO ToDTO()
-    {
-        return new ParagraphDTO(Id, Text, Questions.Select(q => q.ToDTO()).ToList());
-    }
 }

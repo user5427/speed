@@ -19,15 +19,4 @@ public class Article
 
     // public virtual Category? Category { get; set; }
     public virtual ICollection<Paragraph> Paragraphs { get; set; } = new List<Paragraph>();
-
-
-    public ArticleShortResponse ToShortResponse()
-    {
-        return new ArticleShortResponse(Id, Title, null); // add article.Category?.Title
-    }
-
-    public ArticleLongResponse ToLongResponse()
-    {
-        return new ArticleLongResponse(Id, null, Title, Paragraphs.Select(p => p.ToDTO()).ToList()); // add article.Category?.Title
-    }
 }

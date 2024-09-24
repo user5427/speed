@@ -9,11 +9,11 @@ public interface IArticleService
     Task<Article> CreateArticleAsync(int? categoryId, ArticleRequest request);
 
     // READ
-    Task<ICollection<ArticleShortResponse>> GetAllArticlesAsync();
-    Task<ArticleLongResponse> GetArticleByIdAsync(int id);
+    Task<Object> GetAllArticlesAsync();
+    Task<Object> GetArticleByIdAsync(int id);
 
     // UPDATE
-    Task<Article> UpdateArticleAsync(int articleId, ArticleRequest request);
+    Task<Object> UpdateArticleAsync(int articleId, ArticleRequest request);
 
     // DELETE
     Task DeleteArticleAsync(int articleId);
