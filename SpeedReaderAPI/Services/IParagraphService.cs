@@ -1,21 +1,21 @@
 namespace SpeedReaderAPI.Services;
-
-using SpeedReaderAPI.DTOs.Paragraph.Requests;
+using SpeedReaderAPI.DTOs.Requests;
+using SpeedReaderAPI.DTOs.Responses;
 using SpeedReaderAPI.Entities;
 
 public interface IParagraphService
 {
     // CREATE
-    Object CreateParagraph(ParagraphRequest request);
+    Task<Paragraph> CreateParagraphAsync(int articleId, ParagraphRequest request);
 
 
     // READ
     // Task<ParagraphResponse> GetParagraph(int id);
 
     // UPDATE
-    Object UpdateParagraph(ParagraphRequest request);
+    Task<Paragraph> UpdateParagraphAsync(int paragraphId, ParagraphRequest request);
 
 
     // DELETE
-    void DeleteParagraph(int paragraphId);
+    Task DeleteParagraphAsync(int paragraphId);
 }
