@@ -482,3 +482,5 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/SpeedReaderAPI/SpeedReaderAPI/appsettings.Development.json
+/SpeedReaderAPI/SpeedReaderAPI/.editorconfig
