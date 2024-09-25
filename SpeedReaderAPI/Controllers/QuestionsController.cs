@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using SpeedReaderAPI.DTOs.Requests;
+using SpeedReaderAPI.DTOs.Models;
+using SpeedReaderAPI.DTOs.Question.Requests;
+using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
 
@@ -19,16 +21,22 @@ public class QuestionsController : ControllerBase
 
     // POST
     [HttpPost("{paragraphId}")]
-    public async Task<ActionResult<int>> CreateQuestion(int paragraphId, [FromBody] QuestionRequest request)
+    public ActionResult<int> CreateQuestion(QuestionRequest request)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var question = await _questionService.CreateQuestionAsync(paragraphId, request);
-            return Ok(question.Id);
+            var question = _questionService.CreateQuestion(request);
+            response.Status = true;
+            response.Message = "Success";
+            response.Data = question;
+            return Ok(response); ;
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 
@@ -36,31 +44,42 @@ public class QuestionsController : ControllerBase
 
     // PUT
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateQuestion(int id, [FromBody] QuestionRequest request)
+    public IActionResult UpdateQuestion(QuestionRequest request)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var updatedQuestion = await _questionService.UpdateQuestionAsync(id, request);
-            return Ok(updatedQuestion.Id);
+            var question = _questionService.UpdateQuestion(request);
+            response.Status = true;
+            response.Message = "Success";
+            response.Data = question;
+            return Ok(response); ;
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 
     // DELETE
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteQuestion(int id)
+    public IActionResult DeleteQuestion(int id)
     {
+		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            await _questionService.DeleteQuestionAsync(id);
-            return NoContent();
+            _questionService.DeleteQuestion(id);
+            response.Status = true;
+            response.Message = "Deleted successfully";
+            return Ok(response);
         }
         catch (Exception ex)
         {
-            return NotFound(ex.Message);
+            response.Status = false;
+            response.Message = "Something went wrong";
+            return BadRequest(response);
         }
     }
 }

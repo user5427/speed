@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SpeedReaderAPI;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Services;
 
@@ -14,6 +15,7 @@ builder.Services.AddScoped<IQuestionService, QuestionService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 var app = builder.Build();

@@ -1,20 +1,20 @@
 namespace SpeedReaderAPI.Services;
-using SpeedReaderAPI.DTOs.Requests;
-using SpeedReaderAPI.DTOs.Responses;
+
+using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.Entities;
 
 public interface IArticleService
 {
     // CREATE
-    Task<Article> CreateArticleAsync(int? categoryId, ArticleRequest request);
+    Object CreateArticle(CreateArticleRequest request);
 
     // READ
-    Task<ICollection<ArticleShortResponse>> GetAllArticlesAsync();
-    Task<ArticleLongResponse> GetArticleByIdAsync(int id);
+    Object GetAllArticles(int pageIndex, int pageSize);
+    Object GetArticleById(int id);
 
     // UPDATE
-    Task<Article> UpdateArticleAsync(int articleId, ArticleRequest request);
+    Object UpdateArticle(CreateArticleRequest request);
 
     // DELETE
-    Task DeleteArticleAsync(int articleId);
+    void DeleteArticle(int articleId);
 }
