@@ -15,5 +15,7 @@ namespace SpeedReaderAPI.DTOs.Article
         public string Title { get; init; }
         public int Id { get; set; }
         public string? CategoryTitle { get; set; } //-
+
+        public List<int> ParagraphIds { get; set; }
     }
 }

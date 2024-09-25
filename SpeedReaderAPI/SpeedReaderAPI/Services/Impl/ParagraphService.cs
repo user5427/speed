@@ -30,7 +30,7 @@ public class ParagraphService : IParagraphService
             _context.Paragraph.Add(postedParagraph);
             _context.SaveChanges();
 
-            var responseData = _mapper.Map<ParagraphResponse>(postedParagraph);
+            var responseData = _mapper.Map<CreateParagraphResponse>(postedParagraph);
             return responseData;
         }
         catch (Exception)
@@ -61,7 +61,7 @@ public class ParagraphService : IParagraphService
 
             _context.SaveChanges();
 
-            var responseData = _mapper.Map<ParagraphResponse>(paragraphFound);
+            var responseData = _mapper.Map<CreateParagraphResponse>(paragraphFound);
             return responseData;
         }
         catch (Exception)

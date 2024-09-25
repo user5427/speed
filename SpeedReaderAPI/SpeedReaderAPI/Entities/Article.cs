@@ -18,5 +18,8 @@ public class Article
     public string? CategoryTitle { get; set; }
 
     // public virtual Category? Category { get; set; }
+
+    // ONE TO MANY
+    public List<int> ParagraphIds { get; set; }
     public virtual ICollection<Paragraph> Paragraphs { get; set; } = new List<Paragraph>();
 }

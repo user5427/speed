@@ -4,5 +4,5 @@ namespace SpeedReaderAPI.DTOs.Article.Responses;
 
 public class ArticleLongResponse : ArticleShortResponse
 {
-    public ICollection<ParagraphResponse> Paragraphs { get; set; }
+    public ICollection<CreateParagraphResponse> Paragraphs { get; set; }
 };

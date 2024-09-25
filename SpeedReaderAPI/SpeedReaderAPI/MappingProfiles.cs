@@ -24,8 +24,8 @@ namespace SpeedReaderAPI
             CreateMap<Question, QuestionResponse>();
             CreateMap<QuestionResponse, Question>();
 
-            CreateMap<Paragraph, ParagraphResponse>();
-            CreateMap<ParagraphResponse, Paragraph>();
+            CreateMap<Paragraph, CreateParagraphResponse>();
+            CreateMap<CreateParagraphResponse, Paragraph>();
         }
     }
 }
