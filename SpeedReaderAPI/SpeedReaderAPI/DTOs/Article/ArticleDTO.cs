@@ -4,7 +4,7 @@
 using System.ComponentModel.DataAnnotations;
 using SpeedReaderAPI.Constants;
 
-namespace SpeedReaderAPI.DTOs
+namespace SpeedReaderAPI.DTOs.Article
 {
     public class ArticleDTO
     {

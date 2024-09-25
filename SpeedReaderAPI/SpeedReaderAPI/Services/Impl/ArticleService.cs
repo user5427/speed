@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
-using SpeedReaderAPI.DTOs.Requests;
-using SpeedReaderAPI.DTOs.Responses;
+using SpeedReaderAPI.DTOs.Article.Requests;
+using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
 namespace SpeedReaderAPI.Services;
 
@@ -22,7 +22,7 @@ public class ArticleService : IArticleService
     
     // GET
 
-    public async Task<Object> GetAllArticlesAsync(int pageIndex = 0, int pageSize = 10)
+    public Object GetAllArticles(int pageIndex = 0, int pageSize = 10)
     {
         try
         {
@@ -44,7 +44,7 @@ public class ArticleService : IArticleService
 
     // GET BY ID
 
-    public async Task<Object> GetArticleByIdAsync(int id)
+    public Object GetArticleById(int id)
     {
         try
         {
@@ -60,23 +60,23 @@ public class ArticleService : IArticleService
     }
 
     // CREATE
-    public async Task<Object> CreateArticleAsync(ArticleRequest request)
+    public Object CreateArticle(CreateArticleRequest request)
     {
         // (validate category)
         try
         {
             var postedArticle = _mapper.Map<Article>(request);
 
-            await _context.Article.AddAsync(postedArticle);
-            await _context.SaveChangesAsync();
+            _context.Article.Add(postedArticle);
+            _context.SaveChanges();
 
             var responseData = _mapper.Map<ArticleLongResponse>(postedArticle);
 
             return responseData;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            //Console.WriteLine(ex.Message);
             throw;
         }
 
@@ -84,7 +84,7 @@ public class ArticleService : IArticleService
 
     // UPDATE
 
-    public async Task<Object> UpdateArticleAsync(ArticleRequest request)
+    public Object UpdateArticle(CreateArticleRequest request)
     {
         try
         {
@@ -98,8 +98,9 @@ public class ArticleService : IArticleService
 
             articleFound.Title = postedArticle.Title;
             articleFound.Paragraphs = postedArticle.Paragraphs;
+            articleFound.CategoryTitle = postedArticle.CategoryTitle;
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             var responseData = _mapper.Map<ArticleLongResponse>(articleFound);
             return responseData;
@@ -112,7 +113,7 @@ public class ArticleService : IArticleService
     }
 
     // DELETE
-    public async Task DeleteArticleAsync(int articleId)
+    public void DeleteArticle(int articleId)
     {
         try
         {
@@ -124,7 +125,7 @@ public class ArticleService : IArticleService
             }
 
             _context.Article.Remove(articleFound);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
         catch (Exception)
         {

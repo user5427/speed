@@ -1,20 +1,21 @@
 namespace SpeedReaderAPI.Services;
-using SpeedReaderAPI.DTOs.Requests;
+
+using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.Entities;
 
 public interface IQuestionService
 {
     // CREATE
-    Task<Object> CreateQuestionAsync(QuestionRequest request);
+    Object CreateQuestion(QuestionRequest request);
 
 
     // READ
 
 
     // UPDATE
-    Task<Object> UpdateQuestionAsync(QuestionRequest request);
+    Object UpdateQuestion(QuestionRequest request);
 
 
     // DELETE
-    Task DeleteQuestionAsync(int questionId);
+    void DeleteQuestion(int questionId);
 }

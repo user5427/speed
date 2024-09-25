@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
-using SpeedReaderAPI.DTOs.Requests;
-using SpeedReaderAPI.DTOs.Responses;
+using SpeedReaderAPI.DTOs.Paragraph.Requests;
+using SpeedReaderAPI.DTOs.Paragraph.Responses;
 using SpeedReaderAPI.Entities;
 namespace SpeedReaderAPI.Services;
 
@@ -21,14 +21,14 @@ public class ParagraphService : IParagraphService
 
     // CREATE
 
-    public async Task<Object> CreateParagraphAsync(ParagraphRequest request)
+    public Object CreateParagraph(ParagraphRequest request)
     {
         try
         {
             var postedParagraph = _mapper.Map<Paragraph>(request);
 
             _context.Paragraph.Add(postedParagraph);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             var responseData = _mapper.Map<ParagraphResponse>(postedParagraph);
             return responseData;
@@ -44,7 +44,7 @@ public class ParagraphService : IParagraphService
 
     // UPDATE
 
-    public async Task<Object> UpdateParagraphAsync(ParagraphRequest request)
+    public Object UpdateParagraph(ParagraphRequest request)
     {
         try
         {
@@ -59,7 +59,7 @@ public class ParagraphService : IParagraphService
             paragraphFound.ArticleId = postedParagraph.ArticleId;
             paragraphFound.Questions = postedParagraph.Questions;
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             var responseData = _mapper.Map<ParagraphResponse>(paragraphFound);
             return responseData;
@@ -73,7 +73,7 @@ public class ParagraphService : IParagraphService
 
     // DELETE
 
-    public async Task DeleteParagraphAsync(int paragraphId)
+    public void DeleteParagraph(int paragraphId)
     {
         try
         {
@@ -85,7 +85,7 @@ public class ParagraphService : IParagraphService
             }
 
             _context.Paragraph.Remove(paragrapghFound);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
         catch (Exception)
         {

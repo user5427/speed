@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SpeedReaderAPI.DTOs.Models;
-using SpeedReaderAPI.DTOs.Requests;
+using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
@@ -23,12 +23,12 @@ public class ParagraphsController : ControllerBase
     // POST
 
     [HttpPost("{articleId}")]
-    public async Task<ActionResult<int>> CreateParagraph(int articleId, [FromBody] ParagraphRequest request)
+    public ActionResult<int> CreateParagraph(ParagraphRequest request)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var paragraph = await _paragraphService.CreateParagraphAsync(request);
+            var paragraph = _paragraphService.CreateParagraph(request);
             response.Status = true;
             response.Message = "Success";
             response.Data = paragraph;
@@ -47,12 +47,12 @@ public class ParagraphsController : ControllerBase
     // PUT
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateParagraph(int id, [FromBody] ParagraphRequest request)
+    public IActionResult UpdateParagraph(ParagraphRequest request)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var updatedParagraph = await _paragraphService.UpdateParagraphAsync(request);
+            var updatedParagraph = _paragraphService.UpdateParagraph(request);
             response.Status = true;
             response.Message = "Success";
             response.Data = updatedParagraph;
@@ -69,12 +69,12 @@ public class ParagraphsController : ControllerBase
 
     // DELETE
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteParagraph(int id)
+    public IActionResult DeleteParagraph(int id)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            await _paragraphService.DeleteParagraphAsync(id);
+            _paragraphService.DeleteParagraph(id);
             response.Status = true;
             response.Message = "Deleted successfully";
             return Ok(response);

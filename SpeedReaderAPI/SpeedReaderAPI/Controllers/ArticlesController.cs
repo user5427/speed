@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Models;
-using SpeedReaderAPI.DTOs.Requests;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
@@ -23,13 +23,13 @@ public class ArticlesController : ControllerBase
 
 
     // POST
-    [HttpPost("{categoryId?}")]
-    public async Task<IActionResult> CreateArticle([FromBody] ArticleRequest createArticle)
+    [HttpPost]
+    public IActionResult CreateArticle(CreateArticleRequest createArticle)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var article = await _articleService.CreateArticleAsync(createArticle);
+            var article = _articleService.CreateArticle(createArticle);
             response.Status = true;
             response.Message = "Success";
             response.Data = article;
@@ -46,12 +46,12 @@ public class ArticlesController : ControllerBase
 
     // GET
     [HttpGet]
-    public async Task<IActionResult> GetAllArticles(int pageIndex = 0, int pageSize = 10)
+    public IActionResult GetAllArticles(int pageIndex = 0, int pageSize = 10)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var articles = await _articleService.GetAllArticlesAsync(pageIndex, pageSize);
+            var articles = _articleService.GetAllArticles(pageIndex, pageSize);
             response.Status = true;
             response.Message = "Success";
             response.Data = articles;
@@ -66,12 +66,12 @@ public class ArticlesController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetArticleById(int id)
+    public IActionResult GetArticleById(int id)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var article = await _articleService.GetArticleByIdAsync(id);
+            var article = _articleService.GetArticleById(id);
             response.Status = true;
             response.Message = "Success";
             response.Data = article;
@@ -87,13 +87,13 @@ public class ArticlesController : ControllerBase
 
 
     // PUT
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateArticle([FromBody] ArticleRequest request)
+    [HttpPut]
+    public IActionResult UpdateArticle(CreateArticleRequest request)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var article = await _articleService.UpdateArticleAsync(request);
+            var article = _articleService.UpdateArticle(request);
             response.Status = true;
             response.Message = "Success";
             response.Data = article;
@@ -109,12 +109,12 @@ public class ArticlesController : ControllerBase
 
     // DELETE
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteArticle(int id)
+    public IActionResult DeleteArticle(int id)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            await _articleService.DeleteArticleAsync(id);
+            _articleService.DeleteArticle(id);
             response.Status = true;
             response.Message = "Deleted successfully";
             return Ok(response);

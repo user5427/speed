@@ -1,7 +1,7 @@
 using AutoMapper;
 using SpeedReaderAPI.Data;
-using SpeedReaderAPI.DTOs.Requests;
-using SpeedReaderAPI.DTOs.Responses;
+using SpeedReaderAPI.DTOs.Question.Requests;
+using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Entities;
 namespace SpeedReaderAPI.Services;
 
@@ -19,7 +19,7 @@ public class QuestionService : IQuestionService
     }
 
     // CREATE
-    public async Task<Object> CreateQuestionAsync(QuestionRequest request)
+    public Object CreateQuestion(QuestionRequest request)
     {
 
         try
@@ -34,7 +34,7 @@ public class QuestionService : IQuestionService
             }
 
             _context.Question.Add(postedQuestion);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             var responseData = _mapper.Map<QuestionResponse>(postedQuestion);
             return responseData;
@@ -50,7 +50,7 @@ public class QuestionService : IQuestionService
 
     // UPDATE
 
-    public async Task<Object> UpdateQuestionAsync(QuestionRequest request)
+    public Object UpdateQuestion(QuestionRequest request)
     {
         try
         {
@@ -64,9 +64,9 @@ public class QuestionService : IQuestionService
             questionFound.ParagraphId = postedQuestion.ParagraphId;
             questionFound.QuestionText = postedQuestion.QuestionText;
             questionFound.AnswerChoices = postedQuestion.AnswerChoices;
-            questionFound.CorrectAnswerChoice = postedQuestion.CorrectAnswerChoice;
+            questionFound.CorrectAnswerIndex = postedQuestion.CorrectAnswerIndex;
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             var responseData = _mapper.Map<QuestionResponse>(questionFound);
             return responseData;
@@ -79,7 +79,7 @@ public class QuestionService : IQuestionService
     }
 
     // DELETE
-    public async Task DeleteQuestionAsync(int questionId)
+    public void DeleteQuestion(int questionId)
     {
         try
         {
@@ -91,7 +91,7 @@ public class QuestionService : IQuestionService
             }
 
             _context.Question.Remove(questionFound);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
         catch (Exception)
         {

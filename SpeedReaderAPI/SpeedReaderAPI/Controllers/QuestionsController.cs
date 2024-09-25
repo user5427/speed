@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SpeedReaderAPI.DTOs.Models;
-using SpeedReaderAPI.DTOs.Requests;
+using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
@@ -21,12 +21,12 @@ public class QuestionsController : ControllerBase
 
     // POST
     [HttpPost("{paragraphId}")]
-    public async Task<ActionResult<int>> CreateQuestion([FromBody] QuestionRequest request)
+    public ActionResult<int> CreateQuestion(QuestionRequest request)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var question = await _questionService.CreateQuestionAsync(request);
+            var question = _questionService.CreateQuestion(request);
             response.Status = true;
             response.Message = "Success";
             response.Data = question;
@@ -44,12 +44,12 @@ public class QuestionsController : ControllerBase
 
     // PUT
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateQuestion([FromBody] QuestionRequest request)
+    public IActionResult UpdateQuestion(QuestionRequest request)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var question = await _questionService.UpdateQuestionAsync(request);
+            var question = _questionService.UpdateQuestion(request);
             response.Status = true;
             response.Message = "Success";
             response.Data = question;
@@ -65,12 +65,12 @@ public class QuestionsController : ControllerBase
 
     // DELETE
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteQuestion(int id)
+    public IActionResult DeleteQuestion(int id)
     {
 		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            await _questionService.DeleteQuestionAsync(id);
+            _questionService.DeleteQuestion(id);
             response.Status = true;
             response.Message = "Deleted successfully";
             return Ok(response);
