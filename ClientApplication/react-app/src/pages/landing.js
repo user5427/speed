@@ -19,8 +19,8 @@ const Landing = () => {
                 </Col>
             </Row>
 
-            <TestList/>
             <CreateTestModel/>
+            <TestList/>
         </>
     )
 }
