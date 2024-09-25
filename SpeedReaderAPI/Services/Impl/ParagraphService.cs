@@ -1,8 +1,7 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
-using SpeedReaderAPI.DTOs.Paragraph.Requests;
-using SpeedReaderAPI.DTOs.Paragraph.Responses;
+using SpeedReaderAPI.DTOs.Requests;
+using SpeedReaderAPI.DTOs.Responses;
 using SpeedReaderAPI.Entities;
 namespace SpeedReaderAPI.Services;
 
@@ -11,86 +10,52 @@ public class ParagraphService : IParagraphService
 {
 
     private readonly ApplicationContext _context;
-    private readonly IMapper _mapper;
 
-    public ParagraphService(ApplicationContext context, IMapper mapper)
+    public ParagraphService(ApplicationContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     // CREATE
 
-    public Object CreateParagraph(ParagraphRequest request)
+    public async Task<Paragraph> CreateParagraphAsync(int articleId, ParagraphRequest request)
     {
-        try
+        var article = await _context.Article.FindAsync(articleId)
+                        ?? throw new Exception("Article not found!");
+        var paragraph = new Paragraph
         {
-            var postedParagraph = _mapper.Map<Paragraph>(request);
+            ArticleId = articleId,
+            Text = request.Text
+        };
+        _context.Paragraph.Add(paragraph);
+        await _context.SaveChangesAsync();
 
-            _context.Paragraph.Add(postedParagraph);
-            _context.SaveChanges();
-
-            var responseData = _mapper.Map<CreateParagraphResponse>(postedParagraph);
-            return responseData;
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
+        return paragraph;
     }
 
     // READ
 
     // UPDATE
 
-    public Object UpdateParagraph(ParagraphRequest request)
+    public async Task<Paragraph> UpdateParagraphAsync(int paragraphId, ParagraphRequest request)
     {
-        try
-        {
-            var postedParagraph = _mapper.Map<Paragraph>(request);
-            var paragraphFound = _context.Paragraph.Where(x => x.Id == postedParagraph.Id).FirstOrDefault();
-            if (paragraphFound == null)
-            {
-                throw new Exception("Paragrahp not found!");
-            }
+        var paragraph = await _context.Paragraph.FindAsync(paragraphId)
+                            ?? throw new Exception("Paragraph not found!");
 
-            paragraphFound.Text = postedParagraph.Text;
-            paragraphFound.ArticleId = postedParagraph.ArticleId;
-            paragraphFound.Questions = postedParagraph.Questions;
+        paragraph.Text = request.Text;
 
-            _context.SaveChanges();
-
-            var responseData = _mapper.Map<CreateParagraphResponse>(paragraphFound);
-            return responseData;
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
+        await _context.SaveChangesAsync();
+        return paragraph;
     }
 
     // DELETE
 
-    public void DeleteParagraph(int paragraphId)
+    public async Task DeleteParagraphAsync(int paragraphId)
     {
-        try
-        {
-            var paragrapghFound = _context.Paragraph.Where(x => x.Id == paragraphId).FirstOrDefault();
+        var paragraph = await _context.Paragraph.FindAsync(paragraphId); ;
+        if (paragraph == null) return;
 
-            if (paragrapghFound == null)
-            {
-                throw new Exception("Paragrahp not found!");
-            }
-
-            _context.Paragraph.Remove(paragrapghFound);
-            _context.SaveChanges();
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
+        _context.Paragraph.Remove(paragraph);
+        await _context.SaveChangesAsync();
     }
 }

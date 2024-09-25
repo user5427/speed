@@ -26,7 +26,12 @@ public class Question
     [Required(ErrorMessage = "Correct answer choice is required.")]
     [StringLength(ValidationConstants.MaxAnswerChoiceLength,
         ErrorMessage = "Correct answer choice cannot exceed {1} characters.")]
-    public int CorrectAnswerIndex { get; set; }
+    public required string CorrectAnswerChoice { get; set; }
+
     public virtual Paragraph? Paragraph { get; set; }
 
+    public QuestionDTO ToDTO()
+    {
+        return new QuestionDTO(Id, QuestionText, AnswerChoices);
+    }
 }

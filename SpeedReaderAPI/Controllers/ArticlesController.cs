@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SpeedReaderAPI.DTOs.Article.Requests;
-using SpeedReaderAPI.DTOs.Models;
-using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.DTOs.Requests;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
 
@@ -23,107 +21,77 @@ public class ArticlesController : ControllerBase
 
 
     // POST
-    [HttpPost]
-    public IActionResult CreateArticle(CreateArticleRequest createArticle)
+    [HttpPost("{categoryId?}")]
+    public async Task<IActionResult> CreateArticle(int? categoryId, [FromBody] ArticleRequest createArticle)
     {
-		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var article = _articleService.CreateArticle(createArticle);
-            response.Status = true;
-            response.Message = "Success";
-            response.Data = article;
-            return Ok(response);
+            var article = await _articleService.CreateArticleAsync(categoryId, createArticle);
+            return Ok(article.Id);
         }
         catch (Exception ex)
         {
-            // TODO: Log the exception, because we dont want to show the sure exception, showing server structure is a bad practise
-            response.Status = false;
-            response.Message = "Something went wrong";
-            return BadRequest(response);
+            return NotFound(ex.Message);
         }
     }
 
     // GET
     [HttpGet]
-    public IActionResult GetAllArticles(int pageIndex = 0, int pageSize = 10)
+    public async Task<IActionResult> GetAllArticles()
     {
-		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var articles = _articleService.GetAllArticles(pageIndex, pageSize);
-            response.Status = true;
-            response.Message = "Success";
-            response.Data = articles;
-            return Ok(response);
+            var articles = await _articleService.GetAllArticlesAsync();
+            return Ok(articles);
         }
         catch (Exception ex)
         {
-            response.Status = false;
-            response.Message = "Something went wrong";
-            return BadRequest(response);
+            return NotFound(ex.Message);
         }
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetArticleById(int id)
+    public async Task<IActionResult> GetArticleById(int id)
     {
-		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var article = _articleService.GetArticleById(id);
-            response.Status = true;
-            response.Message = "Success";
-            response.Data = article;
-            return Ok(response);
+            var article = await _articleService.GetArticleByIdAsync(id);
+            return Ok(article);
         }
         catch (Exception ex)
         {
-            response.Status = false;
-            response.Message = "Something went wrong";
-            return BadRequest(response);
+            return NotFound(ex.Message);
         }
     }
 
 
     // PUT
-    [HttpPut]
-    public IActionResult UpdateArticle(CreateArticleRequest request)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateArticle(int id, [FromBody] ArticleRequest request)
     {
-		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var article = _articleService.UpdateArticle(request);
-            response.Status = true;
-            response.Message = "Success";
-            response.Data = article;
-            return Ok(response);
+            var updatedArticle = await _articleService.UpdateArticleAsync(id, request);
+            return Ok(updatedArticle.Id);
         }
         catch (Exception ex)
         {
-            response.Status = false;
-            response.Message = "Something went wrong";
-            return BadRequest(response);
+            return NotFound(ex.Message);
         }
     }
 
     // DELETE
     [HttpDelete("{id}")]
-    public IActionResult DeleteArticle(int id)
+    public async Task<IActionResult> DeleteArticle(int id)
     {
-		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            _articleService.DeleteArticle(id);
-            response.Status = true;
-            response.Message = "Deleted successfully";
-            return Ok(response);
+            await _articleService.DeleteArticleAsync(id);
+            return Ok();
         }
         catch (Exception ex)
         {
-            response.Status = false;
-            response.Message = "Something went wrong";
-            return BadRequest(response);
+            return NotFound(ex.Message);
         }
     }
 }

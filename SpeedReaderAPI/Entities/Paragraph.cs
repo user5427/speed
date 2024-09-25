@@ -18,10 +18,12 @@ public class Paragraph
         MinimumLength = ValidationConstants.MinParagraphLength,
         ErrorMessage = "Text must be between {2} and {1} characters.")]
     public required string Text { get; set; }
-    public int? nextParagraphId { get; set; }
 
     public virtual Article? Article { get; set; }
-    // ONE TO MANY
-    public List<int> QuestionIds { get; set; }
-    public virtual List<Question> Questions { get; set; } = new List<Question>();
+    public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
+
+    public ParagraphDTO ToDTO()
+    {
+        return new ParagraphDTO(Id, Text, Questions.Select(q => q.ToDTO()).ToList());
+    }
 }
