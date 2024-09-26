@@ -13,6 +13,7 @@ const TestList = () => {
         fetch(process.env.REACT_APP_API_URL + "Articles?pageIndex=" + page + "&pageSize=" + process.env.REACT_APP_PAGING_SIZE)
         .then(res => res.json())
         .then(res => {
+            res.status = true; // fix this
             if (res.status === true && res.data.articles > 0){
                 setTests(res.data.articleList);
                 setTestCount(Math.ceil(res.data.articles / process.env.REACT_APP_PAGING_SIZE));

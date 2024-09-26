@@ -55,7 +55,8 @@ public class ParagraphService : IParagraphService
     {
         try
         {
-            Paragraph postedParagraph = _mapper.Map<Paragraph>(request);
+			// Find old paragraph from db
+			Paragraph postedParagraph = _mapper.Map<Paragraph>(request);
             Console.WriteLine(postedParagraph.Id);
             var paragraphFound = _context.Paragraph.Where(x => x.Id == postedParagraph.Id).FirstOrDefault();
             if (paragraphFound == null)
@@ -64,11 +65,11 @@ public class ParagraphService : IParagraphService
             }
 
             paragraphFound.Text = postedParagraph.Text;
-            paragraphFound.ArticleId = postedParagraph.ArticleId;
-            Article old = _context.Article.Where(x => x.Id == postedParagraph.ArticleId).FirstOrDefault();
-            old.ParagraphIds.Remove(postedParagraph.Id);
-            Article newer = _context.Article.Where(x => x.Id == paragraphFound.ArticleId).FirstOrDefault();
-            newer.ParagraphIds.Add(paragraphFound.Id);
+            paragraphFound.ArticleId = postedParagraph.ArticleId; // FIXME ummm first check if it ids are different and then apply the logic below
+            Article oldArticle = _context.Article.Where(x => x.Id == postedParagraph.ArticleId).FirstOrDefault();
+            oldArticle.ParagraphIds.Remove(postedParagraph.Id);
+            Article newArticle = _context.Article.Where(x => x.Id == paragraphFound.ArticleId).FirstOrDefault();
+            newArticle.ParagraphIds.Add(paragraphFound.Id);
            // paragraphFound.Questions = postedParagraph.Questions;
 
             _context.SaveChanges();
