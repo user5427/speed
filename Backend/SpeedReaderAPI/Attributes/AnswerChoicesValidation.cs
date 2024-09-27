@@ -4,9 +4,12 @@ namespace SpeedReaderAPI.Attributes;
 
 public class AnswerChoicesValidationAttribute : ValidationAttribute
 {
-    
+
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
+        if (value == null)
+            return ValidationResult.Success;
+
         //is value an array of strings and does it contain the minimum amount of entries
         if (value is not string[] choices || choices.Length < ValidationConstants.MinAnswerChoicesCount)
             return new ValidationResult($"At least {ValidationConstants.MinAnswerChoicesCount} answer choices are required.");
