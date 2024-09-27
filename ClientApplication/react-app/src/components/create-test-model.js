@@ -1,6 +1,8 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 
+import EditArticle from './edit-test';
+
 const CreateTestModel = (props) => {
 
 
@@ -13,7 +15,7 @@ const CreateTestModel = (props) => {
                 </Modal.Header>    
 
                 <Modal.Body>
-                    <div>this is Body</div>
+                    <EditArticle/>
                 </Modal.Body>
             </Modal>        
         </>
