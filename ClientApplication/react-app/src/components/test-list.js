@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TestItem from './test-item';
+import ReactPaginate from 'react-paginate';
 const TestList = () => {
     const[tests, setTests] = useState(null)
     const[testCount, setTestCount] = useState(0)
@@ -27,13 +28,33 @@ const TestList = () => {
         }).catch(err => alert("Error getting data"));
     }
 
+    const handlePageClick = (pageIndex) => {
+        setPage(pageIndex.selected)
+    }
 
     return (
         <>
             {tests && tests !== [] ? 
             tests.map((m, i) => <TestItem key={i} data={m}/>) 
             : ""}
-        
+
+            <div className="d-flex justify-content-center">
+                <ReactPaginate 
+                previousLabel={'previous'}
+                nextLabel={'next'}
+                breakLabel={'...'}
+                breakClassName={'page-link'}
+                pageCount={testCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={'pagination'}
+                pageClassName={'page-item'}
+                pageLinkClassName={'page-link'}
+                previousClassName={'page-link'}
+                nextClassName={'page-link'}
+                activeClassName={'active'}/>
+            </div>
         </>
     )
 }
