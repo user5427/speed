@@ -1,10 +1,11 @@
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
-namespace SpeedReaderAPI.Services;
+namespace SpeedReaderAPI.Services.Impl;
+
 
 
 public class ArticleService : IArticleService
@@ -20,112 +21,64 @@ public class ArticleService : IArticleService
     }
 
 
-    public Object GetAllArticles(int pageIndex = 0, int pageSize = 10)
+    public ArticlePageResponse GetArticles(QueryParameters queryParameters)
     {
-        try
-        {
-            var articleCount = _context.Article.Count();
-            var articleList = _mapper.Map<List<ArticleShortResponse>>(_context.Article.Skip(pageIndex * pageSize).Take(pageSize).ToList());
-            return new
-            {
-                Articles = articleCount,
-                ArticleList = articleList
-            };
-
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
+        long articleCount = _context.Article.Count();
+        List<Article> articles = _context.Article
+                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
+                                        .Take(queryParameters.PageSize)
+                                        .ToList();
+        List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
+        return new ArticlePageResponse(articleCount, articleResponseList);
     }
 
-    public Object GetArticleById(int id)
+    public ArticleResponse GetArticleById(int id)
     {
-        try
+        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        if (articleFound == null)
         {
-            var article = _mapper.Map<ArticleLongResponse>(_context.Article.FirstOrDefault(a => a.Id == id));
-            return article;
+            throw new KeyNotFoundException($"Article with ID {id} not found.");
         }
-        catch (Exception)
-        {
-
-            throw;
-        }
-
+        return _mapper.Map<ArticleResponse>(articleFound);
     }
 
-    public Object CreateArticle(CreateArticleRequest request)
+    public ArticleResponse CreateArticle(ArticleCreateRequest request)
     {
-     
-        try
-        {
-            var postedArticle = _mapper.Map<Article>(request);
-
-            _context.Article.Add(postedArticle);
-            _context.SaveChanges();
-
-            var responseData = _mapper.Map<ArticleLongResponse>(postedArticle);
-
-            return responseData;
-        }
-        catch (Exception ex)
-        {
-       
-            throw;
-        }
-
+        Article createdArticle = _mapper.Map<Article>(request);
+        _context.Article.Add(createdArticle);
+        _context.SaveChanges();
+        return _mapper.Map<ArticleResponse>(createdArticle);
     }
 
 
-
-    public Object UpdateArticle(CreateArticleRequest request)
+    public ArticleResponse UpdateArticle(int id, ArticleUpdateRequest request)
     {
-        try
+        Article? articleFound = _context.Article.Where(x => x.Id == id).FirstOrDefault();
+        if (articleFound == null)
         {
-            var postedArticle = _mapper.Map<Article>(request);
-
-            var articleFound = _context.Article.Where(x => x.Id == postedArticle.Id).FirstOrDefault();
-            if (articleFound == null)
-            {
-                throw new Exception("Article not found!");
-            }
-
-            articleFound.Title = postedArticle.Title;
-            articleFound.Paragraphs = postedArticle.Paragraphs;
-            articleFound.CategoryTitle = postedArticle.CategoryTitle;
-
-            _context.SaveChanges();
-
-            var responseData = _mapper.Map<ArticleLongResponse>(articleFound);
-            return responseData;
+            throw new KeyNotFoundException($"Article with ID {id} not found.");
         }
-        catch (Exception)
+
+        if (request.Title != null)
         {
-
-            throw;
+            articleFound.Title = request.Title;
         }
+        if (request.CategoryTitle != null)
+        {
+            articleFound.CategoryTitle = request.CategoryTitle;
+        }
+        _context.SaveChanges();
+        return _mapper.Map<ArticleResponse>(articleFound);
     }
 
-  
+
     public void DeleteArticle(int articleId)
     {
-        try
+        Article? articleFound = _context.Article.Where(x => x.Id == articleId).FirstOrDefault();
+        if (articleFound != null)
         {
-            var articleFound = _context.Article.Where(x => x.Id == articleId).FirstOrDefault();
-
-            if (articleFound == null)
-            {
-                throw new Exception("Article not found!");
-            }
-
             _context.Article.Remove(articleFound);
             _context.SaveChanges();
-        }
-        catch (Exception)
-        {
-
-            throw;
         }
     }
 }

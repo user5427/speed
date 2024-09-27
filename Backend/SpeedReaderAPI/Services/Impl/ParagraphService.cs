@@ -1,12 +1,10 @@
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
-using SpeedReaderAPI.DTOs.Article.Responses;
-using SpeedReaderAPI.DTOs.Paragraph;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.Entities;
-namespace SpeedReaderAPI.Services;
+namespace SpeedReaderAPI.Services.Impl;
+
 
 
 public class ParagraphService : IParagraphService
@@ -21,87 +19,64 @@ public class ParagraphService : IParagraphService
         _mapper = mapper;
     }
 
-   public ParagraphDTO GetParagraph(int id)
+    public ParagraphResponse GetParagraph(int id)
     {
-        return _mapper.Map<ParagraphDTO>(_context.Paragraph.FirstOrDefault(a => a.Id == id));
+        Paragraph? paragraph = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        if (paragraph == null)
+        {
+            throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
+        }
+
+        return _mapper.Map<ParagraphResponse>(paragraph);
 
     }
 
-    public Object CreateParagraph(ParagraphRequest request)
+    public ParagraphResponse CreateParagraph(ParagraphCreateRequest request)
     {
-
-        try
+        Article? articleFound = _context.Article.Where(a => a.Id == request.ArticleId).FirstOrDefault();
+        if (articleFound == null)
         {
-            Article article = _mapper.Map<Article>(_context.Article.FirstOrDefault(a => a.Id == request.ArticleId));
-            
-            var postedParagraph = _mapper.Map<Paragraph>(request);
-
-            _context.Paragraph.Add(postedParagraph);
-            _context.SaveChanges();
-
-            CreateParagraphResponse responseData = _mapper.Map<CreateParagraphResponse>(postedParagraph);
-            article.ParagraphIds.Add(responseData.Id);
-            _context.SaveChanges();
-            return responseData;
+            throw new KeyNotFoundException($"Article with ID {request.ArticleId} not found.");
         }
-        catch (Exception)
-        {
 
-            throw;
-        }
+        Paragraph createdParagraph = _mapper.Map<Paragraph>(request);
+        _context.Paragraph.Add(createdParagraph);
+        _context.SaveChanges();
+        return _mapper.Map<ParagraphResponse>(createdParagraph);
     }
 
-    public Object UpdateParagraph(ParagraphRequest request)
+    public ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request)
     {
-        try
+        Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == id).FirstOrDefault();
+        if (paragraphFound == null)
         {
-			// Find old paragraph from db
-			Paragraph postedParagraph = _mapper.Map<Paragraph>(request);
-            Console.WriteLine(postedParagraph.Id);
-            var paragraphFound = _context.Paragraph.Where(x => x.Id == postedParagraph.Id).FirstOrDefault();
-            if (paragraphFound == null)
-            {
-                throw new Exception("Paragraph not found!");
-            }
-
-            paragraphFound.Text = postedParagraph.Text;
-            paragraphFound.ArticleId = postedParagraph.ArticleId; // FIXME ummm first check if it ids are different and then apply the logic below
-            Article oldArticle = _context.Article.Where(x => x.Id == postedParagraph.ArticleId).FirstOrDefault();
-            oldArticle.ParagraphIds.Remove(postedParagraph.Id);
-            Article newArticle = _context.Article.Where(x => x.Id == paragraphFound.ArticleId).FirstOrDefault();
-            newArticle.ParagraphIds.Add(paragraphFound.Id);
-           // paragraphFound.Questions = postedParagraph.Questions;
-
-            _context.SaveChanges();
-
-            var responseData = _mapper.Map<CreateParagraphResponse>(paragraphFound);
-            return responseData;
+            throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
         }
-        catch (Exception)
+
+        // Update if set in request
+        if (request.articleId != null)
         {
-            throw;
+            paragraphFound.ArticleId = (int)request.articleId;
         }
+        if (request.Text != null)
+        {
+            paragraphFound.Text = request.Text;
+        }
+        if (request.NextParagraphId != null)
+        {
+            paragraphFound.nextParagraphId = request.NextParagraphId;
+        }
+        _context.SaveChanges();
+        return _mapper.Map<ParagraphResponse>(paragraphFound);
     }
 
-    public void DeleteParagraph(int paragraphId)
+    public void DeleteParagraph(int id)
     {
-        try
+        Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == id).FirstOrDefault();
+        if (paragraphFound != null)
         {
-            Paragraph paragrapghFound = _context.Paragraph.Where(x => x.Id == paragraphId).FirstOrDefault();
-            Article a = _context.Article.Where(x => x.Id == paragrapghFound.ArticleId).FirstOrDefault();
-            a.ParagraphIds.Remove(paragraphId);
-            if (paragrapghFound == null)
-            {
-                throw new Exception("Paragraph not found!");
-            }
-
-            _context.Paragraph.Remove(paragrapghFound);
+            _context.Paragraph.Remove(paragraphFound);
             _context.SaveChanges();
-        }
-        catch (Exception)
-        {
-
-            throw;
         }
     }
 }

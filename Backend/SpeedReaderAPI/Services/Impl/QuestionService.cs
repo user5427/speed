@@ -1,11 +1,9 @@
 using AutoMapper;
 using SpeedReaderAPI.Data;
-using SpeedReaderAPI.DTOs.Paragraph;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
-using SpeedReaderAPI.DTOs.Question;
 using SpeedReaderAPI.Entities;
-namespace SpeedReaderAPI.Services;
+namespace SpeedReaderAPI.Services.Impl;
 
 
 public class QuestionService : IQuestionService
@@ -20,97 +18,68 @@ public class QuestionService : IQuestionService
         _mapper = mapper;
     }
 
-    public QuestionDTO GetQuestion(int id)
+    public QuestionResponse GetQuestion(int id)
     {
-        return _mapper.Map<QuestionDTO>(_context.Question.FirstOrDefault(a => a.Id == id));
+        Question? question = _context.Question.FirstOrDefault(a => a.Id == id);
+        if (question == null)
+        {
+            throw new KeyNotFoundException($"Question with ID {id} not found.");
+        }
+        return _mapper.Map<QuestionResponse>(question);
 
     }
-    public Object CreateQuestion(QuestionRequest request)
+    public QuestionResponse CreateQuestion(QuestionCreateRequest request)
     {
-        try
+        Paragraph? paragraph = _context.Paragraph.Where(x => x.Id == request.ParagraphId).FirstOrDefault();
+        if (paragraph == null)
         {
-            
-            var postedQuestion = _mapper.Map<Question>(request);
-           
-            var paragraphId = request.ParagraphId;
-            Paragraph paragraph = _context.Paragraph.Where(x => x.Id == paragraphId).FirstOrDefault();
-            
-            if (paragraph == null)
-            {
-                throw new Exception("Paragraph not found!");
-            }
-            
-            _context.Question.Add(postedQuestion);
-            _context.SaveChanges();
-            
-            var responseData = _mapper.Map<QuestionResponse>(postedQuestion);
-            paragraph.QuestionIds.Add(responseData.Id);
-            _context.SaveChanges();
-            return responseData;
+            throw new KeyNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
         }
-        catch (Exception)
-        {
 
-            throw;
-        }
-    }
-    /// <summary>
-    /// DOENS'T WORK!!! DO NOT USE UNLESS YOU SPECIFY EVERYTHING
-    /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
-    public Object UpdateQuestion(QuestionRequest request)
-    {
-        try
-        {
-            var postedQuestion = _mapper.Map<Question>(request);
-            var questionFound = _context.Question.Where(x => x.Id == postedQuestion.Id).FirstOrDefault();
-            if (questionFound == null)
-            {
-                throw new Exception("Question not found!");
-            }
-            Console.WriteLine(postedQuestion.ParagraphId);
-            questionFound.ParagraphId = postedQuestion.ParagraphId;
-            Paragraph old = _context.Paragraph.Where(x => x.Id == postedQuestion.ParagraphId).FirstOrDefault();
-            old.QuestionIds.Remove(postedQuestion.Id);
-            Paragraph newer = _context.Paragraph.Where(x => x.Id == questionFound.ParagraphId).FirstOrDefault();
-            newer.QuestionIds.Add(postedQuestion.Id);
-            questionFound.QuestionText = postedQuestion.QuestionText;
-            questionFound.AnswerChoices = postedQuestion.AnswerChoices;
-            
-            questionFound.CorrectAnswerIndex = postedQuestion.CorrectAnswerIndex;
+        Question postedQuestion = _mapper.Map<Question>(request);
+        _context.Question.Add(postedQuestion);
+        _context.SaveChanges();
 
-            _context.SaveChanges();
-
-            var responseData = _mapper.Map<QuestionResponse>(questionFound);
-            return responseData;
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
+        return _mapper.Map<QuestionResponse>(postedQuestion);
     }
 
-    public void DeleteQuestion(int questionId)
+    public QuestionResponse UpdateQuestion(int id, QuestionUpdateRequest request)
     {
-        try
+        Question? questionFound = _context.Question.Where(x => x.Id == id).FirstOrDefault();
+        if (questionFound == null)
         {
-            Question questionFound = _context.Question.Where(x => x.Id == questionId).FirstOrDefault();
-            Paragraph p = _context.Paragraph.Where(x => x.Id == questionFound.ParagraphId).FirstOrDefault();
-            p.QuestionIds.Remove(questionId);
-            if (questionFound == null)
-            {
-                throw new Exception("Question not found!");
-            }
+            throw new KeyNotFoundException($"Question with ID {id} not found.");
+        }
 
+        // Update if set in request
+        if (request.ParagraphId != null)
+        {
+            questionFound.ParagraphId = (int)request.ParagraphId;
+        }
+        if (request.AnswerChoices != null)
+        {
+            questionFound.AnswerChoices = request.AnswerChoices;
+        }
+        if (request.CorrectAnswerIndex != null)
+        {
+            questionFound.CorrectAnswerIndex = (int)request.CorrectAnswerIndex;
+        }
+        if (request.QuestionText != null)
+        {
+            questionFound.QuestionText = request.QuestionText;
+        }
+
+        _context.SaveChanges();
+        return _mapper.Map<QuestionResponse>(questionFound);
+    }
+
+    public void DeleteQuestion(int id)
+    {
+        Question? questionFound = _context.Question.Where(x => x.Id == id).FirstOrDefault();
+        if (questionFound != null)
+        {
             _context.Question.Remove(questionFound);
             _context.SaveChanges();
-        }
-        catch (Exception)
-        {
-
-            throw;
         }
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using SpeedReaderAPI;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Services;
+using SpeedReaderAPI.Services.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
