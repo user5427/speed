@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal } from 'react-bootstrap';
 
 import EditArticle from './edit-test';
@@ -8,17 +7,9 @@ const CreateTestModel = (props) => {
 
 
     return (
-        <>
-            <Modal show={props.show} onHide={props.handleClose} backdrop="static" keyboard={false} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add New Test</Modal.Title>    
-                </Modal.Header>    
-
-                <Modal.Body>
-                    <EditArticle/>
-                </Modal.Body>
-            </Modal>        
-        </>
+        <div>
+            
+        </div>
     )
 }
 

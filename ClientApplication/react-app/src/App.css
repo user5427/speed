@@ -1,5 +1,42 @@
+body {
+ background-color: #2a292c;
+ font-family: 'Fredoka', sans-serif; 
+}
+
+.row {
+  margin-bottom: 20px;
+}
+
+.categories{
+  font-size: 22px;
+  margin-top: 10px;
+}
+
+.subjectButtons{
+  width: 100%;
+}
+
+.subjectButtons:hover {
+  filter: brightness(120%);
+}
+
+.siteName {
+  font-size: 35px;
+  margin-left: 20px;
+  color: #e6e6ff;
+}
+
 .App {
   text-align: center;
+}
+
+.mainContainer {
+  color: white;
+  font-size: 17px;
+  background-color: #212529;
+  margin-top: 15px;
+  padding: 20px;
+  border-radius: 15px;
 }
 
 .App-logo {
@@ -36,3 +73,4 @@
     transform: rotate(360deg);
   }
 }
+
