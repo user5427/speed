@@ -7,7 +7,7 @@ import NoImage from '../no-image.png'
 
 const EditArticle = () =>
 {
-    const [test, setTest] = useState(null);
+    const [article, setArticle] = useState(null);
     const [paragraphs, setParagraphs] = useState(null);
     const [validated, setValidated] = useState(false);
 
@@ -22,12 +22,12 @@ const EditArticle = () =>
             method: "POST",
             body: form
         })
-        .then(res => res.json())
+        .then(res => res.json())    
         .then(res => {
-            var da = test;
-            da.coverImage = res.profileImage;
+            var newArticle = article;
+            newArticle.coverImage = res.profileImage;
 
-            setTest(oldData => {return{...oldData, ...da};});
+            setArticle(oldData => {return{...oldData, ...newArticle};});
         })
         .catch(err => alert("Error in file upload"));
     }
@@ -40,10 +40,10 @@ const EditArticle = () =>
             setValidated(true);
         }
 
-        let articleToPost = test;
+        let articleToPost = article;
         articleToPost.paragraphs = articleToPost.paragraphs.map(x => x.id);
 
-        if (test && test.id > 0){
+        if (article && article.id > 0){
             // update
             fetch(process.env.REACT_APP_API_URL + "Articles", {
                 method: "PUT",
@@ -56,7 +56,7 @@ const EditArticle = () =>
             .then(res => res.json())
             .then(res => {
                 if (res.ok){
-                    setTest(res.data);
+                    setArticle(res.data);
                     alert('updates successfully.')
                 }
         })
@@ -74,7 +74,7 @@ const EditArticle = () =>
             .then(res => res.json())
             .then(res => {
                 if (res.ok){
-                    setTest(res.data);
+                    setArticle(res.data);
                     alert('created successfully.')
                 }
         })
@@ -83,10 +83,10 @@ const EditArticle = () =>
     }
 
     const handleFieldChange = (event) => {
-        var da = test;
+        var da = article;
         da[event.target.name] = event.target.value;
 
-        setTest(oldData => {return{...oldData, ...da};});
+        setArticle(oldData => {return{...oldData, ...da};});
     }
 
     const promiseOptions = (inputValue) => {
@@ -108,24 +108,25 @@ const EditArticle = () =>
         setParagraphs(data);
 
         var paragraphs = data.map(x => {return {id: x.value, text: x.text}})
-        var da = test;
+        var da = article;
         da.paragraphs = paragraphs;
 
-        setTest(oldData => {return{...oldData, ...da};});
+        setArticle(oldData => {return{...oldData, ...da};});
     }
 
+    // the visuals
     return (
         <>
             <Form NoValidate validated={validated} onSubmint={handleSave}>
                 <Form.Group className="d-flex justify-content-center">
-                    <Image width="200" height="200" src={test && test.coverImage || NoImage} />
+                    <Image width="200" height="200" src={article && article.coverImage || NoImage} />
                 </Form.Group>
                 <Form.Group className="d-flex justify-content-center">
                     <div><input type="file" onChange={handleFileUpload} /> </div>
                 </Form.Group>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article Title</Form.Label>
-                    <Form.Control name="title" value={test && test.title || ''} required type="text" autoComplete='off' placeholder="Enter Article Title" onChange={handleFieldChange} />
+                    <Form.Control name="title" value={article && article.title || ''} required type="text" autoComplete='off' placeholder="Enter Article Title" onChange={handleFieldChange} />
                     <Form.Control.Feedback type="invalid">
                         Please enter article title.
                     </Form.Control.Feedback>
@@ -133,7 +134,7 @@ const EditArticle = () =>
 
                 <Form.Group controlId="formtestCategory">
                     <Form.Label>Movie Title</Form.Label>
-                    <Form.Control name="categoryTitle" value={test && test.categoryTitle || ''} required type="text" placeholder="Enter Article Category" onChange={handleFieldChange} />
+                    <Form.Control name="categoryTitle" value={article && article.categoryTitle || ''} required type="text" placeholder="Enter Article Category" onChange={handleFieldChange} />
                     <Form.Control.Feedback type="invalid">
                         Please enter article category.
                     </Form.Control.Feedback>
@@ -144,7 +145,7 @@ const EditArticle = () =>
                     <Form.Label>Paragraphs</Form.Label>
                     <AsyncSelect cacheOptions isMulti value={paragraphs} loadOptions={promiseOptions} onChange={multiSelectchange} />
                 </Form.Group>
-                <Button type="submit">{test && test.id > 0 ? "Update" : "Create"}</Button> 
+                <Button type="submit">{article && article.id > 0 ? "Update" : "Create"}</Button> 
             </Form>
         </>
     )
