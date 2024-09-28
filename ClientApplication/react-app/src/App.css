@@ -1,7 +1,15 @@
 body {
- background-color: #2a292c;
- font-family: 'Fredoka', sans-serif; 
+  background: linear-gradient(0deg, #1E1B20, #18151A); /* Your gradient */
+  background-size: cover; /* Ensures the gradient covers the entire area */
+  background-repeat: no-repeat; /* Prevents the gradient from repeating */
+  background-attachment: fixed; /* Makes sure the gradient doesn't scroll with content */
+  font-family: 'Fredoka', sans-serif;
+  min-height: 100vh; /* Ensures the body covers the viewport height */
+  margin: 0;
+  padding: 0;
 }
+
+
 
 .row {
   margin-bottom: 20px;

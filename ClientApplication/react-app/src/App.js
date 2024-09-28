@@ -11,6 +11,10 @@ import '@fontsource/fredoka';
 import '@fontsource/fredoka/300.css';
 import '@fontsource/fredoka/700.css';
 
+import Categories from './pages/categories'
+import ArticleList from './pages/article-list-page'
+
+
 
 function App() {
   return (
@@ -29,7 +33,9 @@ function App() {
         </Navbar>
         <Routes>
           <Route exact path="/" Component={() => <Landing/>} />
-        </Routes>
+          <Route exact path="/categories" Component={() => <Categories/>} />
+          <Route exact path="/articles" Component={() => <ArticleList/>} />
+          </Routes>
       </BrowserRouter>
     </Container>
   
