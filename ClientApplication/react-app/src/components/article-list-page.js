@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ArticleItem from '../components/article-item';
+import ArticleItem from './article-item';
 import ReactPaginate from 'react-paginate';
 
 import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons form react-icons
@@ -49,12 +49,12 @@ const ArticleList = () => {
             <div className="d-flex justify-content-center">
                 <ReactPaginate
                     previousLabel={
-                        <IconContext.Provider value={{ color: "#9229A4", size: "36px" }}>
+                        <IconContext.Provider value={{ color: "#2992a4", size: "36px" }}>
                             <AiFillLeftCircle />
                         </IconContext.Provider>
                     }
                     nextLabel={
-                        <IconContext.Provider value={{ color: "#9229A4", size: "36px" }}>
+                        <IconContext.Provider value={{ color: "#2992a4", size: "36px" }}>
                             <AiFillRightCircle />
                         </IconContext.Provider>
                     }

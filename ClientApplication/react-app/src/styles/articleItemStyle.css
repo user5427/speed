@@ -1,5 +1,5 @@
 .article-item {
-    background: linear-gradient(180deg, #403346, #403346); /* Left-to-right gradient */
+    background: #242f3a; /* Left-to-right gradient */
     background-size: cover; /* Ensures the gradient covers the entire area */
     background-repeat: no-repeat; /* Prevents the gradient from repeating */
     background-attachment: fixed; /* Makes sure the gradient doesn't scroll with content */
@@ -16,7 +16,7 @@
 }
 
 .article-item .clickable-row:hover {
-    background: #2c2029; /* Change the background on hover */
+    background: #374858; /* Change the background on hover */
 }
 
 .article-item h2, .article-item p {

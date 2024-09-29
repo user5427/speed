@@ -15,7 +15,7 @@ const ArticleItem = (props) => {
                 <div className="clickable-row"> {/* Apply a clickable row class */}
                     <Row className="row">
                         <Col xs={12} md={10} className="col col-12 col-md-10">
-                            <h2><b>{props.data.title}</b></h2> {/* Apply heading and bold */}
+                            <h2>{props.data.title}</h2> {/* Apply heading and bold */}
                         </Col>
                         <Col xs={12} md={2} className="col col-12 col-md-2">
                             <p>{props.data.categoryTitle}</p> {/* Apply paragraph styling */}
