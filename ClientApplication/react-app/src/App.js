@@ -13,6 +13,7 @@ import '@fontsource/fredoka/700.css';
 
 import Categories from './pages/categories'
 import ArticleHomePage from './pages/articleHomePage';
+import Exercise from './pages/exercise';
 
 
 
@@ -34,7 +35,9 @@ function App() {
         <Routes>
           <Route exact path="/" Component={() => <Landing/>} />
           <Route exact path="/categories" Component={() => <Categories/>} />
-          <Route exact path="/articles" Component={() => <ArticleHomePage/>} />
+
+          <Route exact path="/articles" Component={() => <ArticleList/>} />
+          <Route exact path="/exercise" Component={() => <Exercise/>} />
           </Routes>
       </BrowserRouter>
     </Container>
