@@ -1,19 +1,18 @@
 import { React, useState } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
 
-const EditParagraph = () => {
-    const [paragraph, setParagraph] = useState({});
-    const [questionIds, setQuestions] = useState(null);
+const EditQuestions = () => {
+    const [questions, setQuestions] = useState({});
     const [validated, setValidated] = useState(false);
     const [update, setUpdate] = useState(false);
 
-    const CheckIfArticleIdExists = async () => {
-        if (paragraph && paragraph.articleId) {
-            const apiUrl = process.env.REACT_APP_API_URL + `Articles/${paragraph.articleId}`;
+    const CheckIfParagraphIdExists = async () => {
+        if (questions && questions.paragraphId) {
+            const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/${questions.paragraphId}`;
             try {
                 const res = await fetch(apiUrl); // Await the fetch call
                 if (!res.ok) {
-                    throw new Error(`Failed to get article. Status code: ${res.status}`);
+                    throw new Error(`Failed to get paragraph. Status code: ${res.status}`);
                 }
                 const data = await res.json(); // Await the json parsing
                 return !!data; // If data is truthy, return true, otherwise false
@@ -37,11 +36,11 @@ const EditParagraph = () => {
             return;
         }
 
-        let paragraphToPost = paragraph;
-        if (paragraphToPost.questionIds && Array.isArray(paragraphToPost.questionIds)) {
-            paragraphToPost.questionIds = paragraphToPost.questionIds.map(x => x.id);
+        let questionToPost = questions;
+        if (questionToPost.answerChoices && Array.isArray(questionToPost.answerChoices)) {
+
         } else {
-            paragraphToPost.questionIds = [];
+            questionToPost.questionIds = [];
         }
 
         const requestOptions = {
@@ -50,36 +49,36 @@ const EditParagraph = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(paragraphToPost)
+            body: JSON.stringify(questionToPost)
         };
-        console.log('Data being sent:', paragraphToPost);
+        console.log('Data being sent:', questionToPost);
 
 
-        if (paragraph && paragraph.articleId) {
-            CheckIfArticleIdExists().then(exist => {
+        if (questions && questions.paragraphId) {
+            CheckIfParagraphIdExists().then(exist => {
                 if (exist === true) {
-                    const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/${paragraph.articleId}`;
+                    const apiUrl = process.env.REACT_APP_API_URL + `Questions/${questions.paragraphId}`;
 
                     fetch(apiUrl, requestOptions)
                         .then(res => {
                             if (res.ok) {
                                 return res.json();
                             } else {
-                                throw new Error(`Failed to save paragraph. Status code: ${res.status}`);
+                                throw new Error(`Failed to save question. Status code: ${res.status}`);
                             }
                         }).
                         then(res => {
-                            setParagraph(res.data);
-                            alert(update ? 'Updated paragraph successfully.' : 'Created paragraph successfully.');
+                            setQuestions(res.data);
+                            alert(update ? 'Updated question successfully.' : 'Created question successfully.');
                             setUpdate(true);
                         })
                         .catch(err => alert("Error saving data: " + err.message));
                 } else {
-                    alert("Article ID does not exist.");
+                    alert("Paragraph ID does not exist.");
                 }
             });
         } else {
-            alert("Please enter article ID.");
+            alert("Please enter paragraph ID.");
         }
 
     }
@@ -90,19 +89,20 @@ const EditParagraph = () => {
         const { name, value } = event.target;
 
         //check if the articleId has changed
-        // if (name === 'articleId' && paragraph && paragraph.articleId && paragraph.articleId !== value) {
-        //     resetUpdating();
+        // if (name === 'paragraphId' && questions && questions.paragraphId && questions.paragraphId !== value) {
+        //     setUpdate(false);
+        //     const tempText = questions.questionText;
+        //     const tempAnswers = questions.answerChoices;
+        //     const tempCorrectAnswer = questions.correctAnswer;
+        //     setQuestions({ ...questions, questionText: tempText, answerChoices: tempAnswers, correctAnswer: tempCorrectAnswer });
         // }
 
-        setParagraph(prevParagraph => ({ ...prevParagraph, [name]: value }));
+        setQuestions(prevQuestion => ({ ...prevQuestion, [name]: value }));
     }
 
     const resetUpdating = () => {
         setUpdate(false);
-        // const tempText = paragraph.text;
-        // const tempNextParagraphId = paragraph.nextParagraphId;
-        // const tempArticleId = paragraph.articleId;
-        setParagraph({ articleId: '', text: '', nextParagraphId: null });
+        setQuestions({ paragraphId: '', questionText: '', answerChoices: '', correctAnswerIndex: ''});
     }
 
     /**
@@ -113,25 +113,22 @@ const EditParagraph = () => {
         <>
             <Form NoValidate validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
-                    <Form.Label>Article ID</Form.Label>
-                    <Form.Control name="articleId" value={paragraph && paragraph.articleId || ''} required type="text" autoComplete='off' placeholder="Enter article ID" onChange={handleFieldChange} />
+                    <Form.Label>Paragraph ID</Form.Label>
+                    <Form.Control name="paragraphId" value={questions && questions.articleId || ''} required type="text" autoComplete='off' placeholder="Enter paragraph ID" onChange={handleFieldChange} />
                     <Form.Control.Feedback type="invalid">
-                        Please enter article ID.
+                        Please enter paragraph ID.
                     </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="formtestTitle">
-                    <Form.Label>Paragraph Text</Form.Label>
-                    <Form.Control name="text" value={paragraph && paragraph.text || ''} required type="text" autoComplete='off' placeholder="Enter Paragraph Text" onChange={handleFieldChange} />
+                    <Form.Label>Question Text</Form.Label>
+                    <Form.Control name="text" value={questions && questions.text || ''} required type="text" autoComplete='off' placeholder="Enter Question Text" onChange={handleFieldChange} />
                     <Form.Control.Feedback type="invalid">
-                        Please enter paragraph title.
+                        Please enter question text.
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group controlId="formtestCategory">
-                    <Form.Label>Next Paragraph ID</Form.Label>
-                    <Form.Control name="nextParagraphId" value={paragraph && paragraph.nextParagraphId || ''} type="text" placeholder="Enter Next Paragraph ID" onChange={handleFieldChange} />
-                </Form.Group>
+                <h1>This is not finished yet!!!!</h1>
 
                 <Button type="submit">{update ? "Update" : "Create"}</Button>
                 {/* if you can update the article, make a button apear for creating a new article */}
@@ -143,4 +140,4 @@ const EditParagraph = () => {
     )
 }
 
-export default EditParagraph;
+export default EditQuestions;

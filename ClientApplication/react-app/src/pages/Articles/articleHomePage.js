@@ -16,6 +16,10 @@ const ArticleHomePage = () => {
     const redirectToCreateParagraph = () => {
         navigate('/create-paragraph');
     }
+
+    const redirectToCreateQuestion = () => {
+        navigate('/create-question');
+    }
     
     return (
         <>
@@ -23,11 +27,14 @@ const ArticleHomePage = () => {
                 <h2>Article Home Page</h2>
                 <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                     <Row className='row'>
-                        <Col xs={12} md={6}>
+                        <Col xs={12} md={4}>
                             <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#9229A4', borderColor: '#9229A4' }} onClick={redirectToCreateArticle}><MdCreate /> Create Article</Button>
                         </Col>
-                        <Col xs={12} md={6}>
+                        <Col xs={12} md={4}>
                             <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#9229A4', borderColor: '#9229A4' }} onClick={redirectToCreateParagraph}><MdCreate /> Create Paragraph</Button>
+                        </Col>
+                        <Col xs={12} md={4}>
+                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#9229A4', borderColor: '#9229A4' }} onClick={redirectToCreateQuestion}><MdCreate /> Create Question</Button>
                         </Col>
                     </Row>
                 </div>
