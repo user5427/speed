@@ -73,9 +73,12 @@ MS database
 <img src="https://imgur.com/1PjVI81.png" width="500">
 
 ### Program visuals/vission:
-# WIP
+<img src="https://imgur.com/ubyee6j.png" width="1000">
+<img src="https://imgur.com/n5EVpRT.png" width="1000">
+
+#### still WIP
 #### Program working example (simulated): 
-# WIP
+#### still WIP
 
 <!-- #### Working program example (real): -->
 
