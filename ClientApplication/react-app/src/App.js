@@ -24,6 +24,7 @@ function App() {
     <Container>
       <BrowserRouter>
         <Navbar bg="dark" variant="dark" style={{ borderRadius: '15px', fontSize: '20px' }} className='navBar'>
+          <Navbar.Brand as={Link} to="/" className='siteLogo'><img src={logo} alt="logo" style={{ width: '60px', height: '60px' }}/></Navbar.Brand>
           <Navbar.Brand as={Link} to="/" className='siteName'>Speedreader.com</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
