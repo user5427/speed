@@ -14,8 +14,8 @@ import '@fontsource/fredoka/700.css';
 import Categories from './pages/categories'
 import ArticleHomePage from './pages/Articles/articleHomePage';
 import Exercise from './pages/exercise';
-import CreateArticle from './pages/Articles/createArticle';
-
+import CreateArticle from './pages/Articles/createArticlePage';
+import CreateParagraph from './pages/Articles/createParagraphPage';
 
 
 function App() {
@@ -40,6 +40,7 @@ function App() {
           <Route exact path="/articles" Component={() => <ArticleHomePage/>} />
           <Route exact path="/exercise" Component={() => <Exercise/>} />
           <Route exact path="/create-article" Component={() => <CreateArticle/>} />
+          <Route exact path="/create-paragraph" Component={() => <CreateParagraph/>} />
           </Routes>
       </BrowserRouter>
     </Container>
