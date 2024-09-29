@@ -3,7 +3,7 @@ import { Button, Form, Image } from 'react-bootstrap';
 import AsyncSelect from 'react-select'
 
 
-import NoImage from '../no-image.png'
+import NoImage from '../../no-image.png'
 
 const EditArticle = () =>
 {
@@ -133,7 +133,7 @@ const EditArticle = () =>
                 </Form.Group>
 
                 <Form.Group controlId="formtestCategory">
-                    <Form.Label>Movie Title</Form.Label>
+                    <Form.Label>Article Title</Form.Label>
                     <Form.Control name="categoryTitle" value={article && article.categoryTitle || ''} required type="text" placeholder="Enter Article Category" onChange={handleFieldChange} />
                     <Form.Control.Feedback type="invalid">
                         Please enter article category.

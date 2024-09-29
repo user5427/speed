@@ -35,8 +35,11 @@ const Landing = () => {
                     </Col>
                 </Row>
             </div>
-            <div className='landing'>
-                <h2>Speed reader is a tool that helps you read faster by eliminating subvocalization, or the habit of silently pronouncing words in your head while you read. </h2>
+            <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
+
+                <div className='landing'>
+                    <h2>Speed reader is a tool that helps you read faster by eliminating subvocalization, or the habit of silently pronouncing words in your head while you read. </h2>
+                </div>
             </div>
         </>
     );

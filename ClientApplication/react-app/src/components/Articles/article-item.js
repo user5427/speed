@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
-import "../styles/articleItemStyle.css"; // stylesheet
+import "../../styles/Articles/articleItemStyle.css"; // stylesheet
 
 const ArticleItem = (props) => {
     const handleClick = () => {
