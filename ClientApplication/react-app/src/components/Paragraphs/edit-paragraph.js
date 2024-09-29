@@ -5,59 +5,116 @@ const EditParagraph = () => {
     const [paragraph, setParagraph] = useState({});
     const [questionIds, setQuestions] = useState(null);
     const [validated, setValidated] = useState(false);
+    const [update, setUpdate] = useState(false);
+
+    const CheckIfArticleIdExists = async () => {
+        if (paragraph && paragraph.articleId) {
+            const apiUrl = process.env.REACT_APP_API_URL + `Articles/${paragraph.articleId}`;
+            try {
+                const res = await fetch(apiUrl); // Await the fetch call
+                if (!res.ok) {
+                    throw new Error(`Failed to get article. Status code: ${res.status}`);
+                }
+                const data = await res.json(); // Await the json parsing
+                return !!data; // If data is truthy, return true, otherwise false
+            } catch (error) {
+                alert("Error getting data: " + error.message);
+                return false;
+            }
+        }
+        return false;
+    };
+
+
+
 
     const handleSave = (event) => {
-        event.preventDefault(); // we do not want the page to reload.
+        event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.stopPropagation();
             setValidated(true);
-            return;  // stop execution if the form is not valid
+            return;
         }
 
         let paragraphToPost = paragraph;
-        // Ensure that questionIds is an array before mapping
         if (paragraphToPost.questionIds && Array.isArray(paragraphToPost.questionIds)) {
             paragraphToPost.questionIds = paragraphToPost.questionIds.map(x => x.id);
         } else {
-            paragraphToPost.questionIds = [];  // Set to an empty array if undefined
+            paragraphToPost.questionIds = [];
         }
 
         const requestOptions = {
-            method: paragraph && paragraph.id > 0 ? "PUT" : "POST",  // Use PUT for updates, POST for creation
+            method: update ? "PUT" : "POST",
             headers: {
-                'Accept': 'application/json',  // Correct header for receiving JSON response
-                'Content-Type': 'application/json',  // Correct header for sending JSON data
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(paragraphToPost)  // Stringify the article object to send as JSON
+            body: JSON.stringify(paragraphToPost)
         };
+        console.log('Data being sent:', paragraphToPost);
 
-        const apiUrl = process.env.REACT_APP_API_URL + `Paragraph/${paragraph && paragraph.id > 0 ? paragraph.id : '0'}`;
 
-        fetch(apiUrl, requestOptions)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();  // Parse the response body as JSON if the status is 200 or 201
+        if (paragraph && paragraph.articleId) {
+            CheckIfArticleIdExists().then(exist => {
+                if (exist === true) {
+                    const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/${paragraph.articleId}`;
+
+                    fetch(apiUrl, requestOptions)
+                        .then(res => {
+                            if (res.ok) {
+                                return res.json();
+                            } else {
+                                throw new Error(`Failed to save paragraph. Status code: ${res.status}`);
+                            }
+                        }).
+                        then(res => {
+                            setParagraph(res.data);
+                            alert(update ? 'Updated paragraph successfully.' : 'Created paragraph successfully.');
+                            setUpdate(true);
+                        })
+                        .catch(err => alert("Error saving data: " + err.message));
                 } else {
-                    throw new Error(`Failed to save paragraph. Status code: ${res.status}`);
+                    alert("Article ID does not exist.");
                 }
-            })
-            .then(res => {
-                setParagraph(res.data);
-                alert(paragraph && paragraph.id > 0 ? 'Updated paragraph successfully.' : 'Created paragraph successfully.');
-            })
-            .catch(err => alert("Error saving data: " + err.message));
+            });
+        } else {
+            alert("Please enter article ID.");
+        }
+
     }
+
+
 
     const handleFieldChange = (event) => {
         const { name, value } = event.target;
 
+        //check if the articleId has changed
+        if (name === 'articleId' && paragraph && paragraph.articleId && paragraph.articleId !== value) {
+            setUpdate(false);
+            const tempText = paragraph.text;
+            const tempNextParagraphId = paragraph.nextParagraphId;
+            setParagraph({ articleId: value, text: tempText, nextParagraphId: tempNextParagraphId });
+        }
+
         setParagraph(prevParagraph => ({ ...prevParagraph, [name]: value }));
     }
 
+    /**
+     * This is the return statement for the component.
+     * It contains a form with input fields for the paragraph data.
+     */
     return (
         <>
             <Form NoValidate validated={validated} onSubmit={handleSave}>
+                <Form.Group controlId="formtestTitle">
+                    <Form.Label>Article ID</Form.Label>
+                    <Form.Control name="articleId" value={paragraph && paragraph.articleId || ''} required type="text" autoComplete='off' placeholder="Enter article ID" onChange={handleFieldChange} />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter article ID.
+                    </Form.Control.Feedback>
+                </Form.Group>
+
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Paragraph Text</Form.Label>
                     <Form.Control name="text" value={paragraph && paragraph.text || ''} required type="text" autoComplete='off' placeholder="Enter Paragraph Text" onChange={handleFieldChange} />
