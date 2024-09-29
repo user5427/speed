@@ -4,10 +4,14 @@ import { Row, Col, Button } from 'react-bootstrap';
 
 import { MdArticle } from "react-icons/md";
 import { BiSolidCategory } from "react-icons/bi";
-import "../styles/landingStyle.css";
+import "../../styles/landingStyle.css";
 import { FaBookReader } from "react-icons/fa";
 
+import FlashingText from '../../components/HomePage/FlashingText';
+
 const Landing = () => {
+    const sentence = "Introducing our new web page speed reader, designed to help users read sentences quickly without being distracted by inner thoughts—boosting focus, improving comprehension, and saving time with faster reading speeds.";
+
     const navigate = useNavigate();
 
     const redirectToCategories = () => {
@@ -35,12 +39,10 @@ const Landing = () => {
                     </Col>
                 </Row>
             </div>
-            <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
 
-                <div className='landing'>
-                    <h2>Speed reader is a tool that helps you read faster by eliminating subvocalization, or the habit of silently pronouncing words in your head while you read. </h2>
-                </div>
-            </div>
+            
+            <FlashingText sentence={sentence} />
+
         </>
     );
 }

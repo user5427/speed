@@ -6,7 +6,7 @@ import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons f
 import { IconContext } from "react-icons";
 import "../../styles/stylesPaginator.css"; // stylesheet
 
-const ArticleList = () => {
+const ArticleList = ({settings}) => {
     const [articles, setArticles] = useState(null)
     const [articleCount, setArticleCount] = useState(0)
     const [page, setPage] = useState(0)
@@ -40,11 +40,16 @@ const ArticleList = () => {
     return (
         <>
             <div>
-                {articles && articles !== [] ?
-                    articles.map((m, i) => <ArticleItem key={i} data={m} />)
-                    : ""}
+                {articles && articles.length > 0 ? (
+                    articles.map((m, i) => (
+                        <div key={i}>
+                            <ArticleItem data={m} settings={settings} />
+                        </div>
+                    ))
+                ) : (
+                    ""
+                )}
             </div>
-
 
             <div className="d-flex justify-content-center">
                 <ReactPaginate

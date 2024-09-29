@@ -7,6 +7,10 @@
 }
 
 .landing h2 {
+  /* background: linear-gradient(90deg, #20cafd, #ed24f8);
+  -webkit-background-clip: text;
+  color: transparent; */
+  color:#ffffff;
   font-size: 35px;
   margin-bottom: 20px;
   text-align: center;
