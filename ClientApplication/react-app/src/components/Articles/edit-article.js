@@ -4,6 +4,7 @@ import AsyncSelect from 'react-select'
 
 
 import NoImage from '../../no-image.png'
+import ArticleService from '../.services/Articles/article-service';
 
 const EditArticle = () => {
     const [article, setArticle] = useState({});
@@ -36,7 +37,7 @@ const EditArticle = () => {
         }).catch(err => alert("Error in file upload"));
     }
 
-    const handleSave = (event) => {
+    const handleSave = async (event) => {
         event.preventDefault(); // we do not want the page to reload.
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -53,30 +54,19 @@ const EditArticle = () => {
             articleToPost.paragraphIds = [];  // Set to an empty array if undefined
         }
 
-        const requestOptions = {
-            method: article && article.id > 0 ? "PUT" : "POST",  // Use PUT for updates, POST for creation
-            headers: {
-                'Accept': 'application/json',  // Correct header for receiving JSON response
-                'Content-Type': 'application/json',  // Correct header for sending JSON data
-            },
-            body: JSON.stringify(articleToPost)  // Stringify the article object to send as JSON
-        };
+        let data = "";
+        if (article && article.id > 0) {
+            data = await ArticleService.putArticle(articleToPost);
+        } else {
+            data = await ArticleService.postArticle(articleToPost);
+        }
 
-        const apiUrl = process.env.REACT_APP_API_URL + `Articles/${article && article.id > 0 ? article.id : ''}`;
-
-        fetch(apiUrl, requestOptions)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();  // Parse the response body as JSON if the status is 200 or 201
-                } else {
-                    throw new Error(`Failed to save article. Status code: ${res.status}`);
-                }
-            })
-            .then(res => {
-                setArticle(res.data);
-                alert(article && article.id > 0 ? 'Updated article successfully.' : 'Created article successfully.');
-            })
-            .catch(err => alert("Error saving data: " + err.message));
+        if (data && data.article) {
+            setArticle(data.article);
+            alert(article && article.id > 0 ? 'Updated article successfully.' : 'Created article successfully.');
+        } else {
+            alert("Error getting data");
+        }
     }
 
     const handleFieldChange = (event) => {

@@ -1,6 +1,9 @@
 import { React, useState } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
 
+import ArticleService from '../.services/Articles/article-service';
+import ParagraphService from '../.services/Paragraphs/paragraph-service';
+
 const EditParagraph = () => {
     const [paragraph, setParagraph] = useState({});
     const [questionIds, setQuestions] = useState(null);
@@ -9,26 +12,12 @@ const EditParagraph = () => {
 
     const CheckIfArticleIdExists = async () => {
         if (paragraph && paragraph.articleId) {
-            const apiUrl = process.env.REACT_APP_API_URL + `Articles/${paragraph.articleId}`;
-            try {
-                const res = await fetch(apiUrl); // Await the fetch call
-                if (!res.ok) {
-                    throw new Error(`Failed to get article. Status code: ${res.status}`);
-                }
-                const data = await res.json(); // Await the json parsing
-                return !!data; // If data is truthy, return true, otherwise false
-            } catch (error) {
-                alert("Error getting data: " + error.message);
-                return false;
-            }
+            return ArticleService.checkIfArticleIdExists(paragraph.articleId);
         }
         return false;
     };
 
-
-
-
-    const handleSave = (event) => {
+    const handleSave = async (event) => {
         event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -44,40 +33,34 @@ const EditParagraph = () => {
             paragraphToPost.questionIds = [];
         }
 
-        const requestOptions = {
-            method: update ? "PUT" : "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(paragraphToPost)
-        };
-        console.log('Data being sent:', paragraphToPost);
-
-
         if (paragraph && paragraph.articleId) {
-            CheckIfArticleIdExists().then(exist => {
-                if (exist === true) {
-                    const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/${paragraph.articleId}`;
 
-                    fetch(apiUrl, requestOptions)
-                        .then(res => {
-                            if (res.ok) {
-                                return res.json();
-                            } else {
-                                throw new Error(`Failed to save paragraph. Status code: ${res.status}`);
-                            }
-                        }).
-                        then(res => {
-                            setParagraph(res.data);
-                            alert(update ? 'Updated paragraph successfully.' : 'Created paragraph successfully.');
-                            setUpdate(true);
-                        })
-                        .catch(err => alert("Error saving data: " + err.message));
+            const exist = await ArticleService.checkIfArticleIdExists(paragraph.articleId);
+            if (exist === true) {
+                let data = "";
+                if (update) {
+                    data = await ParagraphService.putParagraph(paragraphToPost);
+                    if (data && data.paragraph) {
+                        alert('Updated paragraph successfully.');
+                    }
                 } else {
-                    alert("Article ID does not exist.");
+                    data = await ParagraphService.postParagraph(paragraphToPost);
+                    setUpdate(true);
+
+                    if (data && data.paragraph) {
+                        alert('Created paragraph successfully.');
+                    }
+
                 }
-            });
+
+                console.log(data);
+
+                if (data && data.paragraph) {
+                    setParagraph(data.paragraph);
+                } else {
+                    alert("Error getting data");
+                }
+            }
         } else {
             alert("Please enter article ID.");
         }
@@ -89,26 +72,14 @@ const EditParagraph = () => {
     const handleFieldChange = (event) => {
         const { name, value } = event.target;
 
-        //check if the articleId has changed
-        // if (name === 'articleId' && paragraph && paragraph.articleId && paragraph.articleId !== value) {
-        //     resetUpdating();
-        // }
-
         setParagraph(prevParagraph => ({ ...prevParagraph, [name]: value }));
     }
 
     const resetUpdating = () => {
         setUpdate(false);
-        // const tempText = paragraph.text;
-        // const tempNextParagraphId = paragraph.nextParagraphId;
-        // const tempArticleId = paragraph.articleId;
         setParagraph({ articleId: '', text: '', nextParagraphId: null });
     }
 
-    /**
-     * This is the return statement for the component.
-     * It contains a form with input fields for the paragraph data.
-     */
     return (
         <>
             <Form NoValidate validated={validated} onSubmit={handleSave}>
@@ -134,7 +105,6 @@ const EditParagraph = () => {
                 </Form.Group>
 
                 <Button type="submit">{update ? "Update" : "Create"}</Button>
-                {/* if you can update the article, make a button apear for creating a new article */}
                 {update ?
                     <Button onClick={resetUpdating}>Reset</Button> : ""
                 }

@@ -5,32 +5,28 @@ import ReactPaginate from 'react-paginate';
 import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons form react-icons
 import { IconContext } from "react-icons";
 import "../../styles/stylesPaginator.css"; // stylesheet
+import ArticleService from '../.services/Articles/article-service';
 
-const ArticleList = ({settings}) => {
+const ArticleList = ({ settings }) => {
     const [articles, setArticles] = useState(null)
     const [articleCount, setArticleCount] = useState(0)
     const [page, setPage] = useState(0)
+    const [pageSize, setPageSize] = useState(0)
     useEffect(() => {
         // get all tests
         getArticles();
     }, [page]) // [] if empty, will load for only the first and only first time
 
-    const getArticles = () => {
-        fetch(process.env.REACT_APP_API_URL + "Articles?pageIndex=" + page + "&pageSize=" + process.env.REACT_APP_PAGING_SIZE)
-            .then(res => res.json())
-            .then(res => {
-                res.status = true; // fix this
-                if (res.status === true && res.data.articles > 0) {
-                    setArticles(res.data.articleList);
-                    setArticleCount(Math.ceil(res.data.articles / process.env.REACT_APP_PAGING_SIZE));
-                }
+    const getArticles = async () => {
+        const data = await ArticleService.getArticles(page + 1);
 
-                if (res.data.articles === 0) {
-                    alert("There is no article data in the system.");
-                }
-
-
-            }).catch(err => alert("Error getting data"));
+        if (data) {
+            setArticles(data.articles)
+            setArticleCount(data.count)
+            setPageSize(() => {
+                return Math.ceil(data.count / process.env.REACT_APP_PAGING_SIZE)
+            })
+        }
     }
 
     const handlePageClick = (pageIndex) => {
@@ -64,7 +60,7 @@ const ArticleList = ({settings}) => {
                         </IconContext.Provider>
                     }
                     breakLabel={'...'}
-                    pageCount={articleCount}
+                    pageCount={pageSize}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
                     onPageChange={handlePageClick}
