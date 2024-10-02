@@ -17,29 +17,17 @@ namespace SpeedReaderAPI
     {
         public MappingProfiles()
         {
-            CreateMap<Article, ArticleShortResponse>();
-            CreateMap<Article, ArticleLongResponse>();
-            CreateMap<ArticleShortResponse, Article>();
-            CreateMap<ArticleLongResponse, Article>();
+            CreateMap<Article, ArticleResponse>();
+            CreateMap<ArticleCreateRequest, Article>();
+            CreateMap<ArticleUpdateRequest, Article>();
 
-            CreateMap<CreateArticleRequest, Article>();
-            CreateMap<Article, CreateArticleRequest>();
-
+            CreateMap<QuestionCreateRequest, Question>();
+            CreateMap<QuestionUpdateRequest, Question>();
             CreateMap<Question, QuestionResponse>();
-            CreateMap<QuestionResponse, Question>();
 
-            CreateMap<Question, QuestionRequest>();
-            CreateMap<QuestionRequest, Question>();
-
-            CreateMap<Question, QuestionDTO>();
-            CreateMap<QuestionDTO, Question>();
-
-            CreateMap<Paragraph, CreateParagraphResponse>();
-            CreateMap<CreateParagraphResponse, Paragraph>();
-            CreateMap<Paragraph, ParagraphRequest>();
-            CreateMap<ParagraphRequest, Paragraph>();
-            CreateMap<Paragraph, ParagraphDTO>();
-            CreateMap<ParagraphDTO, Paragraph>();
+            CreateMap<ParagraphCreateRequest, Paragraph>();
+            CreateMap<ParagraphUpdateRequest, Paragraph>();
+            CreateMap<Paragraph, ParagraphResponse>();
         }
     }
 }

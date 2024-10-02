@@ -8,10 +8,15 @@ using SpeedReaderAPI.DTOs;
 
 public class Question
 {
-    [Key]
+	[Key]
     public int Id { get; set; }
 
-    [ForeignKey(nameof(Paragraph))]
+	[StringLength(ValidationConstants.MaxTitleLength,
+	MinimumLength = ValidationConstants.MinTitleLength,
+	ErrorMessage = "Title must be between {2} and {1} characters.")]
+	public string? Title { get; set; }
+
+	[ForeignKey(nameof(Paragraph))]
     public int ParagraphId { get; set; }
 
     [Required(ErrorMessage = "Question text is required.")]

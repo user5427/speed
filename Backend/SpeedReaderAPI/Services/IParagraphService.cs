@@ -7,12 +7,8 @@ using SpeedReaderAPI.Entities;
 
 public interface IParagraphService
 {
-    Object CreateParagraph(ParagraphRequest request);
-
-
-    public ParagraphDTO GetParagraph(int id);
-
-    Object UpdateParagraph(ParagraphRequest request);
-
+    ParagraphResponse CreateParagraph(ParagraphCreateRequest request);
+    public ParagraphResponse GetParagraph(int id);
+    ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request);
     void DeleteParagraph(int paragraphId);
 }
