@@ -1,3 +1,3 @@
 namespace SpeedReaderAPI.DTOs.Article.Responses;
 
-public record ArticlePageResponse(long Lount, ICollection<ArticleResponse> Articles);
+public record ArticlePageResponse(long Count, ICollection<ArticleResponse> Articles);

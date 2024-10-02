@@ -43,9 +43,18 @@ public class ParagraphService : IParagraphService
         if(createdParagraph.QuestionIds == null){
             createdParagraph.QuestionIds = new List<int>();
         }
-        _context.Paragraph.Add(createdParagraph);
+		_context.Paragraph.Add(createdParagraph);
         _context.SaveChanges();
-        return _mapper.Map<ParagraphResponse>(createdParagraph);
+
+
+
+        if (articleFound.ParagraphIds == null) {
+			articleFound.ParagraphIds = new List<int>();
+		}
+		articleFound.ParagraphIds.Add(createdParagraph.Id);
+		_context.SaveChanges();
+
+		return _mapper.Map<ParagraphResponse>(createdParagraph);
     }
 
     public ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request)
@@ -56,11 +65,28 @@ public class ParagraphService : IParagraphService
             throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
         }
 
-        // Update if set in request
-        if (request.articleId != null)
+		Article? articleFound = _context.Article.Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
+
+		// Update if set in request
+		if (request.articleId != null)
         {
             paragraphFound.ArticleId = (int)request.articleId;
-        }
+			if (articleFound != null && 
+                articleFound.Id != paragraphFound.ArticleId && 
+                articleFound.ParagraphIds != null
+				&& articleFound.ParagraphIds.Contains(paragraphFound.Id) //<-- del saugumo jei norit atkomentuokit (jau atkomentuota)
+				) {
+				articleFound.ParagraphIds.Remove(paragraphFound.Id);
+                var changedArticle = _context.Article.Where(x => x.Id == paragraphFound.ArticleId).FirstOrDefault();
+				if (changedArticle == null) {
+					throw new KeyNotFoundException($"Article with ID {paragraphFound.ArticleId} not found.");
+				}
+				if (changedArticle.ParagraphIds == null) {
+                    changedArticle.ParagraphIds = new List<int>();
+				}
+                changedArticle.ParagraphIds.Add(paragraphFound.Id);
+			}
+		}
         if (request.Text != null)
         {
             paragraphFound.Text = request.Text;
@@ -69,8 +95,10 @@ public class ParagraphService : IParagraphService
         {
             paragraphFound.nextParagraphId = request.NextParagraphId;
         }
-        _context.SaveChanges();
-        return _mapper.Map<ParagraphResponse>(paragraphFound);
+		
+		_context.SaveChanges();
+
+		return _mapper.Map<ParagraphResponse>(paragraphFound);
     }
 
     public void DeleteParagraph(int id)
@@ -78,7 +106,15 @@ public class ParagraphService : IParagraphService
         Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == id).FirstOrDefault();
         if (paragraphFound != null)
         {
-            _context.Paragraph.Remove(paragraphFound);
+			Article? articleFound = _context.Article.Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
+			if (articleFound != null &&
+				articleFound.Id == paragraphFound.ArticleId &&
+				articleFound.ParagraphIds != null && 
+                articleFound.ParagraphIds.Contains(paragraphFound.Id)
+				) {
+				articleFound.ParagraphIds.Remove(paragraphFound.Id);
+			}
+			_context.Paragraph.Remove(paragraphFound);
             _context.SaveChanges();
         }else{
             throw new KeyNotFoundException($"Question with ID {id} not found.");
