@@ -87,7 +87,10 @@ public class ParagraphService : IParagraphService
                 changedArticle.ParagraphIds.Add(paragraphFound.Id);
 			}
 		}
-        if (request.Text != null)
+		if (request.Title != null) {
+			paragraphFound.Title = request.Title;
+		}
+		if (request.Text != null)
         {
             paragraphFound.Text = request.Text;
         }
