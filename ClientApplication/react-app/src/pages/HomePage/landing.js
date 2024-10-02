@@ -10,7 +10,7 @@ import { FaBookReader } from "react-icons/fa";
 import FlashingText from '../../components/HomePage/FlashingText';
 
 const Landing = () => {
-    const sentence = "Introducing our new web page speed reader, designed to help users read sentences quickly without being distracted by inner thoughts—boosting focus, improving comprehension, and saving time with faster reading speeds.";
+    const sentence = "Introducing our new web page speed reader, designed to help users read sentences quickly without being distracted by inner thoughts boosting focus, improving comprehension, and saving time with faster reading speeds.";
 
     const navigate = useNavigate();
 
