@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using SpeedReaderAPI.DTOs.Models;
 using SpeedReaderAPI.DTOs.Question.Requests;
-using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
 
@@ -18,72 +17,147 @@ public class QuestionsController : ControllerBase
         _logger = logger;
         _questionService = questionService;
     }
+
     [HttpGet("{id}")]
     public IActionResult GetQuestion(int id)
     {
-        BaseResponseModel response = new BaseResponseModel();
-        response.Message = "Found successfully";
-        response.Data = _questionService.GetQuestion(id);
-        if(response.Data == null) {
-            response.Message = "Not found!";
-            return BadRequest(response);
-        }
-        return Ok(response);
-    }
-    [HttpPost("{paragraphId}")]
-    public ActionResult<int> CreateQuestion(QuestionRequest request, int paragraphId)
-    {
-     
-        BaseResponseModel response = new BaseResponseModel();
-        request.ParagraphId = paragraphId;
         try
         {
-           
-            var question = _questionService.CreateQuestion(request);
-            response.Message = "Success";
-            response.Data = question;
-            return Ok(response);
+            QuestionResponse questionResponse = _questionService.GetQuestion(id);
+            return Ok(questionResponse);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            _logger.LogError(ex.GetBaseException().Message);
+            return NotFound(new ProblemDetails
+            {
+                Title = "Question Not Found",
+                Detail = $"No question found with ID {id}.",
+                Status = 404,
+                Instance = HttpContext.Request.Path
+            });
         }
         catch (Exception ex)
         {
-            _logger.LogError("Something went wrong in QuestionsController while creating with id! " + ex.GetBaseException());
-            return BadRequest(response);
+            _logger.LogError("Something went wrong in QuestionsController GET BY ID! {ExceptionMessage}.", ex.GetBaseException().Message);
+            return StatusCode(500,
+                   new ProblemDetails
+                   {
+                       Title = "Internal Server Error",
+                       Detail = $"An unexpected error occurred while retrieving the question with ID {id}.",
+                       Status = 500,
+                       Instance = HttpContext.Request.Path
+                   });
+        }
+    }
+    [HttpPost]
+    public ActionResult<int> CreateQuestion(QuestionCreateRequest request)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Validation Error",
+                    Detail = "One or more validation errors occurred.",
+                    Status = 400,
+                    Instance = HttpContext.Request.Path,
+                    Extensions = { ["errors"] = ModelState }
+                });
+            }
+
+            QuestionResponse questionResponse = _questionService.CreateQuestion(request);
+            return Ok(questionResponse);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            // Note: Every Question is assigned to Paragraph
+            _logger.LogError(ex.GetBaseException().Message);
+            return NotFound(new ProblemDetails
+            {
+                Title = "Paragraph Not Found",
+                Detail = $"No Paragraph found with ID {request.ParagraphId}.",
+                Status = 404,
+                Instance = HttpContext.Request.Path
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Something went wrong in QuestionsController POST! {ExceptionMessage}.", ex.GetBaseException().Message);
+            return StatusCode(500,
+                   new ProblemDetails
+                   {
+                       Title = "Internal Server Error",
+                       Detail = "An unexpected error occurred while creating the question.",
+                       Status = 500,
+                       Instance = HttpContext.Request.Path
+                   });
         }
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateQuestion(QuestionRequest request, int id)
+    public IActionResult UpdateQuestion(int id, QuestionUpdateRequest request)
     {
-        request.Id = id;
-		BaseResponseModel response = new BaseResponseModel();
         try
         {
-            var question = _questionService.UpdateQuestion(request);
-            response.Message = "Success";
-            response.Data = question;
-            return Ok(response); ;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Validation Error",
+                    Detail = "One or more validation errors occurred.",
+                    Status = 400,
+                    Instance = HttpContext.Request.Path,
+                    Extensions = { ["errors"] = ModelState }
+                });
+            }
+
+            QuestionResponse questionResponse = _questionService.UpdateQuestion(id, request);
+            return Ok(questionResponse); ;
+        }
+        catch (KeyNotFoundException ex)
+        {
+            _logger.LogError(ex.GetBaseException().Message);
+            return NotFound(new ProblemDetails
+            {
+                Title = "Question Not Found",
+                Detail = $"No question found with ID {id}.",
+                Status = 404,
+                Instance = HttpContext.Request.Path
+            });
         }
         catch (Exception ex)
         {
-            _logger.LogError("Something went wrong in QuestionsController while updating with id! " + ex.GetBaseException());
-            return BadRequest(response);
+            _logger.LogError("Something went wrong in QuestionsController while updating! {ExceptionMessage}.", ex.GetBaseException().Message);
+            return StatusCode(500, new ProblemDetails
+            {
+                Title = "Internal Server Error",
+                Detail = "An unexpected error occurred while updating the question.",
+                Status = 500,
+                Instance = HttpContext.Request.Path
+            });
         }
     }
 
     [HttpDelete("{id}")]
     public IActionResult DeleteQuestion(int id)
     {
-		BaseResponseModel response = new BaseResponseModel();
         try
         {
             _questionService.DeleteQuestion(id);
-            response.Message = "Deleted successfully";
-            return Ok(response);
+            return Ok("Deleted");
         }
         catch (Exception ex)
         {
-            _logger.LogError("Something went wrong in ParagraphsController while deleting with id! " + ex.GetBaseException());
-            return BadRequest(response);
+            _logger.LogError("Something went wrong in QuestionsController while deleting by id! {ExceptionMessage}.", ex.GetBaseException().Message);
+            return StatusCode(500, new ProblemDetails
+            {
+                Title = "Internal Server Error",
+                Detail = $"An unexpected error occurred while deleting the question with ID {id}.",
+                Status = 500,
+                Instance = HttpContext.Request.Path
+            });
         }
     }
 }
