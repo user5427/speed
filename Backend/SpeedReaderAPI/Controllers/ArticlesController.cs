@@ -127,7 +127,7 @@ public class ArticlesController : ControllerBase
                     Extensions = { ["errors"] = ModelState }
                 });
             }
-
+            
             ArticleResponse articleResponse = _articleService.UpdateArticle(id, request);
             return Ok(articleResponse);
         }
@@ -162,7 +162,7 @@ public class ArticlesController : ControllerBase
         try
         {
             _articleService.DeleteArticle(id);
-            return Ok();
+            return Ok("Deleted");
         }
         catch (Exception ex)
         {

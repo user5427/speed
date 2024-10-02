@@ -150,7 +150,7 @@ public class ParagraphsController : ControllerBase
         try
         {
             _paragraphService.DeleteParagraph(id);
-            return Ok();
+            return Ok("Deleted");
         }
         catch (Exception ex)
         {

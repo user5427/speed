@@ -45,6 +45,9 @@ public class ArticleService : IArticleService
     public ArticleResponse CreateArticle(ArticleCreateRequest request)
     {
         Article createdArticle = _mapper.Map<Article>(request);
+        if(createdArticle.ParagraphIds == null){
+            createdArticle.ParagraphIds = new List<int>();
+        }
         _context.Article.Add(createdArticle);
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(createdArticle);
@@ -79,6 +82,8 @@ public class ArticleService : IArticleService
         {
             _context.Article.Remove(articleFound);
             _context.SaveChanges();
+        }else{
+            throw new KeyNotFoundException($"Question with ID {articleId} not found.");
         }
     }
 }

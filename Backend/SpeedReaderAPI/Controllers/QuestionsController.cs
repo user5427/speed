@@ -146,7 +146,7 @@ public class QuestionsController : ControllerBase
         try
         {
             _questionService.DeleteQuestion(id);
-            return Ok();
+            return Ok("Deleted");
         }
         catch (Exception ex)
         {

@@ -40,6 +40,9 @@ public class ParagraphService : IParagraphService
         }
 
         Paragraph createdParagraph = _mapper.Map<Paragraph>(request);
+        if(createdParagraph.QuestionIds == null){
+            createdParagraph.QuestionIds = new List<int>();
+        }
         _context.Paragraph.Add(createdParagraph);
         _context.SaveChanges();
         return _mapper.Map<ParagraphResponse>(createdParagraph);
@@ -77,6 +80,8 @@ public class ParagraphService : IParagraphService
         {
             _context.Paragraph.Remove(paragraphFound);
             _context.SaveChanges();
+        }else{
+            throw new KeyNotFoundException($"Question with ID {id} not found.");
         }
     }
 }

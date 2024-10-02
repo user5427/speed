@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
@@ -80,6 +81,8 @@ public class QuestionService : IQuestionService
         {
             _context.Question.Remove(questionFound);
             _context.SaveChanges();
+        }else{
+            throw new KeyNotFoundException($"Question with ID {id} not found.");
         }
     }
 }
