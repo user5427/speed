@@ -2,8 +2,18 @@ import React, { useState, useEffect } from 'react';
 import "../styles/exerciseStyle.css"; 
 import { Row, Col, Button } from 'react-bootstrap';
 
+
+
 const Exercise = () => {
+
+
     const text = "Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails. Explore. Dream. Discover.";
+    const subject = "Biology";
+    const category = "Plants";
+    const part = 1;
+    const outOf = 3;
+    
+    
     const words = text.split(" ");
 
     const [inputValue, setInputValue] = useState(""); // Track input field value
@@ -17,8 +27,8 @@ const Exercise = () => {
     useEffect(() => {
         if (!started) return;
 
-        const wpm = parseInt(inputValue) || 0; // Get WPM value, default to 0 if invalid
-        const intervalTime = wpm > 0 ? 60000 / wpm : 60000 / avgReadingSpeed; // Convert WPM to milliseconds, default to 238 WPM (average)
+        const wpm = parseInt(inputValue) || 0; // Get WPM value
+        const intervalTime = wpm > 0 ? 60000 / wpm : 60000 / avgReadingSpeed; // Convert WPM to milliseconds, default 238 WPM (average)
 
         const interval = setInterval(() => {
             setCurrentWordIndex((prevIndex) => {
@@ -38,7 +48,15 @@ const Exercise = () => {
     return (
         
         <div className='mainContainer'>
-            <div ><h3 >Biology</h3></div>
+            <Row style={{ marginTop: '10px', marginBottom:'10px', color:'grey'}}>
+                <Col><h3>{subject}</h3></Col>
+                <Col style={{ textAlign: 'center' , color:'#cccccc'}}><h3>{category}</h3></Col>
+                <Col style={{ marginRight: '10px' }} >
+                <h3 style={{textAlign: 'right'}}>{part}/{outOf}</h3>
+                </Col>
+                
+            </Row>
+
             <div className='exerciseWindow'>
                 <p className="singleWord">
                     {started ? words[currentWordIndex] : "Press Go to begin"}
@@ -60,17 +78,17 @@ const Exercise = () => {
                 </Col>
                 
                 <Col>
-                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '8px'}}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px'}}>
                         <input 
                             type="number" 
                             value={inputValue} 
                             onChange={(e) => setInputValue(e.target.value)} 
                             placeholder={avgReadingSpeed}
                             className="form-control"
-                            style={{ width: '100px', height: '100%', backgroundColor:'#0e0e13', color:'white !important', borderColor: '#0d0d0d', marginRight: '5px'}}
                             disabled={started}
                         /> 
-                        WPM
+                        <Col> WPM</Col>
+                       
                     </div>
                 </Col>
                 

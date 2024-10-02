@@ -11,3 +11,15 @@
     font-size: 40px;
     color: white;
 }
+
+.form-control{
+    width: 100px;
+    background-color:#0e0e13;
+    border-color: #0d0d0d; 
+    margin-right: 10px;
+}
+
+.form-control::placeholder {
+    color: #cccccc; /* Change this to the desired color */
+    opacity: 1; /* Optional: Set opacity (1 is fully opaque) */
+}
