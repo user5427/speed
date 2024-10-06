@@ -2,21 +2,29 @@ import React, { useState, useEffect } from 'react';
 import "../styles/exerciseStyle.css"; 
 import { Row, Col, Button } from 'react-bootstrap';
 
-
+import Slider from '@mui/material/Slider';
+import { VscDebugStart } from "react-icons/vsc";
+import { FaQuestion } from "react-icons/fa6";
 
 const Exercise = () => {
-
+    const valuetext = (value) => {
+        return `${value}`;
+      };
 
     const text = "Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails. Explore. Dream. Discover.";
     const subject = "Biology";
     const category = "Plants";
     const part = 1;
     const outOf = 3;
-    
+
+    const startWords = "Press Go to begin";
+    const endWords = "― H. Jackson Brown Jr., P.S. I Love You";
+
+
     
     const words = text.split(" ");
 
-    const [inputValue, setInputValue] = useState(""); // Track input field value
+    const [inputValue, setInputValue] = useState(238); // Track WPM value
     const [currentWordIndex, setCurrentWordIndex] = useState(0); // Index of the current word
     const [started, setStarted] = useState(false);
     const [finished, setFinished] = useState(false);
@@ -27,12 +35,12 @@ const Exercise = () => {
     useEffect(() => {
         if (!started) return;
 
-        const wpm = parseInt(inputValue) || 0; // Get WPM value
-        const intervalTime = wpm > 0 ? 60000 / wpm : 60000 / avgReadingSpeed; // Convert WPM to milliseconds, default 238 WPM (average)
+        const wpm = parseInt(inputValue) || avgReadingSpeed; // Get WPM value
+        const intervalTime = 60000 / wpm; // Convert WPM to milliseconds, default 238 WPM (average)
 
         const interval = setInterval(() => {
             setCurrentWordIndex((prevIndex) => {
-                if (prevIndex < words.length - 1) {
+                if (prevIndex < words.length ) {
                     return prevIndex + 1;
                 } else {
                     setFinished(true);
@@ -48,19 +56,19 @@ const Exercise = () => {
     return (
         
         <div className='mainContainer'>
-            <Row style={{ marginTop: '10px', marginBottom:'10px', color:'grey'}}>
+            <Row style={{ marginTop: '10px', 
+                          marginBottom:'10px', 
+                          color:'grey'}}>
+
                 <Col><h3>{subject}</h3></Col>
                 <Col style={{ textAlign: 'center' , color:'#cccccc'}}><h3>{category}</h3></Col>
-                <Col style={{ marginRight: '10px' }} >
-                <h3 style={{textAlign: 'right'}}>{part}/{outOf}</h3>
-                </Col>
-                
+                <Col><h3 style={{textAlign: 'right'}}>{part}/{outOf}</h3></Col>
             </Row>
 
             <div className='exerciseWindow'>
                 <p className="singleWord">
-                    {started ? words[currentWordIndex] : "Press Go to begin"}
-                    {finished ? "― H. Jackson Brown Jr., P.S. I Love You" : ""}
+                    {started ? words[currentWordIndex] : startWords}
+                    {finished ? endWords : ""}
                 </p>
             </div>
 
@@ -73,12 +81,22 @@ const Exercise = () => {
                         onClick={() => setStarted(true)} 
                         disabled={started}
                     >
-                        Go
+                        Start<VscDebugStart style={{ marginTop: '-3px' }}/> 
                     </Button>
                 </Col>
                 
                 <Col>
-                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px'}}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px' }}>
+                        <Slider
+                          aria-label="WPM Slider"
+                          value={inputValue} // Binds the slider value to inputValue
+                          onChange={(e, newValue) => setInputValue(newValue)} // Updates WPM when slider changes
+                          getAriaValueText={valuetext}
+                          color="secondary"
+                          min={50}
+                          max={1000}
+                          style={{ marginRight: '20px' }}
+                        />
                         <input 
                             type="number" 
                             value={inputValue} 
@@ -86,13 +104,12 @@ const Exercise = () => {
                             placeholder={avgReadingSpeed}
                             className="form-control"
                             disabled={started}
+                            style={{ marginLeft: '5px', width: "100px" }}
                         /> 
-                        <Col> WPM</Col>
-                       
+                        <span style={{ marginLeft: '10px'}}>WPM</span>
                     </div>
                 </Col>
-                
-                <Col style={{ marginRight: '10px' }}>
+                <Col>
                     <Button 
                         className='subjectButtons' 
                         size="lg" 
@@ -100,7 +117,7 @@ const Exercise = () => {
                         onClick={() => setStarted(true)} 
                         disabled={!finished}
                     >
-                        Go to question
+                       <FaQuestion style={{ marginTop: '-3px' }}/> Go to question
                     </Button>
                 </Col>
             </Row>
