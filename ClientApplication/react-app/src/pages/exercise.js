@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/exerciseStyle.css"; 
 import { Row, Col, Button } from 'react-bootstrap';
-
 import Slider from '@mui/material/Slider';
 import { VscDebugStart } from "react-icons/vsc";
 import { FaQuestion } from "react-icons/fa6";
+import Divider from '@mui/material/Divider';
 
 const Exercise = () => {
-    const valuetext = (value) => {
-        return `${value}`;
-      };
+    const valuetext = (value) => `${value}`;
 
     const text = "Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails. Explore. Dream. Discover.";
     const subject = "Biology";
@@ -20,27 +18,37 @@ const Exercise = () => {
     const startWords = "Press Go to begin";
     const endWords = "― H. Jackson Brown Jr., P.S. I Love You";
 
-
-    
     const words = text.split(" ");
-
     const [inputValue, setInputValue] = useState(238); // Track WPM value
     const [currentWordIndex, setCurrentWordIndex] = useState(0); // Index of the current word
     const [started, setStarted] = useState(false);
     const [finished, setFinished] = useState(false);
+    const [showQuestion, setShowQuestion] = useState(false);
+    const [questionButtonClicked, setQuestionButtonClicked] = useState(false); // New state variable
 
     const avgReadingSpeed = 238;
+    const worldRecordWPM = 25000;
+
+    // Convert linear value to logarithmic and round
+    const linearToLog = (value) => {
+        return Math.round(Math.pow(10, value / 100));
+    };
+
+    // Convert logarithmic value to linear and round
+    const logToLinear = (value) => {
+        return Math.round(Math.log10(value) * 100);
+    };
 
     // The flashing words loop
     useEffect(() => {
         if (!started) return;
 
-        const wpm = parseInt(inputValue) || avgReadingSpeed; // Get WPM value
+        const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM); // Get WPM value, check if it doesn't exceed max
         const intervalTime = 60000 / wpm; // Convert WPM to milliseconds, default 238 WPM (average)
 
         const interval = setInterval(() => {
             setCurrentWordIndex((prevIndex) => {
-                if (prevIndex < words.length ) {
+                if (prevIndex < words.length) {
                     return prevIndex + 1;
                 } else {
                     setFinished(true);
@@ -53,13 +61,36 @@ const Exercise = () => {
         return () => clearInterval(interval); // Prevent memory leaks
     }, [started, inputValue, words.length]);
 
-    return (
-        
-        <div className='mainContainer'>
-            <Row style={{ marginTop: '10px', 
-                          marginBottom:'10px', 
-                          color:'grey'}}>
+    // Function to handle displaying the question
+    const handleShowQuestion = () => {
+        setShowQuestion(true);
+        setQuestionButtonClicked(true); // Disable the button when clicked
+    };
 
+    // Question component with multiple-choice answers
+    const QuestionComponent = () => (
+        <div className="questionContainer" style={{ marginTop: "32px" }}>
+            <Divider variant="middle" style={{ margin: '20px 0', backgroundColor: '#ccc', height: '2px' }} />
+            <h4>What part of a plant is responsible for photosynthesis?</h4>
+            <ul style={{ listStyleType: 'none', paddingLeft: 0 , marginLeft:"15px"}}>
+                <li><input type="radio" name="answer" value="roots" /> Roots</li>
+                <li><input type="radio" name="answer" value="leaves" /> Leaves</li>
+                <li><input type="radio" name="answer" value="stem" /> Stem</li>
+                <li><input type="radio" name="answer" value="flowers" /> Flowers</li>
+            </ul>
+            <Button
+                className='subjectButtons'
+                size="lg"
+                style={{ backgroundColor: '#2eb8b8', borderColor: '#248f8f' }}
+            >
+                Submit Answer
+            </Button>
+        </div>
+    );
+
+    return (
+        <div className='mainContainer'>
+            <Row style={{ marginTop: '10px', marginBottom:'10px', color:'grey'}}>
                 <Col><h3>{subject}</h3></Col>
                 <Col style={{ textAlign: 'center' , color:'#cccccc'}}><h3>{category}</h3></Col>
                 <Col><h3 style={{textAlign: 'right'}}>{part}/{outOf}</h3></Col>
@@ -89,18 +120,21 @@ const Exercise = () => {
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px' }}>
                         <Slider
                           aria-label="WPM Slider"
-                          value={inputValue} // Binds the slider value to inputValue
-                          onChange={(e, newValue) => setInputValue(newValue)} // Updates WPM when slider changes
+                          value={logToLinear(inputValue)} // Bind the logarithmic value
+                          onChange={(e, newValue) => setInputValue(Math.min(linearToLog(newValue), worldRecordWPM))} // Update WPM using the logarithmic value, capped at worldRecordWPM
                           getAriaValueText={valuetext}
                           color="secondary"
-                          min={50}
-                          max={1000}
+                          min={logToLinear(50)} // Minimum WPM in log scale
+                          max={logToLinear(worldRecordWPM)} // Maximum WPM in log scale
                           style={{ marginRight: '20px' }}
                         />
                         <input 
                             type="number" 
                             value={inputValue} 
-                            onChange={(e) => setInputValue(e.target.value)} 
+                            onChange={(e) => {
+                                const newValue = Math.min(Math.max(Math.round(e.target.value), 50), worldRecordWPM); // Cap input value between 50 and worldRecordWPM
+                                setInputValue(newValue);
+                            }}
                             placeholder={avgReadingSpeed}
                             className="form-control"
                             disabled={started}
@@ -114,13 +148,16 @@ const Exercise = () => {
                         className='subjectButtons' 
                         size="lg" 
                         style={{ backgroundColor: '#e67300', borderColor: '#994d00' }} 
-                        onClick={() => setStarted(true)} 
-                        disabled={!finished}
+                        onClick={handleShowQuestion} // When this button is clicked, shows the question
+                        disabled={!finished || questionButtonClicked} // Disable button if clicked or if not finished
                     >
                        <FaQuestion style={{ marginTop: '-3px' }}/> Go to question
                     </Button>
                 </Col>
             </Row>
+            
+            {/* Conditionally render the question component */}
+            {showQuestion && <QuestionComponent />}
         </div>
     );
 }
