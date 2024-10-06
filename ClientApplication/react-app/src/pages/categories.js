@@ -17,10 +17,8 @@ const Categories = () => {
                      <h2>Subjects</h2>
                  </Col>
              </Row>
-             <Divider style={{ backgroundColor: '#737373', borderBottomWidth: 3}}></Divider>
-             
-             <Divider variant="middle"/>
- 
+             <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 4}}></Divider>
+              
              <Row className='row' style={{marginTop: '25px'}}>
                  <Col xs={12} md={2}>
                   <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#739900', borderColor: '#608000'}} onClick={() => {}}><GiMicroscope />  Biology</Button>

@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import Slider from '@mui/material/Slider';
 import { VscDebugStart } from "react-icons/vsc";
 import { FaQuestion } from "react-icons/fa6";
-import Divider from '@mui/material/Divider';
+import QuestionComponent from '../components/Exercise/QuestionComponent.js'; // Adjust the path as necessary
 
 const Exercise = () => {
     const valuetext = (value) => `${value}`;
@@ -67,98 +67,89 @@ const Exercise = () => {
         setQuestionButtonClicked(true); // Disable the button when clicked
     };
 
-    // Question component with multiple-choice answers
-    const QuestionComponent = () => (
-        <div className="questionContainer" style={{ marginTop: "32px" }}>
-            <Divider variant="middle" style={{ margin: '20px 0', backgroundColor: '#ccc', height: '2px' }} />
-            <h4>What part of a plant is responsible for photosynthesis?</h4>
-            <ul style={{ listStyleType: 'none', paddingLeft: 0 , marginLeft:"15px"}}>
-                <li><input type="radio" name="answer" value="roots" /> Roots</li>
-                <li><input type="radio" name="answer" value="leaves" /> Leaves</li>
-                <li><input type="radio" name="answer" value="stem" /> Stem</li>
-                <li><input type="radio" name="answer" value="flowers" /> Flowers</li>
-            </ul>
-            <Button
-                className='subjectButtons'
-                size="lg"
-                style={{ backgroundColor: '#2eb8b8', borderColor: '#248f8f' }}
-            >
-                Submit Answer
-            </Button>
-        </div>
-    );
+    // Function to handle question submission
+    const handleQuestionSubmit = () => {
+        // Add your logic for handling the question submission here
+        console.log("Question submitted");
+    };
 
     return (
-        <div className='mainContainer'>
-            <Row style={{ marginTop: '10px', marginBottom:'10px', color:'grey'}}>
-                <Col><h3>{subject}</h3></Col>
-                <Col style={{ textAlign: 'center' , color:'#cccccc'}}><h3>{category}</h3></Col>
-                <Col><h3 style={{textAlign: 'right'}}>{part}/{outOf}</h3></Col>
-            </Row>
+        <>
+            <div className='mainContainer'>
+                <Row style={{ marginTop: '10px', marginBottom: '10px', color: 'grey' }}>
+                    <Col><h3>{subject}</h3></Col>
+                    <Col style={{ textAlign: 'center', color: '#cccccc' }}><h3>{category}</h3></Col>
+                    <Col><h3 style={{ textAlign: 'right' }}>{part}/{outOf}</h3></Col>
+                </Row>
 
-            <div className='exerciseWindow'>
-                <p className="singleWord">
-                    {started ? words[currentWordIndex] : startWords}
-                    {finished ? endWords : ""}
-                </p>
+                <div className='exerciseWindow'>
+                    <p className="singleWord">
+                        {started ? words[currentWordIndex] : startWords}
+                        {finished ? endWords : ""}
+                    </p>
+                </div>
+
+                <Row style={{ marginTop: '25px' }}>
+                    <Col xs={12} md={2}>
+                        <Button
+                            className='subjectButtons'
+                            size="lg"
+                            style={{ backgroundColor: '#739900', borderColor: '#608000' }}
+                            onClick={() => setStarted(true)}
+                            disabled={started}
+                        >
+                            Start<VscDebugStart style={{ marginTop: '-3px' }} />
+                        </Button>
+                    </Col>
+
+                    <Col>
+                        <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px' }}>
+                            <Slider
+                                aria-label="WPM Slider"
+                                value={logToLinear(inputValue)} // Bind the logarithmic value
+                                onChange={(e, newValue) => setInputValue(Math.min(linearToLog(newValue), worldRecordWPM))} // Update WPM using the logarithmic value, capped at worldRecordWPM
+                                getAriaValueText={valuetext}
+                                color="secondary"
+                                min={logToLinear(50)} // Minimum WPM in log scale
+                                max={logToLinear(worldRecordWPM)} // Maximum WPM in log scale
+                                style={{ marginRight: '20px' }}
+                            />
+                            <input
+                                type="number"
+                                value={inputValue}
+                                onChange={(e) => {
+                                    const newValue = Math.min(Math.max(Math.round(e.target.value), 50), worldRecordWPM); // Cap input value between 50 and worldRecordWPM
+                                    setInputValue(newValue);
+                                }}
+                                placeholder={avgReadingSpeed}
+                                className="form-control"
+                                disabled={started}
+                                style={{ marginLeft: '5px', width: "100px" }}
+                            />
+                            <span style={{ marginLeft: '10px' }}>WPM</span>
+                        </div>
+                    </Col>
+                    <Col>
+                        <Button
+                            className='subjectButtons'
+                            size="lg"
+                            style={{ backgroundColor: '#e67300', borderColor: '#994d00' }}
+                            onClick={handleShowQuestion} // When this button is clicked, shows the question
+                            disabled={!finished || questionButtonClicked} // Disable button if clicked or if not finished
+                        >
+                            <FaQuestion style={{ marginTop: '-3px' }} /> Go to question
+                        </Button>
+                    </Col>
+                </Row>
             </div>
 
-            <Row style={{ marginTop: '25px' }}>
-                <Col xs={12} md={2}>
-                    <Button 
-                        className='subjectButtons' 
-                        size="lg" 
-                        style={{ backgroundColor: '#739900', borderColor: '#608000' }} 
-                        onClick={() => setStarted(true)} 
-                        disabled={started}
-                    >
-                        Start<VscDebugStart style={{ marginTop: '-3px' }}/> 
-                    </Button>
-                </Col>
-                
-                <Col>
-                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px' }}>
-                        <Slider
-                          aria-label="WPM Slider"
-                          value={logToLinear(inputValue)} // Bind the logarithmic value
-                          onChange={(e, newValue) => setInputValue(Math.min(linearToLog(newValue), worldRecordWPM))} // Update WPM using the logarithmic value, capped at worldRecordWPM
-                          getAriaValueText={valuetext}
-                          color="secondary"
-                          min={logToLinear(50)} // Minimum WPM in log scale
-                          max={logToLinear(worldRecordWPM)} // Maximum WPM in log scale
-                          style={{ marginRight: '20px' }}
-                        />
-                        <input 
-                            type="number" 
-                            value={inputValue} 
-                            onChange={(e) => {
-                                const newValue = Math.min(Math.max(Math.round(e.target.value), 50), worldRecordWPM); // Cap input value between 50 and worldRecordWPM
-                                setInputValue(newValue);
-                            }}
-                            placeholder={avgReadingSpeed}
-                            className="form-control"
-                            disabled={started}
-                            style={{ marginLeft: '5px', width: "100px" }}
-                        /> 
-                        <span style={{ marginLeft: '10px'}}>WPM</span>
-                    </div>
-                </Col>
-                <Col>
-                    <Button 
-                        className='subjectButtons' 
-                        size="lg" 
-                        style={{ backgroundColor: '#e67300', borderColor: '#994d00' }} 
-                        onClick={handleShowQuestion} // When this button is clicked, shows the question
-                        disabled={!finished || questionButtonClicked} // Disable button if clicked or if not finished
-                    >
-                       <FaQuestion style={{ marginTop: '-3px' }}/> Go to question
-                    </Button>
-                </Col>
-            </Row>
-            
-            {/* Conditionally render the question component */}
-            {showQuestion && <QuestionComponent />}
-        </div>
+            {/* Conditionally render the question component in its own container below the main container */}
+            {showQuestion && (
+                <div className='mainContainer'>
+                    <QuestionComponent onSubmit={handleQuestionSubmit} />
+                </div>
+            )}
+        </>
     );
 }
 
