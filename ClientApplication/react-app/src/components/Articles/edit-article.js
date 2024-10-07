@@ -4,12 +4,14 @@ import AsyncSelect from 'react-select'
 
 
 import NoImage from '../../no-image.png'
-import ArticleService from '../.services/Articles/article-service';
+import ArticleService from '../../.services/Articles/article-service';
+import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 
 const EditArticle = () => {
     const [article, setArticle] = useState({});
     const [paragraphs, setParagraphs] = useState(null);
     const [validated, setValidated] = useState(false);
+    const [update, setUpdate] = useState(false);
 
     /**
      * Handle file upload
@@ -31,9 +33,9 @@ const EditArticle = () => {
             }
         }).then(res => {
             var newArticle = article;
-                newArticle.coverImage = res.profileImage;
+            newArticle.coverImage = res.profileImage;
 
-                setArticle(oldData => { return { ...oldData, ...newArticle }; });
+            setArticle(oldData => { return { ...oldData, ...newArticle }; });
         }).catch(err => alert("Error in file upload"));
     }
 
@@ -46,24 +48,25 @@ const EditArticle = () => {
             return;  // stop execution if the form is not valid
         }
 
-        let articleToPost = article;
-        // Ensure that paragraphIds is an array before mapping
-        if (articleToPost.paragraphIds && Array.isArray(articleToPost.paragraphIds)) {
-            articleToPost.paragraphIds = articleToPost.paragraphIds.map(x => x.id);
-        } else {
-            articleToPost.paragraphIds = [];  // Set to an empty array if undefined
-        }
-
         let data = "";
-        if (article && article.id > 0) {
-            data = await ArticleService.putArticle(articleToPost);
+        if (update) {
+            data = await ArticleService.putArticle(article);
+            if (data && data.article) {
+                alert('Updated article successfully.');
+            }
         } else {
-            data = await ArticleService.postArticle(articleToPost);
+            data = await ArticleService.postArticle(article);
+            if (data && data.article) {
+                setUpdate(true);
+
+                alert('Created article successfully.');
+            }
         }
 
         if (data && data.article) {
             setArticle(data.article);
-            alert(article && article.id > 0 ? 'Updated article successfully.' : 'Created article successfully.');
+        } else if (data && data.error) {
+            alert(data.error.message);
         } else {
             alert("Error getting data");
         }
@@ -86,7 +89,16 @@ const EditArticle = () => {
                 </Form.Group>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article Title</Form.Label>
-                    <Form.Control name="title" value={article && article.title || ''} required type="text" autoComplete='off' placeholder="Enter Article Title" onChange={handleFieldChange} />
+                    <Form.Control
+                        name="title"
+                        value={article && article.title || ''}
+                        required type="text" autoComplete='off'
+                        placeholder="Enter Article Title"
+                        onChange={handleFieldChange}
+                        minLength={ValidationConstants.MinTitleLength}
+                        maxLength={ValidationConstants.MaxTitleLength}
+                        pattern={ValidationPatternConstants.TitlePattern}
+                    />
                     <Form.Control.Feedback type="invalid">
                         Please enter article title.
                     </Form.Control.Feedback>
@@ -94,13 +106,19 @@ const EditArticle = () => {
 
                 <Form.Group controlId="formtestCategory">
                     <Form.Label>Article Category</Form.Label>
-                    <Form.Control name="categoryTitle" value={article && article.categoryTitle || ''} required type="text" placeholder="Enter Article Category" onChange={handleFieldChange} />
+                    <Form.Control 
+                        name="categoryTitle" 
+                        value={article && article.categoryTitle || ''} 
+                        required type="text" placeholder="Enter Article Category" 
+                        onChange={handleFieldChange} 
+                        pattern={ValidationPatternConstants.ArticleCategoryPattern}
+                    />
                     <Form.Control.Feedback type="invalid">
                         Please enter article category.
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button type="submit">{article && article.id > 0 ? "Update" : "Create"}</Button>
+                <Button type="submit">{update ? "Update" : "Create"}</Button>
             </Form>
         </>
     )

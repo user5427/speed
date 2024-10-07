@@ -1,8 +1,8 @@
 import { React, useState } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
 
-import ArticleService from '../.services/Articles/article-service';
-import ParagraphService from '../.services/Paragraphs/paragraph-service';
+import { ArticleService, ParagraphService } from '../../.services/MainServices';
+import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 
 const EditParagraph = () => {
     const [paragraph, setParagraph] = useState({});
@@ -26,37 +26,29 @@ const EditParagraph = () => {
             return;
         }
 
-        let paragraphToPost = paragraph;
-        if (paragraphToPost.questionIds && Array.isArray(paragraphToPost.questionIds)) {
-            paragraphToPost.questionIds = paragraphToPost.questionIds.map(x => x.id);
-        } else {
-            paragraphToPost.questionIds = [];
-        }
-
         if (paragraph && paragraph.articleId) {
 
             const exist = await ArticleService.checkIfArticleIdExists(paragraph.articleId);
             if (exist === true) {
                 let data = "";
                 if (update) {
-                    data = await ParagraphService.putParagraph(paragraphToPost);
+                    data = await ParagraphService.putParagraph(paragraph);
                     if (data && data.paragraph) {
                         alert('Updated paragraph successfully.');
                     }
                 } else {
-                    data = await ParagraphService.postParagraph(paragraphToPost);
-                    setUpdate(true);
-
+                    data = await ParagraphService.postParagraph(paragraph);
                     if (data && data.paragraph) {
+                        setUpdate(true);
+
                         alert('Created paragraph successfully.');
                     }
-
                 }
-
-                console.log(data);
 
                 if (data && data.paragraph) {
                     setParagraph(data.paragraph);
+                } else if (data && data.error) {
+                    alert(data.error.message);
                 } else {
                     alert("Error getting data");
                 }
@@ -85,23 +77,54 @@ const EditParagraph = () => {
             <Form NoValidate validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article ID</Form.Label>
-                    <Form.Control name="articleId" value={paragraph && paragraph.articleId || ''} required type="text" autoComplete='off' placeholder="Enter article ID" onChange={handleFieldChange} />
+                    <Form.Control
+                        name="articleId"
+                        value={paragraph && paragraph.articleId || ''}
+                        required type="text"
+                        autoComplete='off'
+                        placeholder="Enter article ID"
+                        onChange={handleFieldChange}
+                        pattern={ValidationPatternConstants.IdPattern}
+                    />
                     <Form.Control.Feedback type="invalid">
                         Please enter article ID.
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group controlId="formtestTitle">
+                <Form.Group controlId="formtestText">
                     <Form.Label>Paragraph Text</Form.Label>
-                    <Form.Control name="text" value={paragraph && paragraph.text || ''} required type="text" autoComplete='off' placeholder="Enter Paragraph Text" onChange={handleFieldChange} />
+                    <Form.Control
+                        name="text"
+                        value={paragraph && paragraph.text || ''}
+                        required
+                        type="text"
+                        autoComplete='off'
+                        placeholder="Enter Paragraph Text"
+                        onChange={handleFieldChange}
+                        minLength={ValidationConstants.MinParagraphLength}
+                        maxLength={ValidationConstants.MaxParagraphLength}
+                        pattern={ValidationPatternConstants.ParagraphPattern}
+                    />
                     <Form.Control.Feedback type="invalid">
-                        Please enter paragraph title.
+                        Please enter paragraph text between 10 and 1500 characters.
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group controlId="formtestCategory">
-                    <Form.Label>Next Paragraph ID</Form.Label>
-                    <Form.Control name="nextParagraphId" value={paragraph && paragraph.nextParagraphId || ''} type="text" placeholder="Enter Next Paragraph ID" onChange={handleFieldChange} />
+                <Form.Group controlId="formtestTitle">
+                    <Form.Label>Paragraph Title</Form.Label>
+                    <Form.Control
+                        name="title"
+                        value={paragraph && paragraph.title || ''}
+                        autoComplete='off'
+                        placeholder="Enter Paragraph Title (optional)"
+                        onChange={handleFieldChange}
+                        minLength={ValidationConstants.MinTitleLength}
+                        maxLength={ValidationConstants.MaxTitleLength}
+                        pattern={ValidationPatternConstants.TitlePattern}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a valid paragraph title (letters and spaces only).
+                    </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button type="submit">{update ? "Update" : "Create"}</Button>

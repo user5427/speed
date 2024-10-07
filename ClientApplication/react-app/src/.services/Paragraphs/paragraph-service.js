@@ -1,6 +1,8 @@
 // 
+import ErrorHandler from "../defaultErrorMessage";
 
 const ParagraphService = {
+
     postParagraph: function (paragraph) {
         const requestOptions = {
             method: "POST",
@@ -25,7 +27,9 @@ const ParagraphService = {
                     paragraph: res
                 }
             })
-            .catch(err => alert("Error saving data: " + err.message));
+            .catch(err => {
+                return ErrorHandler.sendError(res);
+            });
     },
 
     putParagraph: function (paragraph) {
@@ -52,7 +56,9 @@ const ParagraphService = {
                     paragraph: res
                 }
             })
-            .catch(err => alert("Error saving data: " + err.message));
+            .catch(err => {
+                return ErrorHandler.sendError(res);
+            });
     }
 
 }

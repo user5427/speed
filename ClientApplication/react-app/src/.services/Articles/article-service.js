@@ -2,7 +2,8 @@
 
 const ArticleService = {
     getArticles: function(page) {
-        return fetch(process.env.REACT_APP_API_URL + "Articles?PageNumber=" + page + "&PageSize=" + process.env.REACT_APP_PAGING_SIZE)
+        const apiUrl = process.env.REACT_APP_API_URL + `Articles?PageNumber=${page}&PageSize=${process.env.REACT_APP_PAGING_SIZE}`;
+        return fetch(apiUrl)
             .then(res => {
                 if (res.ok) {
                     return res.json();
@@ -17,7 +18,9 @@ const ArticleService = {
                     }
                 }
                 return [];
-            }).catch(err => alert("Error getting data"));
+            }).catch(err => {
+                return ErrorHandler.sendError(res);
+            });
     },
     
     postArticle: function(article) {
@@ -43,7 +46,9 @@ const ArticleService = {
                 return {
                     article: res
                 }
-            }).catch(err => alert("Error saving data"));
+            }).catch(err => {
+                return ErrorHandler.sendError(res);
+            });
     },
 
     putArticle: function(article) {
@@ -69,17 +74,22 @@ const ArticleService = {
                 return {
                     article: res
                 }
-            }).catch(err => alert("Error saving data"));
+            }).catch(err => {
+                return ErrorHandler.sendError(res);
+            });
     },
 
     checkIfArticleIdExists: function(articleId) {
-        return fetch(process.env.REACT_APP_API_URL + `Articles/${articleId}`)
+        apiUrl = process.env.REACT_APP_API_URL + `Articles/${articleId}`;
+        return fetch(apiUrl)
             .then(res => {
                 if (res.ok) {
                     return true;
                 }
                 return false;
-            }).catch(err => alert("Error getting data"));
+            }).catch(err => {
+                return ErrorHandler.sendError(res);
+            });
     }
 
 }
