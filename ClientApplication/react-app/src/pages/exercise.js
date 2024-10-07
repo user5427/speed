@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import Slider from '@mui/material/Slider';
 import { VscDebugStart } from "react-icons/vsc";
 import { FaQuestion } from "react-icons/fa6";
-import QuestionComponent from '../components/Exercise/QuestionComponent.js'; // Adjust the path as necessary
+import QuestionComponent from '../components/Exercise/QuestionComponent.js';
 
 const Exercise = () => {
     const valuetext = (value) => `${value}`;
@@ -25,9 +25,12 @@ const Exercise = () => {
     const [finished, setFinished] = useState(false);
     const [showQuestion, setShowQuestion] = useState(false);
     const [questionButtonClicked, setQuestionButtonClicked] = useState(false); // New state variable
+    const [feedbackMessage, setFeedbackMessage] = useState(''); // New state variable to show feedback after submission
 
     const avgReadingSpeed = 238;
     const worldRecordWPM = 25000;
+    const correctAnswer = "leaves";
+    //TODO MAKE NOT HARD CODED
 
     // Convert linear value to logarithmic and round
     const linearToLog = (value) => {
@@ -68,9 +71,12 @@ const Exercise = () => {
     };
 
     // Function to handle question submission
-    const handleQuestionSubmit = () => {
-        // Add your logic for handling the question submission here
-        console.log("Question submitted");
+    const handleQuestionSubmit = (selectedAnswer) => {
+        if (selectedAnswer === correctAnswer) {
+            setFeedbackMessage("Correct!");
+        } else {
+            setFeedbackMessage("Incorrect! The correct answer is 'Leaves'.");
+        }
     };
 
     return (
@@ -89,7 +95,7 @@ const Exercise = () => {
                     </p>
                 </div>
 
-                <Row style={{ marginTop: '25px' }}>
+                <Row style={{ marginTop: '25px', marginBottom:'10px' }}>
                     <Col xs={12} md={2}>
                         <Button
                             className='subjectButtons'
@@ -135,22 +141,37 @@ const Exercise = () => {
                             size="lg"
                             style={{ backgroundColor: '#e67300', borderColor: '#994d00' }}
                             onClick={handleShowQuestion} // When this button is clicked, shows the question
-                            disabled={!finished || questionButtonClicked} // Disable button if clicked or if not finished
+                            disabled={!finished || questionButtonClicked}
                         >
                             <FaQuestion style={{ marginTop: '-3px' }} /> Go to question
                         </Button>
                     </Col>
                 </Row>
+
+
             </div>
 
-            {/* Conditionally render the question component in its own container below the main container */}
             {showQuestion && (
                 <div className='mainContainer'>
                     <QuestionComponent onSubmit={handleQuestionSubmit} />
                 </div>
             )}
+
+            {feedbackMessage && (
+                    <div className='mainContainer' style={{color: feedbackMessage.includes("Correct") ? '#a6ff4d' : '#ff6666' }}>
+                        <Row>
+                            <Col><h4>{feedbackMessage}</h4></Col>
+                            <Button
+                                className='subjectButtons'
+                                size="lg"
+                                style={{ marginRight: '12px', backgroundColor: '#cc0066', borderColor: '#99004d', width:'200px'}}
+                                >Continue 
+                            </Button>
+                        </Row>
+                    </div>
+            )}
         </>
     );
-}
+};
 
 export default Exercise;
