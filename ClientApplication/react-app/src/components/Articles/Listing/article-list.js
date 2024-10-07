@@ -4,8 +4,9 @@ import ReactPaginate from 'react-paginate';
 
 import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons form react-icons
 import { IconContext } from "react-icons";
-import "../../styles/stylesPaginator.css"; // stylesheet
-import ArticleService from '../../.services/Articles/article-service';
+import "../../../styles/stylesPaginator.css"; // stylesheet
+import ArticleService from '../../../.services/Articles/article-service';
+import { ErrorHandler } from '../../../.helpers/MainHelpers';
 
 const ArticleList = ({ settings }) => {
     const [articles, setArticles] = useState(null)
@@ -19,13 +20,16 @@ const ArticleList = ({ settings }) => {
 
     const getArticles = async () => {
         const data = await ArticleService.getArticles(page + 1);
-
-        if (data) {
+        if (ErrorHandler.isOK(data)) {
             setArticles(data.articles)
             setArticleCount(data.count)
             setPageSize(() => {
                 return Math.ceil(data.count / process.env.REACT_APP_PAGING_SIZE)
             })
+        } else if (ErrorHandler.isError(data)) {
+            alert(ErrorHandler.getErrorMessage(data));
+        } else {
+            alert("Error getting data");
         }
     }
 

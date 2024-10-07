@@ -3,7 +3,7 @@ import '../../styles/Articles/createArticleStyle.css';
 import { Row, Col } from 'react-bootstrap';
 
 import ReturnToArticlesButton from '../../components/Articles/return-to-articles-button';
-import EditParagraph from '../../components/Paragraphs/edit-paragraph';
+import EditParagraph from '../../components/Paragraphs/create-edit-paragraph';
 
 const CreateParagraph = () => {
 

@@ -3,6 +3,7 @@ import { Button, Form, Image } from 'react-bootstrap';
 
 import { ArticleService, ParagraphService } from '../../.services/MainServices';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
+import { ErrorHandler } from '../../.helpers/MainHelpers';
 
 const EditParagraph = () => {
     const [paragraph, setParagraph] = useState({});
@@ -33,22 +34,22 @@ const EditParagraph = () => {
                 let data = "";
                 if (update) {
                     data = await ParagraphService.putParagraph(paragraph);
-                    if (data && data.paragraph) {
+                    if (ErrorHandler.isOK(data) === true) {
                         alert('Updated paragraph successfully.');
                     }
                 } else {
                     data = await ParagraphService.postParagraph(paragraph);
-                    if (data && data.paragraph) {
+                    if (ErrorHandler.isOK(data) === true) {
                         setUpdate(true);
 
                         alert('Created paragraph successfully.');
                     }
                 }
 
-                if (data && data.paragraph) {
-                    setParagraph(data.paragraph);
-                } else if (data && data.error) {
-                    alert(data.error.message);
+                if (ErrorHandler.isOK(data) === true) {
+                    setParagraph(data);
+                } else if (ErrorHandler.isError(data) === true) {
+                    alert(ErrorHandler.getErrorMessage(data));
                 } else {
                     alert("Error getting data");
                 }

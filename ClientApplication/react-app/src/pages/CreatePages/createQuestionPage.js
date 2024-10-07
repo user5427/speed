@@ -3,7 +3,7 @@ import '../../styles/Articles/createArticleStyle.css';
 import { Row, Col } from 'react-bootstrap';
 
 import ReturnToArticlesButton from '../../components/Articles/return-to-articles-button';
-import EditQuestions from '../../components/Questions/edit-questions';
+import EditQuestions from '../../components/Questions/create-edit-questions';
 
 const CreateQuestion = () => {
 

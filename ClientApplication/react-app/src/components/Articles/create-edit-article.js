@@ -6,6 +6,8 @@ import AsyncSelect from 'react-select'
 import NoImage from '../../no-image.png'
 import ArticleService from '../../.services/Articles/article-service';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
+import { ErrorHandler } from '../../.helpers/MainHelpers';
+
 
 const EditArticle = () => {
     const [article, setArticle] = useState({});
@@ -51,22 +53,22 @@ const EditArticle = () => {
         let data = "";
         if (update) {
             data = await ArticleService.putArticle(article);
-            if (data && data.article) {
+            if (ErrorHandler.isOK(data) === true) {
                 alert('Updated article successfully.');
             }
         } else {
             data = await ArticleService.postArticle(article);
-            if (data && data.article) {
+            if (ErrorHandler.isOK(data) === true) {
                 setUpdate(true);
 
                 alert('Created article successfully.');
             }
         }
 
-        if (data && data.article) {
+        if (ErrorHandler.isOK(data) === true) {
             setArticle(data.article);
-        } else if (data && data.error) {
-            alert(data.error.message);
+        } else if (ErrorHandler.isError(data) === true) {
+            alert(ErrorHandler.getMessage(data));
         } else {
             alert("Error getting data");
         }

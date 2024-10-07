@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 
 import { MdArticle } from "react-icons/md";
 import { BiSolidCategory } from "react-icons/bi";
-import "../../styles/landingStyle.css";
+import "../../styles/HomePage/homePage.css";
 import { FaBookReader } from "react-icons/fa";
 
 import FlashingText from '../../components/HomePage/FlashingText';

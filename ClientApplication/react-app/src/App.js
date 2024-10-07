@@ -3,7 +3,6 @@ import './App.css';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
-import Landing from './pages/HomePage/landing'
 import { CgProfile } from "react-icons/cg";
 
 //font:
@@ -11,6 +10,7 @@ import '@fontsource/fredoka';
 import '@fontsource/fredoka/300.css';
 import '@fontsource/fredoka/700.css';
 
+import Landing from './pages/HomePage/homePage'
 import Categories from './pages/categories'
 import ArticleHomePage from './pages/Articles/articleManagementPage';
 import Exercise from './pages/exercise';

@@ -1,26 +1,10 @@
 // 
+import { fetchEntity } from "../../.helpers/fetch-helper";
 
 const ArticleService = {
     getArticles: function(page) {
         const apiUrl = process.env.REACT_APP_API_URL + `Articles?PageNumber=${page}&PageSize=${process.env.REACT_APP_PAGING_SIZE}`;
-        return fetch(apiUrl)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                throw new Error('Network response was not ok.');
-            })
-            .then(res => {
-                if (res.count > 0) {
-                    return {
-                        count: res.count,
-                        articles: res.articles
-                    }
-                }
-                return [];
-            }).catch(err => {
-                return ErrorHandler.sendError(res);
-            });
+        return fetchEntity(apiUrl).then(res => {return res});
     },
     
     postArticle: function(article) {
@@ -34,21 +18,7 @@ const ArticleService = {
         };
 
         const apiUrl = process.env.REACT_APP_API_URL + `Articles`;
-
-        return fetch(apiUrl, requestOptions)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                throw new Error('Network response was not ok.');
-            })
-            .then(res => {
-                return {
-                    article: res
-                }
-            }).catch(err => {
-                return ErrorHandler.sendError(res);
-            });
+        return fetchEntity(apiUrl, requestOptions).then(res => {return res});
     },
 
     putArticle: function(article) {
@@ -62,34 +32,13 @@ const ArticleService = {
         };
 
         const apiUrl = process.env.REACT_APP_API_URL + `Articles/${article.id}`;
-
-        return fetch(apiUrl, requestOptions)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                throw new Error('Network response was not ok.');
-            })
-            .then(res => {
-                return {
-                    article: res
-                }
-            }).catch(err => {
-                return ErrorHandler.sendError(res);
-            });
+        return fetchEntity(apiUrl, requestOptions).then(res => {return res});
+       
     },
 
-    checkIfArticleIdExists: function(articleId) {
+    checkIfArticleIdExists: function(articleId) { // FIXME: This function is not working as expected
         apiUrl = process.env.REACT_APP_API_URL + `Articles/${articleId}`;
-        return fetch(apiUrl)
-            .then(res => {
-                if (res.ok) {
-                    return true;
-                }
-                return false;
-            }).catch(err => {
-                return ErrorHandler.sendError(res);
-            });
+        return fetchEntity(apiUrl).then(res => {return res});
     }
 
 }

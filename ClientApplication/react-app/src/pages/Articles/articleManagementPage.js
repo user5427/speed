@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import ArticleList from "../../components/Articles/article-list";
+import ArticleList from "../../components/Articles/Listing/article-list";
 import "../../styles/Articles/articleManagementPage.css";
 import { MdCreate } from "react-icons/md";
 import { Row, Col, Button } from 'react-bootstrap';

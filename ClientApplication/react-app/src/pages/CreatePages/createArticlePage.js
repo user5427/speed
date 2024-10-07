@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../styles/Articles/createArticleStyle.css';
-import EditArticle from '../../components/Articles/edit-article';
+import EditArticle from '../../components/Articles/create-edit-article';
 import { Row, Col } from 'react-bootstrap';
 
 import ReturnToArticlesButton from '../../components/Articles/return-to-articles-button';

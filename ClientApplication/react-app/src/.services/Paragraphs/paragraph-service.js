@@ -1,6 +1,5 @@
 // 
-import ErrorHandler from "../defaultErrorMessage";
-
+import { fetchEntity } from "../../.helpers/fetch-helper";
 const ParagraphService = {
 
     postParagraph: function (paragraph) {
@@ -15,21 +14,7 @@ const ParagraphService = {
 
         const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs`;
 
-        return fetch(apiUrl, requestOptions)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                throw new Error(`Failed to save paragraph. Status code: ${res.status}`);
-            }).
-            then(res => {
-                return {
-                    paragraph: res
-                }
-            })
-            .catch(err => {
-                return ErrorHandler.sendError(res);
-            });
+        return fetchEntity(apiUrl, requestOptions).then(res => {return res});
     },
 
     putParagraph: function (paragraph) {
@@ -44,21 +29,7 @@ const ParagraphService = {
 
         const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/${paragraph.id}`;
 
-        return fetch(apiUrl, requestOptions)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                throw new Error(`Failed to update paragraph. Status code: ${res.status}`);
-            }).
-            then(res => {
-                return {
-                    paragraph: res
-                }
-            })
-            .catch(err => {
-                return ErrorHandler.sendError(res);
-            });
+        return fetchEntity(apiUrl, requestOptions).then(res => {return res});
     }
 
 }

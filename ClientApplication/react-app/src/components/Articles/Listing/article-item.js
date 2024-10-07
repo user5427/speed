@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
-import "../../styles/Articles/articleItemStyle.css"; // stylesheet
+import "../../../styles/Articles/articleItemStyle.css"; // stylesheet
 import { MdModeEdit } from "react-icons/md";
 const ArticleItem = (props) => {
     const { settings } = props;
