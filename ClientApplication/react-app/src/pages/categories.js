@@ -19,14 +19,14 @@ const Categories = () => {
              </Row>
              <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 4}}></Divider>
               
-             <Row className='row' style={{marginTop: '25px'}}>
+             <Row className='rowCategories' style={{marginTop: '25px'}}>
                  <Col xs={12} md={2}>
                   <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#739900', borderColor: '#608000'}} onClick={() => {}}><GiMicroscope />  Biology</Button>
                  </Col>
                  <Col className='categories'>Plants, molecules, animals</Col>
              </Row >    
  
-             <Row className='row'>
+             <Row className='rowCategories'>
  
              <Col xs={12} md={2}>
                   <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#0044cc', borderColor: '#003399'}} onClick={() => {}}><GiFallingStar />  Astronomy</Button>
@@ -34,14 +34,14 @@ const Categories = () => {
                  <Col className='categories'>Milky Way Galaxy, Closest star systems, Black holes</Col>
              </Row>
  
-             <Row className='row'>
+             <Row className='rowCategories'>
                  <Col xs={12} md={2}>
                   <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#b38600', borderColor: '#806000'}} onClick={() => {}}><GiBlackKnightHelm /> History</Button>
                  </Col>
                  <Col className='categories'>Ancient Egypt, Middle Ages, WW I, WW II</Col>
              </Row>
  
-             <Row className='row'>
+             <Row className='rowCategories'>
                  <Col xs={12} md={2}>
                   <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#b30059', borderColor: '#800040'}} onClick={() => {}}><GiBookmark /> Literature</Button>
                   </Col>
