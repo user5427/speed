@@ -25,9 +25,11 @@ const Exercise = () => {
     const [finished, setFinished] = useState(false);
     const [showQuestion, setShowQuestion] = useState(false);
     const [questionButtonClicked, setQuestionButtonClicked] = useState(false); // New state variable
+    const [feedbackMessage, setFeedbackMessage] = useState(''); // New state variable to show feedback after submission
 
     const avgReadingSpeed = 238;
     const worldRecordWPM = 25000;
+    const correctAnswer = "leaves"; // Correct answer for the question
 
     // Convert linear value to logarithmic and round
     const linearToLog = (value) => {
@@ -68,9 +70,12 @@ const Exercise = () => {
     };
 
     // Function to handle question submission
-    const handleQuestionSubmit = () => {
-        // Add your logic for handling the question submission here
-        console.log("Question submitted");
+    const handleQuestionSubmit = (selectedAnswer) => {
+        if (selectedAnswer === correctAnswer) {
+            setFeedbackMessage("Correct!");
+        } else {
+            setFeedbackMessage("Incorrect! The correct answer is 'Leaves'.");
+        }
     };
 
     return (
@@ -141,6 +146,8 @@ const Exercise = () => {
                         </Button>
                     </Col>
                 </Row>
+
+
             </div>
 
             {/* Conditionally render the question component in its own container below the main container */}
@@ -149,8 +156,24 @@ const Exercise = () => {
                     <QuestionComponent onSubmit={handleQuestionSubmit} />
                 </div>
             )}
+
+            {/* Show feedback message */}
+            {feedbackMessage && (
+                    <div className='mainContainer' style={{color: feedbackMessage.includes("Correct") ? '#a6ff4d' : '#ff6666' }}>
+                        <Row>
+                            <Col><h4>{feedbackMessage}</h4></Col>
+                            <Button
+                                className='subjectButtons'
+                                size="lg"
+                                style={{ marginRight: '12px', backgroundColor: '#cc0066', borderColor: '#99004d', width:'200px'}}
+                                //onClick={() => console.log("Continue clicked")} // Replace with the actual continue functionality
+                                >Continue 
+                            </Button>
+                        </Row>
+                    </div>
+            )}
         </>
     );
-}
+};
 
 export default Exercise;
