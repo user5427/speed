@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Entities;
@@ -121,5 +122,21 @@ public class QuestionService : IQuestionService
         }else{
             throw new KeyNotFoundException($"Question with ID {id} not found.");
         }
+    }
+
+    public QuestionPageResponse SearchQuestions(string Search, QueryParameters queryParameters)
+    {
+        if (Search == null)
+        {
+            throw new ArgumentNullException("Search query parameter is required.");
+        }
+        long questionCount = _context.Question.Count();
+        List<Question> questions = _context.Question
+                                        .Where(a => a.Title.Contains(Search))
+                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
+                                        .Take(queryParameters.PageSize)
+                                        .ToList();
+        List<QuestionResponse> questionResponseList = _mapper.Map<List<QuestionResponse>>(questions);
+        return new QuestionPageResponse(questionCount, questionResponseList);
     }
 }

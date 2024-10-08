@@ -11,10 +11,11 @@ public class Question
 	[Key]
     public int Id { get; set; }
 
+    [Required(ErrorMessage = "Title is required.")]
 	[StringLength(ValidationConstants.MaxTitleLength,
 	MinimumLength = ValidationConstants.MinTitleLength,
 	ErrorMessage = "Title must be between {2} and {1} characters.")]
-	public string? Title { get; set; }
+	public required string Title { get; set; }
 
 	[ForeignKey(nameof(Paragraph))]
     public int ParagraphId { get; set; }

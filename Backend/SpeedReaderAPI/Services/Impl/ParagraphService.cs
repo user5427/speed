@@ -3,6 +3,7 @@ using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.DTOs;
 namespace SpeedReaderAPI.Services.Impl;
 
 
@@ -122,5 +123,21 @@ public class ParagraphService : IParagraphService
         }else{
             throw new KeyNotFoundException($"Question with ID {id} not found.");
         }
+    }
+
+    public ParagraphPageResponse SearchParagraphs(string Search, QueryParameters queryParameters)
+    {
+        if (Search == null)
+        {
+            throw new ArgumentNullException("Search query parameter is required.");
+        }
+        long paragraphCount = _context.Paragraph.Count();
+        List<Paragraph> paragraphs = _context.Paragraph
+                                        .Where(a => a.Title.Contains(Search))
+                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
+                                        .Take(queryParameters.PageSize)
+                                        .ToList();
+        List<ParagraphResponse> paragraphResponseList = _mapper.Map<List<ParagraphResponse>>(paragraphs);
+        return new ParagraphPageResponse(paragraphCount, paragraphResponseList);
     }
 }

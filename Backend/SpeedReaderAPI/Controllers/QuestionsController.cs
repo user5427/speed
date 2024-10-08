@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Services;
@@ -50,6 +51,29 @@ public class QuestionsController : ControllerBase
                    });
         }
     }
+
+    [HttpGet("search/{Search}")]
+    public IActionResult SearchQuestions(string Search, [FromQuery] QueryParameters queryParameters)
+    {
+        try
+        {
+            QuestionPageResponse questionPageResponse = _questionService.SearchQuestions(Search, queryParameters);
+            return Ok(questionPageResponse);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Something went wrong in QuestionsController while searching! {ExceptionMessage}.", ex.GetBaseException().Message);
+            return NotFound(new ProblemDetails
+                {
+                    Title = "No Questions Found",
+                    Detail = "No questions match the specified criteria.",
+                    Status = 404,
+                    Instance = HttpContext.Request.Path
+                }
+            );
+        }
+    }
+
     [HttpPost]
     public ActionResult<int> CreateQuestion(QuestionCreateRequest request)
     {
