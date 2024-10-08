@@ -35,12 +35,23 @@ export const fetchEntity = async (apiUrl, requestOptions) => {
 };
 
 export const generateRequestOptions = (method, body) => {
-    return {
-        method: method,
-        headers: {
-            'Accept': 'application/json',  // Correct header for receiving JSON response
-            'Content-Type': 'application/json',  // Correct header for sending JSON data
-        },
-        body: JSON.stringify(body)
-    };
+    if (body){
+        return {
+            method: method,
+            headers: {
+                'Accept': 'application/json',  // Correct header for receiving JSON response
+                'Content-Type': 'application/json',  // Correct header for sending JSON data
+            },
+            body: JSON.stringify(body)
+        };
+    } else {
+        return {
+            method: method,
+            headers: {
+                'Accept': 'application/json',  // Correct header for receiving JSON response
+                'Content-Type': 'application/json',  // Correct header for sending JSON data
+            }
+        };
+    }
+    
 }

@@ -23,6 +23,17 @@ const ArticleService = {
     getArticle: async function(articleId) {
         const apiUrl = process.env.REACT_APP_API_URL + `Articles/${articleId}`;
         return FetchHelper.fetchEntity(apiUrl).then(res => {return res});
+    },
+
+    getArticleByTitle: async function(title) {
+        const apiUrl = process.env.REACT_APP_API_URL + `Articles/search/${title}`;
+        return FetchHelper.fetchEntity(apiUrl).then(res => {return res});
+    },
+
+    deleteArticle: async function(articleId) {
+        const requestOptions = FetchHelper.generateRequestOptions("DELETE");
+        const apiUrl = process.env.REACT_APP_API_URL + `Articles/${articleId}`;
+        return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
     }
 
 }
