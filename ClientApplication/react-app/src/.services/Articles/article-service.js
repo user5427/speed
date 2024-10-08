@@ -1,5 +1,5 @@
 // 
-import { fetchEntity } from "../../.helpers/fetch-helper";
+import { fetchEntity, generateRequestOptions } from "../../.helpers/fetch-helper";
 
 const ArticleService = {
     getArticles: function(page) {
@@ -8,29 +8,13 @@ const ArticleService = {
     },
     
     postArticle: function(article) {
-        const requestOptions = {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',  // Correct header for receiving JSON response
-                'Content-Type': 'application/json',  // Correct header for sending JSON data
-            },
-            body: JSON.stringify(article)
-        };
-
+        const requestOptions = generateRequestOptions("POST", article);
         const apiUrl = process.env.REACT_APP_API_URL + `Articles`;
         return fetchEntity(apiUrl, requestOptions).then(res => {return res});
     },
 
     putArticle: function(article) {
-        const requestOptions = {
-            method: "PUT",
-            headers: {
-                'Accept': 'application/json',  // Correct header for receiving JSON response
-                'Content-Type': 'application/json',  // Correct header for sending JSON data
-            },
-            body: JSON.stringify(article)
-        };
-
+        const requestOptions = generateRequestOptions("PUT", article);
         const apiUrl = process.env.REACT_APP_API_URL + `Articles/${article.id}`;
         return fetchEntity(apiUrl, requestOptions).then(res => {return res});
        

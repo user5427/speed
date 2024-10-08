@@ -33,3 +33,14 @@ export const fetchEntity = async (apiUrl, requestOptions) => {
         return sendError(err);
     }
 };
+
+export const generateRequestOptions = (method, body) => {
+    return {
+        method: method,
+        headers: {
+            'Accept': 'application/json',  // Correct header for receiving JSON response
+            'Content-Type': 'application/json',  // Correct header for sending JSON data
+        },
+        body: JSON.stringify(body)
+    };
+}

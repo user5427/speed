@@ -1,4 +1,4 @@
-import { fetchEntity } from "./fetch-helper";
+import { fetchEntity, generateRequestOptions } from "./fetch-helper";
 import { sendError, sendOk, isOK, isError, getErrorMessage } from "./status-helper";
 
 const ErrorHandler = {
@@ -7,4 +7,4 @@ const ErrorHandler = {
     getErrorMessage
 }
 
-export { fetchEntity, sendError, sendOk, ErrorHandler };
+export { generateRequestOptions as requestOptions, fetchEntity, sendError, sendOk, ErrorHandler };
