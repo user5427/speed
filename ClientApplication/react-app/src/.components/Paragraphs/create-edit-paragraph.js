@@ -4,19 +4,16 @@ import { Button, Form, Image } from 'react-bootstrap';
 import { ArticleService, ParagraphService } from '../../.services/MainServices';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { StatusHelper } from '../../.helpers/MainHelpers';
+import ArticleSearch from '../Articles/article-search';
 
 const EditParagraph = () => {
-    const [paragraph, setParagraph] = useState({});
-    const [questionIds, setQuestions] = useState(null);
+    const [paragraph, setParagraph] = useState({
+        title: '',
+        text: '',
+        articleId: ''
+    });
     const [validated, setValidated] = useState(false);
     const [update, setUpdate] = useState(false);
-
-    const CheckIfArticleIdExists = async () => {
-        if (paragraph && paragraph.articleId) {
-            return ArticleService.getArticle(paragraph.articleId);
-        }
-        return false;
-    };
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -53,6 +50,8 @@ const EditParagraph = () => {
                 } else {
                     alert("Error getting data");
                 }
+            } else {
+                alert("Article ID does not exist.");
             }
         } else {
             alert("Please enter article ID.");
@@ -73,8 +72,14 @@ const EditParagraph = () => {
         setParagraph({ articleId: '', text: '', nextParagraphId: null });
     }
 
+    const updateArticleId = (articleId) => {
+        setParagraph(prevParagraph => ({ ...prevParagraph, articleId: articleId }));
+    }
+
     return (
         <>
+            <ArticleSearch onArticleSelected={updateArticleId} />
+
             <Form NoValidate validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article ID</Form.Label>

@@ -8,9 +8,11 @@ import ArticleService from '../../.services/Articles/article-service';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { StatusHelper } from '../../.helpers/MainHelpers';
 
-
 const EditArticle = () => {
-    const [article, setArticle] = useState({});
+    const [article, setArticle] = useState({
+        title: '',
+        categoryTitle: ''
+    });
     const [paragraphs, setParagraphs] = useState(null);
     const [validated, setValidated] = useState(false);
     const [update, setUpdate] = useState(false);
