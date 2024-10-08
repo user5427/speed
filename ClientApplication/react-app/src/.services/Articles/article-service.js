@@ -20,7 +20,7 @@ const ArticleService = {
        
     },
 
-    getArticle: async function(articleId) { // FIXME: This function is not working as expected
+    getArticle: async function(articleId) {
         const apiUrl = process.env.REACT_APP_API_URL + `Articles/${articleId}`;
         return FetchHelper.fetchEntity(apiUrl).then(res => {return res});
     }
