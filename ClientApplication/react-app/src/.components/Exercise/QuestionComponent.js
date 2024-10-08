@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import Divider from '@mui/material/Divider';
-import { FaCheck } from "react-icons/fa6";
 
-const QuestionComponent = ({ onSubmit }) => {
+const QuestionComponent = ({ question, options = [], onSubmit }) => {
     const [selectedAnswer, setSelectedAnswer] = useState(''); // Track selected answer
     const [submitted, setSubmitted] = useState(false); // Track if the user has submitted the answer
 
@@ -21,7 +20,7 @@ const QuestionComponent = ({ onSubmit }) => {
         <div className="questionContainer">
             <Row>
                 <Col>
-                    <h3>What part of a plant is responsible for photosynthesis?</h3>
+                    <h3>{question}</h3> {/* Use the dynamic question */}
                 </Col>
             </Row>
             <Divider variant="middle" style={{ margin: '20px 0', backgroundColor: '#ccc', borderBottomWidth: 4 }} />
@@ -33,42 +32,17 @@ const QuestionComponent = ({ onSubmit }) => {
                     pointerEvents: submitted ? 'none' : 'auto' // Disable list interaction on submit
                 }}
             >
-                <li>
-                    <input
-                        type="radio"
-                        name="answer"
-                        value="roots"
-                        onChange={handleAnswerChange}
-                        checked={selectedAnswer === 'roots'}
-                    /> Roots
-                </li>
-                <li>
-                    <input
-                        type="radio"
-                        name="answer"
-                        value="leaves"
-                        onChange={handleAnswerChange}
-                        checked={selectedAnswer === 'leaves'}
-                    /> Leaves
-                </li>
-                <li>
-                    <input
-                        type="radio"
-                        name="answer"
-                        value="stem"
-                        onChange={handleAnswerChange}
-                        checked={selectedAnswer === 'stem'}
-                    /> Stem
-                </li>
-                <li>
-                    <input
-                        type="radio"
-                        name="answer"
-                        value="flowers"
-                        onChange={handleAnswerChange}
-                        checked={selectedAnswer === 'flowers'}
-                    /> Flowers
-                </li>
+                {options.map((option, index) => (
+                    <li key={index}>
+                        <input
+                            type="radio"
+                            name="answer"
+                            value={option}
+                            onChange={handleAnswerChange}
+                            checked={selectedAnswer === option}
+                        /> {option}
+                    </li>
+                ))}
             </ul>
             <Button
                 className='subjectButtons'
@@ -82,5 +56,6 @@ const QuestionComponent = ({ onSubmit }) => {
         </div>
     );
 };
+
 
 export default QuestionComponent;
