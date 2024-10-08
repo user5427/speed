@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
 using SpeedReaderAPI.Services;
@@ -95,6 +96,28 @@ public class ParagraphsController : ControllerBase
                        Status = 500,
                        Instance = HttpContext.Request.Path
                    });
+        }
+    }
+
+    [HttpGet("search/{Search}")]
+    public IActionResult SearchParagraphs(string Search, [FromQuery] QueryParameters queryParameters)
+    {
+        try
+        {
+            ParagraphPageResponse paragraphs = _paragraphService.SearchParagraphs(Search, queryParameters);
+            return Ok(paragraphs);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Something went wrong in ParagraphsController while searching! {ExceptionMessage}.", ex.GetBaseException().Message);
+            return NotFound(new ProblemDetails
+                {
+                    Title = "No Paragraphs Found",
+                    Detail = "No paragraphs match the specified criteria.",
+                    Status = 404,
+                    Instance = HttpContext.Request.Path
+                }
+            );
         }
     }
 

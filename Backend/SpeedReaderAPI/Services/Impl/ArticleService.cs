@@ -86,4 +86,20 @@ public class ArticleService : IArticleService
             throw new KeyNotFoundException($"Question with ID {articleId} not found.");
         }
     }
+
+    public ArticlePageResponse SearchArticles(string Search, QueryParameters queryParameters)
+    {
+        if (Search == null)
+        {
+            throw new ArgumentNullException("Search query parameter is required.");
+        }
+        long articleCount = _context.Article.Count();
+        List<Article> articles = _context.Article
+                                        .Where(a => a.Title.Contains(Search))
+                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
+                                        .Take(queryParameters.PageSize)
+                                        .ToList();
+        List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
+        return new ArticlePageResponse(articleCount, articleResponseList);
+    }
 }
