@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import Slider from '@mui/material/Slider';
 import { VscDebugStart } from "react-icons/vsc";
 import { FaQuestion } from "react-icons/fa6";
-import QuestionComponent from '../components/Exercise/QuestionComponent.js';
+import QuestionComponent from '../.components/Exercise/QuestionComponent.js';
 
 const Exercise = () => {
     const valuetext = (value) => `${value}`;

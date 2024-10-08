@@ -1,17 +1,17 @@
 // 
-import { fetchEntity, generateRequestOptions } from "../../.helpers/fetch-helper";
+import { FetchHelper } from "../../.helpers/MainHelpers";
 const ParagraphService = {
 
-    postParagraph: function (paragraph) {
-        const requestOptions = generateRequestOptions("POST", paragraph);
+    postParagraph: async function (paragraph) {
+        const requestOptions = FetchHelper.generateRequestOptions("POST", paragraph);
         const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs`;
-        return fetchEntity(apiUrl, requestOptions).then(res => {return res});
+        return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
     },
 
-    putParagraph: function (paragraph) {
-        const requestOptions = generateRequestOptions("PUT", paragraph);
+    putParagraph: async function (paragraph) {
+        const requestOptions = FetchHelper.generateRequestOptions("PUT", paragraph);
         const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/${paragraph.id}`;
-        return fetchEntity(apiUrl, requestOptions).then(res => {return res});
+        return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
     }
 
 }

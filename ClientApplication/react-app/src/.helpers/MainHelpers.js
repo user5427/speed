@@ -7,4 +7,9 @@ const ErrorHandler = {
     getErrorMessage
 }
 
-export { generateRequestOptions as requestOptions, fetchEntity, sendError, sendOk, ErrorHandler };
+const FetchHelper = {
+    fetchEntity,
+    generateRequestOptions
+}
+
+export { FetchHelper, ErrorHandler as StatusHelper };

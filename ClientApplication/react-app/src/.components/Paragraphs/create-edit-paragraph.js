@@ -3,7 +3,7 @@ import { Button, Form, Image } from 'react-bootstrap';
 
 import { ArticleService, ParagraphService } from '../../.services/MainServices';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
-import { ErrorHandler } from '../../.helpers/MainHelpers';
+import { StatusHelper } from '../../.helpers/MainHelpers';
 
 const EditParagraph = () => {
     const [paragraph, setParagraph] = useState({});
@@ -13,7 +13,7 @@ const EditParagraph = () => {
 
     const CheckIfArticleIdExists = async () => {
         if (paragraph && paragraph.articleId) {
-            return ArticleService.checkIfArticleIdExists(paragraph.articleId);
+            return ArticleService.getArticle(paragraph.articleId);
         }
         return false;
     };
@@ -29,27 +29,27 @@ const EditParagraph = () => {
 
         if (paragraph && paragraph.articleId) {
 
-            const exist = await ArticleService.checkIfArticleIdExists(paragraph.articleId);
-            if (exist === true) {
+            const exist = await ArticleService.getArticle(paragraph.articleId);
+            if (StatusHelper.isOK(exist) === true) {
                 let data = "";
                 if (update) {
                     data = await ParagraphService.putParagraph(paragraph);
-                    if (ErrorHandler.isOK(data) === true) {
+                    if (StatusHelper.isOK(data) === true) {
                         alert('Updated paragraph successfully.');
                     }
                 } else {
                     data = await ParagraphService.postParagraph(paragraph);
-                    if (ErrorHandler.isOK(data) === true) {
+                    if (StatusHelper.isOK(data) === true) {
                         setUpdate(true);
 
                         alert('Created paragraph successfully.');
                     }
                 }
 
-                if (ErrorHandler.isOK(data) === true) {
+                if (StatusHelper.isOK(data) === true) {
                     setParagraph(data);
-                } else if (ErrorHandler.isError(data) === true) {
-                    alert(ErrorHandler.getErrorMessage(data));
+                } else if (StatusHelper.isError(data) === true) {
+                    alert(StatusHelper.getErrorMessage(data));
                 } else {
                     alert("Error getting data");
                 }
