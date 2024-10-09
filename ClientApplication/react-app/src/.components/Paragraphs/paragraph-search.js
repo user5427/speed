@@ -1,21 +1,20 @@
-import { ArticleService } from "../../../.services/MainServices";
+import { ParagraphService } from "../../.services/MainServices";
 import { Form } from 'react-bootstrap';
 import { React } from 'react';
-import { StatusHelper } from '../../../.helpers/MainHelpers';
+import { StatusHelper } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
 
-const ArticleSearch = ({ onArticleSelected }) => {
+const ParagraphSearch = ({ onParagraphSelected }) => {
     const [options, setOptions] = useState([]);
 
-    // Function to fetch articles based on the user input
     const handleFieldChange = async (event) => {
         const { value } = event.target;
         if (value !== "") {
-            let data = await ArticleService.getArticleByTitle(value);
+            let data = await ParagraphService.getParagraphByTitle(value);
             if (StatusHelper.isOK(data)) {
                 if (data && data.count > 0) {
-                    const options = data.articles.map((article) => (
-                        <option key={article.id} value={article.title}></option>
+                    const options = data.paragraphs.map((paragraph) => (
+                        <option key={paragraph.id} value={paragraph.title}></option>
                     ));
                     setOptions(options);
                 }
@@ -25,46 +24,45 @@ const ArticleSearch = ({ onArticleSelected }) => {
                 alert("Error getting data");
             }
         } else {
-            setOptions([]); // Clear options if input is empty
+            setOptions([]);
         }
     };
 
-    // Function to handle user selecting an article from the list
-    const handleArticleSelect = (event) => {
+    const handleParagraphSelect = (event) => {
         const selectedTitle = event.target.value;
         const selected = options.find(
             (option) => option.props.value === selectedTitle
         );
 
         if (selected) {
-            onArticleSelected(selected.key);
+            onParagraphSelected(selected.key);
         }
     };
 
     return (
         <Form NoValidate>
-            <Form.Group controlId="formArticleSearch">
-                <Form.Label>Search Articles</Form.Label>
+            <Form.Group controlId="formParagraphSearch">
+                <Form.Label>Search Paragraphs</Form.Label>
                 <Form.Control
-                    list="articles"
-                    name="articleSearch"
+                    list="paragraphs"
+                    name="paragraphSearch"
                     required
                     type="text"
                     id="searchBar"
-                    placeholder="Enter article title"
-                    onChange={handleFieldChange} // Update the options list
-                    onInput={handleArticleSelect} // Handle article selection
+                    placeholder="Enter paragraph title"
+                    onChange={handleFieldChange}
+                    onInput={handleParagraphSelect}
                     autoComplete="off"
                 />
-                <datalist id="articles">
+                <datalist id="paragraphs">
                     {options}
                 </datalist>
                 <Form.Control.Feedback type="invalid">
-                    Please select an article.
+                    Please select a paragraph.
                 </Form.Control.Feedback>
             </Form.Group>
         </Form>
     );
 };
 
-export default ArticleSearch;
+export default ParagraphSearch;

@@ -20,7 +20,7 @@ const QuestionService = {
         return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
     },
 
-    getParagraphsByTitle: async function (search) {
+    getQuestionsByTitle: async function (search) {
         const requestOptions = FetchHelper.generateRequestOptions("GET");
         const apiUrl = process.env.REACT_APP_API_URL + `Questions/search/${search}`;
         return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
