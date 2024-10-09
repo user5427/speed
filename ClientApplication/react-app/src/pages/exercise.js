@@ -9,73 +9,104 @@ import { QuestionComponent } from '../.components/.MainComponentsExport';
 const Exercise = () => {
     const valuetext = (value) => `${value}`;
 
-    const text = "Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails. Explore. Dream. Discover.";
+    // Paragraphs array from the database
+    const paragraphs = [
+        "The secret to a blueberry’s hue is in the structure of its wax coat. \n Waxy coverings on blue-colored fruits such as blueberries, grapes and some plums contain nanostructures that scatter blue and ultraviolet light, researchers report February 7 in Science Advances. That makes these fruits look blue to people. Birds — capable of seeing UV light — probably see such delicious snacks as blue-UV.",
+        "Blue is not a common color in nature. And while there are some known blue fruits, few contain pigments in that shade. Blueberries, for instance, contain a heaping amount of anthocyanin, a skin pigment that should give each sphere a dark red color. \n But structures in the fruits’ waxy outer layers can create their own blues. Devising ways to mimic a blueberry’s color-forming coating might one day provide a new way to give plastics or makeup a blue tint. “Using this kind of coloring is cool because it doesn’t stain,” says Rox Middleton, a physicist at the University of Bristol in England and Dresden University of Technology in Germany.",
+        "To better understand what is special about the berries’ waxy coverings, Middleton and colleagues looked at a variety of fruits under a scanning electron microscope. The resulting images showed an assortment of tiny molecular structures. Additional optical experiments revealed that all the structures scatter blue and UV light. \n “When you rub the outside of a blueberry and take this outside layer of wax off,” Middleton says, “then you can see underneath is completely dark.” \n The team also managed to re-create this effect in the lab. Wax from Oregon grapes became transparent when it was dissolved with chloroform. When the wax recrystallized after being spread on a black card, the layer regained its blue hue."
+    ];
+
+    // Questions array corresponding to each paragraph
+    const questions = [
+        {
+            question: "Waxy coverings on blue-colored fruits such as blueberries, grapes and some plums contain nanostructures that scatter what light?",
+            correctAnswer: "Blue and ultraviolet light",
+            options: ["Cyan and ultraviolet light", "Blue and alpha light", "Blue and gamma light", "Blue and ultraviolet light"] 
+        },
+        {
+            question: "Structures in the fruits’ waxy outer layers can create their own blues. Thus, this kind of coloring ...?",
+            correctAnswer: "Doesn't stain",
+            options: ["Is also tasty", "Is eco-friendly", "Looks cool", "Doesn't stain"]
+        },
+        {
+            question: "What was used to make wax from Oregon grapes transparent?",
+            correctAnswer: "Chloroform",
+            options: ["Chloroform", "Ammonium", "Caesium", "Calcium"]
+        }
+    ];
+
+
     const subject = "Biology";
-    const category = "Plants";
-    const part = 1;
-    const outOf = 3;
+    const title = "Here’s why blueberries are blue";
+    const author = "Erin Garcia de Jesús";
+    const source = "https://shorturl.at/4H1md";
+    const publisher = "ScienceNews";
 
-    const startWords = "Press Go to begin";
-    const endWords = "― H. Jackson Brown Jr., P.S. I Love You";
-
-    const words = text.split(" ");
-    const [inputValue, setInputValue] = useState(238); // Track WPM value
-    const [currentWordIndex, setCurrentWordIndex] = useState(0); // Index of the current word
-    const [started, setStarted] = useState(false);
-    const [finished, setFinished] = useState(false);
-    const [showQuestion, setShowQuestion] = useState(false);
-    const [questionButtonClicked, setQuestionButtonClicked] = useState(false); // New state variable
-    const [feedbackMessage, setFeedbackMessage] = useState(''); // New state variable to show feedback after submission
 
     const avgReadingSpeed = 238;
     const worldRecordWPM = 25000;
-    const correctAnswer = "leaves";
-    //TODO MAKE NOT HARD CODED
 
-    // Convert linear value to logarithmic and round
-    const linearToLog = (value) => {
-        return Math.round(Math.pow(10, value / 100));
-    };
+    const [inputValue, setInputValue] = useState(238); // Track WPM value
+    const [currentWordIndex, setCurrentWordIndex] = useState(0); // Index of the current word
+    const [currentParagraphIndex, setCurrentParagraphIndex] = useState(0); // Track current paragraph
+    const [started, setStarted] = useState(false);
+    const [finished, setFinished] = useState(false);
+    const [showQuestion, setShowQuestion] = useState(false);
+    const [questionButtonClicked, setQuestionButtonClicked] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState('');
 
-    // Convert logarithmic value to linear and round
-    const logToLinear = (value) => {
-        return Math.round(Math.log10(value) * 100);
-    };
+    const linearToLog = (value) => Math.round(Math.pow(10, value / 100));
+    const logToLinear = (value) => Math.round(Math.log10(value) * 100);
 
-    // The flashing words loop
+    const words = paragraphs[currentParagraphIndex].split(" ");
+
+    // Word reveal loop for each paragraph
     useEffect(() => {
         if (!started) return;
 
-        const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM); // Get WPM value, check if it doesn't exceed max
-        const intervalTime = 60000 / wpm; // Convert WPM to milliseconds, default 238 WPM (average)
+        const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM);
+        const intervalTime = 60000 / wpm; // Convert WPM to milliseconds
 
         const interval = setInterval(() => {
             setCurrentWordIndex((prevIndex) => {
                 if (prevIndex < words.length) {
                     return prevIndex + 1;
                 } else {
-                    setFinished(true);
-                    clearInterval(interval); // Clear interval when finished
+                    clearInterval(interval); // Finish current paragraph
+                    setFinished(true); // Mark paragraph as finished
                     return prevIndex;
                 }
             });
         }, intervalTime);
 
-        return () => clearInterval(interval); // Prevent memory leaks
+        return () => clearInterval(interval); // Cleanup
     }, [started, inputValue, words.length]);
 
-    // Function to handle displaying the question
-    const handleShowQuestion = () => {
-        setShowQuestion(true);
-        setQuestionButtonClicked(true); // Disable the button when clicked
+    // Move to the next paragraph or display question
+    const handleNextParagraphOrQuestion = () => {
+        if (currentParagraphIndex < paragraphs.length - 1) {
+            // Move to next paragraph
+            setCurrentParagraphIndex(currentParagraphIndex + 1);
+            setCurrentWordIndex(0);
+            setStarted(false); // Reset to start new paragraph
+            setFinished(false);
+            setQuestionButtonClicked(false);
+            setShowQuestion(false); // Hide question for new paragraph
+            setFeedbackMessage(""); // Reset feedback
+        }
     };
 
-    // Function to handle question submission
+    const handleShowQuestion = () => {
+        setShowQuestion(true);
+        setQuestionButtonClicked(true);
+    };
+
     const handleQuestionSubmit = (selectedAnswer) => {
+        const correctAnswer = questions[currentParagraphIndex].correctAnswer;
         if (selectedAnswer === correctAnswer) {
             setFeedbackMessage("Correct!");
         } else {
-            setFeedbackMessage("Incorrect! The correct answer is 'Leaves'.");
+            setFeedbackMessage(`Incorrect! The correct answer was '${correctAnswer}'.`);
         }
     };
 
@@ -84,18 +115,34 @@ const Exercise = () => {
             <div className='mainContainer'>
                 <Row style={{ marginTop: '10px', marginBottom: '10px', color: 'grey' }}>
                     <Col><h3>{subject}</h3></Col>
-                    <Col style={{ textAlign: 'center', color: '#cccccc' }}><h3>{category}</h3></Col>
-                    <Col><h3 style={{ textAlign: 'right' }}>{part}/{outOf}</h3></Col>
+                    <Col style={{ textAlign: 'center', color: '#d9d9d9' }}><h3>{title}</h3></Col>
+                    <Col><h3 style={{ textAlign: 'right' }}>{currentParagraphIndex + 1}/{paragraphs.length}</h3></Col>
                 </Row>
 
                 <div className='exerciseWindow'>
                     <p className="singleWord">
-                        {started ? words[currentWordIndex] : startWords}
-                        {finished ? endWords : ""}
+                        {started ? words[currentWordIndex] : `Press Start to begin Paragraph ${currentParagraphIndex + 1}` }
+                        {finished ? `End of Paragraph ${currentParagraphIndex + 1}` : ""}
                     </p>
                 </div>
+                <Row style={{ marginTop: '5px' }}>
+                     <Col>
+                      <span style={{ color: 'grey' }}>Publisher: </span> 
+                        <span style={{ color: 'grey' }}>{publisher}</span>
+                    </Col>
+                    <Col style={{ textAlign: 'center' }}>
+                      <span style={{ color: 'grey' }}>Author: </span> 
+                        <span style={{ color: 'grey' }}>{author}</span>
+                    </Col>
+                    <Col style={{ textAlign: 'right' }}>
+                        <span style={{ color: 'grey' }}>Source: </span> 
+                            <a href={source} style={{ color: 'grey' }} target="_blank" rel="noopener noreferrer">
+                                {source}
+                            </a>
+                    </Col>
+                </Row>
 
-                <Row style={{ marginTop: '25px', marginBottom:'10px' }}>
+                <Row style={{ marginTop: '18px', marginBottom: '10px' }}>
                     <Col xs={12} md={2}>
                         <Button
                             className='subjectButtons'
@@ -112,22 +159,18 @@ const Exercise = () => {
                         <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px' }}>
                             <Slider
                                 aria-label="WPM Slider"
-                                value={logToLinear(inputValue)} // Bind the logarithmic value
-                                onChange={(e, newValue) => setInputValue(Math.min(linearToLog(newValue), worldRecordWPM))} // Update WPM using the logarithmic value, capped at worldRecordWPM
+                                value={logToLinear(inputValue)}
+                                onChange={(e, newValue) => setInputValue(Math.min(linearToLog(newValue), worldRecordWPM))}
                                 getAriaValueText={valuetext}
                                 color="secondary"
-                                min={logToLinear(50)} // Minimum WPM in log scale
-                                max={logToLinear(worldRecordWPM)} // Maximum WPM in log scale
+                                min={logToLinear(50)}
+                                max={logToLinear(worldRecordWPM)}
                                 style={{ marginRight: '20px' }}
                             />
                             <input
                                 type="number"
                                 value={inputValue}
-                                onChange={(e) => {
-                                    const newValue = Math.min(Math.max(Math.round(e.target.value), 50), worldRecordWPM); // Cap input value between 50 and worldRecordWPM
-                                    setInputValue(newValue);
-                                }}
-                                placeholder={avgReadingSpeed}
+                                onChange={(e) => setInputValue(Math.min(Math.max(Math.round(e.target.value), 50), worldRecordWPM))}
                                 className="form-control"
                                 disabled={started}
                                 style={{ marginLeft: '5px', width: "100px" }}
@@ -135,40 +178,46 @@ const Exercise = () => {
                             <span style={{ marginLeft: '10px' }}>WPM</span>
                         </div>
                     </Col>
+
                     <Col>
                         <Button
                             className='subjectButtons'
                             size="lg"
                             style={{ backgroundColor: '#e67300', borderColor: '#994d00' }}
-                            onClick={handleShowQuestion} // When this button is clicked, shows the question
+                            onClick={handleShowQuestion}
                             disabled={!finished || questionButtonClicked}
                         >
                             <FaQuestion style={{ marginTop: '-3px' }} /> Go to question
                         </Button>
                     </Col>
                 </Row>
-
-
             </div>
 
             {showQuestion && (
-                <div className='mainContainer'>
-                    <QuestionComponent onSubmit={handleQuestionSubmit} />
-                </div>
-            )}
+    <div className='mainContainer'>
+        <QuestionComponent
+            question={questions[currentParagraphIndex].question}
+            options={questions[currentParagraphIndex].options}
+            onSubmit={handleQuestionSubmit}
+        />
+    </div>
+)}
+
 
             {feedbackMessage && (
-                    <div className='mainContainer' style={{color: feedbackMessage.includes("Correct") ? '#a6ff4d' : '#ff6666' }}>
-                        <Row>
-                            <Col><h4>{feedbackMessage}</h4></Col>
-                            <Button
-                                className='subjectButtons'
-                                size="lg"
-                                style={{ marginRight: '12px', backgroundColor: '#cc0066', borderColor: '#99004d', width:'200px'}}
-                                >Continue 
-                            </Button>
-                        </Row>
-                    </div>
+                <div className='mainContainer' style={{ color: feedbackMessage.includes("Correct") ? '#a6ff4d' : '#ff6666' }}>
+                    <Row>
+                        <Col><h4>{feedbackMessage}</h4></Col>
+                        <Button
+                            className='subjectButtons'
+                            size="lg"
+                            style={{ marginRight: '12px', backgroundColor: '#cc0066', borderColor: '#99004d', width: '200px' }}
+                            onClick={handleNextParagraphOrQuestion}
+                        >
+                            {currentParagraphIndex < paragraphs.length - 1 ? "Next paragraph" : "Finish"}
+                        </Button>
+                    </Row>
+                </div>
             )}
         </>
     );
