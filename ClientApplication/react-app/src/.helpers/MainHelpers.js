@@ -1,15 +1,6 @@
-import { fetchEntity, generateRequestOptions } from "./fetch-helper";
-import { sendError, sendOk, isOK, isError, getErrorMessage } from "./status-helper";
+import { FetchHelper, StatusHelper } from "./Data-Processing-Helpers/DataProccessingHelpersExport";
+import { handleSelection } from "./Search-Helpers/SearchHelpersExport";
 
-const ErrorHandler = {
-    isOK,
-    isError,
-    getErrorMessage
-}
 
-const FetchHelper = {
-    fetchEntity,
-    generateRequestOptions
-}
-
-export { FetchHelper, ErrorHandler as StatusHelper };
+export { FetchHelper, StatusHelper };
+export { handleSelection };

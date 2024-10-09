@@ -1,7 +1,7 @@
 import { ParagraphService } from "../../.services/MainServices";
 import { Form } from 'react-bootstrap';
 import { React } from 'react';
-import { StatusHelper } from '../../.helpers/MainHelpers';
+import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
 
 const ParagraphSearch = ({ onParagraphSelected }) => {
@@ -29,14 +29,7 @@ const ParagraphSearch = ({ onParagraphSelected }) => {
     };
 
     const handleParagraphSelect = (event) => {
-        const selectedTitle = event.target.value;
-        const selected = options.find(
-            (option) => option.props.value === selectedTitle
-        );
-
-        if (selected) {
-            onParagraphSelected(selected.key);
-        }
+        handleSelection(options, event, onParagraphSelected);
     };
 
     return (

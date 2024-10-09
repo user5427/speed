@@ -1,7 +1,7 @@
 import { ArticleService } from "../../.services/MainServices";
 import { Form } from 'react-bootstrap';
 import { React } from 'react';
-import { StatusHelper } from '../../.helpers/MainHelpers';
+import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
 
 const ArticleSearch = ({ onArticleSelected }) => {
@@ -31,14 +31,7 @@ const ArticleSearch = ({ onArticleSelected }) => {
 
     // Function to handle user selecting an article from the list
     const handleArticleSelect = (event) => {
-        const selectedTitle = event.target.value;
-        const selected = options.find(
-            (option) => option.props.value === selectedTitle
-        );
-
-        if (selected) {
-            onArticleSelected(selected.key);
-        }
+        handleSelection(options, event, onArticleSelected);
     };
 
     return (

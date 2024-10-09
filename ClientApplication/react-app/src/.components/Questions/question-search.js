@@ -1,9 +1,8 @@
 import { QuestionService } from "../../.services/MainServices";
 import { Form } from 'react-bootstrap';
 import { React } from 'react';
-import { StatusHelper } from '../../.helpers/MainHelpers';
+import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
-
 const QuestionSearch = ({ onQuestionSelected }) => {
     const [options, setOptions] = useState([]);
 
@@ -29,14 +28,7 @@ const QuestionSearch = ({ onQuestionSelected }) => {
     };
 
     const handleQuestionSelect = (event) => {
-        const selectedTitle = event.target.value;
-        const selected = options.find(
-            (option) => option.props.value === selectedTitle
-        );
-
-        if (selected) {
-            onQuestionSelected(selected.key);
-        }
+        handleSelection(options, event, onQuestionSelected);
     };
 
     return (
