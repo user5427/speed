@@ -19,15 +19,11 @@ export const MainArticles = {
 };
 
 export const MainParagraphs = {
-    CreateEditParagraph,
-    ParagraphList,
-    ReturnToParagraphsButton
+    CreateEditParagraph
 };
 
 export const MainQuestions = {
-    CreateEditQuestion,
-    QuestionList,
-    ReturnToQuestionsButton
+    CreateEditQuestion
 };
 
 //const CreateEditArticle = React.lazy(() => import('./Articles/CreateEditArticle'));
