@@ -1,4 +1,4 @@
 import { ValidationConstants } from "./ValidationConstants";
 import { ValidationPatternConstants } from "./ValidationPatternConstants";
-
-export { ValidationConstants, ValidationPatternConstants };
+import { SearchSizeConstants } from "./SearchSizeConstants";
+export { ValidationConstants, ValidationPatternConstants, SearchSizeConstants };

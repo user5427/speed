@@ -4,7 +4,7 @@ import { Button, Form, Image } from 'react-bootstrap';
 import { ArticleService, ParagraphService } from '../../.services/MainServices';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { StatusHelper } from '../../.helpers/MainHelpers';
-import ArticleSearch from '../Articles/article-search';
+import ArticleSearch from '../Articles/Creating-Editing/article-search';
 
 const EditParagraph = () => {
     const [paragraph, setParagraph] = useState({

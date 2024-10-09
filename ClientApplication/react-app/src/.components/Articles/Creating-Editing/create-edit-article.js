@@ -3,10 +3,10 @@ import { Button, Form, Image } from 'react-bootstrap';
 import AsyncSelect from 'react-select'
 
 
-import NoImage from '../../no-image.png'
-import ArticleService from '../../.services/Articles/article-service';
-import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
-import { StatusHelper } from '../../.helpers/MainHelpers';
+import NoImage from '../../../no-image.png'
+import { ArticleService } from "../../../.services/MainServices";
+import { ValidationConstants, ValidationPatternConstants } from '../../../.constants/MainConstants';
+import { StatusHelper } from '../../../.helpers/MainHelpers';
 
 const EditArticle = () => {
     const [article, setArticle] = useState({

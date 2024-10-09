@@ -1,9 +1,7 @@
 import React from 'react';
 import '../../styles/Articles/createArticleStyle.css';
-import EditArticle from '../../.components/Articles/create-edit-article';
+import { CreateEditArticle, ReturnToArticlesButton } from '../../.components/.MainComponentsExport';
 import { Row, Col } from 'react-bootstrap';
-
-import ReturnToArticlesButton from '../../.components/Articles/return-to-articles-button';
 
 const CreateArticle = () => {
 
@@ -18,7 +16,7 @@ const CreateArticle = () => {
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={6}>
-                        <EditArticle />
+                        <CreateEditArticle />
                     </Col>
                 </Row>
             </div>

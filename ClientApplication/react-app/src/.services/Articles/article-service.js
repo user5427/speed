@@ -1,5 +1,6 @@
 // 
 import { FetchHelper } from "../../.helpers/MainHelpers";
+import { SearchSizeConstants } from "../../.constants/SearchSizeConstants";
 
 const ArticleService = {
     getArticles: async function(page) {
@@ -26,7 +27,7 @@ const ArticleService = {
     },
 
     getArticleByTitle: async function(title) {
-        const apiUrl = process.env.REACT_APP_API_URL + `Articles/search/${title}`;
+        const apiUrl = process.env.REACT_APP_API_URL + `Articles/search/${title}?PageSize=${SearchSizeConstants.MaxPageSize}`;
         return FetchHelper.fetchEntity(apiUrl).then(res => {return res});
     },
 
