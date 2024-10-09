@@ -7,11 +7,12 @@ import NoImage from '../../../no-image.png'
 import { ArticleService } from "../../../.services/MainServices";
 import { ValidationConstants, ValidationPatternConstants } from '../../../.constants/MainConstants';
 import { StatusHelper } from '../../../.helpers/MainHelpers';
+import { Article } from '../../../.entities/.MainEntitiesExport';
 
 const EditArticle = () => {
     const [article, setArticle] = useState({
-        title: '',
-        categoryTitle: ''
+        'title': '',
+        'categoryTitle': ''
     });
     const [paragraphs, setParagraphs] = useState(null);
     const [validated, setValidated] = useState(false);
@@ -20,28 +21,28 @@ const EditArticle = () => {
     /**
      * Handle file upload
      */
-    const handleFileUpload = (event) => {
-        event.preventDefault();
-        var file = event.target.files[0];
-        const form = new FormData();
-        form.append("imageFile", file);
+    // const handleFileUpload = (event) => {
+    //     event.preventDefault();
+    //     var file = event.target.files[0];
+    //     const form = new FormData();
+    //     form.append("imageFile", file);
 
-        fetch(process.env.REACT_APP_API_URL + "Articles/upload-test-image", {
-            method: "POST",
-            body: form
-        }).then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw new Error(`Failed to save image. Status code: ${res.status}`);
-            }
-        }).then(res => {
-            var newArticle = article;
-            newArticle.coverImage = res.profileImage;
+    //     fetch(process.env.REACT_APP_API_URL + "Articles/upload-test-image", {
+    //         method: "POST",
+    //         body: form
+    //     }).then(res => {
+    //         if (res.ok) {
+    //             return res.json();
+    //         } else {
+    //             throw new Error(`Failed to save image. Status code: ${res.status}`);
+    //         }
+    //     }).then(res => {
+    //         var newArticle = article;
+    //         newArticle.coverImage = res.profileImage;
 
-            setArticle(oldData => { return { ...oldData, ...newArticle }; });
-        }).catch(err => alert("Error in file upload"));
-    }
+    //         setArticle(oldData => { return { ...oldData, ...newArticle }; });
+    //     }).catch(err => alert("Error in file upload"));
+    // }
 
     const handleSave = async (event) => {
         event.preventDefault(); // we do not want the page to reload.
