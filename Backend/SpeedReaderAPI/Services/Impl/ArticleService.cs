@@ -1,4 +1,5 @@
 using AutoMapper;
+using SpeedReaderAPI.Constants;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
@@ -12,14 +13,15 @@ public class ArticleService : IArticleService
 {
 
     private readonly ApplicationContext _context;
+    private readonly IImageService _imageService;
     private readonly IMapper _mapper;
 
-    public ArticleService(ApplicationContext context, IMapper mapper)
+    public ArticleService(ApplicationContext context, IMapper mapper, IImageService imageService)
     {
         _context = context;
         _mapper = mapper;
+        _imageService = imageService;
     }
-
 
     public ArticlePageResponse GetArticles(QueryParameters queryParameters)
     {
@@ -80,10 +82,64 @@ public class ArticleService : IArticleService
         Article? articleFound = _context.Article.Where(x => x.Id == articleId).FirstOrDefault();
         if (articleFound != null)
         {
+            if (articleFound.ImageFileName != null) 
+            {
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName, articleFound.ImageFileName);
+                    articleFound.Image = null;
+                    System.IO.File.Delete(filePath);
+            }
+
             _context.Article.Remove(articleFound);
             _context.SaveChanges();
         }else{
             throw new KeyNotFoundException($"Question with ID {articleId} not found.");
         }
+    }
+
+    public async Task<ArticleResponse> UploadImage(int id, IFormFile file)
+    {
+        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        if (articleFound == null) 
+        {
+            throw new KeyNotFoundException($"Article with ID {id} not found.");
+        }
+        if (articleFound.Image.HasValue) 
+        {
+            throw new Exception("Article has an image.");
+        }
+        articleFound.Image = await _imageService.Create(file);
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<ArticleResponse>(articleFound);
+    }
+
+    public Image? GetImage(int id)
+    {
+        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        if (articleFound == null) 
+        {
+            throw new KeyNotFoundException($"Article with ID {id} not found.");
+        }
+        if (!articleFound.Image.HasValue) return null;
+        Image img = articleFound.Image.Value;
+        Stream? stream = _imageService.Get(img);
+        if (stream == null) return null;
+        img.FileStream = stream;
+        
+        return img;
+    }
+
+    public void DeleteImage(int id)
+    {
+        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        if (articleFound == null) 
+        {
+            throw new KeyNotFoundException($"Article with ID {id} not found.");
+        }
+        if (articleFound.Image == null || !articleFound.Image.HasValue) return;
+        _imageService.Delete((Image)articleFound.Image);
+        
+        articleFound.Image = null;
+        _context.SaveChanges();
     }
 }

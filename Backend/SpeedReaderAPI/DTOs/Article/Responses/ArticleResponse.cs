@@ -4,5 +4,6 @@ public record ArticleResponse(
     string Title,
     int Id,
     string? CategoryTitle,
-    List<int>? ParagraphIds
+    List<int>? ParagraphIds,
+    string? ImageFileName
 );
