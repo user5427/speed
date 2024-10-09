@@ -3,15 +3,12 @@ import { Button, Form, Image } from 'react-bootstrap';
 import { ParagraphService } from '../../.services/MainServices';
 import { StatusHelper } from '../../.helpers/MainHelpers';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
+import { Question } from '../../.entities/.MainEntitiesExport';
 
 const EditQuestions = () => {
-    const [questions, setQuestions] = useState({
-        title: '',
-        text: '',
-        paragraphId: '',
-        answerChoices: '',
-        correctAnswerIndex: ''
-    });
+    const [question, setQuestions] = useState(
+        new Question()
+    );
     const [validated, setValidated] = useState(false);
     const [update, setUpdate] = useState(false);
 
@@ -24,17 +21,17 @@ const EditQuestions = () => {
             return;
         }
 
-        if (questions && questions.paragraphId) {
-            const exists = await ParagraphService.getParagraph(questions.paragraphId);
+        if (question && question.paragraphId) {
+            const exists = await ParagraphService.getParagraph(question.paragraphId);
             if (StatusHelper.isOK(exist) === true) {
                 let data = "";
                 if (update) {
-                    data = await QuestionService.putQuestion(questions);
+                    data = await QuestionService.putQuestion(question.toJson);
                     if (StatusHelper.isOK(data) === true) {
                         alert('Updated question successfully.');
                     }
                 } else {
-                    data = await QuestionService.postQuestion(questions);
+                    data = await QuestionService.postQuestion(question.toJson);
                     if (StatusHelper.isOK(data) === true) {
                         setUpdate(true);
 
@@ -43,7 +40,9 @@ const EditQuestions = () => {
                 }
 
                 if (StatusHelper.isOK(data) === true) {
-                    setQuestions(data);
+                    const question = new Question();  // Assuming an empty constructor
+                    question.fromJson = data;
+                    setQuestions(question);
                 } else if (StatusHelper.isError(data) === true) {
                     alert(StatusHelper.getErrorMessage(data));
                 } else {
@@ -63,12 +62,23 @@ const EditQuestions = () => {
     const handleFieldChange = (event) => {
         const { name, value } = event.target;
 
-        setQuestions(prevQuestion => ({ ...prevQuestion, [name]: value }));
+        setQuestions(prevQuestion => {
+            const newQuestion = new Question(
+                prevQuestion
+            );
+
+            // Use the hasField method to check if the field exists
+            if (newQuestion.hasField(name)) {
+                newQuestion[name] = value; // Use setter for the corresponding field
+            }
+
+            return newQuestion;
+        });
     }
 
     const resetUpdating = () => {
         setUpdate(false);
-        setQuestions({ paragraphId: '', questionText: '', answerChoices: '', correctAnswerIndex: '' });
+        setQuestions(new Question());
     }
 
     return (
@@ -77,8 +87,8 @@ const EditQuestions = () => {
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Paragraph ID</Form.Label>
                     <Form.Control
-                        name="paragraphId"
-                        value={questions && questions.articleId || ''}
+                        name={question.varParagraphIdName}
+                        value={question && question.paragraphId || ''}
                         required type="text" autoComplete='off'
                         placeholder="Enter paragraph ID"
                         onChange={handleFieldChange}
@@ -92,8 +102,8 @@ const EditQuestions = () => {
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Question Text</Form.Label>
                     <Form.Control
-                        name="text"
-                        value={questions && questions.text || ''}
+                        name={question.varTextName}
+                        value={question && question.text || ''}
                         required type="text"
                         autoComplete='off'
                         placeholder="Enter Question Text"
@@ -110,8 +120,8 @@ const EditQuestions = () => {
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Question Title</Form.Label>
                     <Form.Control
-                        name="title"
-                        value={questions && questions.title || ''}
+                        name={question.varTitleName}
+                        value={question && question.title || ''}
                         required type="text"
                         autoComplete='off'
                         placeholder="Enter Question Text"

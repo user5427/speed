@@ -5,13 +5,12 @@ import { ArticleService, ParagraphService } from '../../.services/MainServices';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { StatusHelper } from '../../.helpers/MainHelpers';
 import ArticleSearch from '../Articles/article-search';
+import { Paragraph } from '../../.entities/.MainEntitiesExport';
 
 const EditParagraph = () => {
-    const [paragraph, setParagraph] = useState({
-        title: '',
-        text: '',
-        articleId: ''
-    });
+    const [paragraph, setParagraph] = useState(
+        new Paragraph()
+    );
     const [validated, setValidated] = useState(false);
     const [update, setUpdate] = useState(false);
 
@@ -30,12 +29,12 @@ const EditParagraph = () => {
             if (StatusHelper.isOK(exist) === true) {
                 let data = "";
                 if (update) {
-                    data = await ParagraphService.putParagraph(paragraph);
+                    data = await ParagraphService.putParagraph(paragraph.toJson);
                     if (StatusHelper.isOK(data) === true) {
                         alert('Updated paragraph successfully.');
                     }
                 } else {
-                    data = await ParagraphService.postParagraph(paragraph);
+                    data = await ParagraphService.postParagraph(paragraph.toJson);
                     if (StatusHelper.isOK(data) === true) {
                         setUpdate(true);
 
@@ -44,7 +43,9 @@ const EditParagraph = () => {
                 }
 
                 if (StatusHelper.isOK(data) === true) {
-                    setParagraph(data);
+                    const paragraph = new Paragraph();  // Assuming an empty constructor
+                    paragraph.fromJson = data;
+                    setParagraph(paragraph);
                 } else if (StatusHelper.isError(data) === true) {
                     alert(StatusHelper.getErrorMessage(data));
                 } else {
@@ -64,16 +65,36 @@ const EditParagraph = () => {
     const handleFieldChange = (event) => {
         const { name, value } = event.target;
 
-        setParagraph(prevParagraph => ({ ...prevParagraph, [name]: value }));
+        setParagraph(prevParagraph => {
+            const newParagraph = new Paragraph(
+                prevParagraph
+            );
+
+            // Use the hasField method to check if the field exists
+            if (newParagraph.hasField(name)) {
+                newParagraph[name] = value; // Use setter for the corresponding field
+            }
+
+            return newParagraph;
+        });
     }
 
     const resetUpdating = () => {
         setUpdate(false);
-        setParagraph({ articleId: '', text: '', nextParagraphId: null });
+        setParagraph(new Paragraph());
     }
 
     const updateArticleId = (articleId) => {
-        setParagraph(prevParagraph => ({ ...prevParagraph, articleId: articleId }));
+        setParagraph(prevParagraph => {
+            const newParagraph = new Paragraph(
+                prevParagraph
+            );
+
+            // Use the hasField method to check if the field exists
+            newParagraph.articleId = articleId; // Use setter for the corresponding field
+
+            return newParagraph;
+        });
     }
 
     return (
@@ -84,7 +105,7 @@ const EditParagraph = () => {
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article ID</Form.Label>
                     <Form.Control
-                        name="articleId"
+                        name={paragraph.varArticleIdName}
                         value={paragraph && paragraph.articleId || ''}
                         required type="text"
                         autoComplete='off'
@@ -97,13 +118,30 @@ const EditParagraph = () => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
+            <Form.Group controlId="formtestTitle">
+                    <Form.Label>Paragraph Title</Form.Label>
+                    <Form.Control
+                        name={paragraph.varTitleName}
+                        value={paragraph && paragraph.title || ''}
+                        autoComplete='off'
+                        placeholder="Enter Paragraph Title"
+                        onChange={handleFieldChange}
+                        required type="text"
+                        minLength={ValidationConstants.MinTitleLength}
+                        maxLength={ValidationConstants.MaxTitleLength}
+                        pattern={ValidationPatternConstants.TitlePattern}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a valid paragraph title (letters and spaces only).
+                    </Form.Control.Feedback>
+                </Form.Group>
+
                 <Form.Group controlId="formtestText">
                     <Form.Label>Paragraph Text</Form.Label>
                     <Form.Control
-                        name="text"
+                        name={paragraph.varTextName}
                         value={paragraph && paragraph.text || ''}
-                        required
-                        type="text"
+                        required type="text"
                         autoComplete='off'
                         placeholder="Enter Paragraph Text"
                         onChange={handleFieldChange}
@@ -113,23 +151,6 @@ const EditParagraph = () => {
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter paragraph text between 10 and 1500 characters.
-                    </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group controlId="formtestTitle">
-                    <Form.Label>Paragraph Title</Form.Label>
-                    <Form.Control
-                        name="title"
-                        value={paragraph && paragraph.title || ''}
-                        autoComplete='off'
-                        placeholder="Enter Paragraph Title (optional)"
-                        onChange={handleFieldChange}
-                        minLength={ValidationConstants.MinTitleLength}
-                        maxLength={ValidationConstants.MaxTitleLength}
-                        pattern={ValidationPatternConstants.TitlePattern}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Please enter a valid paragraph title (letters and spaces only).
                     </Form.Control.Feedback>
                 </Form.Group>
 

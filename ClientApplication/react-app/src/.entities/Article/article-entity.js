@@ -133,6 +133,7 @@ class Article {
         // }
         this._paragraphIDs = value;
     }
+    
 
     get id() {
         return this._id;
