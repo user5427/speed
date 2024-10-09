@@ -33,7 +33,7 @@ class ArticlePage {
     }
 
     // Setter for articlePage from JSON data (accepts data object with articles and count)
-    setArticlePageFromData(data) {
+    set fromJson(data) {
         if (data && Array.isArray(data.articles) && typeof data.count === 'number') {
             this._articleList = data.articles;
             this._articleCount = data.count;

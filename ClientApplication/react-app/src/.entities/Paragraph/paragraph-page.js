@@ -33,7 +33,7 @@ class ParagraphPage {
     }
 
     // Setter for paragraphPage from JSON data (accepts data object with paragraphs and count)
-    setParagraphPageFromData(data) {
+    set fromJson(data) {
         if (data && Array.isArray(data.paragraphs) && typeof data.count === 'number') {
             this._paragraphList = data.paragraphs;
             this._paragraphCount = data.count;

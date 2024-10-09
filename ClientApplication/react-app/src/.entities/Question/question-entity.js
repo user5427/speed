@@ -1,42 +1,97 @@
-import { ValidationConstants, ValidationPatternConstants } from '../../constants/MainConstants';
+import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 
 class Question {
-    constructor(title, text, paragraphId) {
-        // Validate title
-        if (typeof title !== "string" || 
-            title.length < ValidationConstants.MinTitleLength || 
-            title.length > ValidationConstants.MaxTitleLength) {
-            throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
+    constructor(title, text, paragraphId, answerChoices = [], correctAnswerIndex = 0) {
+        if (typeof title === "object" && text === undefined && paragraphId === undefined) {
+            this.fromOtherQuestion = title;
+        } else if (title !== undefined && text !== undefined && paragraphId !== undefined) {
+            // Validate title
+            if (typeof title !== "string" ||
+                title.length < ValidationConstants.MinTitleLength ||
+                title.length > ValidationConstants.MaxTitleLength) {
+                throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
+            }
+            if (!ValidationPatternConstants.TitlePattern.test(title)) {
+                throw new Error("Title does not match the required pattern.");
+            }
+
+            // Validate text
+            if (typeof text !== "string" ||
+                text.length < ValidationConstants.MinTextLength ||
+                text.length > ValidationConstants.MaxTextLength) {
+                throw new Error(`Text must be a string between ${ValidationConstants.MinTextLength} and ${ValidationConstants.MaxTextLength} characters.`);
+            }
+
+            // Validate paragraphId
+            if (typeof paragraphId === "undefined" || paragraphId === null) {
+                throw new Error("Paragraph ID is required.");
+            }
+
+            // Assign properties
+            this._title = title;
+            this._text = text;
+            this._paragraphId = paragraphId;
+            this._answerChoices = answerChoices;
+            this._correctAnswerIndex = correctAnswerIndex;
+            this._id = null;
+        } else if (title === undefined && text === undefined && paragraphId === undefined) {
+            this._title = "";
+            this._text = "";
+            this._paragraphId = "";
+            this._answerChoices = [];
+            this._correctAnswerIndex = 0;
+            this._id = null;
+        } else {
+            throw new Error("Unknown intentions.");
         }
-        if (!ValidationPatternConstants.TitlePattern.test(title)) {
-            throw new Error("Title does not match the required pattern.");
+    }
+
+    set fromOtherQuestion(question) {
+        if (question.title === undefined) {
+            throw new Error("Title is required.");
         }
 
-        // Validate text
-        if (typeof text !== "string" || 
-            text.length < ValidationConstants.MinTextLength || 
-            text.length > ValidationConstants.MaxTextLength) {
-            throw new Error(`Text must be a string between ${ValidationConstants.MinTextLength} and ${ValidationConstants.MaxTextLength} characters.`);
+        if (question.text === undefined) {
+            throw new Error("Text is required.");
         }
 
-        // Validate paragraphId
-        if (typeof paragraphId === "undefined" || paragraphId === null) {
+        if (question.paragraphId === undefined) {
             throw new Error("Paragraph ID is required.");
         }
 
-        // Assign properties
-        this._title = title;
-        this._text = text;
-        this._paragraphId = paragraphId;
+        this._title = question.title;
+        this._text = question.text;
+        this._paragraphId = question.paragraphId;
+        if (question.answerChoices) {
+            this._answerChoices = question.answerChoices;
+        } else {
+            this._answerChoices = [];
+        }
+        if (question.correctAnswerIndex) {
+            this._correctAnswerIndex = question.correctAnswerIndex;
+        } else {
+            this._correctAnswerIndex = 0;
+        }
+        if (question.id) {
+            this._id = question.id;
+        } else {
+            this._id = null;
+        }
     }
+
+    // Method to check if a field exists
+    hasField(field) {
+        return Object.prototype.hasOwnProperty.call(this, `_${field}`);
+    }
+    
 
     // Getters and setters with validation
     get title() {
         return this._title;
     }
     set title(value) {
-        if (typeof value !== "string" || 
-            value.length < ValidationConstants.MinTitleLength || 
+        if (typeof value !== "string" ||
+            value.length < ValidationConstants.MinTitleLength ||
             value.length > ValidationConstants.MaxTitleLength) {
             throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
         }
@@ -45,17 +100,23 @@ class Question {
         }
         this._title = value;
     }
+    get varTitleName() {
+        return "title"
+    }
 
     get text() {
         return this._text;
     }
     set text(value) {
-        if (typeof value !== "string" || 
-            value.length < ValidationConstants.MinTextLength || 
+        if (typeof value !== "string" ||
+            value.length < ValidationConstants.MinTextLength ||
             value.length > ValidationConstants.MaxTextLength) {
             throw new Error(`Text must be a string between ${ValidationConstants.MinTextLength} and ${ValidationConstants.MaxTextLength} characters.`);
         }
         this._text = value;
+    }
+    get varTextName() {
+        return "text"
     }
 
     get paragraphId() {
@@ -67,12 +128,66 @@ class Question {
         }
         this._paragraphId = value;
     }
+    get varParagraphIdName() {
+        return "paragraphId"
+    }
+
+    get answerChoices() {
+        return this._answerChoices;
+    }
+    set answerChoices(value) {
+        if (value && Array.isArray(value)) {
+            this._answerChoices = value;
+        }
+    }
+    get varAnswerChoicesName() {
+        return "answerChoices"
+    }
+
+    get correctAnswerIndex() {
+        return this._correctAnswerIndex;
+    }
+
+    set correctAnswerIndex(value) {
+        if (typeof value !== "number" || value < 0 || value >= this._answerChoices.length) {
+            throw new Error(`Correct answer index must be a number between 0 and ${this._answerChoices.length - 1}.`);
+        }
+        this._correctAnswerIndex = value;
+    }
+    get varCorrectAnswerIndexName() {
+        return "correctAnswerIndex"
+    }
+
+    get id() {
+        return this._id;
+    }
 
     // Setter for the entire question based on a data object
-    set question(data) {
-        this.title = data.title;
-        this.text = data.text;
-        this.paragraphId = data.paragraphId;
+    set fromJson(data) {
+        this._title = data.title;
+        this._text = data.text;
+        this._paragraphId = data.paragraphId;
+        this._id = data.id;
+        if (data.answerChoices && Array.isArray(data.answerChoices)) {
+            this._answerChoices = data.answerChoices;
+        }
+        this._correctAnswerIndex = data.correctAnswerIndex;
+    }
+
+    get toJson() {
+        const json = {
+            title: this._title,
+            text: this._text,
+            paragraphId: this._paragraphId,
+            answerChoices: this._answerChoices,
+            correctAnswerIndex: this._correctAnswerIndex
+        };
+
+        if (this._id) {
+            json.id = this._id;
+        }
+
+        return json;
     }
 }
 

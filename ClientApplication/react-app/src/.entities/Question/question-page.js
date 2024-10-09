@@ -33,7 +33,7 @@ class QuestionPage {
     }
 
     // Setter for questionPage from JSON data (accepts data object with questions and count)
-    setQuestionPageFromData(data) {
+    set fromJson(data) {
         if (data && Array.isArray(data.questions) && typeof data.count === 'number') {
             this._questionList = data.questions;
             this._questionCount = data.count;
