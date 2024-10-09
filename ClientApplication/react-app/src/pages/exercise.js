@@ -5,8 +5,17 @@ import Slider from '@mui/material/Slider';
 import { VscDebugStart } from "react-icons/vsc";
 import { FaQuestion } from "react-icons/fa6";
 import { QuestionComponent } from '../.components/.MainComponentsExport';
+import { useNavigate } from 'react-router-dom';
+import { IoReturnUpBackSharp } from "react-icons/io5";
 
 const Exercise = () => {
+
+    const navigate = useNavigate();
+
+    const redirectToCategories = () => {
+        navigate('/categories');
+    };
+
     const valuetext = (value) => `${value}`;
 
     // Paragraphs array from the database
@@ -35,13 +44,11 @@ const Exercise = () => {
         }
     ];
 
-
     const subject = "Biology";
     const title = "Here’s why blueberries are blue";
     const author = "Erin Garcia de Jesús";
     const source = "https://shorturl.at/4H1md";
     const publisher = "ScienceNews";
-
 
     const avgReadingSpeed = 238;
     const worldRecordWPM = 25000;
@@ -54,6 +61,7 @@ const Exercise = () => {
     const [showQuestion, setShowQuestion] = useState(false);
     const [questionButtonClicked, setQuestionButtonClicked] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [articleCompleted, setArticleCompleted] = useState(false); // New state for article completion
 
     const linearToLog = (value) => Math.round(Math.pow(10, value / 100));
     const logToLinear = (value) => Math.round(Math.log10(value) * 100);
@@ -93,6 +101,9 @@ const Exercise = () => {
             setQuestionButtonClicked(false);
             setShowQuestion(false); // Hide question for new paragraph
             setFeedbackMessage(""); // Reset feedback
+        } else {
+            // All paragraphs are finished
+            setArticleCompleted(true); // Mark article as completed
         }
     };
 
@@ -110,6 +121,32 @@ const Exercise = () => {
         }
     };
 
+    // Rendering
+    if (articleCompleted) {
+        // Show only "Exercise Completed" message when article is finished
+        return (
+            <div className="mainContainer" style={{ textAlign: 'left'}}>
+                <div style={{ textAlign: 'center'}}>
+                    <h1>Exercise Completed!</h1>
+                </div>
+
+                <Row >
+                    <Col>
+                        TODO Results 
+                    </Col>
+                </Row>
+                <Button
+                            className='subjectButtons'
+                            size="lg"
+                            style={{backgroundColor: '#cca300', borderColor: '#b38f00'}}
+                            onClick={redirectToCategories}
+                        >
+                            <IoReturnUpBackSharp style={{ marginTop: '-4px' }}/> Go back to categories
+                </Button>
+            </div>
+        );
+    }
+
     return (
         <>
             <div className='mainContainer'>
@@ -126,7 +163,7 @@ const Exercise = () => {
                     </p>
                 </div>
                 <Row style={{ marginTop: '5px' }}>
-                     <Col>
+                    <Col>
                       <span style={{ color: 'grey' }}>Publisher: </span> 
                         <span style={{ color: 'grey' }}>{publisher}</span>
                     </Col>
@@ -194,15 +231,14 @@ const Exercise = () => {
             </div>
 
             {showQuestion && (
-    <div className='mainContainer'>
-        <QuestionComponent
-            question={questions[currentParagraphIndex].question}
-            options={questions[currentParagraphIndex].options}
-            onSubmit={handleQuestionSubmit}
-        />
-    </div>
-)}
-
+                <div className='mainContainer'>
+                    <QuestionComponent
+                        question={questions[currentParagraphIndex].question}
+                        options={questions[currentParagraphIndex].options}
+                        onSubmit={handleQuestionSubmit}
+                    />
+                </div>
+            )}
 
             {feedbackMessage && (
                 <div className='mainContainer' style={{ color: feedbackMessage.includes("Correct") ? '#a6ff4d' : '#ff6666' }}>
