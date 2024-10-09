@@ -29,12 +29,12 @@ const EditParagraph = () => {
             if (StatusHelper.isOK(exist) === true) {
                 let data = "";
                 if (update) {
-                    data = await ParagraphService.putParagraph(paragraph.toJson);
+                    data = await ParagraphService.putParagraph(paragraph.toJson());
                     if (StatusHelper.isOK(data) === true) {
                         alert('Updated paragraph successfully.');
                     }
                 } else {
-                    data = await ParagraphService.postParagraph(paragraph.toJson);
+                    data = await ParagraphService.postParagraph(paragraph.toJson());
                     if (StatusHelper.isOK(data) === true) {
                         setUpdate(true);
 
@@ -44,7 +44,7 @@ const EditParagraph = () => {
 
                 if (StatusHelper.isOK(data) === true) {
                     const paragraph = new Paragraph();  // Assuming an empty constructor
-                    paragraph.fromJson = data;
+                    paragraph.fromJson(data);
                     setParagraph(paragraph);
                 } else if (StatusHelper.isError(data) === true) {
                     alert(StatusHelper.getErrorMessage(data));
@@ -66,9 +66,7 @@ const EditParagraph = () => {
         const { name, value } = event.target;
 
         setParagraph(prevParagraph => {
-            const newParagraph = new Paragraph(
-                prevParagraph
-            );
+            const newParagraph = Paragraph.createParagraphFromCopy(prevParagraph);
 
             // Use the hasField method to check if the field exists
             if (newParagraph.hasField(name)) {
@@ -86,9 +84,7 @@ const EditParagraph = () => {
 
     const updateArticleId = (articleId) => {
         setParagraph(prevParagraph => {
-            const newParagraph = new Paragraph(
-                prevParagraph
-            );
+            const newParagraph = Paragraph.createParagraphFromCopy(prevParagraph);
 
             // Use the hasField method to check if the field exists
             newParagraph.articleId = articleId; // Use setter for the corresponding field

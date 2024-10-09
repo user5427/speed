@@ -53,12 +53,12 @@ const EditArticle = () => {
 
         let data = "";
         if (update) {
-            data = await ArticleService.putArticle(article.toJson);
+            data = await ArticleService.putArticle(article.toJson());
             if (StatusHelper.isOK(data) === true) {
                 alert('Updated article successfully.');
             }
         } else {
-            data = await ArticleService.postArticle(article.toJson);
+            data = await ArticleService.postArticle(article.toJson());
             if (StatusHelper.isOK(data) === true) {
                 setUpdate(true);
 
@@ -69,10 +69,10 @@ const EditArticle = () => {
 
         if (StatusHelper.isOK(data) === true) {
             // Create a new Article instance
-            const article = new Article();  // Assuming an empty constructor
+            const article = new Article();
 
             // Use the 'fromJson' setter to populate the instance
-            article.fromJson = data;
+            article.fromJson(data);
 
             // Now set this article in your state (if using a state management like React)
             setArticle(article);
@@ -87,9 +87,7 @@ const EditArticle = () => {
         const { name, value } = event.target;
 
         setArticle(prevArticle => {
-            const newArticle = new Article(
-                prevArticle
-            );
+            const newArticle = Article.createArticleFromCopy(prevArticle);
 
             // Use the hasField method to check if the field exists
             if (newArticle.hasField(name)) {

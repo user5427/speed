@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { React } from 'react';
 import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
+import { ArticlePage } from "../../.entities/.MainEntitiesExport";
 
 const ArticleSearch = ({ onArticleSelected }) => {
     const [options, setOptions] = useState([]);

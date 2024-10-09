@@ -22,16 +22,6 @@ class ParagraphPage {
         return this._paragraphCount;
     }
 
-    // Setter for paragraphPage (accepts { list, count })
-    set paragraphPage({ list, count }) {
-        if (Array.isArray(list) && typeof count === 'number') {
-            this._paragraphList = list;
-            this._paragraphCount = count;
-        } else {
-            throw new Error("Invalid data for paragraphPage. List must be an array and count must be a number.");
-        }
-    }
-
     // Setter for paragraphPage from JSON data (accepts data object with paragraphs and count)
     set fromJson(data) {
         if (data && Array.isArray(data.paragraphs) && typeof data.count === 'number') {

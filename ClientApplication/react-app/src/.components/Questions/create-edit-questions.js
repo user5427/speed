@@ -26,12 +26,12 @@ const EditQuestions = () => {
             if (StatusHelper.isOK(exist) === true) {
                 let data = "";
                 if (update) {
-                    data = await QuestionService.putQuestion(question.toJson);
+                    data = await QuestionService.putQuestion(question.toJson());
                     if (StatusHelper.isOK(data) === true) {
                         alert('Updated question successfully.');
                     }
                 } else {
-                    data = await QuestionService.postQuestion(question.toJson);
+                    data = await QuestionService.postQuestion(question.toJson());
                     if (StatusHelper.isOK(data) === true) {
                         setUpdate(true);
 
@@ -41,7 +41,7 @@ const EditQuestions = () => {
 
                 if (StatusHelper.isOK(data) === true) {
                     const question = new Question();  // Assuming an empty constructor
-                    question.fromJson = data;
+                    question.fromJson(data);
                     setQuestions(question);
                 } else if (StatusHelper.isError(data) === true) {
                     alert(StatusHelper.getErrorMessage(data));
@@ -63,9 +63,7 @@ const EditQuestions = () => {
         const { name, value } = event.target;
 
         setQuestions(prevQuestion => {
-            const newQuestion = new Question(
-                prevQuestion
-            );
+            const newQuestion = Question.createQuestionFromCopy(prevQuestion);
 
             // Use the hasField method to check if the field exists
             if (newQuestion.hasField(name)) {

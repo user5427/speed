@@ -1,50 +1,65 @@
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 
 class Article {
-    constructor(title, categoryTitle, coverImage = "", paragraphIDs = []) {
-        if (typeof title === "object" && categoryTitle === undefined) {
-            this.fromOtherArticle = title;
-        } else if (title !== undefined && categoryTitle !== undefined) {
-
-            // Validate title
-            if (typeof title !== "string" || 
-                title.length < ValidationConstants.MinTitleLength || 
-                title.length > ValidationConstants.MaxTitleLength) {
-                throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
-            }
-            if (!ValidationPatternConstants.TitlePattern.test(title)) {
-                throw new Error("Title does not match the required pattern.");
-            }
-
-            // Validate category title
-            if (typeof categoryTitle !== "string" || 
-                !ValidationPatternConstants.ArticleCategoryPattern.test(categoryTitle)) {
-                throw new Error("Category title must be a string and match the required pattern.");
-            }
-
-            // Validate cover image (if provided)
-            if (coverImage && typeof coverImage !== "string") {
-                throw new Error("Cover image must be a string.");
-            }
-
-            // Assign properties
-            this._title = title;
-            this._categoryTitle = categoryTitle;
-            this._coverImage = coverImage;
-            this._paragraphIDs = paragraphIDs; // Initialize paragraphIDs as an empty array
-            this._id = null;
-        } else if (title === undefined && categoryTitle === undefined) {
-            this._title = "";
-            this._categoryTitle = "";
-            this._coverImage = "";
-            this._paragraphIDs = [];
-            this._id = null;
-        } else {
-            throw new Error("Unknown intentions.");
-        }
+    constructor() {
+        this.#createEmptyArticle();
     }
 
-    set fromOtherArticle(article) {
+    static createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs) {
+        const article = new Article();
+        article.#createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs);
+        return article;
+    }
+    
+    static createEmptyArticle() {
+        return new Article();
+    }
+
+    static createArticleFromCopy(article) {
+        const newArticle = new Article();
+        newArticle.#copyArticle(article);
+        return newArticle;
+    }
+
+    #createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs) {
+        // Validate title
+        if (typeof title !== "string" || 
+            title.length < ValidationConstants.MinTitleLength || 
+            title.length > ValidationConstants.MaxTitleLength) {
+            throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
+        }
+        if (!ValidationPatternConstants.TitlePattern.test(title)) {
+            throw new Error("Title does not match the required pattern.");
+        }
+
+        // Validate category title
+        if (typeof categoryTitle !== "string" || 
+            !ValidationPatternConstants.ArticleCategoryPattern.test(categoryTitle)) {
+            throw new Error("Category title must be a string and match the required pattern.");
+        }
+
+        // Validate cover image (if provided)
+        if (coverImage && typeof coverImage !== "string") {
+            throw new Error("Cover image must be a string.");
+        }
+
+        // Assign properties
+        this._title = title;
+        this._categoryTitle = categoryTitle;
+        this._coverImage = coverImage;
+        this._paragraphIDs = paragraphIDs; // Initialize paragraphIDs as an empty array
+        this._id = null;
+    }
+
+    #createEmptyArticle() {
+        this._title = "";
+        this._categoryTitle = "";
+        this._coverImage = "";
+        this._paragraphIDs = [];
+        this._id = null;
+    }
+
+    #copyArticle(article) {
         if (article.title === undefined) {
             throw new Error("Title is required.");
         }
@@ -133,14 +148,14 @@ class Article {
         // }
         this._paragraphIDs = value;
     }
-    
+
 
     get id() {
         return this._id;
     }
 
     // Setter for the entire article based on data object
-    set fromJson(data) {
+    fromJson(data) {
         console.log(data)
         this._title = data.title;
         this._categoryTitle = data.categoryTitle;
@@ -153,7 +168,7 @@ class Article {
         }
     }
 
-    get toJson() {
+    toJson() {
         const json = {
             title: this._title,
             categoryTitle: this._categoryTitle

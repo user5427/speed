@@ -22,16 +22,6 @@ class ArticlePage {
         return this._articleCount;
     }
 
-    // Setter for the entire article page (list and count)
-    set articlePage({ list, count }) {
-        if (Array.isArray(list) && typeof count === 'number') {
-            this._articleList = list;
-            this._articleCount = count;
-        } else {
-            throw new Error("Invalid data for articlePage. List must be an array and count must be a number.");
-        }
-    }
-
     // Setter for articlePage from JSON data (accepts data object with articles and count)
     set fromJson(data) {
         if (data && Array.isArray(data.articles) && typeof data.count === 'number') {

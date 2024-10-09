@@ -22,16 +22,6 @@ class QuestionPage {
         return this._questionCount;
     }
 
-    // Setter for questionPage (accepts { list, count })
-    set questionPage({ list, count }) {
-        if (Array.isArray(list) && typeof count === 'number') {
-            this._questionList = list;
-            this._questionCount = count;
-        } else {
-            throw new Error("Invalid data for questionPage. List must be an array and count must be a number.");
-        }
-    }
-
     // Setter for questionPage from JSON data (accepts data object with questions and count)
     set fromJson(data) {
         if (data && Array.isArray(data.questions) && typeof data.count === 'number') {

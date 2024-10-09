@@ -69,50 +69,66 @@
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 
 class Paragraph {
-    constructor(title, text, articleId, questionIDs = []) {
-        if (typeof title === "object" && text === undefined && articleId === undefined) {
-            this.fromOtherParagraph = title;
-        } else if (title !== undefined && text !== undefined && articleId !== undefined) {
-            // Validate title
-            if (typeof title !== "string" ||
-                title.length < ValidationConstants.MinTitleLength ||
-                title.length > ValidationConstants.MaxTitleLength) {
-                throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
-            }
-            if (!ValidationPatternConstants.TitlePattern.test(title)) {
-                throw new Error("Title does not match the required pattern.");
-            }
-
-            // Validate text
-            if (typeof text !== "string" ||
-                text.length < ValidationConstants.MinTextLength ||
-                text.length > ValidationConstants.MaxTextLength) {
-                throw new Error(`Text must be between ${ValidationConstants.MinTextLength} and ${ValidationConstants.MaxTextLength} characters.`);
-            }
-
-            // Validate articleId
-            if (typeof articleId !== "string") {
-                throw new Error("Article ID must be a string.");
-            }
-
-            // Assign properties
-            this._title = title;
-            this._text = text;
-            this._articleId = articleId;
-            this._questionIDs = questionIDs; // Initialize questionIDs
-            this._id = null;
-        } else if (title === undefined && text === undefined && articleId === undefined) {
-            this._title = "";
-            this._text = "";
-            this._articleId = "";
-            this._questionIDs = [];
-            this._id = null;
-        } else {
-            throw new Error("Unknown intentions.");
-        }
+    constructor() {
+        this.#createEmptyParagraph();
     }
 
-    set fromOtherParagraph(paragraph) {
+    static createArticleFromParams(title, text, articleId, questionIDs = []) {
+        const paragraph = new Paragraph();
+        paragraph.#createParagraphFromParams(title, text, articleId, questionIDs);
+        return paragraph;
+    }
+
+    static createEmptyParagraph() {
+        return new Paragraph();
+    }
+
+    static createParagraphFromCopy(paragraph) {
+        const newParagraph = new Paragraph();
+        newParagraph.#copyParagraph(paragraph);
+        return newParagraph;
+    }
+
+    #createParagraphFromParams(title, text, articleId, questionIDs = []) {
+        // Validate title
+        if (typeof title !== "string" ||
+            title.length < ValidationConstants.MinTitleLength ||
+            title.length > ValidationConstants.MaxTitleLength) {
+            throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
+        }
+        if (!ValidationPatternConstants.TitlePattern.test(title)) {
+            throw new Error("Title does not match the required pattern.");
+        }
+
+        // Validate text
+        if (typeof text !== "string" ||
+            text.length < ValidationConstants.MinTextLength ||
+            text.length > ValidationConstants.MaxTextLength) {
+            throw new Error(`Text must be between ${ValidationConstants.MinTextLength} and ${ValidationConstants.MaxTextLength} characters.`);
+        }
+
+        // Validate articleId
+        if (typeof articleId !== "string") {
+            throw new Error("Article ID must be a string.");
+        }
+
+        // Assign properties
+        this._title = title;
+        this._text = text;
+        this._articleId = articleId;
+        this._questionIDs = questionIDs; // Initialize questionIDs
+        this._id = null;
+    }
+
+    #createEmptyParagraph() {
+        this._title = "";
+        this._text = "";
+        this._articleId = "";
+        this._questionIDs = [];
+        this._id = null;
+    }
+
+    #copyParagraph(paragraph) {
         if (paragraph.title === undefined) {
             throw new Error("Title is required.");
         }
@@ -205,7 +221,7 @@ class Paragraph {
     }
 
     // Setter to update the paragraph based on given data
-    set fromJson(data) {
+    fromJson(data) {
         this._title = data.title;
         this._text = data.text;
         this._articleId = data.articleId;
@@ -215,7 +231,7 @@ class Paragraph {
         }
     }
 
-    get toJson() {
+    toJson() {
         const json = {
             title: this._title,
             text: this._text,
