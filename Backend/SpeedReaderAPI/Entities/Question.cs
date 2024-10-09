@@ -32,6 +32,35 @@ public class Question
     [StringLength(ValidationConstants.MaxAnswerChoiceLength,
         ErrorMessage = "Correct answer choice cannot exceed {1} characters.")]
     public int CorrectAnswerIndex { get; set; }
+
+    public string? ImageFileName { get; set; }
+    public MimeType? ImageMimeType { get; set; }
+    [NotMapped]
+    public Image? Image
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(ImageFileName) && ImageMimeType.HasValue)
+            {
+                return new Image(ImageFileName, ImageMimeType.Value);
+            }
+            return null; 
+        }
+        set
+        {
+            if (value.HasValue)
+            {
+                ImageFileName = value.Value.ImageFilePath;
+                ImageMimeType = value.Value.ImageMimeType;
+            }
+            else 
+            {
+                ImageFileName = null;
+                ImageMimeType = null;
+            }
+        }
+    }
+
     public virtual Paragraph? Paragraph { get; set; }
 
 }
