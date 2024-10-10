@@ -1,15 +1,11 @@
 class QuestionPage {
     constructor(questionList = [], questionCount = 0) {
-        // Check if questionList is an object (JSON data) or an array
-        if (typeof questionList === 'object' && !Array.isArray(questionList)) {
-            // Initialize from JSON data
-            this._questionList = questionList.questions || [];
-            this._questionCount = questionList.count || 0;
-        } else {
-            // Initialize from individual parameters
-            this._questionList = questionList;
-            this._questionCount = questionCount;
-        }
+        this.#createEmptyQuestionPage();
+    }
+
+    #createEmptyQuestionPage() {
+        this._questionList = [];
+        this._questionCount = 0;
     }
 
     // Getter for questionList
@@ -23,7 +19,7 @@ class QuestionPage {
     }
 
     // Setter for questionPage from JSON data (accepts data object with questions and count)
-    set fromJson(data) {
+    fromJson(data) {
         if (data && Array.isArray(data.questions) && typeof data.count === 'number') {
             this._questionList = data.questions;
             this._questionCount = data.count;

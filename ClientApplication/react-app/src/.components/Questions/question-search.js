@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { React } from 'react';
 import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
+import { QuestionPage } from "../../.entities/.MainEntitiesExport";
 const QuestionSearch = ({ onQuestionSelected }) => {
     const [options, setOptions] = useState([]);
 
@@ -11,8 +12,10 @@ const QuestionSearch = ({ onQuestionSelected }) => {
         if (value !== "") {
             let data = await QuestionService.getQuestionsByTitle(value);
             if (StatusHelper.isOK(data)) {
-                if (data && data.count > 0) {
-                    const options = data.questions.map((question) => (
+                let questionPage = new QuestionPage();
+                questionPage.fromJson(data);
+                if (questionPage.questionList.length > 0) {
+                    const options = questionPage.questionList.map((question) => (
                         <option key={question.id} value={question.title}></option>
                     ));
                     setOptions(options);

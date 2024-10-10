@@ -14,8 +14,10 @@ const ArticleSearch = ({ onArticleSelected }) => {
         if (value !== "") {
             let data = await ArticleService.getArticleByTitle(value);
             if (StatusHelper.isOK(data)) {
-                if (data && data.count > 0) {
-                    const options = data.articles.map((article) => (
+                let articlePage = new ArticlePage();
+                articlePage.fromJson(data);
+                if (articlePage.articleList.length > 0) {
+                    const options = articlePage.articleList.map((article) => (
                         <option key={article.id} value={article.title}></option>
                     ));
                     setOptions(options);

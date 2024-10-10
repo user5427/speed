@@ -1,15 +1,11 @@
 class ParagraphPage {
     constructor(paragraphList = [], paragraphCount = 0) {
-        // Check if paragraphList is an object (JSON data) or an array
-        if (typeof paragraphList === 'object' && !Array.isArray(paragraphList)) {
-            // Initialize from JSON data
-            this._paragraphList = paragraphList.paragraphs || [];
-            this._paragraphCount = paragraphList.count || 0;
-        } else {
-            // Initialize from individual parameters
-            this._paragraphList = paragraphList;
-            this._paragraphCount = paragraphCount;
-        }
+        this.#createEmptyParagraphPage();
+    }
+
+    #createEmptyParagraphPage() {
+        this._paragraphList = [];
+        this._paragraphCount = 0;
     }
 
     // Getter for paragraphList
@@ -23,7 +19,7 @@ class ParagraphPage {
     }
 
     // Setter for paragraphPage from JSON data (accepts data object with paragraphs and count)
-    set fromJson(data) {
+    fromJson(data) {
         if (data && Array.isArray(data.paragraphs) && typeof data.count === 'number') {
             this._paragraphList = data.paragraphs;
             this._paragraphCount = data.count;

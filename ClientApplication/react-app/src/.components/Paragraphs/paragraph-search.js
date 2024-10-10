@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { React } from 'react';
 import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
+import { ParagraphPage } from "../../.entities/.MainEntitiesExport";
 
 const ParagraphSearch = ({ onParagraphSelected }) => {
     const [options, setOptions] = useState([]);
@@ -10,10 +11,12 @@ const ParagraphSearch = ({ onParagraphSelected }) => {
     const handleFieldChange = async (event) => {
         const { value } = event.target;
         if (value !== "") {
-            let data = await ParagraphService.getParagraphByTitle(value);
+            let data = await ParagraphService.getParagraphsByTitle(value);
             if (StatusHelper.isOK(data)) {
-                if (data && data.count > 0) {
-                    const options = data.paragraphs.map((paragraph) => (
+                let paragraphPage = new ParagraphPage();
+                paragraphPage.fromJson(data);
+                if (paragraphPage.paragraphList.length > 0) {
+                    const options = paragraphPage.paragraphList.map((paragraph) => (
                         <option key={paragraph.id} value={paragraph.title}></option>
                     ));
                     setOptions(options);

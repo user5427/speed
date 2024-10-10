@@ -1,16 +1,13 @@
 class ArticlePage {
-    constructor(articleList = [], articleCount = 0) {
-        // Check if the first parameter is an object (JSON data) or separate values
-        if (typeof articleList === 'object' && !Array.isArray(articleList)) {
-            // Initialize from JSON data
-            this._articleList = articleList.articles || []; 
-            this._articleCount = articleList.count || 0;
-        } else {
-            // Initialize from individual parameters
-            this._articleList = articleList;
-            this._articleCount = articleCount;
-        }
+    constructor() {
+        this.#createEmptyArticlePage();
     }
+
+    #createEmptyArticlePage() {
+        this._articleList = [];
+        this._articleCount = 0;
+    }
+
 
     // Getter for articleList
     get articleList() {
@@ -23,7 +20,7 @@ class ArticlePage {
     }
 
     // Setter for articlePage from JSON data (accepts data object with articles and count)
-    set fromJson(data) {
+    fromJson(data) {
         if (data && Array.isArray(data.articles) && typeof data.count === 'number') {
             this._articleList = data.articles;
             this._articleCount = data.count;

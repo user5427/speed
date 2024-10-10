@@ -4,6 +4,7 @@ import { ParagraphService } from '../../.services/MainServices';
 import { StatusHelper } from '../../.helpers/MainHelpers';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { Question } from '../../.entities/.MainEntitiesExport';
+import ParagraphSearch from '../Paragraphs/paragraph-search';
 
 const EditQuestions = () => {
     const [question, setQuestions] = useState(
@@ -79,8 +80,20 @@ const EditQuestions = () => {
         setQuestions(new Question());
     }
 
+    const updateParagraphId = (paragraphId) => {
+        setQuestions(prevQuestion => {
+            const newQuestion = Question.createQuestionFromCopy(prevQuestion);
+
+            newQuestion.paragraphId = paragraphId;
+
+            return newQuestion;
+        });
+    }
+
     return (
         <>
+            <ParagraphSearch onParagraphSelected={updateParagraphId} />
+
             <Form NoValidate validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Paragraph ID</Form.Label>
