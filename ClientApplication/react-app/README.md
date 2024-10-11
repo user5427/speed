@@ -11,5 +11,4 @@ REACT_APP_PAGING_SIZE=5
 ```
 
 add error\validation handling
-
-add json format constants
+add default query object.
