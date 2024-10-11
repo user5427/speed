@@ -1,4 +1,4 @@
-import { FetchHelper, StatusHelper } from "./Data-Processing-Helpers/DataProccessingHelpersExport";
+import { FetchHelper, StatusHelper } from "../.controllers/.dataProcessingHelpers/DataProccessingHelpersExport";
 import { handleSelection } from "./Search-Helpers/SearchHelpersExport";
 
 

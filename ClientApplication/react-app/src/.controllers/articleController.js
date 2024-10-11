@@ -1,18 +1,17 @@
-import { ArticleService } from "../.services/MainServices";
+import { ArticleService } from "../.services/.MainServices";
 import { StatusHelper } from "../.helpers/MainHelpers";
 import { ArticleErrors, ArticlePageErrors } from "../.constants/MainConstants";
 import { Article, ArticlePage } from "../.entities/.MainEntitiesExport";
+import { ArticleMapper, ArticlePageMapper } from "./.mappers/articleMapper";
 class ArticleController {
     static async Post(Article) {
         try {
-            let jsonData = Article.toJson();
+            let jsonData = ArticleMapper.toJson(Article);
             const response = await ArticleService.postArticle(jsonData);
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(ArticleErrors.PostError);
             }
-            let newArticle = new Article();
-            newArticle.fromJson(response.data);
-            return newArticle;
+            return ArticleMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -24,9 +23,7 @@ class ArticleController {
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(ArticleErrors.GetError);
             }
-            let newArticle = new Article();
-            newArticle.fromJson(response.data);
-            return newArticle;
+            return ArticleMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -34,14 +31,12 @@ class ArticleController {
 
     static async Put(Article) {
         try {
-            let jsonData = Article.toJson();
+            let jsonData = ArticleMapper.toJson(Article);
             const response = await ArticleService.putArticle(jsonData);
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(ArticleErrors.PutError);
             }
-            let newArticle = new Article();
-            newArticle.fromJson(response.data);
-            return newArticle;
+            return ArticleMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -65,9 +60,7 @@ class ArticleController {
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(ArticlePageErrors.GetError);
             }
-            let newPage = new ArticlePage();
-            newPage.fromJson(response.data);
-            return newPage;
+            return ArticleMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -79,9 +72,7 @@ class ArticleController {
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(ArticlePageErrors.SearchError);
             }
-            let newPage = new ArticlePage();
-            newPage.fromJson(response.data);
-            return newPage;
+            return ArticlePageMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }

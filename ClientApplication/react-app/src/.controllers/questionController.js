@@ -1,19 +1,17 @@
-import { QuestionService } from "../.services/MainServices";
+import { QuestionService } from "../.services/.MainServices";
 import { StatusHelper } from "../.helpers/MainHelpers";
 import { QuestionErrors, QuestionPageErrors } from "../.constants/MainConstants";
 import { Question, QuestionPage } from "../.entities/.MainEntitiesExport";
-
+import { QuestionMapper, QuestionPageMapper } from "./.mappers/questionMapper";
 class QuestionController {
     static async Post(Question) {
         try {
-            let jsonData = Question.toJson();
+            let jsonData = QuestionMapper.toJson(Question);
             const response = await QuestionService.postQuestion(jsonData);
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(QuestionErrors.PostError);
             }
-            let newQuestion = new Question();
-            newQuestion.fromJson(response.data);
-            return newQuestion;
+            return QuestionMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -25,9 +23,7 @@ class QuestionController {
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(QuestionErrors.GetError);
             }
-            let newQuestion = new Question();
-            newQuestion.fromJson(response.data);
-            return newQuestion;
+            return QuestionMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -35,14 +31,12 @@ class QuestionController {
 
     static async Put(Question) {
         try {
-            let jsonData = Question.toJson();
+            let jsonData = QuestionMapper.toJson(Question);
             const response = await QuestionService.putQuestion(jsonData);
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(QuestionErrors.PutError);
             }
-            let newQuestion = new Question();
-            newQuestion.fromJson(response.data);
-            return newQuestion;
+            return QuestionMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -64,11 +58,9 @@ class QuestionController {
         try {
             const response = await QuestionService.searchQuestions(query);
             if (StatusHelper.isError(response.data) || !response.data) {
-                throw new Error(QuestionErrors.SearchError);
+                throw new Error(QuestionPageErrors.SearchError);
             }
-            let newQuestionPage = new QuestionPage();
-            newQuestionPage.fromJson(response.data);
-            return newQuestionPage;
+            return QuestionPageMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }

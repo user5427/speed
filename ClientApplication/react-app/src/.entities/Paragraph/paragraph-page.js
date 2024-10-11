@@ -5,9 +5,20 @@ class ParagraphPage {
         this.#createEmptyParagraphPage();
     }
 
+    static createParagraphPageFromParams(paragraphList = [], paragraphCount = 0) {
+        const paragraphPage = new ParagraphPage();
+        paragraphPage.#createParagraphPageFromParams(paragraphList, paragraphCount);
+        return paragraphPage;
+    }
+
     #createEmptyParagraphPage() {
         this._paragraphList = [];
         this._paragraphCount = 0;
+    }
+
+    #createParagraphPageFromParams(paragraphList = [], paragraphCount = 0) {
+        this._paragraphList = paragraphList;
+        this._paragraphCount = paragraphCount;
     }
 
     // Getter for paragraphList
@@ -21,6 +32,10 @@ class ParagraphPage {
     }
 
     // Setter for paragraphPage from JSON data (accepts data object with paragraphs and count)
+    /**
+     * @deprecated This method is deprecated and will be removed in future versions.
+     * @param {*} data 
+     */
     fromJson(data) {
         if (data && Array.isArray(data[ParagraphPageJson.paragraphs]) && typeof data[ParagraphPageJson.count] === 'number') {
             this._paragraphList = data[ParagraphPageJson.paragraphs];

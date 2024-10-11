@@ -1,19 +1,17 @@
-import { ParagraphService } from "../.services/MainServices";
+import { ParagraphService } from "../.services/.MainServices";
 import { StatusHelper } from "../.helpers/MainHelpers";
 import { ParagraphErrors, ParagraphPageErrors } from "../.constants/MainConstants";
 import { Paragraph, ParagraphPage } from "../.entities/.MainEntitiesExport";
-
+import { ParagraphMapper, ParagraphPageMapper } from "./.mappers/paragraphMapper";
 class ParagraphController {
     static async Post(Paragraph) {
         try {
-            let jsonData = Paragraph.toJson();
+            let jsonData = ParagraphMapper.toJson(Paragraph);
             const response = await ParagraphService.postParagraph(jsonData);
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(ParagraphErrors.PostError);
             }
-            let newParagraph = new Paragraph();
-            newParagraph.fromJson(response.data);
-            return newParagraph;
+            return ParagraphMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -25,9 +23,7 @@ class ParagraphController {
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(ParagraphErrors.GetError);
             }
-            let newParagraph = new Paragraph();
-            newParagraph.fromJson(response.data);
-            return newParagraph;
+            return ParagraphMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -35,14 +31,12 @@ class ParagraphController {
 
     static async Put(Paragraph) {
         try {
-            let jsonData = Paragraph.toJson();
+            let jsonData = ParagraphMapper.toJson(Paragraph);
             const response = await ParagraphService.putParagraph(jsonData);
             if (StatusHelper.isError(response.data) || !response.data) {
                 throw new Error(ParagraphErrors.PutError);
             }
-            let newParagraph = new Paragraph();
-            newParagraph.fromJson(response.data);
-            return newParagraph;
+            return ParagraphMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }
@@ -64,11 +58,9 @@ class ParagraphController {
         try {
             const response = await ParagraphService.searchParagraphs(query);
             if (StatusHelper.isError(response.data) || !response.data) {
-                throw new Error(ParagraphErrors.SearchError);
+                throw new Error(ParagraphPageErrors.SearchError);
             }
-            let newParagraphPage = new ParagraphPage();
-            newParagraphPage.fromJson(response.data);
-            return newParagraphPage;
+            return ParagraphPageMapper.fromJson(response.data);
         } catch (error) {
             throw error;
         }

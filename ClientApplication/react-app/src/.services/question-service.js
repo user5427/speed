@@ -1,5 +1,5 @@
 // 
-import { FetchHelper } from "../../.helpers/MainHelpers";
+import { FetchHelper } from "../.helpers/MainHelpers";
 const QuestionService = {
 
     postQuestion: async function (question) {

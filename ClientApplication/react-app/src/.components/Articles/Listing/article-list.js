@@ -5,8 +5,8 @@ import ReactPaginate from 'react-paginate';
 import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons form react-icons
 import { IconContext } from "react-icons";
 import "../../../styles/stylesPaginator.css"; // stylesheet
-import ArticleService from '../../../.services/Articles/article-service';
 import { StatusHelper } from '../../../.helpers/MainHelpers';
+import { ArticleService } from '../../../.services/.MainServices';
 
 const ArticleList = ({ settings }) => {
     const [articles, setArticles] = useState(null)

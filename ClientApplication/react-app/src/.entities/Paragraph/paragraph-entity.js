@@ -6,9 +6,9 @@ class Paragraph {
         this.#createEmptyParagraph();
     }
 
-    static createArticleFromParams(title, text, articleId, questionIDs = []) {
+    static createArticleFromParams(title, text, articleId, id = null, questionIDs = [], nextParagraphId = null) {
         const paragraph = new Paragraph();
-        paragraph.#createParagraphFromParams(title, text, articleId, questionIDs);
+        paragraph.#createParagraphFromParams(title, text, articleId, id, questionIDs, nextParagraphId);
         return paragraph;
     }
 
@@ -22,7 +22,7 @@ class Paragraph {
         return newParagraph;
     }
 
-    #createParagraphFromParams(title, text, articleId, questionIDs = []) {
+    #createParagraphFromParams(title, text, articleId, id = null, questionIDs = [], nextParagraphId = null) {
         // Validate title
         if (typeof title !== "string" ||
             title.length < ValidationConstants.MinTitleLength ||
@@ -45,12 +45,28 @@ class Paragraph {
             throw new Error("Article ID must be a string.");
         }
 
+        // Validate ID (if provided) id must be a number
+        if (id && typeof id !== "number") {
+            throw new Error("ID must be a number.");
+        }
+
+        // Validate question IDs (if provided)
+        if (questionIDs && !Array.isArray(questionIDs)) {
+            throw new Error("Question IDs must be an array.");
+        }
+
+        // Validate next paragraph ID (if provided)
+        if (nextParagraphId && typeof nextParagraphId !== "number") {
+            throw new Error("Next paragraph ID must be a number.");
+        }
+
         // Assign properties
         this._title = title;
         this._text = text;
         this._articleId = articleId;
         this._questionIDs = questionIDs; // Initialize questionIDs
-        this._id = null;
+        this._id = null
+        this._nextParagraphId = nextParagraphId;
     }
 
     #createEmptyParagraph() {
@@ -59,6 +75,7 @@ class Paragraph {
         this._articleId = "";
         this._questionIDs = [];
         this._id = null;
+        this._nextParagraphId = null;
     }
 
     #copyParagraph(paragraph) {
@@ -86,6 +103,11 @@ class Paragraph {
             this._id = paragraph.id;
         } else {
             this._id = null;
+        }
+        if (paragraph.nextParagraphId) {
+            this._nextParagraphId = paragraph.nextParagraphId;
+        } else {
+            this._nextParagraphId = null;
         }
     }
 
@@ -147,12 +169,25 @@ class Paragraph {
         this._questionIDs = value;
     }
 
+    get nextParagraphId() {
+        return this._nextParagraphId;
+    }
+    set nextParagraphId(value) {
+        // if (value && typeof value !== "number") {
+        //     throw new Error("Next paragraph ID must be a number.");
+        // }
+        this._nextParagraphId = value;
+    }
 
     get id() {
         return this._id;
     }
 
     // Setter to update the paragraph based on given data
+    /**
+     * @deprecated This method is deprecated and will be removed in future versions.
+     * @param {*} data 
+     */
     fromJson(data) {
         this._title = data[ParagraphJson.title];
         this._text = data[ParagraphJson.text];
@@ -163,6 +198,10 @@ class Paragraph {
         }
     }
 
+    /**
+     * @deprecated This method is deprecated and will be removed in future versions.
+     * @returns 
+     */
     toJson() {
         const json = {};
 

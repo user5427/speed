@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
-import { ParagraphService } from '../../.services/MainServices';
+import { ParagraphService } from '../../.services/.MainServices';
 import { StatusHelper } from '../../.helpers/MainHelpers';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { Question } from '../../.entities/.MainEntitiesExport';

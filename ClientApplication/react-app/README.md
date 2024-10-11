@@ -11,4 +11,6 @@ REACT_APP_PAGING_SIZE=5
 ```
 
 add error\validation handling
+
 add default query object.
+

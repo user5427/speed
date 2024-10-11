@@ -1,6 +1,6 @@
 // 
-import { FetchHelper } from "../../.helpers/MainHelpers";
-import { SearchSizeConstants } from "../../.constants/SearchSizeConstants/SearchSizeConstants";
+import { FetchHelper } from "../.helpers/MainHelpers";
+import { SearchSizeConstants } from "../.constants/SearchSizeConstants/SearchSizeConstants";
 
 const ArticleService = {
     getArticles: async function(page) {

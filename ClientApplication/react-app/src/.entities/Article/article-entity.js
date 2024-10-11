@@ -6,9 +6,9 @@ class Article {
         this.#createEmptyArticle();
     }
 
-    static createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs) {
+    static createArticleFromParams(title, categoryTitle, coverImage = null, paragraphIDs = [], id = null) {
         const article = new Article();
-        article.#createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs);
+        article.#createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs, id);
         return article;
     }
 
@@ -22,7 +22,7 @@ class Article {
         return newArticle;
     }
 
-    #createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs) {
+    #createArticleFromParams(title, categoryTitle, coverImage = null, paragraphIDs = [], id = null) {
         // Validate title
         if (typeof title !== "string" ||
             title.length < ValidationConstants.MinTitleLength ||
@@ -44,12 +44,22 @@ class Article {
             throw new Error("Cover image must be a string.");
         }
 
+        // Validate paragraph IDs (if provided)
+        if (paragraphIDs && !Array.isArray(paragraphIDs)) {
+            throw new Error("Paragraph IDs must be an array.");
+        }
+
+        // Validate ID (if provided) id must be a number
+        if (id && typeof id !== "number") {
+            throw new Error("ID must be a number.");
+        }
+
         // Assign properties
         this._title = title;
         this._categoryTitle = categoryTitle;
         this._coverImage = coverImage;
         this._paragraphIDs = paragraphIDs; // Initialize paragraphIDs as an empty array
-        this._id = null;
+        this._id = id;
     }
 
     #createEmptyArticle() {
@@ -88,6 +98,7 @@ class Article {
         }
 
     }
+
 
     // Method to check if a field exists
     hasField(field) {
@@ -156,6 +167,10 @@ class Article {
     }
 
     // Setter for the entire article based on data object
+    /**
+     * @deprecated This method is deprecated and will be removed in future versions.
+     * @param {*} data 
+     */
     fromJson(data) {
         console.log(data)
         this._title = data[ArticleJson.title];
@@ -169,6 +184,10 @@ class Article {
         }
     }
 
+    /**
+     * @deprecated This method is deprecated and will be removed in future versions.
+     * @returns 
+     */
     toJson() {
         const json = {};
 

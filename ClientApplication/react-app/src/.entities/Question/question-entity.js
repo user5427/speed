@@ -6,9 +6,9 @@ class Question {
         this.#createEmptyQuestion();
     }
 
-    static createQuestionFromParams(title, text, paragraphId, answerChoices = [], correctAnswerIndex = 0) {
+    static createQuestionFromParams(title, text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null) {
         const question = new Question();
-        question.#createQuestionFromParams(title, text, paragraphId, answerChoices, correctAnswerIndex);
+        question.#createQuestionFromParams(title, text, paragraphId, answerChoices, correctAnswerIndex, id);
         return question;
     }
 
@@ -22,7 +22,7 @@ class Question {
         return newQuestion;
     }
 
-    #createQuestionFromParams(title, text, paragraphId, answerChoices = [], correctAnswerIndex = 0) {
+    #createQuestionFromParams(title, text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null) {
         // Validate title
         if (typeof title !== "string" ||
             title.length < ValidationConstants.MinTitleLength ||
@@ -43,6 +43,21 @@ class Question {
         // Validate paragraphId
         if (typeof paragraphId === "undefined" || paragraphId === null) {
             throw new Error("Paragraph ID is required.");
+        }
+
+        // Validate answer choices
+        if (answerChoices && !Array.isArray(answerChoices)) {
+            throw new Error("Answer choices must be an array.");
+        }
+
+        // Validate correct answer index
+        if (typeof correctAnswerIndex !== "number" || correctAnswerIndex < 0 || correctAnswerIndex >= answerChoices.length) {
+            throw new Error(`Correct answer index must be a number between 0 and ${answerChoices.length - 1}.`);
+        }
+
+        // Validate ID (if provided) id must be a number
+        if (id && typeof id !== "number") {
+            throw new Error("ID must be a number.");
         }
 
         // Assign properties
@@ -181,6 +196,9 @@ class Question {
     }
 
     // Setter for the entire question based on a data object
+    /**
+     * @deprecated This method is deprecated and will be removed in future versions.
+     */
     set fromJson(data) {
         this._title = data[QuestionJson.title];
         this._text = data[QuestionJson.questionText];
@@ -192,6 +210,9 @@ class Question {
         this._correctAnswerIndex = data[QuestionJson.correctAnswerIndex];
     }
 
+    /**
+     * @deprecated This method is deprecated and will be removed in future versions.
+     */
     get toJson() {
         const json = {};
 

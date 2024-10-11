@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
 
-import { ArticleService, ParagraphService } from '../../.services/MainServices';
+import { ArticleService, ParagraphService } from '../../.services/.MainServices';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { StatusHelper } from '../../.helpers/MainHelpers';
 import ArticleSearch from '../Articles/article-search';

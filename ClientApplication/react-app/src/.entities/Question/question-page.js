@@ -5,9 +5,20 @@ class QuestionPage {
         this.#createEmptyQuestionPage();
     }
 
+    static createQuestionPageFromParams(questionList = [], questionCount = 0) {
+        const questionPage = new QuestionPage();
+        questionPage.#createQuestionPageFromParams(questionList, questionCount);
+        return questionPage;
+    }
+
     #createEmptyQuestionPage() {
         this._questionList = [];
         this._questionCount = 0;
+    }
+
+    #createQuestionPageFromParams(questionList = [], questionCount = 0) {
+        this._questionList = questionList;
+        this._questionCount = questionCount;
     }
 
     // Getter for questionList
@@ -21,6 +32,10 @@ class QuestionPage {
     }
 
     // Setter for questionPage from JSON data (accepts data object with questions and count)
+    /**
+     * @deprecated This method is deprecated and will be removed in future versions.
+     * @param {*} data 
+     */
     fromJson(data) {
         if (data && Array.isArray(data[QuestionPageJson.questions]) && typeof data[QuestionPageJson.count] === 'number') {
             this._questionList = data[QuestionPageJson.questions];

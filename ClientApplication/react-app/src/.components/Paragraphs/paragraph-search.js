@@ -1,4 +1,4 @@
-import { ParagraphService } from "../../.services/MainServices";
+import { ParagraphService } from "../../.services/.MainServices";
 import { Form } from 'react-bootstrap';
 import { React } from 'react';
 import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
