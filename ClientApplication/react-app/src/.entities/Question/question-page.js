@@ -1,3 +1,5 @@
+import { QuestionPageJson } from "../../.constants/MainConstants";
+
 class QuestionPage {
     constructor(questionList = [], questionCount = 0) {
         this.#createEmptyQuestionPage();
@@ -20,9 +22,9 @@ class QuestionPage {
 
     // Setter for questionPage from JSON data (accepts data object with questions and count)
     fromJson(data) {
-        if (data && Array.isArray(data.questions) && typeof data.count === 'number') {
-            this._questionList = data.questions;
-            this._questionCount = data.count;
+        if (data && Array.isArray(data[QuestionPageJson.questions]) && typeof data[QuestionPageJson.count] === 'number') {
+            this._questionList = data[QuestionPageJson.questions];
+            this._questionCount = data[QuestionPageJson.count];
         } else {
             throw new Error("Invalid data format. Must contain questions (array) and count (number).");
         }

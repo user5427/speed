@@ -1,33 +1,17 @@
 //
 
 const ParagraphJson = {
-    getTitle: () => {
-        return "title";
-    },
-    getArticleId: () => {
-        return "articleId";
-    },
-    getId: () => {
-        return "id";
-    },
-    getText: () => {
-        return "text";
-    },
-    getNextParagraphId: () => {
-        return "nextParagraphId";
-    },
-    getQuestionIds: () => {
-        return "questionIds";
-    }
+    title: "title",
+    articleId: "articleId",
+    id: "id",
+    text: "text",
+    nextParagraphId: "nextParagraphId",
+    questionIds: "questionIds"
 };
 
 const ParagraphPageJson = {
-    getParagraphs: () => {
-        return "paragraphs";
-    },
-    getCount: () => {
-        return "count";
-    }
+    paragraphs: "paragraphs",
+    count: "count"
 };
 
 export { ParagraphJson, ParagraphPageJson };

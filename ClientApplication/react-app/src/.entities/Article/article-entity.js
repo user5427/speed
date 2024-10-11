@@ -1,4 +1,5 @@
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
+import { ArticleJson } from '../../.constants/MainConstants';
 
 class Article {
     constructor() {
@@ -10,7 +11,7 @@ class Article {
         article.#createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs);
         return article;
     }
-    
+
     static createEmptyArticle() {
         return new Article();
     }
@@ -23,8 +24,8 @@ class Article {
 
     #createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs) {
         // Validate title
-        if (typeof title !== "string" || 
-            title.length < ValidationConstants.MinTitleLength || 
+        if (typeof title !== "string" ||
+            title.length < ValidationConstants.MinTitleLength ||
             title.length > ValidationConstants.MaxTitleLength) {
             throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
         }
@@ -33,7 +34,7 @@ class Article {
         }
 
         // Validate category title
-        if (typeof categoryTitle !== "string" || 
+        if (typeof categoryTitle !== "string" ||
             !ValidationPatternConstants.ArticleCategoryPattern.test(categoryTitle)) {
             throw new Error("Category title must be a string and match the required pattern.");
         }
@@ -80,7 +81,7 @@ class Article {
         } else {
             this._paragraphIDs = [];
         }
-        if (article.id){
+        if (article.id) {
             this._id = article.id;
         } else {
             this._id = null;
@@ -131,7 +132,7 @@ class Article {
     }
     set coverImage(value) {
         // if (value && typeof value !== "string") {
-            // throw new Error("Cover image must be a string.");
+        // throw new Error("Cover image must be a string.");
         // }
         this._coverImage = value;
     }
@@ -144,7 +145,7 @@ class Article {
     }
     set paragraphIDs(value) {
         // if (!Array.isArray(value)) {
-            // throw new Error("Paragraph IDs must be an array.");
+        // throw new Error("Paragraph IDs must be an array.");
         // }
         this._paragraphIDs = value;
     }
@@ -157,29 +158,38 @@ class Article {
     // Setter for the entire article based on data object
     fromJson(data) {
         console.log(data)
-        this._title = data.title;
-        this._categoryTitle = data.categoryTitle;
-        this._id = data.id;
-        if (data.coverImage) {
-            this._coverImage = data.coverImage;
+        this._title = data[ArticleJson.title];
+        this._categoryTitle = data[ArticleJson.categoryTitle];
+        this._id = data[ArticleJson.id];
+        if (data[ArticleJson.coverImage]) {
+            this._coverImage = data[ArticleJson.coverImage];
         }
-        if (data.paragraphIds) {
-            this._paragraphIDs = data.paragraphIds;
+        if (data[ArticleJson.paragraphIds]) {
+            this._paragraphIDs = data[ArticleJson.paragraphIds];
         }
     }
 
     toJson() {
-        const json = {
-            title: this._title,
-            categoryTitle: this._categoryTitle
-        };
+        const json = {};
+
+        if (this._title) {
+            json[ArticleJson.title] = this._title;
+        }
+
+        if (this._categoryTitle) {
+            json[ArticleJson.categoryTitle] = this._categoryTitle;
+        }
 
         if (this._coverImage) {
-            json.coverImage = this._coverImage;
+            json[ArticleJson.coverImage] = this._coverImage;
         }
 
         if (this._id) {
-            json.id = this._id;
+            json[ArticleJson.id] = this._id;
+        }
+
+        if (this._paragraphIDs) {
+            json[ArticleJson.paragraphIds] = this._paragraphIDs;
         }
 
         return json;

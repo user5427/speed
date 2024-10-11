@@ -1,33 +1,17 @@
 //
 
 const QuestionJson = {
-    getTitle: () => {
-        return "title";
-    },
-    getParagraphId: () => {
-        return "paragraphId";
-    },
-    getId: () => {
-        return "id";
-    },
-    getQuestionText: () => {
-        return "questionText";
-    },
-    getAnswerChoiCes: () => {
-        return "answerChoices";
-    },
-    getCorrectAnswerIndex: () => {
-        return "correctAnswerIndex";
-    }
+    title: "title",
+    paragraphId: "paragraphId",
+    id: "id",
+    questionText: "questionText",
+    answerChoices: "answerChoices",
+    correctAnswerIndex: "correctAnswerIndex"
 };
 
 const QuestionPageJson = {
-    getQuestions: () => {
-        return "questions";
-    },
-    getCount: () => {
-        return "count";
-    }
+    questions: "questions",
+    count: "count"
 };
 
 export { QuestionJson, QuestionPageJson };

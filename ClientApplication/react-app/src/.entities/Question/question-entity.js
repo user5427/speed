@@ -1,8 +1,5 @@
-
-/**
- * 
- */
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
+import { QuestionJson } from '../../.constants/MainConstants';
 
 class Question {
     constructor() {
@@ -185,25 +182,39 @@ class Question {
 
     // Setter for the entire question based on a data object
     set fromJson(data) {
-        this._title = data.title;
-        this._text = data.text;
-        this._paragraphId = data.paragraphId;
+        this._title = data[QuestionJson.title];
+        this._text = data[QuestionJson.questionText];
+        this._paragraphId = data[QuestionJson.paragraphId];
         this._id = data.id;
-        if (data.answerChoices && Array.isArray(data.answerChoices)) {
-            this._answerChoices = data.answerChoices;
+        if (data[QuestionJson.answerChoices] && Array.isArray(data[QuestionJson.answerChoices])) {
+            this._answerChoices = data[QuestionJson.answerChoices];
         }
-        this._correctAnswerIndex = data.correctAnswerIndex;
+        this._correctAnswerIndex = data[QuestionJson.correctAnswerIndex];
     }
 
     get toJson() {
-        const json = {
-            title: this._title,
-            text: this._text,
-            paragraphId: this._paragraphId,
-            answerChoices: this._answerChoices,
-            correctAnswerIndex: this._correctAnswerIndex
-        };
+        const json = {};
 
+        if (this._title) {
+            json[QuestionJson.title] = this._title;
+        }
+    
+        if (this._text) {
+            json[QuestionJson.questionText] = this._text;
+        }
+    
+        if (this._paragraphId) {
+            json[QuestionJson.paragraphId] = this._paragraphId;
+        }
+    
+        if (this._answerChoices) {
+            json[QuestionJson.answerChoices] = this._answerChoices;
+        }
+    
+        if (this._correctAnswerIndex !== undefined) {
+            json[QuestionJson.correctAnswerIndex] = this._correctAnswerIndex;
+        }
+    
         if (this._id) {
             json.id = this._id;
         }

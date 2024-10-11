@@ -1,26 +1,15 @@
 
 const ArticleJson = {
-    getTitle: () => {
-        return "title";
-    },
-    getCategory: () => {
-        return "categoryTitle";
-    },
-    getId: () => {
-        return "id";
-    },
-    getParagraphs: () => {
-        return "paragraphIds";
-    }
+    title: "title",
+    categoryTitle: "categoryTitle",
+    id: "id",
+    paragraphIds: "paragraphIds",
+    coverImage: "coverImage"
 };
 
 const ArticlePageJson = {
-    getArticles: () => {
-        return "articles";
-    },
-    getCount: () => {
-        return "count";
-    }
+    articles: "articles",
+    count: "count"
 };
 
 export { ArticleJson, ArticlePageJson };

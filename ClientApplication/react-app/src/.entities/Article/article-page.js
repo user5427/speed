@@ -1,3 +1,5 @@
+import { ArticlePageJson } from "../../.constants/MainConstants";
+
 class ArticlePage {
     constructor() {
         this.#createEmptyArticlePage();
@@ -21,9 +23,9 @@ class ArticlePage {
 
     // Setter for articlePage from JSON data (accepts data object with articles and count)
     fromJson(data) {
-        if (data && Array.isArray(data.articles) && typeof data.count === 'number') {
-            this._articleList = data.articles;
-            this._articleCount = data.count;
+        if (data && Array.isArray(data[ArticlePageJson.articles]) && typeof data[ArticlePageJson.count] === 'number') {
+            this._articleList = data[ArticlePageJson.articles];
+            this._articleCount = data[ArticlePageJson.count];
         } else {
             throw new Error("Invalid data format. Must contain articles (array) and count (number).");
         }
