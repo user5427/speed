@@ -1,5 +1,3 @@
-import { QuestionPageJson } from "../../.constants/MainConstants";
-
 class QuestionPage {
     constructor(questionList = [], questionCount = 0) {
         this.#createEmptyQuestionPage();

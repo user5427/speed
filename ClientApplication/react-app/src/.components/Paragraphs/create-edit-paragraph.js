@@ -5,6 +5,7 @@ import { ValidationConstants, ValidationPatternConstants } from '../../.constant
 import ArticleSearch from '../Articles/article-search';
 import { Paragraph } from '../../.entities/.MainEntitiesExport';
 import { ArticleController, ParagraphController } from '../../.controllers/.MainControllersExport';
+import ErrorPopup from '../.common-components/ErrorPopup';
 
 const EditParagraph = () => {
     const [paragraph, setParagraph] = useState(
@@ -12,6 +13,9 @@ const EditParagraph = () => {
     );
     const [validated, setValidated] = useState(false);
     const [update, setUpdate] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState(""); // State for error message
+    const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -41,15 +45,13 @@ const EditParagraph = () => {
                 }
                 setParagraph(newParagraph);
             } catch (error) {
-                alert(error);
-                return;
+                setErrorMessage(error); // Set error message
+                setShowErrorModal(true); // Show modal
             }
         } else {
             alert("Please enter article ID.");
         }
     }
-
-
 
     const handleFieldChange = (event) => {
         const { name, value } = event.target;
@@ -85,6 +87,11 @@ const EditParagraph = () => {
             return newParagraph;
         });
     }
+
+    // Function to close the error modal
+    const closeErrorModal = () => {
+        setShowErrorModal(false);
+    };
 
     return (
         <>
@@ -148,6 +155,13 @@ const EditParagraph = () => {
                     <Button onClick={resetUpdating}>Reset</Button> : ""
                 }
             </Form>
+
+             {/* Error Popup */}
+             <ErrorPopup 
+                showErrorModal={showErrorModal} 
+                errorMessage={errorMessage} 
+                onClose={closeErrorModal} 
+            />
         </>
     )
 }

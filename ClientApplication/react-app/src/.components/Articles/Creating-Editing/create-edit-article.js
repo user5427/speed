@@ -5,13 +5,16 @@ import NoImage from '../../../no-image.png'
 import { ValidationConstants, ValidationPatternConstants } from '../../../.constants/MainConstants';
 import { Article } from '../../../.entities/.MainEntitiesExport';
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
-
+import ErrorPopup from '../../.common-components/ErrorPopup';
 const EditArticle = () => {
     const [article, setArticle] = useState(
         new Article()
     );
     const [validated, setValidated] = useState(false);
     const [update, setUpdate] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState(""); // State for error message
+    const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     /**
      * Handle file upload
@@ -60,7 +63,8 @@ const EditArticle = () => {
             }
             setArticle(newArticle);
         } catch (error) {
-            alert(error);
+            setErrorMessage(error); // Set error message
+            setShowErrorModal(true); // Show modal
         }
     }
 
@@ -78,6 +82,11 @@ const EditArticle = () => {
             return newArticle;
         });
     }
+
+    // Function to close the error modal
+    const closeErrorModal = () => {
+        setShowErrorModal(false);
+    };
 
     return (
         <>
@@ -121,6 +130,13 @@ const EditArticle = () => {
 
                 <Button type="submit">{update ? "Update" : "Create"}</Button>
             </Form>
+
+            {/* Error Popup */}
+            <ErrorPopup 
+                showErrorModal={showErrorModal} 
+                errorMessage={errorMessage} 
+                onClose={closeErrorModal} 
+            />
         </>
     )
 }

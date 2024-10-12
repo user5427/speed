@@ -4,9 +4,13 @@ import { React } from 'react';
 import { handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
 import { QuestionController } from '../../.controllers/.MainControllersExport';
-
+import ErrorPopup from "../.common-components/ErrorPopup";
+import { ValidationPatternConstants } from "../../.constants/MainConstants";
 const QuestionSearch = ({ onQuestionSelected }) => {
     const [options, setOptions] = useState([]);
+
+    const [errorMessage, setErrorMessage] = useState(""); // State for error message
+    const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     const handleFieldChange = async (event) => {
         const { value } = event.target;
@@ -31,29 +35,45 @@ const QuestionSearch = ({ onQuestionSelected }) => {
         handleSelection(options, event, onQuestionSelected);
     };
 
+    // Function to close the error modal
+    const closeErrorModal = () => {
+        setShowErrorModal(false);
+    };
+
     return (
-        <Form NoValidate>
-            <Form.Group controlId="formQuestionsSearch">
-                <Form.Label>Search Questions</Form.Label>
-                <Form.Control
-                    list="questions"
-                    name="questionSearch"
-                    required
-                    type="text"
-                    id="searchBar"
-                    placeholder="Enter question title"
-                    onChange={handleFieldChange}
-                    onInput={handleQuestionSelect}
-                    autoComplete="off"
-                />
-                <datalist id="questions">
-                    {options}
-                </datalist>
-                <Form.Control.Feedback type="invalid">
-                    Please select a question.
-                </Form.Control.Feedback>
-            </Form.Group>
-        </Form>
+        <>
+            <Form NoValidate>
+                <Form.Group controlId="formQuestionsSearch">
+                    <Form.Label>Search Questions</Form.Label>
+                    <Form.Control
+                        list="questions"
+                        name="questionSearch"
+                        required
+                        type="text"
+                        id="searchBar"
+                        placeholder="Enter question title"
+                        onChange={handleFieldChange}
+                        onInput={handleQuestionSelect}
+                        autoComplete="off"
+                        patter={ValidationPatternConstants.TitlePattern.source}
+                    />
+                    <datalist id="questions">
+                        {options}
+                    </datalist>
+                    <Form.Control.Feedback type="invalid">
+                        Please select a question.
+                    </Form.Control.Feedback>
+                </Form.Group>
+            </Form>
+
+            {/* Error Popup */}
+            <ErrorPopup
+                showErrorModal={showErrorModal}
+                errorMessage={errorMessage}
+                onClose={closeErrorModal}
+            />
+        </>
+
     );
 };
 

@@ -4,6 +4,7 @@ import { ValidationConstants, ValidationPatternConstants } from '../../.constant
 import { Question } from '../../.entities/.MainEntitiesExport';
 import ParagraphSearch from '../Paragraphs/paragraph-search';
 import { ParagraphController, QuestionController } from '../../.controllers/.MainControllersExport';
+import ErrorPopup from '../.common-components/ErrorPopup';
 
 const EditQuestions = () => {
     const [question, setQuestion] = useState(
@@ -11,6 +12,9 @@ const EditQuestions = () => {
     );
     const [validated, setValidated] = useState(false);
     const [update, setUpdate] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState(""); // State for error message
+    const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -40,14 +44,13 @@ const EditQuestions = () => {
                 }
                 setQuestion(newQuestion);
             } catch (error) {
-                alert(error);
+                setErrorMessage(error); // Set error message
+                setShowErrorModal(true); // Show modal
             }
         } else {
             alert("Please enter paragraph ID.");
         }
     }
-
-
 
     const handleFieldChange = (event) => {
         const { name, value } = event.target;
@@ -83,6 +86,11 @@ const EditQuestions = () => {
         });
     }
 
+     // Function to close the error modal
+    const closeErrorModal = () => {
+        setShowErrorModal(false);
+    };
+
     return (
         <>
             <ParagraphSearch onParagraphSelected={updateParagraphId} />
@@ -105,24 +113,6 @@ const EditQuestions = () => {
                 </Form.Group>
 
                 <Form.Group controlId="formtestTitle">
-                    <Form.Label>Question Text</Form.Label>
-                    <Form.Control
-                        name={question.varTextName}
-                        value={question && question.text || ''}
-                        required type="text"
-                        autoComplete='off'
-                        placeholder="Enter Question Text"
-                        onChange={handleFieldChange}
-                        minLength={ValidationConstants.MinQuestionTextLength}
-                        maxLength={ValidationConstants.MaxQuestionTextLength}
-                        pattern={ValidationPatternConstants.QuestionTextPattern.source}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Please enter question text.
-                    </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group controlId="formtestTitle">
                     <Form.Label>Question Title</Form.Label>
                     <Form.Control
                         name={question.varTitleName}
@@ -134,6 +124,24 @@ const EditQuestions = () => {
                         minLength={ValidationConstants.MinTitleLength}
                         maxLength={ValidationConstants.MaxTitleLength}
                         pattern={ValidationPatternConstants.TitlePattern.source}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter question text.
+                    </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group controlId="formtestTitle">
+                    <Form.Label>Question Text</Form.Label>
+                    <Form.Control
+                        name={question.varTextName}
+                        value={question && question.text || ''}
+                        required type="text"
+                        autoComplete='off'
+                        placeholder="Enter Question Text"
+                        onChange={handleFieldChange}
+                        minLength={ValidationConstants.MinQuestionTextLength}
+                        maxLength={ValidationConstants.MaxQuestionTextLength}
+                        pattern={ValidationPatternConstants.QuestionTextPattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter question text.
@@ -152,6 +160,13 @@ const EditQuestions = () => {
                     <Button onClick={resetUpdating}>Reset</Button> : ""
                 }
             </Form>
+
+            {/* Error Popup */}
+            <ErrorPopup 
+                showErrorModal={showErrorModal} 
+                errorMessage={errorMessage} 
+                onClose={closeErrorModal} 
+            />
         </>
     )
 }

@@ -1,5 +1,3 @@
-import { ArticlePageJson } from "../../.constants/MainConstants";
-
 class ArticlePage {
     constructor() {
         this.#createEmptyArticlePage();

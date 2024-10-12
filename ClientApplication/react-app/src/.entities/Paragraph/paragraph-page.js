@@ -1,5 +1,3 @@
-import { ParagraphPageJson } from "../../.constants/MainConstants";
-
 class ParagraphPage {
     constructor(paragraphList = [], paragraphCount = 0) {
         this.#createEmptyParagraphPage();

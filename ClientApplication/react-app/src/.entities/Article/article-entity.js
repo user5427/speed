@@ -1,5 +1,4 @@
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
-import { ArticleJson } from '../../.constants/MainConstants';
 
 class Article {
     constructor() {

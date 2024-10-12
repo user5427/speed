@@ -6,12 +6,16 @@ import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons f
 import { IconContext } from "react-icons";
 import "../../../styles/stylesPaginator.css"; // stylesheet
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
+import ErrorPopup from '../../.common-components/ErrorPopup';
 
 const ArticleList = ({ settings }) => {
     const [articles, setArticles] = useState(null)
-    const [articleCount, setArticleCount] = useState(0)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
+
+    const [errorMessage, setErrorMessage] = useState(""); // State for error message
+    const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+
     useEffect(() => {
         // get all tests
         getArticles();
@@ -21,18 +25,23 @@ const ArticleList = ({ settings }) => {
         try {
             let articlePage = await ArticleController.GetPage(page + 1);
             setArticles(articlePage.articles)
-            setArticleCount(articlePage.count)
             setPageSize(() => {
                 return Math.ceil(articlePage.count / process.env.REACT_APP_PAGING_SIZE)
             })
         } catch (error) {
-            alert(error);
+            setErrorMessage(error); // Set error message
+            setShowErrorModal(true); // Show modal
         }
     }
 
     const handlePageClick = (pageIndex) => {
         setPage(pageIndex.selected)
     }
+
+    // Function to close the error modal
+    const closeErrorModal = () => {
+        setShowErrorModal(false);
+    };
 
     return (
         <>
@@ -69,6 +78,13 @@ const ArticleList = ({ settings }) => {
                     pageClassName={"page-item"}
                     activeClassName={'active'} />
             </div>
+
+             {/* Error Popup */}
+             <ErrorPopup 
+                showErrorModal={showErrorModal} 
+                errorMessage={errorMessage} 
+                onClose={closeErrorModal} 
+            />
         </>
     )
 }
