@@ -1,13 +1,10 @@
 import { React, useState } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
-import AsyncSelect from 'react-select'
-
 
 import NoImage from '../../../no-image.png'
-import { ArticleService } from "../../../.services/.MainServices";
 import { ValidationConstants, ValidationPatternConstants } from '../../../.constants/MainConstants';
-import { StatusHelper } from '../../../.helpers/MainHelpers';
 import { Article } from '../../../.entities/.MainEntitiesExport';
+import { ArticleController } from '../../../.controllers/.MainControllersExport';
 
 const EditArticle = () => {
     const [article, setArticle] = useState(
@@ -51,35 +48,17 @@ const EditArticle = () => {
             return;  // stop execution if the form is not valid
         }
 
-        let data = "";
-        if (update) {
-            data = await ArticleService.putArticle(article.toJson());
-            if (StatusHelper.isOK(data) === true) {
-                alert('Updated article successfully.');
-            }
-        } else {
-            data = await ArticleService.postArticle(article.toJson());
-            if (StatusHelper.isOK(data) === true) {
+        try {
+            let newArticle = new Article();
+            if (update) {
+                newArticle = await ArticleController.Put(article);
+            } else {
+                newArticle = await ArticleController.Post(article);
                 setUpdate(true);
-
-                alert('Created article successfully.');
             }
-        }
-
-
-        if (StatusHelper.isOK(data) === true) {
-            // Create a new Article instance
-            const article = new Article();
-
-            // Use the 'fromJson' setter to populate the instance
-            article.fromJson(data);
-
-            // Now set this article in your state (if using a state management like React)
-            setArticle(article);
-        } else if (StatusHelper.isError(data) === true) {
-            alert(StatusHelper.getErrorMessage(data));
-        } else {
-            alert("Error getting data");
+            setArticle(newArticle);
+        } catch (error) {
+            alert(error);
         }
     }
 
@@ -117,7 +96,7 @@ const EditArticle = () => {
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinTitleLength}
                         maxLength={ValidationConstants.MaxTitleLength}
-                        pattern={ValidationPatternConstants.TitlePattern}
+                        pattern={ValidationPatternConstants.TitlePattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter article title.
@@ -131,7 +110,7 @@ const EditArticle = () => {
                         value={article && article.categoryTitle || ''}
                         required type="text" placeholder="Enter Article Category"
                         onChange={handleFieldChange}
-                        pattern={ValidationPatternConstants.ArticleCategoryPattern}
+                        pattern={ValidationPatternConstants.ArticleCategoryPattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter article category.

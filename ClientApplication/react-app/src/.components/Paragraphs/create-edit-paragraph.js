@@ -107,7 +107,7 @@ const EditParagraph = () => {
                         autoComplete='off'
                         placeholder="Enter article ID"
                         onChange={handleFieldChange}
-                        pattern={ValidationPatternConstants.IdPattern}
+                        pattern={ValidationPatternConstants.IdPattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter article ID.
@@ -125,7 +125,7 @@ const EditParagraph = () => {
                         required type="text"
                         minLength={ValidationConstants.MinTitleLength}
                         maxLength={ValidationConstants.MaxTitleLength}
-                        pattern={ValidationPatternConstants.TitlePattern}
+                        pattern={ValidationPatternConstants.TitlePattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter a valid paragraph title (letters and spaces only).
@@ -143,7 +143,7 @@ const EditParagraph = () => {
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinParagraphLength}
                         maxLength={ValidationConstants.MaxParagraphLength}
-                        pattern={ValidationPatternConstants.ParagraphPattern}
+                        pattern={ValidationPatternConstants.ParagraphPattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter paragraph text between 10 and 1500 characters.

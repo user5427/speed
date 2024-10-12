@@ -40,7 +40,7 @@ class Article {
         }
 
         // Validate cover image (if provided)
-        if (coverImage && typeof coverImage !== "string") {
+        if (coverImage !== null && typeof coverImage !== "string") {
             throw new Error("Cover image must be a string.");
         }
 
@@ -50,7 +50,7 @@ class Article {
         }
 
         // Validate ID (if provided) id must be a number
-        if (id && typeof id !== "number") {
+        if (id !== null && typeof id !== "number") {
             throw new Error("ID must be a number.");
         }
 
@@ -65,7 +65,7 @@ class Article {
     #createEmptyArticle() {
         this._title = "";
         this._categoryTitle = "";
-        this._coverImage = "";
+        this._coverImage = null;
         this._paragraphIDs = [];
         this._id = null;
     }

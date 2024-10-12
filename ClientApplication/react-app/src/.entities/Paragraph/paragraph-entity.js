@@ -46,7 +46,7 @@ class Paragraph {
         }
 
         // Validate ID (if provided) id must be a number
-        if (id && typeof id !== "number") {
+        if (id !== null && typeof id !== "number") {
             throw new Error("ID must be a number.");
         }
 
@@ -56,7 +56,7 @@ class Paragraph {
         }
 
         // Validate next paragraph ID (if provided)
-        if (nextParagraphId && typeof nextParagraphId !== "number") {
+        if (nextParagraphId !== null && typeof nextParagraphId !== "number") {
             throw new Error("Next paragraph ID must be a number.");
         }
 

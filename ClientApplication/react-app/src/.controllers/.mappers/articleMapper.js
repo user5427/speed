@@ -5,9 +5,9 @@ class ArticleMapper {
         return Article.createArticleFromParams(
             data[ArticleJson.title], 
             data[ArticleJson.categoryTitle], 
-            data[ArticleJson.id], 
             data[ArticleJson.coverImage] || null, 
-            data[ArticleJson.paragraphIds]  || []
+            data[ArticleJson.paragraphIds]  || [],
+            data[ArticleJson.id]
         );
     }
 

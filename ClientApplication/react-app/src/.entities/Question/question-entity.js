@@ -56,7 +56,7 @@ class Question {
         }
 
         // Validate ID (if provided) id must be a number
-        if (id && typeof id !== "number") {
+        if (id !== null && typeof id !== "number") {
             throw new Error("ID must be a number.");
         }
 

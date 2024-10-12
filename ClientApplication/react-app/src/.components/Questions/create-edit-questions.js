@@ -103,7 +103,7 @@ const EditQuestions = () => {
                         required type="text" autoComplete='off'
                         placeholder="Enter paragraph ID"
                         onChange={handleFieldChange}
-                        pattern={ValidationPatternConstants.IdPattern}
+                        pattern={ValidationPatternConstants.IdPattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter paragraph ID.
@@ -121,7 +121,7 @@ const EditQuestions = () => {
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinQuestionTextLength}
                         maxLength={ValidationConstants.MaxQuestionTextLength}
-                        pattern={ValidationPatternConstants.QuestionTextPattern}
+                        pattern={ValidationPatternConstants.QuestionTextPattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter question text.
@@ -139,7 +139,7 @@ const EditQuestions = () => {
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinTitleLength}
                         maxLength={ValidationConstants.MaxTitleLength}
-                        pattern={ValidationPatternConstants.TitlePattern}
+                        pattern={ValidationPatternConstants.TitlePattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter question text.

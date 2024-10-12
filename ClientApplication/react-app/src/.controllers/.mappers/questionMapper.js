@@ -6,10 +6,10 @@ class QuestionMapper {
         return Question.createQuestionFromParams(
             data[QuestionJson.title], 
             data[QuestionJson.text], 
-            data[QuestionJson.id], 
-            data[QuestionJson.articleId],
             data[QuestionJson.paragraphId] || null,
-            data[QuestionJson.answerChoices] || []
+            data[QuestionJson.answerChoices] || [],
+            data[QuestionJson.correctAnswerIndex],
+            data[QuestionJson.id], 
         );
     }
 
@@ -28,8 +28,8 @@ class QuestionMapper {
             json[QuestionJson.id] = question._id;
         }
 
-        if (question._articleId) {
-            json[QuestionJson.articleId] = question._articleId;
+        if (question._correctAnswerIndex) {
+            json[QuestionJson.correctAnswerIndex] = question._correctAnswerIndex;
         }
 
         if (question._paragraphId) {
