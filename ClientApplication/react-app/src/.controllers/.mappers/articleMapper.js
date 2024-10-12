@@ -26,13 +26,9 @@ class ArticleMapper {
             json[ArticleJson.id] = article._id;
         }
 
-        if (article._coverImage) {
-            json[ArticleJson.coverImage] = article._coverImage;
-        }
-
-        if (article._paragraphIDs) {
-            json[ArticleJson.paragraphIds] = article._paragraphIDs;
-        }
+        // if (article._coverImage) {
+        //     json[ArticleJson.coverImage] = article._coverImage;
+        // }
 
         return json;
     }
@@ -44,20 +40,6 @@ class ArticlePageMapper {
             data[ArticlePageJson.articles].map(article => ArticleMapper.fromJson(article)),
             data[ArticlePageJson.count]
         );
-    }
-
-    static toJson(articlePage) {
-        const json = {};
-        
-        if (articlePage._articles) {
-            json[ArticlePageJson.articles] = articlePage._articles.map(article => ArticleMapper.toJson(article));
-        }
-
-        if (articlePage._count) {
-            json[ArticlePageJson.count] = articlePage._count;
-        }
-
-        return json;
     }
 }
 

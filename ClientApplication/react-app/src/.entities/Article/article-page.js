@@ -21,31 +21,14 @@ class ArticlePage {
         this._articleCount = articleCount;
     }
 
-    // Getter for articleList
-    get articleList() {
+    get articles() {
         return this._articleList;
     }
 
-    // Getter for articleCount
-    get articleCount() {
+    get count() {
         return this._articleCount;
     }
 
-    // Setter for articlePage from JSON data (accepts data object with articles and count)
-    /**
-     * @deprecated This method is deprecated and will be removed in future versions. 
-     * Use ArticlePageMapper.fromJson instead.
-     * @param {*} data 
-     */
-
-    fromJson(data) {
-        if (data && Array.isArray(data[ArticlePageJson.articles]) && typeof data[ArticlePageJson.count] === 'number') {
-            this._articleList = data[ArticlePageJson.articles];
-            this._articleCount = data[ArticlePageJson.count];
-        } else {
-            throw new Error("Invalid data format. Must contain articles (array) and count (number).");
-        }
-    }
 }
 
 export default ArticlePage;

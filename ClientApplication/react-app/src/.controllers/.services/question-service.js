@@ -1,5 +1,7 @@
 // 
-import { FetchHelper } from "../.helpers/MainHelpers";
+import { FetchHelper } from "../.dataProcessingHelpers/DataProccessingHelpersExport";
+import { SearchSizeConstants } from "../../.constants/SearchSizeConstants/SearchSizeConstants";
+
 const QuestionService = {
 
     postQuestion: async function (question) {
@@ -22,7 +24,7 @@ const QuestionService = {
 
     getQuestionsByTitle: async function (search) {
         const requestOptions = FetchHelper.generateRequestOptions("GET");
-        const apiUrl = process.env.REACT_APP_API_URL + `Questions/search/${search}`;
+        const apiUrl = process.env.REACT_APP_API_URL + `Questions/search/${search}?PageSize=${SearchSizeConstants.MaxPageSize}`;
         return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
     },
 

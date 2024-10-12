@@ -1,10 +1,9 @@
-import { ArticleService } from "../../.services/.MainServices";
 import { Form } from 'react-bootstrap';
 import { React } from 'react';
-import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
+import { handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
-import { ArticlePage } from "../../.entities/.MainEntitiesExport";
-
+import { ArticleController } from "../../.controllers/.MainControllersExport";
+import { ValidationPatternConstants } from '../../.constants/MainConstants';
 const ArticleSearch = ({ onArticleSelected }) => {
     const [options, setOptions] = useState([]);
 
@@ -12,23 +11,19 @@ const ArticleSearch = ({ onArticleSelected }) => {
     const handleFieldChange = async (event) => {
         const { value } = event.target;
         if (value !== "") {
-            let data = await ArticleService.getArticleByTitle(value);
-            if (StatusHelper.isOK(data)) {
-                let articlePage = new ArticlePage();
-                articlePage.fromJson(data);
-                if (articlePage.articleList.length > 0) {
-                    const options = articlePage.articleList.map((article) => (
+            try {
+                let articlePage = await ArticleController.Search(value);
+                if (articlePage.articles.length > 0) {
+                    const options = articlePage.articles.map((article) => (
                         <option key={article.id} value={article.title}></option>
                     ));
                     setOptions(options);
+                } else {
+                    setOptions([]); // Clear options if input is empty
                 }
-            } else if (StatusHelper.isError(data)) {
-                alert(StatusHelper.getErrorMessage(data));
-            } else {
-                alert("Error getting data");
+            } catch (error) {
+                alert(error);
             }
-        } else {
-            setOptions([]); // Clear options if input is empty
         }
     };
 
@@ -51,6 +46,7 @@ const ArticleSearch = ({ onArticleSelected }) => {
                     onChange={handleFieldChange} // Update the options list
                     onInput={handleArticleSelect} // Handle article selection
                     autoComplete="off"
+                    patter={ValidationPatternConstants.TitlePattern.source}
                 />
                 <datalist id="articles">
                     {options}

@@ -1,32 +1,29 @@
 import { QuestionService } from "../../.services/MainServices";
 import { Form } from 'react-bootstrap';
 import { React } from 'react';
-import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
+import { handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
-import { QuestionPage } from "../../.entities/.MainEntitiesExport";
+import { QuestionController } from '../../.controllers/.MainControllersExport';
+
 const QuestionSearch = ({ onQuestionSelected }) => {
     const [options, setOptions] = useState([]);
 
     const handleFieldChange = async (event) => {
         const { value } = event.target;
         if (value !== "") {
-            let data = await QuestionService.getQuestionsByTitle(value);
-            if (StatusHelper.isOK(data)) {
-                let questionPage = new QuestionPage();
-                questionPage.fromJson(data);
-                if (questionPage.questionList.length > 0) {
-                    const options = questionPage.questionList.map((question) => (
+            try {
+                let questionPage = await QuestionController.Search(value);
+                if (questionPage.questions.length > 0) {
+                    const options = questionPage.questions.map((question) => (
                         <option key={question.id} value={question.title}></option>
                     ));
                     setOptions(options);
+                } else {
+                    setOptions([]);
                 }
-            } else if (StatusHelper.isError(data)) {
-                alert(StatusHelper.getErrorMessage(data));
-            } else {
-                alert("Error getting data");
+            } catch (error) {
+                alert(error);
             }
-        } else {
-            setOptions([]);
         }
     };
 

@@ -6,7 +6,7 @@ class Paragraph {
         this.#createEmptyParagraph();
     }
 
-    static createArticleFromParams(title, text, articleId, id = null, questionIDs = [], nextParagraphId = null) {
+    static createParagraphFromParams(title, text, articleId, id = null, questionIDs = [], nextParagraphId = null) {
         const paragraph = new Paragraph();
         paragraph.#createParagraphFromParams(title, text, articleId, id, questionIDs, nextParagraphId);
         return paragraph;
@@ -41,8 +41,8 @@ class Paragraph {
         }
 
         // Validate articleId
-        if (typeof articleId !== "string") {
-            throw new Error("Article ID must be a string.");
+        if (typeof articleId === "undefined" || articleId === null) {
+            throw new Error("Article ID is required.");
         }
 
         // Validate ID (if provided) id must be a number
@@ -65,14 +65,14 @@ class Paragraph {
         this._text = text;
         this._articleId = articleId;
         this._questionIDs = questionIDs; // Initialize questionIDs
-        this._id = null
+        this._id = id
         this._nextParagraphId = nextParagraphId;
     }
 
     #createEmptyParagraph() {
         this._title = "";
         this._text = "";
-        this._articleId = "";
+        this._articleId = null;
         this._questionIDs = [];
         this._id = null;
         this._nextParagraphId = null;
@@ -178,54 +178,12 @@ class Paragraph {
         // }
         this._nextParagraphId = value;
     }
+    get varNextParagraphIdName() {
+        return "nextParagraphId"
+    }
 
     get id() {
         return this._id;
-    }
-
-    // Setter to update the paragraph based on given data
-    /**
-     * @deprecated This method is deprecated and will be removed in future versions.
-     * @param {*} data 
-     */
-    fromJson(data) {
-        this._title = data[ParagraphJson.title];
-        this._text = data[ParagraphJson.text];
-        this._articleId = data[ParagraphJson.articleId];
-        this._id = data[ParagraphJson.id];
-        if (data[ParagraphJson.questionIds]) {
-            this._questionIDs = data[ParagraphJson.questionIds];
-        }
-    }
-
-    /**
-     * @deprecated This method is deprecated and will be removed in future versions.
-     * @returns 
-     */
-    toJson() {
-        const json = {};
-
-        if (this._title) {
-            json[ParagraphJson.title] = this._title;
-        }
-
-        if (this._text) {
-            json[ParagraphJson.text] = this._text;
-        }
-
-        if (this._articleId) {
-            json[ParagraphJson.articleId] = this._articleId;
-        }
-
-        if (this._id) {
-            json[ParagraphJson.id] = this._id;
-        }
-
-        if (this._questionIDs) {
-            json[ParagraphJson.questionIds] = this._questionIDs;
-        }
-
-        return json;
     }
 }
 

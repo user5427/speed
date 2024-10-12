@@ -66,13 +66,13 @@ class Question {
         this._paragraphId = paragraphId;
         this._answerChoices = answerChoices;
         this._correctAnswerIndex = correctAnswerIndex;
-        this._id = null;
+        this._id = id;
     }
 
     #createEmptyQuestion() {
         this._title = "";
         this._text = "";
-        this._paragraphId = "";
+        this._paragraphId = null;
         this._answerChoices = [];
         this._correctAnswerIndex = 0;
         this._id = null;
@@ -193,54 +193,6 @@ class Question {
 
     get id() {
         return this._id;
-    }
-
-    // Setter for the entire question based on a data object
-    /**
-     * @deprecated This method is deprecated and will be removed in future versions.
-     */
-    set fromJson(data) {
-        this._title = data[QuestionJson.title];
-        this._text = data[QuestionJson.questionText];
-        this._paragraphId = data[QuestionJson.paragraphId];
-        this._id = data.id;
-        if (data[QuestionJson.answerChoices] && Array.isArray(data[QuestionJson.answerChoices])) {
-            this._answerChoices = data[QuestionJson.answerChoices];
-        }
-        this._correctAnswerIndex = data[QuestionJson.correctAnswerIndex];
-    }
-
-    /**
-     * @deprecated This method is deprecated and will be removed in future versions.
-     */
-    get toJson() {
-        const json = {};
-
-        if (this._title) {
-            json[QuestionJson.title] = this._title;
-        }
-    
-        if (this._text) {
-            json[QuestionJson.questionText] = this._text;
-        }
-    
-        if (this._paragraphId) {
-            json[QuestionJson.paragraphId] = this._paragraphId;
-        }
-    
-        if (this._answerChoices) {
-            json[QuestionJson.answerChoices] = this._answerChoices;
-        }
-    
-        if (this._correctAnswerIndex !== undefined) {
-            json[QuestionJson.correctAnswerIndex] = this._correctAnswerIndex;
-        }
-    
-        if (this._id) {
-            json.id = this._id;
-        }
-
-        return json;
     }
 }
 

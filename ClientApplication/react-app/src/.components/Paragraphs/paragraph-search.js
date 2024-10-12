@@ -1,9 +1,9 @@
-import { ParagraphService } from "../../.services/.MainServices";
 import { Form } from 'react-bootstrap';
 import { React } from 'react';
-import { StatusHelper, handleSelection } from '../../.helpers/MainHelpers';
+import { handleSelection } from '../../.helpers/MainHelpers';
 import { useState } from 'react';
-import { ParagraphPage } from "../../.entities/.MainEntitiesExport";
+import { ParagraphController } from "../../.controllers/.MainControllersExport";
+import { ValidationPatternConstants } from '../../.constants/MainConstants';
 
 const ParagraphSearch = ({ onParagraphSelected }) => {
     const [options, setOptions] = useState([]);
@@ -11,24 +11,21 @@ const ParagraphSearch = ({ onParagraphSelected }) => {
     const handleFieldChange = async (event) => {
         const { value } = event.target;
         if (value !== "") {
-            let data = await ParagraphService.getParagraphsByTitle(value);
-            if (StatusHelper.isOK(data)) {
-                let paragraphPage = new ParagraphPage();
-                paragraphPage.fromJson(data);
-                if (paragraphPage.paragraphList.length > 0) {
-                    const options = paragraphPage.paragraphList.map((paragraph) => (
+            try {
+                let paragraphPage = await ParagraphController.Search(value);
+                if (paragraphPage.paragraphs.length > 0) {
+                    const options = paragraphPage.paragraphs.map((paragraph) => (
                         <option key={paragraph.id} value={paragraph.title}></option>
                     ));
                     setOptions(options);
+
+                } else {
+                    setOptions([]);
                 }
-            } else if (StatusHelper.isError(data)) {
-                alert(StatusHelper.getErrorMessage(data));
-            } else {
-                alert("Error getting data");
+            } catch (error) {
+                alert(error);
             }
-        } else {
-            setOptions([]);
-        }
+        };
     };
 
     const handleParagraphSelect = (event) => {
@@ -49,6 +46,7 @@ const ParagraphSearch = ({ onParagraphSelected }) => {
                     onChange={handleFieldChange}
                     onInput={handleParagraphSelect}
                     autoComplete="off"
+                    patter={ValidationPatternConstants.TitlePattern.source}
                 />
                 <datalist id="paragraphs">
                     {options}

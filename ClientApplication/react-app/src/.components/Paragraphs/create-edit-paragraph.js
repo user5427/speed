@@ -1,11 +1,10 @@
 import { React, useState } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
 
-import { ArticleService, ParagraphService } from '../../.services/.MainServices';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
-import { StatusHelper } from '../../.helpers/MainHelpers';
 import ArticleSearch from '../Articles/article-search';
 import { Paragraph } from '../../.entities/.MainEntitiesExport';
+import { ArticleController, ParagraphController } from '../../.controllers/.MainControllersExport';
 
 const EditParagraph = () => {
     const [paragraph, setParagraph] = useState(
@@ -24,40 +23,30 @@ const EditParagraph = () => {
         }
 
         if (paragraph && paragraph.articleId) {
+            try {
+                try {
+                    let article = await ArticleController.Get(paragraph.articleId);
+                } catch (error) {
+                    throw new Error("Article ID does not exist.");
+                }
 
-            const exist = await ArticleService.getArticle(paragraph.articleId);
-            if (StatusHelper.isOK(exist) === true) {
-                let data = "";
+                let newParagraph;
                 if (update) {
-                    data = await ParagraphService.putParagraph(paragraph.toJson());
-                    if (StatusHelper.isOK(data) === true) {
-                        alert('Updated paragraph successfully.');
-                    }
+                    newParagraph = await ParagraphController.Put(paragraph);
+                    alert('Updated paragraph successfully.');
                 } else {
-                    data = await ParagraphService.postParagraph(paragraph.toJson());
-                    if (StatusHelper.isOK(data) === true) {
-                        setUpdate(true);
-
-                        alert('Created paragraph successfully.');
-                    }
+                    newParagraph = await ParagraphController.Post(paragraph);
+                    alert('Created paragraph successfully.');
+                    setUpdate(true);
                 }
-
-                if (StatusHelper.isOK(data) === true) {
-                    const paragraph = new Paragraph();  // Assuming an empty constructor
-                    paragraph.fromJson(data);
-                    setParagraph(paragraph);
-                } else if (StatusHelper.isError(data) === true) {
-                    alert(StatusHelper.getErrorMessage(data));
-                } else {
-                    alert("Error getting data");
-                }
-            } else {
-                alert("Article ID does not exist.");
+                setParagraph(newParagraph);
+            } catch (error) {
+                alert(error);
+                return;
             }
         } else {
             alert("Please enter article ID.");
         }
-
     }
 
 
@@ -70,7 +59,11 @@ const EditParagraph = () => {
 
             // Use the hasField method to check if the field exists
             if (newParagraph.hasField(name)) {
-                newParagraph[name] = value; // Use setter for the corresponding field
+                if (name === paragraph.varArticleIdName) {
+                    newParagraph._articleId = Number(value);  // Convert to number
+                } else {
+                    newParagraph[name] = value; // Use setter for the corresponding field
+                }
             }
 
             return newParagraph;
@@ -87,7 +80,7 @@ const EditParagraph = () => {
             const newParagraph = Paragraph.createParagraphFromCopy(prevParagraph);
 
             // Use the hasField method to check if the field exists
-            newParagraph.articleId = articleId; // Use setter for the corresponding field
+            newParagraph.articleId = Number(articleId); // Use setter for the corresponding field
 
             return newParagraph;
         });
@@ -103,7 +96,7 @@ const EditParagraph = () => {
                     <Form.Control
                         name={paragraph.varArticleIdName}
                         value={paragraph && paragraph.articleId || ''}
-                        required type="text"
+                        required type="number"
                         autoComplete='off'
                         placeholder="Enter article ID"
                         onChange={handleFieldChange}

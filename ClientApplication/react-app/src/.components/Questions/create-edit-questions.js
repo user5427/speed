@@ -1,13 +1,12 @@
 import { React, useState } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
-import { ParagraphService } from '../../.services/.MainServices';
-import { StatusHelper } from '../../.helpers/MainHelpers';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { Question } from '../../.entities/.MainEntitiesExport';
 import ParagraphSearch from '../Paragraphs/paragraph-search';
+import { ParagraphController, QuestionController } from '../../.controllers/.MainControllersExport';
 
 const EditQuestions = () => {
-    const [question, setQuestions] = useState(
+    const [question, setQuestion] = useState(
         new Question()
     );
     const [validated, setValidated] = useState(false);
@@ -23,39 +22,29 @@ const EditQuestions = () => {
         }
 
         if (question && question.paragraphId) {
-            const exists = await ParagraphService.getParagraph(question.paragraphId);
-            if (StatusHelper.isOK(exist) === true) {
-                let data = "";
+            try {
+                try {
+                    const paragraph = await ParagraphController.Get(question.paragraphId);
+                } catch (error) {
+                    throw new Error("Paragraph ID does not exist.");
+                }
+
+                let newQuestion;
                 if (update) {
-                    data = await QuestionService.putQuestion(question.toJson());
-                    if (StatusHelper.isOK(data) === true) {
-                        alert('Updated question successfully.');
-                    }
+                    newQuestion = await QuestionController.Put(question);
+                    alert('Updated question successfully.');
                 } else {
-                    data = await QuestionService.postQuestion(question.toJson());
-                    if (StatusHelper.isOK(data) === true) {
-                        setUpdate(true);
-
-                        alert('Created question successfully.');
-                    }
+                    newQuestion = await QuestionController.Post(question);
+                    setUpdate(true);
+                    alert('Created question successfully.');
                 }
-
-                if (StatusHelper.isOK(data) === true) {
-                    const question = new Question();  // Assuming an empty constructor
-                    question.fromJson(data);
-                    setQuestions(question);
-                } else if (StatusHelper.isError(data) === true) {
-                    alert(StatusHelper.getErrorMessage(data));
-                } else {
-                    alert("Error getting data");
-                }
-            } else {
-                alert("Paragraph ID does not exist.");
+                setQuestion(newQuestion);
+            } catch (error) {
+                alert(error);
             }
         } else {
             alert("Please enter paragraph ID.");
         }
-
     }
 
 
@@ -63,12 +52,16 @@ const EditQuestions = () => {
     const handleFieldChange = (event) => {
         const { name, value } = event.target;
 
-        setQuestions(prevQuestion => {
+        setQuestion(prevQuestion => {
             const newQuestion = Question.createQuestionFromCopy(prevQuestion);
 
             // Use the hasField method to check if the field exists
             if (newQuestion.hasField(name)) {
-                newQuestion[name] = value; // Use setter for the corresponding field
+                if(name === newQuestion.varParagraphIdName) {
+                    newQuestion.paragraphId = Number(value);
+                } else {
+                    newQuestion[name] = value; // Use setter for the corresponding field
+                }
             }
 
             return newQuestion;
@@ -77,14 +70,14 @@ const EditQuestions = () => {
 
     const resetUpdating = () => {
         setUpdate(false);
-        setQuestions(new Question());
+        setQuestion(new Question());
     }
 
     const updateParagraphId = (paragraphId) => {
-        setQuestions(prevQuestion => {
+        setQuestion(prevQuestion => {
             const newQuestion = Question.createQuestionFromCopy(prevQuestion);
 
-            newQuestion.paragraphId = paragraphId;
+            newQuestion.paragraphId = Number(paragraphId);
 
             return newQuestion;
         });
@@ -100,7 +93,8 @@ const EditQuestions = () => {
                     <Form.Control
                         name={question.varParagraphIdName}
                         value={question && question.paragraphId || ''}
-                        required type="text" autoComplete='off'
+                        required type="number" 
+                        autoComplete='off'
                         placeholder="Enter paragraph ID"
                         onChange={handleFieldChange}
                         pattern={ValidationPatternConstants.IdPattern.source}

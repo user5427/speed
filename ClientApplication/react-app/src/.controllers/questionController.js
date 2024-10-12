@@ -1,5 +1,5 @@
-import { QuestionService } from "../.services/.MainServices";
-import { StatusHelper } from "../.helpers/MainHelpers";
+import { QuestionService } from "./.services/.MainServices";
+import { StatusHelper } from "./.dataProcessingHelpers/DataProccessingHelpersExport";
 import { QuestionErrors, QuestionPageErrors } from "../.constants/MainConstants";
 import { QuestionMapper, QuestionPageMapper } from "./.mappers/questionMapper";
 class QuestionController {
@@ -8,7 +8,7 @@ class QuestionController {
             let jsonData = QuestionMapper.toJson(Question);
             const response = await QuestionService.postQuestion(jsonData);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(QuestionErrors.PostError());
+                throw new Error(`${QuestionErrors.PostError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return QuestionMapper.fromJson(response);
         } catch (error) {
@@ -20,7 +20,7 @@ class QuestionController {
         try {
             const response = await QuestionService.getQuestion(id);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(QuestionErrors.GetError());
+                throw new Error(`${QuestionErrors.GetError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return QuestionMapper.fromJson(response);
         } catch (error) {
@@ -33,7 +33,7 @@ class QuestionController {
             let jsonData = QuestionMapper.toJson(Question);
             const response = await QuestionService.putQuestion(jsonData);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(QuestionErrors.PutError());
+                throw new Error(`${QuestionErrors.PutError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return QuestionMapper.fromJson(response);
         } catch (error) {
@@ -45,7 +45,7 @@ class QuestionController {
         try {
             const response = await QuestionService.deleteQuestion(id);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(QuestionErrors.DeleteError());
+                throw new Error(`${QuestionErrors.DeleteError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return response;
         } catch (error) {
@@ -57,7 +57,7 @@ class QuestionController {
         try {
             const response = await QuestionService.searchQuestions(query);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(QuestionPageErrors.SearchError());
+                throw new Error(`${QuestionPageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return QuestionPageMapper.fromJson(response);
         } catch (error) {

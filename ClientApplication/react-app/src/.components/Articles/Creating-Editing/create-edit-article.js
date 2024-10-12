@@ -49,11 +49,13 @@ const EditArticle = () => {
         }
 
         try {
-            let newArticle = new Article();
+            let newArticle;
             if (update) {
                 newArticle = await ArticleController.Put(article);
+                alert('Updated paragraph successfully.');
             } else {
                 newArticle = await ArticleController.Post(article);
+                alert('Created paragraph successfully.');
                 setUpdate(true);
             }
             setArticle(newArticle);

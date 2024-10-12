@@ -51,20 +51,6 @@ class QuestionPageMapper {
             data[QuestionPageJson.count]
         );
     }
-
-    static toJson(questionPage) {
-        const json = {};
-        
-        if (questionPage._questions) {
-            json[QuestionPageJson.questions] = questionPage._questions.map(question => QuestionMapper.toJson(question));
-        }
-
-        if (questionPage._count) {
-            json[QuestionPageJson.count] = questionPage._count;
-        }
-
-        return json;
-    }
 }
 
 export { QuestionMapper, QuestionPageMapper };

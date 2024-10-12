@@ -1,5 +1,5 @@
-import { ParagraphService } from "../.services/.MainServices";
-import { StatusHelper } from "../.helpers/MainHelpers";
+import { ParagraphService } from "./.services/.MainServices";
+import { StatusHelper } from "./.dataProcessingHelpers/DataProccessingHelpersExport";
 import { ParagraphErrors, ParagraphPageErrors } from "../.constants/MainConstants";
 import { ParagraphMapper, ParagraphPageMapper } from "./.mappers/paragraphMapper";
 class ParagraphController {
@@ -8,7 +8,7 @@ class ParagraphController {
             let jsonData = ParagraphMapper.toJson(Paragraph);
             const response = await ParagraphService.postParagraph(jsonData);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(ParagraphErrors.PostError());
+                throw new Error(`${ParagraphErrors.PostError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return ParagraphMapper.fromJson(response);
         } catch (error) {
@@ -20,7 +20,7 @@ class ParagraphController {
         try {
             const response = await ParagraphService.getParagraph(id);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(ParagraphErrors.GetError());
+                throw new Error(`${ParagraphErrors.GetError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return ParagraphMapper.fromJson(response);
         } catch (error) {
@@ -33,7 +33,7 @@ class ParagraphController {
             let jsonData = ParagraphMapper.toJson(Paragraph);
             const response = await ParagraphService.putParagraph(jsonData);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(ParagraphErrors.PutError());
+                throw new Error(`${ParagraphErrors.PutError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return ParagraphMapper.fromJson(response);
         } catch (error) {
@@ -45,7 +45,7 @@ class ParagraphController {
         try {
             const response = await ParagraphService.deleteParagraph(id);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(ParagraphErrors.DeleteError());
+                throw new Error(`${ParagraphErrors.DeleteError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return response;
         } catch (error) {
@@ -57,7 +57,7 @@ class ParagraphController {
         try {
             const response = await ParagraphService.searchParagraphs(query);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(ParagraphPageErrors.SearchError());
+                throw new Error(`${ParagraphPageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return ParagraphPageMapper.fromJson(response);
         } catch (error) {

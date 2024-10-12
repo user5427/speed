@@ -165,56 +165,6 @@ class Article {
     get id() {
         return this._id;
     }
-
-    // Setter for the entire article based on data object
-    /**
-     * @deprecated This method is deprecated and will be removed in future versions.
-     * @param {*} data 
-     */
-    fromJson(data) {
-        console.log(data)
-        this._title = data[ArticleJson.title];
-        this._categoryTitle = data[ArticleJson.categoryTitle];
-        this._id = data[ArticleJson.id];
-        if (data[ArticleJson.coverImage]) {
-            this._coverImage = data[ArticleJson.coverImage];
-        }
-        if (data[ArticleJson.paragraphIds]) {
-            this._paragraphIDs = data[ArticleJson.paragraphIds];
-        }
-    }
-
-    /**
-     * @deprecated This method is deprecated and will be removed in future versions.
-     * @returns 
-     */
-    toJson() {
-        const json = {};
-
-        if (this._title) {
-            json[ArticleJson.title] = this._title;
-        }
-
-        if (this._categoryTitle) {
-            json[ArticleJson.categoryTitle] = this._categoryTitle;
-        }
-
-        if (this._coverImage) {
-            json[ArticleJson.coverImage] = this._coverImage;
-        }
-
-        if (this._id) {
-            json[ArticleJson.id] = this._id;
-        }
-
-        if (this._paragraphIDs) {
-            json[ArticleJson.paragraphIds] = this._paragraphIDs;
-        }
-
-        return json;
-    }
-
-
 }
 
 export default Article;

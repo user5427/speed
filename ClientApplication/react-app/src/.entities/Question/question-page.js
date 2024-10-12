@@ -22,27 +22,13 @@ class QuestionPage {
     }
 
     // Getter for questionList
-    get questionList() {
+    get questions() {
         return this._questionList;
     }
 
     // Getter for questionCount
-    get questionCount() {
+    get count() {
         return this._questionCount;
-    }
-
-    // Setter for questionPage from JSON data (accepts data object with questions and count)
-    /**
-     * @deprecated This method is deprecated and will be removed in future versions.
-     * @param {*} data 
-     */
-    fromJson(data) {
-        if (data && Array.isArray(data[QuestionPageJson.questions]) && typeof data[QuestionPageJson.count] === 'number') {
-            this._questionList = data[QuestionPageJson.questions];
-            this._questionCount = data[QuestionPageJson.count];
-        } else {
-            throw new Error("Invalid data format. Must contain questions (array) and count (number).");
-        }
     }
 }
 

@@ -24,15 +24,11 @@ class ParagraphMapper {
         }
 
         if (paragraph._text) {
-            json[ParagraphJson.content] = paragraph._text;
+            json[ParagraphJson.text] = paragraph._text;
         }
 
         if (paragraph._articleId) {
             json[ParagraphJson.articleId] = paragraph._articleId;
-        }
-
-        if (paragraph._questionIDs) {
-            json[ParagraphJson.questionIds] = paragraph._questionIDs;
         }
 
         if (paragraph._nextParagraphId) {
@@ -49,20 +45,6 @@ class ParagraphPageMapper {
             data[ParagraphPageJson.paragraphs].map(paragraph => ParagraphMapper.fromJson(paragraph)),
             data[ParagraphPageJson.count]
         );
-    }
-
-    static toJson(paragraphPage) {
-        const json = {};
-        
-        if (paragraphPage._paragraphs) {
-            json[ParagraphPageJson.paragraphs] = paragraphPage._paragraphs.map(paragraph => ParagraphMapper.toJson(paragraph));
-        }
-
-        if (paragraphPage._count) {
-            json[ParagraphPageJson.count] = paragraphPage._count;
-        }
-
-        return json;
     }
 }
 

@@ -28,7 +28,7 @@ export const fetchEntity = async (apiUrl, requestOptions) => {
                 ...sendOk()
             }
         }
-        throw new Error(`Failed to ${type} entity. Status code: ${res.status}. Error message: ${res.statusText}`);
+        throw new Error(`Failed to ${type} entity. Status code: ${res.status}. Error message: ${res.title}`);
     } catch (err) {
         return sendError(err);
     }
