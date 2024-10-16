@@ -10,7 +10,7 @@ public interface IParagraphService
 {
     ParagraphResponse CreateParagraph(ParagraphCreateRequest request);
     public ParagraphResponse GetParagraph(int id);
-    public ParagraphPageResponse SearchParagraphs(string search, QueryParameters queryParameters);
+    public PageResponse<ParagraphResponse> SearchParagraphs(string search, QueryParameters queryParameters);
     ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request);
     void DeleteParagraph(int paragraphId);
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
+using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 
 
@@ -116,7 +117,7 @@ public class ArticlesController : ControllerBase
     {
         try
         {
-            ArticlePageResponse articles = _articleService.SearchArticles(Search, queryParameters);
+            PageResponse<ArticleResponse> articles = _articleService.SearchArticles(Search, queryParameters);
             return Ok(articles);
         }
         catch (Exception ex)

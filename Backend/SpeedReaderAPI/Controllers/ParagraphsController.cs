@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
+using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
 
@@ -104,7 +105,7 @@ public class ParagraphsController : ControllerBase
     {
         try
         {
-            ParagraphPageResponse paragraphs = _paragraphService.SearchParagraphs(Search, queryParameters);
+            PageResponse<ParagraphResponse> paragraphs = _paragraphService.SearchParagraphs(Search, queryParameters);
             return Ok(paragraphs);
         }
         catch (Exception ex)

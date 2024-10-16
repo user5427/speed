@@ -87,7 +87,7 @@ public class ArticleService : IArticleService
         }
     }
 
-    public ArticlePageResponse SearchArticles(string Search, QueryParameters queryParameters)
+    public PageResponse<ArticleResponse> SearchArticles(string Search, QueryParameters queryParameters)
     {
         if (Search == null)
         {
@@ -100,6 +100,6 @@ public class ArticleService : IArticleService
                                         .Take(queryParameters.PageSize)
                                         .ToList();
         List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
-        return new ArticlePageResponse(articleCount, articleResponseList);
+        return new PageResponse<ArticleResponse>(articleCount, articleResponseList);
     }
 }

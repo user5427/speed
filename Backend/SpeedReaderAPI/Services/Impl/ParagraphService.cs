@@ -125,7 +125,7 @@ public class ParagraphService : IParagraphService
         }
     }
 
-    public ParagraphPageResponse SearchParagraphs(string Search, QueryParameters queryParameters)
+    public PageResponse<ParagraphResponse> SearchParagraphs(string Search, QueryParameters queryParameters)
     {
         if (Search == null)
         {
@@ -138,6 +138,6 @@ public class ParagraphService : IParagraphService
                                         .Take(queryParameters.PageSize)
                                         .ToList();
         List<ParagraphResponse> paragraphResponseList = _mapper.Map<List<ParagraphResponse>>(paragraphs);
-        return new ParagraphPageResponse(paragraphCount, paragraphResponseList);
+        return new PageResponse<ParagraphResponse>(paragraphCount, paragraphResponseList);
     }
 }
