@@ -8,5 +8,6 @@ public record ArticleUpdateRequest
         MinimumLength = ValidationConstants.MinTitleLength,
         ErrorMessage = "Title must be between {2} and {1} characters.")]
     string? Title,
-    string? CategoryTitle
+    string? CategoryTitle,
+    List<int>? ParagraphIds
 );

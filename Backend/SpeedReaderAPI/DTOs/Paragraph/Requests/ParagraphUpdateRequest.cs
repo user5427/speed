@@ -11,6 +11,5 @@ public record ParagraphUpdateRequest(
 	[StringLength(ValidationConstants.MaxParagraphLength,
 		MinimumLength = ValidationConstants.MinParagraphLength,
 		ErrorMessage = "Text must be between {2} and {1} characters.")]
-	string? Text,
-	int? NextParagraphId
+	string? Text
 	);

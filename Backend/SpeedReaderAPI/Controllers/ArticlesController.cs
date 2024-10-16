@@ -302,6 +302,17 @@ public class ArticlesController : ControllerBase
             ArticleResponse articleResponse = _articleService.UpdateArticle(id, request);
             return Ok(articleResponse);
         }
+        catch(InvalidParagraphIdListException) 
+        {
+             return BadRequest(
+                    new ProblemDetails
+                    {
+                        Title = "Invalid paragraph id list",
+                        Detail = "The provided list of paragraph IDs does not match the server's list.",
+                        Status = 400,
+                        Instance = HttpContext.Request.Path,
+                    });
+        } 
         catch (KeyNotFoundException ex)
         {
             _logger.LogError(ex.GetBaseException().Message);

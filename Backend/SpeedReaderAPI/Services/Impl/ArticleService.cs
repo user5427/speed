@@ -6,6 +6,7 @@ using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Exceptions;
+
 namespace SpeedReaderAPI.Services.Impl;
 
 
@@ -70,6 +71,14 @@ public class ArticleService : IArticleService
         if (request.CategoryTitle != null)
         {
             articleFound.CategoryTitle = request.CategoryTitle;
+        }
+        if (request.ParagraphIds != null)
+        {
+            var difference = articleFound.ParagraphIds.Except(request.ParagraphIds);
+            if (difference.Any() || articleFound.ParagraphIds.Count != request.ParagraphIds.Count) {
+                throw new InvalidParagraphIdListException();
+            }
+            articleFound.ParagraphIds = request.ParagraphIds;
         }
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(articleFound);

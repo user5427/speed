@@ -54,10 +54,6 @@ public class Paragraph
             }
         }
     }
-
-
-    public int? nextParagraphId { get; set; }
-
     public virtual Article? Article { get; set; }
     // ONE TO MANY
     public List<int> QuestionIds { get; set; } = [];

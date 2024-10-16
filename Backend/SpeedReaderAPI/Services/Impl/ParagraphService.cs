@@ -89,11 +89,7 @@ public class ParagraphService : IParagraphService
         {
             paragraphFound.Text = request.Text;
         }
-        if (request.NextParagraphId != null)
-        {
-            paragraphFound.nextParagraphId = request.NextParagraphId;
-        }
-		
+
 		_context.SaveChanges();
 		return _mapper.Map<ParagraphResponse>(paragraphFound);
     }
