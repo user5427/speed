@@ -1,10 +1,13 @@
 import { React, useState } from 'react';
-import { Button, Form, Image } from 'react-bootstrap';
+import { Row, Col, Button, Form, Image } from 'react-bootstrap';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { Question } from '../../.entities/.MainEntitiesExport';
 import ParagraphSearch from '../Paragraphs/paragraph-search';
 import { ParagraphController, QuestionController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from '../.common-components/ErrorPopup';
+import AnswerItem from './answerItem';
+import Divider from '@mui/material/Divider';
+
 
 const EditQuestions = () => {
     const [question, setQuestion] = useState(
@@ -13,8 +16,12 @@ const EditQuestions = () => {
     const [validated, setValidated] = useState(false);
     const [update, setUpdate] = useState(false);
 
-    const [errorMessage, setErrorMessage] = useState(""); // State for error message
+    const [errorMessage, setErrorMessage] = useState([""]); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+
+    const [answers, setAnswers] = useState([]);
+
+    const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -22,6 +29,12 @@ const EditQuestions = () => {
         if (form.checkValidity() === false) {
             event.stopPropagation();
             setValidated(true);
+            return;
+        }
+
+        if (correctAnswerIndex === -1) {
+            setErrorMessage("Please select a correct answer.");
+            setShowErrorModal(true);
             return;
         }
 
@@ -44,7 +57,7 @@ const EditQuestions = () => {
                 }
                 setQuestion(newQuestion);
             } catch (error) {
-                setErrorMessage(error); // Set error message
+                setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
             }
         } else {
@@ -60,7 +73,7 @@ const EditQuestions = () => {
 
             // Use the hasField method to check if the field exists
             if (newQuestion.hasField(name)) {
-                if(name === newQuestion.varParagraphIdName) {
+                if (name === newQuestion.varParagraphIdName) {
                     newQuestion.paragraphId = Number(value);
                 } else {
                     newQuestion[name] = value; // Use setter for the corresponding field
@@ -86,22 +99,73 @@ const EditQuestions = () => {
         });
     }
 
-     // Function to close the error modal
+    // Function to close the error modal
     const closeErrorModal = () => {
         setShowErrorModal(false);
     };
+
+    const sendBackText = (index, text) => {
+        let newAnswers = [...answers];
+        newAnswers[index] = text;
+
+        setQuestion(prevQuestion => {
+            const newQuestion = Question.createQuestionFromCopy(prevQuestion);
+
+            newQuestion.answers = newAnswers;
+
+            return newQuestion;
+        });
+
+        setAnswers(newAnswers);
+    }
+
+    const deleteAnswer = (index) => {
+        let newAnswers = [...answers];
+        newAnswers.splice(index, 1);
+        setAnswers(newAnswers);
+
+        if (index === correctAnswerIndex) {
+            setCorrectAnswerIndex(-1);
+
+            setQuestion(prevQuestion => {
+                const newQuestion = Question.createQuestionFromCopy(prevQuestion);
+
+                newQuestion.correctAnswerIndex = null;
+
+                return newQuestion;
+            });
+        }
+    }
+
+    const addEmptyAnswer = () => {
+        setAnswers([...answers, ""]);
+    }
+
+    const setCorrect = (index) => {
+        setCorrectAnswerIndex(index);
+        let newAnswers = [...answers];
+        setAnswers(newAnswers);
+        setQuestion(prevQuestion => {
+            const newQuestion = Question.createQuestionFromCopy(prevQuestion);
+
+            newQuestion.correctAnswerIndex = index;
+
+            return newQuestion;
+        });
+    }
+
 
     return (
         <>
             <ParagraphSearch onParagraphSelected={updateParagraphId} />
 
-            <Form NoValidate validated={validated} onSubmit={handleSave}>
+            <Form validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Paragraph ID</Form.Label>
                     <Form.Control
-                        name={question.varParagraphIdName}
-                        value={question && question.paragraphId || ''}
-                        required type="number" 
+                        name={Question.varParagraphIdName()}
+                        value={question.paragraphId}
+                        required type="number"
                         autoComplete='off'
                         placeholder="Enter paragraph ID"
                         onChange={handleFieldChange}
@@ -115,11 +179,11 @@ const EditQuestions = () => {
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Question Title</Form.Label>
                     <Form.Control
-                        name={question.varTitleName}
-                        value={question && question.title || ''}
+                        name={Question.varTitleName()}
+                        value={question.title}
                         required type="text"
                         autoComplete='off'
-                        placeholder="Enter Question Text"
+                        placeholder="Enter Question Title"
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinTitleLength}
                         maxLength={ValidationConstants.MaxTitleLength}
@@ -133,8 +197,8 @@ const EditQuestions = () => {
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Question Text</Form.Label>
                     <Form.Control
-                        name={question.varTextName}
-                        value={question && question.text || ''}
+                        name={Question.varTextName()}
+                        value={question.text}
                         required type="text"
                         autoComplete='off'
                         placeholder="Enter Question Text"
@@ -148,13 +212,38 @@ const EditQuestions = () => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <h1>This is not finished yet!!!!</h1>
 
-                
+                <div>
+                    <Row style={{ marginBottom: '10px', marginTop: '20px' }} >
+                        <Col xs={12} md={10} >
+                            <Button onClick={() => addEmptyAnswer()}>Add answer</Button>
+                        </Col>
+                    </Row>
+
+                    <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 2 }}></Divider>
+
+                    {answers.map((answer, index) => (
+                        <div key={index}>
+                            <AnswerItem
+                                index={index}
+                                articleText={answer}
+                                sendBackText={sendBackText}
+                                deleteAnswer={deleteAnswer}
+                                setCorrect={setCorrect}
+                                correctAnswerIndex={correctAnswerIndex}
+                            />
+                            <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 2 }}></Divider>
+
+                        </div>
+                    ))}
+                    <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 2, marginBottom: '20px' }}></Divider>
+
+                </div>
 
 
-
-                <Button type="submit">{update ? "Update" : "Create"}</Button>
+                <div>
+                    <Button type="submit">{update ? "Update" : "Create"}</Button>
+                </div>
                 {/* if you can update the article, make a button apear for creating a new article */}
                 {update ?
                     <Button onClick={resetUpdating}>Reset</Button> : ""
@@ -162,10 +251,10 @@ const EditQuestions = () => {
             </Form>
 
             {/* Error Popup */}
-            <ErrorPopup 
-                showErrorModal={showErrorModal} 
-                errorMessage={errorMessage} 
-                onClose={closeErrorModal} 
+            <ErrorPopup
+                showErrorModal={showErrorModal}
+                errorMessage={errorMessage}
+                onClose={closeErrorModal}
             />
         </>
     )

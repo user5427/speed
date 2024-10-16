@@ -25,7 +25,7 @@ const ArticleSearch = ({ onArticleSelected }) => {
                     setOptions([]); // Clear options if input is empty
                 }
             } catch (error) {
-                setErrorMessage(error); // Set error message
+                setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
             }
         }
@@ -44,14 +44,13 @@ const ArticleSearch = ({ onArticleSelected }) => {
     return (
         <>
             <Form NoValidate>
-                <Form.Group controlId="formArticleSearch">
+                <Form.Group controlId="searchBar">
                     <Form.Label>Search Articles</Form.Label>
                     <Form.Control
                         list="articles"
                         name="articleSearch"
                         required
                         type="text"
-                        id="searchBar"
                         placeholder="Enter article title"
                         onChange={handleFieldChange} // Update the options list
                         onInput={handleArticleSelect} // Handle article selection

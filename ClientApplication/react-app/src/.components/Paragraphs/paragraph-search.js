@@ -26,7 +26,7 @@ const ParagraphSearch = ({ onParagraphSelected }) => {
                     setOptions([]);
                 }
             } catch (error) {
-                setErrorMessage(error); // Set error message
+                setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
             }
         };
@@ -44,14 +44,13 @@ const ParagraphSearch = ({ onParagraphSelected }) => {
     return (
         <>
             <Form NoValidate>
-                <Form.Group controlId="formParagraphSearch">
+                <Form.Group controlId="searchBar">
                     <Form.Label>Search Paragraphs</Form.Label>
                     <Form.Control
                         list="paragraphs"
                         name="paragraphSearch"
                         required
                         type="text"
-                        id="searchBar"
                         placeholder="Enter paragraph title"
                         onChange={handleFieldChange}
                         onInput={handleParagraphSelect}

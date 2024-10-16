@@ -26,7 +26,8 @@ const QuestionSearch = ({ onQuestionSelected }) => {
                     setOptions([]);
                 }
             } catch (error) {
-                alert(error);
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
             }
         }
     };
@@ -43,14 +44,13 @@ const QuestionSearch = ({ onQuestionSelected }) => {
     return (
         <>
             <Form NoValidate>
-                <Form.Group controlId="formQuestionsSearch">
+                <Form.Group controlId="searchBar">
                     <Form.Label>Search Questions</Form.Label>
                     <Form.Control
                         list="questions"
                         name="questionSearch"
                         required
                         type="text"
-                        id="searchBar"
                         placeholder="Enter question title"
                         onChange={handleFieldChange}
                         onInput={handleQuestionSelect}

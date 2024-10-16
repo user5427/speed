@@ -131,7 +131,7 @@ class Question {
         // }
         this._title = value;
     }
-    get varTitleName() {
+    static varTitleName() {
         return "title"
     }
 
@@ -146,7 +146,7 @@ class Question {
         // }
         this._text = value;
     }
-    get varTextName() {
+    static varTextName() {
         return "text"
     }
 
@@ -159,7 +159,7 @@ class Question {
         // }
         this._paragraphId = value;
     }
-    get varParagraphIdName() {
+    static varParagraphIdName() {
         return "paragraphId"
     }
 
@@ -171,7 +171,7 @@ class Question {
             this._answerChoices = value;
         }
     }
-    get varAnswerChoicesName() {
+    static varAnswerChoicesName() {
         return "answerChoices"
     }
 
@@ -185,7 +185,7 @@ class Question {
         // }
         this._correctAnswerIndex = value;
     }
-    get varCorrectAnswerIndexName() {
+    static varCorrectAnswerIndexName() {
         return "correctAnswerIndex"
     }
 

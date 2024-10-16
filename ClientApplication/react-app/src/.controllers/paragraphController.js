@@ -55,7 +55,7 @@ class ParagraphController {
 
     static async Search(query) {
         try {
-            const response = await ParagraphService.searchParagraphs(query);
+            const response = await ParagraphService.getParagraphsByTitle(query);
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${ParagraphPageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }

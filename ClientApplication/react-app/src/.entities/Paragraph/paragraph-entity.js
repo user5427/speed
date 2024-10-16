@@ -126,7 +126,7 @@ class Paragraph {
         // }
         this._title = value;
     }
-    get varTitleName() {
+    static varTitleName() {
         return "title"
     }
 
@@ -141,7 +141,7 @@ class Paragraph {
         // }
         this._text = value;
     }
-    get varTextName() {
+    static varTextName() {
         return "text"
     }
 
@@ -154,7 +154,7 @@ class Paragraph {
         // }
         this._articleId = value;
     }
-    get varArticleIdName() {
+    static varArticleIdName() {
         return "articleId"
     }
 
@@ -177,7 +177,7 @@ class Paragraph {
         // }
         this._nextParagraphId = value;
     }
-    get varNextParagraphIdName() {
+    static varNextParagraphIdName() {
         return "nextParagraphId"
     }
 

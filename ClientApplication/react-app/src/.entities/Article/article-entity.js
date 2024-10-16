@@ -119,7 +119,7 @@ class Article {
         // }
         this._title = value;
     }
-    get varTitleName() {
+    static varTitleName() {
         return "title"
     }
 
@@ -133,7 +133,7 @@ class Article {
         // }
         this._categoryTitle = value;
     }
-    get varCategoryTitleName() {
+    static varCategoryTitleName() {
         return "categoryTitle"
     }
 
@@ -146,7 +146,7 @@ class Article {
         // }
         this._coverImage = value;
     }
-    get varCoverImageName() {
+    static varCoverImageName() {
         return "coverImage"
     }
 

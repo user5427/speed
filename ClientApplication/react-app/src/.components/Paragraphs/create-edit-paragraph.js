@@ -45,8 +45,9 @@ const EditParagraph = () => {
                 }
                 setParagraph(newParagraph);
             } catch (error) {
-                setErrorMessage(error); // Set error message
+                setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
+                // alert("js sucks");
             }
         } else {
             alert("Please enter article ID.");
@@ -97,12 +98,12 @@ const EditParagraph = () => {
         <>
             <ArticleSearch onArticleSelected={updateArticleId} />
 
-            <Form NoValidate validated={validated} onSubmit={handleSave}>
+            <Form validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article ID</Form.Label>
                     <Form.Control
-                        name={paragraph.varArticleIdName}
-                        value={paragraph && paragraph.articleId || ''}
+                        name={Paragraph.varArticleIdName()}
+                        value={paragraph.articleId}
                         required type="number"
                         autoComplete='off'
                         placeholder="Enter article ID"
@@ -117,8 +118,8 @@ const EditParagraph = () => {
             <Form.Group controlId="formtestTitle">
                     <Form.Label>Paragraph Title</Form.Label>
                     <Form.Control
-                        name={paragraph.varTitleName}
-                        value={paragraph && paragraph.title || ''}
+                        name={Paragraph.varTitleName()}
+                        value={paragraph.title}
                         autoComplete='off'
                         placeholder="Enter Paragraph Title"
                         onChange={handleFieldChange}
@@ -135,8 +136,8 @@ const EditParagraph = () => {
                 <Form.Group controlId="formtestText">
                     <Form.Label>Paragraph Text</Form.Label>
                     <Form.Control
-                        name={paragraph.varTextName}
-                        value={paragraph && paragraph.text || ''}
+                        name={Paragraph.varTextName()}
+                        value={paragraph.text}
                         required type="text"
                         autoComplete='off'
                         placeholder="Enter Paragraph Text"

@@ -55,7 +55,7 @@ class QuestionController {
 
     static async Search(query) {
         try {
-            const response = await QuestionService.searchQuestions(query);
+            const response = await QuestionService.getQuestionsByTitle(query);
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${QuestionPageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }

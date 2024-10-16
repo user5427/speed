@@ -55,15 +55,15 @@ const EditArticle = () => {
             let newArticle;
             if (update) {
                 newArticle = await ArticleController.Put(article);
-                alert('Updated paragraph successfully.');
+                alert('Updated article successfully.');
             } else {
                 newArticle = await ArticleController.Post(article);
-                alert('Created paragraph successfully.');
+                alert('Created article successfully.');
                 setUpdate(true);
             }
             setArticle(newArticle);
         } catch (error) {
-            setErrorMessage(error); // Set error message
+            setErrorMessage(error.message); // Set error message
             setShowErrorModal(true); // Show modal
         }
     }
@@ -90,7 +90,7 @@ const EditArticle = () => {
 
     return (
         <>
-            <Form NoValidate validated={validated} onSubmit={handleSave}>
+            <Form validated={validated} onSubmit={handleSave}>
                 <Form.Group className="d-flex justify-content-center">
                     <Image width="200" height="200" src={article && article.coverImage || NoImage} />
                 </Form.Group>
@@ -100,8 +100,8 @@ const EditArticle = () => {
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article Title</Form.Label>
                     <Form.Control
-                        name={article.varTitleName}
-                        value={article && article.title || ''}
+                        name={Article.varTitleName()}
+                        value={article.title}
                         required type="text" autoComplete='off'
                         placeholder="Enter Article Title"
                         onChange={handleFieldChange}
@@ -117,8 +117,8 @@ const EditArticle = () => {
                 <Form.Group controlId="formtestCategory">
                     <Form.Label>Article Category</Form.Label>
                     <Form.Control
-                        name={article.varCategoryTitleName}
-                        value={article && article.categoryTitle || ''}
+                        name={Article.varCategoryTitleName()}
+                        value={article.categoryTitle}
                         required type="text" placeholder="Enter Article Category"
                         onChange={handleFieldChange}
                         pattern={ValidationPatternConstants.ArticleCategoryPattern.source}

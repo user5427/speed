@@ -29,7 +29,7 @@ const ArticleList = ({ settings }) => {
                 return Math.ceil(articlePage.count / process.env.REACT_APP_PAGING_SIZE)
             })
         } catch (error) {
-            setErrorMessage(error); // Set error message
+            setErrorMessage(error.message); // Set error message
             setShowErrorModal(true); // Show modal
         }
     }
