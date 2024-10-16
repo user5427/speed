@@ -124,7 +124,7 @@ public class QuestionService : IQuestionService
         }
     }
 
-    public QuestionPageResponse SearchQuestions(string Search, QueryParameters queryParameters)
+    public PageResponse<QuestionResponse> SearchQuestions(string Search, QueryParameters queryParameters)
     {
         if (Search == null)
         {
@@ -137,6 +137,6 @@ public class QuestionService : IQuestionService
                                         .Take(queryParameters.PageSize)
                                         .ToList();
         List<QuestionResponse> questionResponseList = _mapper.Map<List<QuestionResponse>>(questions);
-        return new QuestionPageResponse(questionCount, questionResponseList);
+        return new PageResponse<QuestionResponse>(questionCount, questionResponseList);
     }
 }

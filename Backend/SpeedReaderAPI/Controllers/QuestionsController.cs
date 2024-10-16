@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
+using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
 
@@ -57,7 +58,7 @@ public class QuestionsController : ControllerBase
     {
         try
         {
-            QuestionPageResponse questionPageResponse = _questionService.SearchQuestions(Search, queryParameters);
+            PageResponse<QuestionResponse> questionPageResponse = _questionService.SearchQuestions(Search, queryParameters);
             return Ok(questionPageResponse);
         }
         catch (Exception ex)
