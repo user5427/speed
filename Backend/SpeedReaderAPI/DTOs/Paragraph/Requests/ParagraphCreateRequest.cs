@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using SpeedReaderAPI.Constants;
 
 public record ParagraphCreateRequest(
+	[Required(ErrorMessage = "Title is required.")]
 	[StringLength(ValidationConstants.MaxTitleLength,
 	MinimumLength = ValidationConstants.MinTitleLength,
 	ErrorMessage = "Title must be between {2} and {1} characters.")]
-	string? Title,
+	string Title,
 	[Required(ErrorMessage = "Article id is required.")]
 	int ArticleId,
 	[Required(ErrorMessage = "Text is required.")]

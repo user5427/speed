@@ -5,10 +5,11 @@ using SpeedReaderAPI.Constants;
 
 public record QuestionCreateRequest
 (
+	[Required(ErrorMessage = "Title is required.")]
 	[StringLength(ValidationConstants.MaxTitleLength,
 	MinimumLength = ValidationConstants.MinTitleLength,
 	ErrorMessage = "Title must be between {2} and {1} characters.")]
-	string? Title,
+	string Title,
 	[Required(ErrorMessage = "Paragraph id is required.")]
     int ParagraphId,
     [Required(ErrorMessage = "Question is required.")]
