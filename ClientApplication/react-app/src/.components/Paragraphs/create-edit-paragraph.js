@@ -138,6 +138,8 @@ const EditParagraph = () => {
                     <Form.Control
                         name={Paragraph.varTextName()}
                         value={paragraph.text}
+                        as="textarea"
+                        rows={3}
                         required type="text"
                         autoComplete='off'
                         placeholder="Enter Paragraph Text"

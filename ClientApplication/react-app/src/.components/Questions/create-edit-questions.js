@@ -87,6 +87,7 @@ const EditQuestions = () => {
     const resetUpdating = () => {
         setUpdate(false);
         setQuestion(new Question());
+        setAnswers([]);
     }
 
     const updateParagraphId = (paragraphId) => {
@@ -111,7 +112,7 @@ const EditQuestions = () => {
         setQuestion(prevQuestion => {
             const newQuestion = Question.createQuestionFromCopy(prevQuestion);
 
-            newQuestion.answers = newAnswers;
+            newQuestion.answerChoices = newAnswers;
 
             return newQuestion;
         });
@@ -199,6 +200,8 @@ const EditQuestions = () => {
                     <Form.Control
                         name={Question.varTextName()}
                         value={question.text}
+                        as="textarea"
+                        rows={3}
                         required type="text"
                         autoComplete='off'
                         placeholder="Enter Question Text"

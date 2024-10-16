@@ -5,7 +5,7 @@ class QuestionMapper {
     static fromJson(data) {
         return Question.createQuestionFromParams(
             data[QuestionJson.title], 
-            data[QuestionJson.text], 
+            data[QuestionJson.questionText], 
             data[QuestionJson.paragraphId] || null,
             data[QuestionJson.answerChoices] || [],
             data[QuestionJson.correctAnswerIndex],
@@ -21,7 +21,7 @@ class QuestionMapper {
         }
 
         if (question._text) {
-            json[QuestionJson.text] = question._text;
+            json[QuestionJson.questionText] = question._text;
         }
 
         if (question._id) {
