@@ -9,4 +9,5 @@ public interface IParagraphService : IServiceWithImage<ParagraphResponse>
     public ParagraphResponse GetParagraph(int id);
     ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request);
     void DeleteParagraph(int paragraphId);
+
 }

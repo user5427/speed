@@ -6,7 +6,7 @@ using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Exceptions;
-using System.Linq;
+
 namespace SpeedReaderAPI.Services.Impl;
 
 

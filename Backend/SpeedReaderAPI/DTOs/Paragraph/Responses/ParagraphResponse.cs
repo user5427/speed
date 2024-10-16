@@ -6,5 +6,5 @@ public record ParagraphResponse(
 	int Id, 
 	string Text, 
 	List<int>? QuestionIds,
-    string? ImageFileName
+  string? ImageFileName
 );
