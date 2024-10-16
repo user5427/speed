@@ -17,7 +17,7 @@ import Exercise from './pages/exercise';
 import CreateArticle from './pages/CreatePages/createArticlePage';
 import CreateParagraph from './pages/CreatePages/createParagraphPage';
 import CreateQuestion from './pages/CreatePages/createQuestionPage';
-
+import EditArticleParagraphQuestion from './pages/EditPages/editAll';
 function App() {
   return (
    
@@ -43,6 +43,7 @@ function App() {
           <Route exact path="/create-article" Component={() => <CreateArticle/>} />
           <Route exact path="/create-paragraph" Component={() => <CreateParagraph/>} />
           <Route exact path="/create-question" Component={() => <CreateQuestion/>} />
+          <Route exact path="/edit" Component={() => <EditArticleParagraphQuestion/>} />
           </Routes>
       </BrowserRouter>
     </Container>

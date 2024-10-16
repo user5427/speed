@@ -8,7 +8,7 @@ import "../../../styles/stylesPaginator.css"; // stylesheet
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
 
-const ArticleList = ({ settings }) => {
+const ArticleList = ({ settings, getSelected }) => {
     const [articles, setArticles] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
@@ -49,7 +49,11 @@ const ArticleList = ({ settings }) => {
                 {articles && articles.length > 0 ? (
                     articles.map((m, i) => (
                         <div key={i}>
-                            <ArticleItem data={m} settings={settings} />
+                            <ArticleItem 
+                            data={m} 
+                            settings={settings}
+                            editThis={() => getSelected(m.id)}
+                            />
                         </div>
                     ))
                 ) : (

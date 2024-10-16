@@ -7,7 +7,7 @@ import { Paragraph } from '../../.entities/.MainEntitiesExport';
 import { ArticleController, ParagraphController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from '../.common-components/ErrorPopup';
 
-const EditParagraph = ({ articleFromOutsideId, existingParagraphId }) => {
+const EditParagraph = ({ articleFromOutsideId, existingParagraphId, sendCreatedId }) => {
     const [paragraph, setParagraph] = useState(
         new Paragraph()
     );
@@ -55,6 +55,9 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId }) => {
                     newParagraph = await ParagraphController.Post(paragraph);
                     alert('Created paragraph successfully.');
                     setUpdate(true);
+                    if (sendCreatedId) {
+                        sendCreatedId(newParagraph.id);
+                    }
                 }
                 setParagraph(newParagraph);
             } catch (error) {
@@ -136,7 +139,7 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId }) => {
         if (!exParId) {
             return;
         }
-        
+
         let paragraph = null;
         try {
             paragraph = await ParagraphController.Get(exParId);
@@ -157,32 +160,45 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId }) => {
                 setShowErrorModal(true); // Show modal
             }
         }
-        
+
     }
 
     return (
         <>
-            <ArticleSearch
-                onArticleSelected={updateArticleId}
-                articleFromOutside={outsideArticle}
-            />
+            {
+                outsideArticle ? "" :
+                    (
+                        <ArticleSearch
+                            onArticleSelected={updateArticleId}
+                            articleFromOutside={outsideArticle}
+                        />
+                    )
+            }
+
+
 
             <Form validated={validated} onSubmit={handleSave}>
-                <Form.Group controlId="formtestTitle">
-                    <Form.Label>Article ID</Form.Label>
-                    <Form.Control
-                        name={Paragraph.varArticleIdName()}
-                        value={paragraph.articleId}
-                        required type="number"
-                        autoComplete='off'
-                        placeholder="Enter article ID"
-                        onChange={handleFieldChange}
-                        pattern={ValidationPatternConstants.IdPattern.source}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Please enter article ID.
-                    </Form.Control.Feedback>
-                </Form.Group>
+                {
+                    outsideArticle ? "" :
+                        (
+                            <Form.Group controlId="formtestTitle">
+                                <Form.Label>Article ID</Form.Label>
+                                <Form.Control
+                                    name={Paragraph.varArticleIdName()}
+                                    value={paragraph.articleId}
+                                    required type="number"
+                                    autoComplete='off'
+                                    placeholder="Enter article ID"
+                                    onChange={handleFieldChange}
+                                    pattern={ValidationPatternConstants.IdPattern.source}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Please enter article ID.
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        )
+                }
+
 
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Paragraph Title</Form.Label>

@@ -1,3 +1,3 @@
 import EditQuestions from './create-edit-questions';
-
-export { EditQuestions as CreateEditQuestion };
+import listOfQuestions from './Listing/listOfQuestionsFromParagraph';
+export { EditQuestions as CreateEditQuestion, listOfQuestions };

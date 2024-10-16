@@ -42,7 +42,7 @@ const listOfParagraphs = ({articleId, getSelected}) => {
 
         // leave only specified number of questions
         allArticleParagraphs = allArticleParagraphs.slice(page * maxPageSize, page * maxPageSize + maxPageSize);
-        
+
         // get each paragraph individually
         try {
             let paragraphs = await Promise.all(allArticleParagraphs.map(async (paragraphId) => {
@@ -112,3 +112,5 @@ const listOfParagraphs = ({articleId, getSelected}) => {
         </>
     )
 }
+
+export default listOfParagraphs;
