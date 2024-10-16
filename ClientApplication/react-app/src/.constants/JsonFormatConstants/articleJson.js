@@ -8,8 +8,13 @@ const ArticleJson = {
 };
 
 const ArticlePageJson = {
+    articles: "items",
+    count: "count"
+};
+
+const ArticleListJson = {
     articles: "articles",
     count: "count"
 };
 
-export { ArticleJson, ArticlePageJson };
+export { ArticleJson, ArticlePageJson, ArticleListJson };

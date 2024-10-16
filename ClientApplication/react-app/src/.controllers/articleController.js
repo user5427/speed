@@ -59,7 +59,7 @@ class ArticleController {
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${ArticlePageErrors.GetError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
-            return ArticlePageMapper.fromJson(response);
+            return ArticlePageMapper.fromJsonList(response);
         } catch (error) {
             throw error;
         }

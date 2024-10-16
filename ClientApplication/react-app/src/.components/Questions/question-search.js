@@ -6,15 +6,17 @@ import { useState } from 'react';
 import { QuestionController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from "../.common-components/ErrorPopup";
 import { ValidationPatternConstants } from "../../.constants/MainConstants";
-const QuestionSearch = ({ onQuestionSelected }) => {
+const QuestionSearch = ({ onQuestionSelected, questionFromOutside }) => {
     const [options, setOptions] = useState([]);
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+    const [searchValue, setSearchValue] = useState("");
 
     const handleFieldChange = async (event) => {
         const { value } = event.target;
         if (value !== "") {
+            setSearchValue(value);
             try {
                 let questionPage = await QuestionController.Search(value);
                 if (questionPage.questions.length > 0) {
@@ -47,6 +49,7 @@ const QuestionSearch = ({ onQuestionSelected }) => {
                 <Form.Group controlId="searchBar">
                     <Form.Label>Search Questions</Form.Label>
                     <Form.Control
+                        value={questionFromOutside && questionFromOutside.title || searchValue}
                         list="questions"
                         name="questionSearch"
                         required

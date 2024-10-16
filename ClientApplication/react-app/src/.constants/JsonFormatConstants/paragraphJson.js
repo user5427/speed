@@ -10,7 +10,7 @@ const ParagraphJson = {
 };
 
 const ParagraphPageJson = {
-    paragraphs: "paragraphs",
+    paragraphs: "items",
     count: "count"
 };
 

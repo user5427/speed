@@ -9,7 +9,7 @@ import AnswerItem from './answerItem';
 import Divider from '@mui/material/Divider';
 
 
-const EditQuestions = () => {
+const EditQuestions = ({paragraphFromOutside}) => {
     const [question, setQuestion] = useState(
         new Question()
     );
@@ -20,8 +20,9 @@ const EditQuestions = () => {
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     const [answers, setAnswers] = useState([]);
-
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
+
+    const [outsideParagraph, setOutsideParagraph] = useState(null);
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -84,11 +85,11 @@ const EditQuestions = () => {
         });
     }
 
-    const resetUpdating = () => {
-        setUpdate(false);
-        setQuestion(new Question());
-        setAnswers([]);
-    }
+    // const resetUpdating = () => {
+    //     setUpdate(false);
+    //     setQuestion(new Question());
+    //     setAnswers([]);
+    // }
 
     const updateParagraphId = (paragraphId) => {
         setQuestion(prevQuestion => {
@@ -155,10 +156,36 @@ const EditQuestions = () => {
         });
     }
 
+    const getParagraphFromOutside = async () => {
+        if (paragraphFromOutside) {
+            let paragraph = null;
+            try {
+                paragraph = await ParagraphController.Get(paragraphFromOutside.id);
+            } catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
+
+            if (paragraph) {
+                setOutsideParagraph(paragraph);
+                setQuestion(prevQuestion => {
+                    const newQuestion = Question.createQuestionFromCopy(prevQuestion);
+
+                    newQuestion.paragraphId = Number(paragraph.id);
+
+                    return newQuestion;
+                });
+            }
+        }
+    }
+
 
     return (
         <>
-            <ParagraphSearch onParagraphSelected={updateParagraphId} />
+            <ParagraphSearch 
+                onParagraphSelected={updateParagraphId} 
+                paragraphFromOutside={outsideParagraph}    
+            />
 
             <Form validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
@@ -248,9 +275,9 @@ const EditQuestions = () => {
                     <Button type="submit">{update ? "Update" : "Create"}</Button>
                 </div>
                 {/* if you can update the article, make a button apear for creating a new article */}
-                {update ?
+                {/* {update ?
                     <Button onClick={resetUpdating}>Reset</Button> : ""
-                }
+                } */}
             </Form>
 
             {/* Error Popup */}

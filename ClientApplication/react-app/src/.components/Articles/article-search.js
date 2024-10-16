@@ -5,15 +5,17 @@ import { ArticleController } from "../../.controllers/.MainControllersExport";
 import { ValidationPatternConstants } from '../../.constants/MainConstants';
 import ErrorPopup from '../.common-components/ErrorPopup';
 
-const ArticleSearch = ({ onArticleSelected }) => {
+const ArticleSearch = ({ onArticleSelected, articleFromOutside}) => {
     const [options, setOptions] = useState([]);
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+    const [searchValue, setSearchValue] = useState("");
 
     // Function to fetch articles based on the user input
     const handleFieldChange = async (event) => {
         const { value } = event.target;
         if (value !== "") {
+            setSearchValue(value);
             try {
                 let articlePage = await ArticleController.Search(value);
                 if (articlePage.articles.length > 0) {
@@ -47,6 +49,7 @@ const ArticleSearch = ({ onArticleSelected }) => {
                 <Form.Group controlId="searchBar">
                     <Form.Label>Search Articles</Form.Label>
                     <Form.Control
+                        value={articleFromOutside && articleFromOutside.title || searchValue}
                         list="articles"
                         name="articleSearch"
                         required

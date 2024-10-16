@@ -10,7 +10,7 @@ const QuestionJson = {
 };
 
 const QuestionPageJson = {
-    questions: "questions",
+    questions: "items",
     count: "count"
 };
 

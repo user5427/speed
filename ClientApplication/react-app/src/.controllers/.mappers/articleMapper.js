@@ -1,5 +1,5 @@
 import { Article, ArticlePage } from "../../.entities/.MainEntitiesExport";
-import { ArticleJson, ArticlePageJson } from "../../.constants/MainConstants";
+import { ArticleJson, ArticlePageJson, ArticleListJson } from "../../.constants/MainConstants";
 class ArticleMapper {
     static fromJson(data) {
         return Article.createArticleFromParams(
@@ -41,6 +41,19 @@ class ArticlePageMapper {
             data[ArticlePageJson.count]
         );
     }
+
+    /**
+     * @deprecated this one is used to support old data format of page
+     * @param {*} data 
+     * @returns 
+     */
+    static fromJsonList(data) {
+        return ArticlePage.createArticlePageFromParams(
+            data[ArticleListJson.articles].map(article => ArticleMapper.fromJson(article)),
+            data[ArticleListJson.count]
+        );
+    }
 }
 
-export { ArticleMapper, ArticlePageMapper };
+
+export { ArticleMapper, ArticlePageMapper,  };

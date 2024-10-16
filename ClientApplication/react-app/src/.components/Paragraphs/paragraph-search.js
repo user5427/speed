@@ -5,15 +5,17 @@ import { useState } from 'react';
 import { ParagraphController } from "../../.controllers/.MainControllersExport";
 import { ValidationPatternConstants } from '../../.constants/MainConstants';
 import ErrorPopup from '../.common-components/ErrorPopup';
-const ParagraphSearch = ({ onParagraphSelected }) => {
+const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
     const [options, setOptions] = useState([]);
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+    const [searchValue, setSearchValue] = useState("");
 
     const handleFieldChange = async (event) => {
         const { value } = event.target;
         if (value !== "") {
+            setSearchValue(value);
             try {
                 let paragraphPage = await ParagraphController.Search(value);
                 if (paragraphPage.paragraphs.length > 0) {
@@ -47,6 +49,7 @@ const ParagraphSearch = ({ onParagraphSelected }) => {
                 <Form.Group controlId="searchBar">
                     <Form.Label>Search Paragraphs</Form.Label>
                     <Form.Control
+                        value={paragraphFromOutside && paragraphFromOutside.title || searchValue}
                         list="paragraphs"
                         name="paragraphSearch"
                         required

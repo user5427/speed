@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
 
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
@@ -7,7 +7,7 @@ import { Paragraph } from '../../.entities/.MainEntitiesExport';
 import { ArticleController, ParagraphController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from '../.common-components/ErrorPopup';
 
-const EditParagraph = () => {
+const EditParagraph = ({ articleFromOutside }) => {
     const [paragraph, setParagraph] = useState(
         new Paragraph()
     );
@@ -16,6 +16,13 @@ const EditParagraph = () => {
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+
+    const [outsideArticle, setOutsideArticle] = useState(null);
+
+    // Trigger getArticleFromOutside when component mounts or articleFromOutside changes
+    useEffect(() => {
+        getArticleFromOutside();
+    }, [articleFromOutside]); // Add articleFromOutside as a dependency
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -73,10 +80,11 @@ const EditParagraph = () => {
         });
     }
 
-    const resetUpdating = () => {
-        setUpdate(false);
-        setParagraph(new Paragraph());
-    }
+    // const resetUpdating = () => {
+    //     setUpdate(false);
+    //     setParagraph(new Paragraph());
+    //     setOutsideArticle(null);
+    // }
 
     const updateArticleId = (articleId) => {
         setParagraph(prevParagraph => {
@@ -94,9 +102,36 @@ const EditParagraph = () => {
         setShowErrorModal(false);
     };
 
+    const getArticleFromOutside = async () => {
+        if (articleFromOutside) {
+            let article = null;
+            try {
+                article = await ArticleController.Get(paragraph.articleId);
+            } catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
+
+            if (article) {
+                setOutsideArticle(article);
+                setParagraph(prevParagraph => {
+                    const newParagraph = Paragraph.createParagraphFromCopy(prevParagraph);
+
+                    // Use the hasField method to check if the field exists
+                    newParagraph.articleId = Number(article.id); // Use setter for the corresponding field
+
+                    return newParagraph;
+                });
+            }
+        }
+    }
+
     return (
         <>
-            <ArticleSearch onArticleSelected={updateArticleId} />
+            <ArticleSearch
+                onArticleSelected={updateArticleId}
+                articleFromOutside={outsideArticle}
+            />
 
             <Form validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
@@ -115,7 +150,7 @@ const EditParagraph = () => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-            <Form.Group controlId="formtestTitle">
+                <Form.Group controlId="formtestTitle">
                     <Form.Label>Paragraph Title</Form.Label>
                     <Form.Control
                         name={Paragraph.varTitleName()}
@@ -154,16 +189,16 @@ const EditParagraph = () => {
                 </Form.Group>
 
                 <Button type="submit">{update ? "Update" : "Create"}</Button>
-                {update ?
+                {/* {update ?
                     <Button onClick={resetUpdating}>Reset</Button> : ""
-                }
+                } */}
             </Form>
 
-             {/* Error Popup */}
-             <ErrorPopup 
-                showErrorModal={showErrorModal} 
-                errorMessage={errorMessage} 
-                onClose={closeErrorModal} 
+            {/* Error Popup */}
+            <ErrorPopup
+                showErrorModal={showErrorModal}
+                errorMessage={errorMessage}
+                onClose={closeErrorModal}
             />
         </>
     )
