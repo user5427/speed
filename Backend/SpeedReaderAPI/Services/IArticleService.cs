@@ -1,9 +1,10 @@
 namespace SpeedReaderAPI.Services;
 using SpeedReaderAPI.DTOs;
+using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 
-public interface IArticleService
+public interface IArticleService : IServiceWithImage<ArticleResponse>
 {
     ArticleResponse CreateArticle(ArticleCreateRequest request);
     ArticlePageResponse GetArticles(QueryParameters queryParameters);

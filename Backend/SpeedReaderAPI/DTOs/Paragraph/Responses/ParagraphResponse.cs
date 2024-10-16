@@ -6,5 +6,6 @@ public record ParagraphResponse(
 	int Id, 
 	string Text, 
 	int? NextParagraphId, 
-	List<int>? QuestionIds
-	);
+	List<int>? QuestionIds,
+    string? ImageFileName
+);

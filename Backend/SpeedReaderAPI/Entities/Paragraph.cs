@@ -23,10 +23,43 @@ public class Paragraph
         MinimumLength = ValidationConstants.MinParagraphLength,
         ErrorMessage = "Text must be between {2} and {1} characters.")]
     public required string Text { get; set; }
+    public string? ImageFileName { get; set; }
+    public string? ImageFilePath {get; set;}
+    public MimeType? ImageMimeType { get; set; }
+    
+    [NotMapped]
+    public Image? Image
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(ImageFileName) && !string.IsNullOrEmpty(ImageFilePath) && ImageMimeType.HasValue)
+            {
+                return new Image(ImageFileName, ImageMimeType.Value, ImageFilePath);
+            }
+            return null; 
+        }
+        set
+        {
+            if (value.HasValue)
+            {
+                ImageFilePath = value.Value.ImageFilePath;
+                ImageFileName = value.Value.ImageFileName;
+                ImageMimeType = value.Value.ImageMimeType;
+            }
+            else 
+            {
+                ImageFilePath = null;
+                ImageFileName = null;
+                ImageMimeType = null;
+            }
+        }
+    }
+
+
     public int? nextParagraphId { get; set; }
 
     public virtual Article? Article { get; set; }
     // ONE TO MANY
-    public List<int>? QuestionIds { get; set; }
-    public virtual List<Question>? Questions { get; set; } = new List<Question>();
+    public List<int> QuestionIds { get; set; } = [];
+    public virtual List<Question> Questions { get; set; } = [];
 }

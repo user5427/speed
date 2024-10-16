@@ -5,12 +5,8 @@ using SpeedReaderAPI.Constants;
 
 public record QuestionCreateRequest
 (
-	[StringLength(ValidationConstants.MaxTitleLength,
-	MinimumLength = ValidationConstants.MinTitleLength,
-	ErrorMessage = "Title must be between {2} and {1} characters.")]
-	string? Title,
 	[Required(ErrorMessage = "Paragraph id is required.")]
-    int ParagraphId,
+    int? ParagraphId,
     [Required(ErrorMessage = "Question is required.")]
     [StringLength(ValidationConstants.MaxQuestionTextLength,
                 MinimumLength = ValidationConstants.MinQuestionTextLength,
@@ -22,5 +18,5 @@ public record QuestionCreateRequest
     string[] AnswerChoices,
 
     [Required(ErrorMessage = "Correct answer is required.")]
-    int CorrectAnswerIndex
+    int? CorrectAnswerIndex
 );

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpeedReaderAPI.Data;
 
@@ -11,9 +12,11 @@ using SpeedReaderAPI.Data;
 namespace SpeedReaderAPI.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241016105020_Fix relationships")]
+    partial class Fixrelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +37,6 @@ namespace SpeedReaderAPI.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageFileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageFilePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ImageMimeType")
@@ -68,9 +68,6 @@ namespace SpeedReaderAPI.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ImageFileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageFilePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ImageMimeType")
@@ -116,9 +113,6 @@ namespace SpeedReaderAPI.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ImageFileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageFilePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ImageMimeType")

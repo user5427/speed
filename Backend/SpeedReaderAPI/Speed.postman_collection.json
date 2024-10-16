@@ -1,0 +1,577 @@
+{
+	"info": {
+		"_postman_id": "afb616a3-0a08-4842-9cbf-3512f5eaed3a",
+		"name": "Speed",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38740777"
+	},
+	"item": [
+		{
+			"name": "articles",
+			"item": [
+				{
+					"name": "Get articles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/articles/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get article",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/articles/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create article",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"title\",\r\n    \"CategoryTitle\": \"categoryTitle\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5268/api/articles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete article",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/articles/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update article",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"newTitle\",\r\n    \"categoryTitle\": \"newCategoryTitle\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5268/api/articles/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload article image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/dariu/Pictures/Saved Pictures/test.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5268/api/articles/2/img",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles",
+								"2",
+								"img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete article image",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/articles/2/img",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles",
+								"2",
+								"img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get article image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/articles/2/img",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles",
+								"2",
+								"img"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "paragraphs",
+			"item": [
+				{
+					"name": "Get paragraph",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/paragraphs/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"paragraphs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create paragraph",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"title\",\r\n    \"ArticleId\": 2,\r\n    \"Text\": \"text text text\",\r\n    \"NextParagraphId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5268/api/paragraphs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"paragraphs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete paragraph",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/paragraphs/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"paragraphs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update paragraph",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"title\",\r\n    \"ArticleId\": 2,\r\n    \"Text\": \"text text text\",\r\n    \"NextParagraphId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5268/api/paragraphs/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"paragraphs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload paragraph image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/dariu/Pictures/Saved Pictures/test.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5268/api/paragraphs/1/img",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"paragraphs",
+								"1",
+								"img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete paragraph image",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/paragraphs/1/img",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"paragraphs",
+								"1",
+								"img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get paragraph image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/paragraphs/1/img",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"paragraphs",
+								"1",
+								"img"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "questions",
+			"item": [
+				{
+					"name": "Get question",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/questions/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"questions",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create question",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Title\": \"title\",\r\n    \"ParagraphId\": 1,\r\n    \"QuestionText\": \"text text text\",\r\n    \"Answerchoices\": [\"a\",\"b\",\"c\",\"d\"],\r\n    \"CorrectAnswerIndex\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5268/api/questions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete question",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/questions/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"questions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update question",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Title\": \"title\",\r\n    \"ParagraphId\": 13,\r\n    \"QuestionText\": \"text text text\",\r\n    \"Answerchoices\": [\"a\",\"b\",\"c\",\"d\"],\r\n    \"CorrectAnswerIndex\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5268/api/questions/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"questions",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload question image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/dariu/Pictures/Saved Pictures/test.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5268/api/questions/2/img",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"questions",
+								"2",
+								"img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete question image",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/questions/1/img",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"questions",
+								"1",
+								"img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get question image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/questions/2/img",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"questions",
+								"2",
+								"img"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
