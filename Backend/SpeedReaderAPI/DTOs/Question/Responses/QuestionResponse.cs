@@ -6,6 +6,7 @@ public record QuestionResponse(
     int Id,
     string QuestionText,
     string[] AnswerChoices,
-    int CorrectAnswerIndex
+    int CorrectAnswerIndex,
+    string? ImageFileName
 );
 

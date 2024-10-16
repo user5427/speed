@@ -1,10 +1,12 @@
 using AutoMapper;
 using SpeedReaderAPI.Constants;
+using SpeedReaderAPI.Controllers;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Exceptions;
 namespace SpeedReaderAPI.Services.Impl;
 
 
@@ -96,7 +98,7 @@ public class ArticleService : IArticleService
         }
     }
 
-    public async Task<ArticleResponse> UploadImage(int id, IFormFile file)
+    public async Task<ArticleResponse> UploadImage(int id, ImageUploadRequest request)
     {
         Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
         if (articleFound == null) 
@@ -105,9 +107,9 @@ public class ArticleService : IArticleService
         }
         if (articleFound.Image.HasValue) 
         {
-            throw new Exception("Article has an image.");
+            throw new ResourceAlreadyExistsException($"Article with ID {id} has an image.");
         }
-        articleFound.Image = await _imageService.Create(file);
+        articleFound.Image = await _imageService.Create(request);
         await _context.SaveChangesAsync();
 
         return _mapper.Map<ArticleResponse>(articleFound);

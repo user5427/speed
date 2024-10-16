@@ -1,8 +1,10 @@
 using AutoMapper;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Exceptions;
 namespace SpeedReaderAPI.Services.Impl;
 
 
@@ -12,11 +14,13 @@ public class ParagraphService : IParagraphService
 
     private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
+    private readonly IImageService  _imageService;
 
-    public ParagraphService(ApplicationContext context, IMapper mapper)
+    public ParagraphService(ApplicationContext context, IMapper mapper, IImageService imageService)
     {
         _context = context;
         _mapper = mapper;
+        _imageService = imageService;
     }
 
     public ParagraphResponse GetParagraph(int id)
@@ -122,5 +126,52 @@ public class ParagraphService : IParagraphService
         }else{
             throw new KeyNotFoundException($"Question with ID {id} not found.");
         }
+    }
+
+    public async Task<ParagraphResponse> UploadImage(int id, ImageUploadRequest request)
+    {
+        Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        if (paragraphFound == null) 
+        {
+            throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
+        }
+        if (paragraphFound.Image.HasValue) 
+        {
+            throw new ResourceAlreadyExistsException($"Paragraph with ID {id} has an image.");
+        }
+        paragraphFound.Image = await _imageService.Create(request);
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<ParagraphResponse>(paragraphFound);
+    }
+
+    public Image? GetImage(int id)
+    {
+        Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        if (paragraphFound == null) 
+        {
+            throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
+        }
+        if (!paragraphFound.Image.HasValue) return null;
+        Image img = paragraphFound.Image.Value;
+        Stream? stream = _imageService.Get(img);
+        if (stream == null) return null;
+        img.FileStream = stream;
+        
+        return img;
+    }
+
+    public void DeleteImage(int id)
+    {
+        Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        if (paragraphFound == null) 
+        {
+            throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
+        }
+        if (paragraphFound.Image == null || !paragraphFound.Image.HasValue) return;
+        _imageService.Delete((Image)paragraphFound.Image);
+        
+        paragraphFound.Image = null;
+        _context.SaveChanges();
     }
 }

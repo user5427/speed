@@ -1,9 +1,11 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Exceptions;
 using System.Linq;
 namespace SpeedReaderAPI.Services.Impl;
 
@@ -13,11 +15,12 @@ public class QuestionService : IQuestionService
 
     private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
-
-    public QuestionService(ApplicationContext context, IMapper mapper)
+    private readonly IImageService _imageService;
+    public QuestionService(ApplicationContext context, IMapper mapper, IImageService imageService)
     {
         _context = context;
         _mapper = mapper;
+        _imageService = imageService;
     }
 
     public QuestionResponse GetQuestion(int id)
@@ -121,5 +124,52 @@ public class QuestionService : IQuestionService
         }else{
             throw new KeyNotFoundException($"Question with ID {id} not found.");
         }
+    }
+
+    public async Task<QuestionResponse> UploadImage(int id, ImageUploadRequest request)
+    {
+        Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
+        if (questionFound == null) 
+        {
+            throw new KeyNotFoundException($"Question with ID {id} not found.");
+        }
+        if (questionFound.Image.HasValue) 
+        {
+            throw new ResourceAlreadyExistsException($"Paragraph with ID {id} has an image.");
+        }
+        questionFound.Image = await _imageService.Create(request);
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<QuestionResponse>(questionFound);
+    }
+
+    public Image? GetImage(int id)
+    {
+        Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
+        if (questionFound == null) 
+        {
+            throw new KeyNotFoundException($"Question with ID {id} not found.");
+        }
+        if (!questionFound.Image.HasValue) return null;
+        Image img = questionFound.Image.Value;
+        Stream? stream = _imageService.Get(img);
+        if (stream == null) return null;
+        img.FileStream = stream;
+        
+        return img;
+    }
+
+    public void DeleteImage(int id)
+    {
+        Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
+        if (questionFound == null) 
+        {
+            throw new KeyNotFoundException($"Question with ID {id} not found.");
+        }
+        if (questionFound.Image == null || !questionFound.Image.HasValue) return;
+        _imageService.Delete((Image)questionFound.Image);
+        
+        questionFound.Image = null;
+        _context.SaveChanges();
     }
 }

@@ -1,11 +1,11 @@
 namespace SpeedReaderAPI.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.Services;
 
 [ApiController]
@@ -22,14 +22,40 @@ public class ArticlesController : ControllerBase
         _articleService = articleService;
     }
 
-    [HttpPost("img/{id}")]
-    public async Task<IActionResult> UploadImage(int id, [FromForm] IFormFile file)
+    [HttpPost("{id}/img")]
+    public async Task<IActionResult> UploadImage(int id, [FromForm] ImageUploadRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(
+                new ProblemDetails
+                {
+                    Title = "Validation Error",
+                    Detail = "One or more validation errors occurred.",
+                    Status = 410,
+                    Instance = HttpContext.Request.Path,
+                    Extensions = { ["errors"] = ModelState }
+                });
+        }
         try
         {
-            ArticleResponse result = await _articleService.UploadImage(id, file);
+          
+            ArticleResponse result = await _articleService.UploadImage(id, request);
             return Ok(result);
         } 
+        catch(ResourceAlreadyExistsException ex)
+        {
+            _logger.LogError("Duplicate image: {ExceptionMessage}.", ex.GetBaseException().Message);
+            return BadRequest(
+                    new ProblemDetails
+                    {
+                        Title = "Duplicate image.",
+                        Detail = "Image already exists.",
+                        Status = 400,
+                        Instance = HttpContext.Request.Path
+                    }
+                );
+        }
         catch(KeyNotFoundException ex) 
         {
             _logger.LogError("Something went wrong in ArticleController while uploading image {ExceptionMessage}.", ex.GetBaseException().Message);
@@ -57,12 +83,12 @@ public class ArticlesController : ControllerBase
         }
         catch(InvalidOperationException)
         {
-            _logger.LogError($"Unsupported file format: {file.FileName}");
+            _logger.LogError($"Unsupported file format: {request.File.FileName}");
              return BadRequest(
                     new ProblemDetails
                     {
                         Title = "Unsupported file format",
-                        Detail = $"Unsupported file extension {file.FileName}",
+                        Detail = $"Unsupported file extension {request.File.FileName}",
                         Status = 400,
                         Instance = HttpContext.Request.Path
                     }
@@ -82,13 +108,13 @@ public class ArticlesController : ControllerBase
         }
     }
 
-    [HttpDelete("img/{id}")]
+    [HttpDelete("{id}/img")]
     public IActionResult DeleteImage(int id)
     {   
         try
         {
             _articleService.DeleteImage(id);
-            return Ok();
+            return Ok("Deleted");
         } 
         catch(KeyNotFoundException ex) 
         {
@@ -116,7 +142,7 @@ public class ArticlesController : ControllerBase
         }
     }
 
-    [HttpGet("img/{id}")]
+    [HttpGet("{id}/img")]
     public IActionResult GetImage(int id)
     {
         try
