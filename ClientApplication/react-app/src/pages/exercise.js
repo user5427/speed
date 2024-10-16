@@ -8,8 +8,11 @@ import { QuestionComponent } from '../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
 import { IoReturnUpBackSharp } from "react-icons/io5";
 import { Table } from 'react-bootstrap';
-
-
+import { FaCheck } from "react-icons/fa6";
+import { FaXmark } from "react-icons/fa6";
+import { MdOutlineCelebration } from "react-icons/md";
+import Divider from '@mui/material/Divider';
+import { TiMinus } from "react-icons/ti";
 
 const Exercise = () => {
     const navigate = useNavigate();
@@ -54,6 +57,8 @@ const Exercise = () => {
 
     const avgReadingSpeed = 238;
     const worldRecordWPM = 25000;
+    const usersWPM = 1000;
+    
 
     const [inputValue, setInputValue] = useState(238); // Track WPM value
     const [currentWordIndex, setCurrentWordIndex] = useState(0); // Index of the current word
@@ -68,11 +73,14 @@ const Exercise = () => {
     const [startTime, setStartTime] = useState(null); // Track the start time of a paragraph
     const [answersCorrectness, setAnswersCorrectness] = useState([]); // Array to store correctness per paragraph
 
+    const wordsPerParagraph = paragraphs.map(paragraph => paragraph.split(" ").length);
 
     const linearToLog = (value) => Math.round(Math.pow(10, value / 100));
     const logToLinear = (value) => Math.round(Math.log10(value) * 100);
 
     const words = paragraphs[currentParagraphIndex].split(" ");
+
+
 
 // Word reveal loop for each paragraph
 useEffect(() => {
@@ -128,6 +136,25 @@ useEffect(() => {
         }
     };
 
+    const calculateAverageWPM = () => {
+        // Get indices of paragraphs where the answer was correct
+        const correctIndices = answersCorrectness
+          .map((isCorrect, index) => (isCorrect ? index : null))
+          .filter((index) => index !== null);
+      
+        // If no correct answers, return null or NaN
+        if (correctIndices.length === 0) {
+          return null; // Or you can return NaN
+        }
+      
+        // Sum words and time only for paragraphs with correct answers
+        const totalWords = correctIndices.reduce((sum, index) => sum + wordsPerParagraph[index], 0);
+        const totalTime = correctIndices.reduce((sum, index) => sum + timePerParagraph[index], 0);
+      
+        return totalWords / (totalTime / 60);
+      };
+      
+    
     const handleShowQuestion = () => {
         setShowQuestion(true);
         setQuestionButtonClicked(true);
@@ -153,48 +180,133 @@ useEffect(() => {
 
 // Inside the articleCompleted section
 if (articleCompleted) {
+    // Calculate average WPM only for correct answers
+    const averageWPM = calculateAverageWPM();
+  
     return (
+      <>
         <div className="mainContainer" style={{ textAlign: 'left' }}>
-            <div style={{ textAlign: 'center' }}>
-                <h1>Exercise Completed!</h1>
-                <h4 style={{ textAlign: 'left' }}>Results:</h4>
-                <Table striped bordered hover size="sm">
-                    <thead>
-                        <tr>
-                            <th>Paragraph nr</th>
-                            <th>Time (seconds)</th>
-                            <th>Answers</th> {}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {timePerParagraph.map((time, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{time.toFixed(1)}s</td>
-                                <td>{answersCorrectness[index] ? "Correct" : "Incorrect"}</td> {/* Display correctness */}
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </div>
+          <div style={{ textAlign: 'center' }}>
+            <h1 style={{ marginBottom: '10px' }}>
+              <MdOutlineCelebration color="#ffd633" style={{ marginTop: '-5px' }} /> Exercise Completed!{' '}
+              <MdOutlineCelebration color="#ffd633" style={{ marginTop: '-5px' }} />
+            </h1>
+            <Divider style={{ backgroundColor: '#a6a6a6', borderBottomWidth: 3 }}></Divider>
+            <h4 style={{ textAlign: 'left', marginTop: '10px' }}>Results:</h4>
+            <Table striped bordered hover size="sm" variant="dark">
+              <thead>
+                <tr>
+                  <th>Paragraph nr.</th>
+                  <th>Words</th>
+                  <th>Time</th>
+                  <th style={{ color: '#ce99ff' }}>WPM</th>
+                  <th style={{ color: '#ce99ff' }}>Questions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {timePerParagraph.map((time, index) => {
+                  const wordsInParagraph = wordsPerParagraph[index];
+                  const wpm = (wordsInParagraph / (time / 60)).toFixed(0);
+                  const isAboveUsersWPM = wpm >= usersWPM;
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{wordsInParagraph}</td>
+                      <td>{time.toFixed(1)}s</td>
+                      <td>
+                        {answersCorrectness[index] ? (
+                          <>
+                            {wpm}{' '}
+                            {isAboveUsersWPM ? (
+                              <span style={{ color: '#99ff33' }}>↑</span>
+                            ) : (
+                              <span style={{ color: '#ff3300' }}>↓</span>
+                            )}
+                          </>
+                        ) : (
+                            <TiMinus />
+                        )}
+                      </td>
+                      <td>
+                        {answersCorrectness[index] ? (
+                          <FaCheck style={{ color: '#99ff33' }} />
+                        ) : (
+                          <FaXmark style={{ color: '#ff3300' }} />
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+            <h4 style={{ textAlign: 'left' }}>In conclusion:</h4>
+            <Table striped bordered hover size="sm" variant="dark" style={{ fontSize: '20px' }}>
+              <tbody>
+                <tr>
+                  <td>Your current reading speed: </td>
+                  <td>
+                    <span style={{ color: '#ce99ff' }}>{usersWPM}</span> WPM
+                  </td>
+                  <td>Your reading speed during exercise:</td>
+                  <td>
+  {averageWPM ? (
+    <>
+      {usersWPM < averageWPM.toFixed(0) ? (
+        <span style={{ color: '#99ff33' }}>{averageWPM.toFixed(0)}</span>
+      ) : (
+        <span style={{ color: '#ff3300' }}>{averageWPM.toFixed(0)}</span>
+      )}{' '}
+      WPM
+    </>
+  ) : (
+    <TiMinus />
+  )}
+</td>
 
-            <Row>
-                <Col>
-                
-                </Col>
-            </Row>
 
-            <Button
-                className='subjectButtons'
-                size="lg"
-                style={{ backgroundColor: '#cca300', borderColor: '#b38f00' }}
-                onClick={redirectToCategories}
-            >
-                <IoReturnUpBackSharp style={{ marginTop: '-4px' }} /> Go back to categories
-            </Button>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
+  
+          <Button
+            className="subjectButtons"
+            style={{ backgroundColor: '#8400ff', borderColor: '#6900cc', marginTop: '5px' }}
+            onClick={redirectToCategories}
+          >
+            <IoReturnUpBackSharp style={{ marginTop: '-4px' }} /> Go back to categories
+          </Button>
         </div>
+  
+        <div>
+          <Row style={{ color: 'grey' }}>
+            <Col style={{ textAlign: 'right' }}>
+              <p style={{ marginBottom: '0px', marginTop: '20px' }}>
+                <span style={{ color: '#4d4d4d' }}>Title:</span> {title}
+              </p>
+              <p>
+                <span style={{ color: '#4d4d4d' }}>Author:</span> {author}
+              </p>
+            </Col>
+            <Col style={{ textAlign: 'left' }}>
+              <p style={{ marginBottom: '0px', marginTop: '20px' }}>
+                <span style={{ color: '#4d4d4d' }}>Publisher:</span> {publisher}
+              </p>
+              <p>
+                <span style={{ color: '#4d4d4d' }}>Link:</span>{' '}
+                <a href={source} target="_blank" rel="noopener noreferrer">
+                  {source}
+                </a>
+              </p>
+            </Col>
+          </Row>
+        </div>
+      </>
     );
-}
+  }
+  
+  
+
 
 
 
