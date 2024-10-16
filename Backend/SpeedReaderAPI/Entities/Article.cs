@@ -44,6 +44,6 @@ public class Article
     }
 
     // ONE TO MANY
-    public List<int>? ParagraphIds { get; set; }
-    public virtual ICollection<Paragraph>? Paragraphs { get; set; } = new List<Paragraph>();
+    public List<int> ParagraphIds { get; set; }  = [];
+    public virtual ICollection<Paragraph> Paragraphs { get; set; }  = [];
 }

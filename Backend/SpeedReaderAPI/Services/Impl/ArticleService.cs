@@ -1,6 +1,5 @@
 using AutoMapper;
 using SpeedReaderAPI.Constants;
-using SpeedReaderAPI.Controllers;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
@@ -12,17 +11,18 @@ namespace SpeedReaderAPI.Services.Impl;
 
 
 public class ArticleService : IArticleService
-{
-
-    private readonly ApplicationContext _context;
+{    private readonly ApplicationContext _context;
     private readonly IImageService _imageService;
+    private readonly IParagraphService _paragraphService;
     private readonly IMapper _mapper;
 
-    public ArticleService(ApplicationContext context, IMapper mapper, IImageService imageService)
+    public ArticleService(ApplicationContext context, IMapper mapper,
+        IImageService imageService, IParagraphService paragraphService)
     {
         _context = context;
         _mapper = mapper;
         _imageService = imageService;
+        _paragraphService = paragraphService;
     }
 
     public ArticlePageResponse GetArticles(QueryParameters queryParameters)
@@ -49,9 +49,6 @@ public class ArticleService : IArticleService
     public ArticleResponse CreateArticle(ArticleCreateRequest request)
     {
         Article createdArticle = _mapper.Map<Article>(request);
-        if(createdArticle.ParagraphIds == null){
-            createdArticle.ParagraphIds = new List<int>();
-        }
         _context.Article.Add(createdArticle);
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(createdArticle);
@@ -84,13 +81,12 @@ public class ArticleService : IArticleService
         Article? articleFound = _context.Article.Where(x => x.Id == articleId).FirstOrDefault();
         if (articleFound != null)
         {
-            if (articleFound.ImageFileName != null) 
+            if (articleFound.Image != null && articleFound.Image.HasValue) 
             {
-                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName, articleFound.ImageFileName);
-                    articleFound.Image = null;
-                    System.IO.File.Delete(filePath);
+                _imageService.Delete((Image)articleFound.Image);
             }
-
+            var copyOfParaphIds = articleFound.ParagraphIds.ToList();
+            copyOfParaphIds.ForEach(_paragraphService.DeleteParagraph);
             _context.Article.Remove(articleFound);
             _context.SaveChanges();
         }else{

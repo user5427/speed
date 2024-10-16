@@ -57,6 +57,6 @@ public class Paragraph
 
     public virtual Article? Article { get; set; }
     // ONE TO MANY
-    public List<int>? QuestionIds { get; set; }
-    public virtual List<Question>? Questions { get; set; } = new List<Question>();
+    public List<int> QuestionIds { get; set; } = [];
+    public virtual List<Question> Questions { get; set; } = [];
 }

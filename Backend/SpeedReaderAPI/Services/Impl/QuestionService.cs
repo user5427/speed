@@ -1,12 +1,10 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Exceptions;
-using System.Linq;
 namespace SpeedReaderAPI.Services.Impl;
 
 
@@ -44,14 +42,8 @@ public class QuestionService : IQuestionService
         Question createdQuestion = _mapper.Map<Question>(request);
         _context.Question.Add(createdQuestion);
         _context.SaveChanges();
-
-
-
-		if (paragraphFound.QuestionIds == null) {
-			paragraphFound.QuestionIds = new List<int>();
-		}
-		paragraphFound.QuestionIds.Add(createdQuestion.Id);
-		_context.SaveChanges();
+        paragraphFound.QuestionIds.Add(createdQuestion.Id);
+        _context.SaveChanges();
 
 		return _mapper.Map<QuestionResponse>(createdQuestion);
     }
@@ -64,27 +56,20 @@ public class QuestionService : IQuestionService
             throw new KeyNotFoundException($"Question with ID {id} not found.");
         }
 
-		var paragraphFound = _context.Paragraph.Where(a => a.Id == questionFound.ParagraphId).FirstOrDefault();
-
-		// Update if set in request
+		Paragraph? oldParagraphFound = _context.Paragraph.Where(a => a.Id == questionFound.ParagraphId).FirstOrDefault();
+        if (oldParagraphFound == null) throw new Exception("Illegal state, paragraph of question must exist");
+		
+        // Update if set in request
 		if (request.ParagraphId != null)
         {
-            questionFound.ParagraphId = (int)request.ParagraphId;
-			if (paragraphFound != null &&
-				paragraphFound.Id != questionFound.ParagraphId &&
-				paragraphFound.QuestionIds != null
-				&& paragraphFound.QuestionIds.Contains(questionFound.Id) //<-- del saugumo jei norit atkomentuokit (jau atkomentuota)
-				) {
-				paragraphFound.QuestionIds.Remove(questionFound.Id);
-				var changedParagraph = _context.Paragraph.Where(x => x.Id == questionFound.ParagraphId).FirstOrDefault();
-				if (changedParagraph == null) {
-                     throw new KeyNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
-				}
-				if (changedParagraph.QuestionIds == null) {
-					changedParagraph.QuestionIds = new List<int>();
-				}
-				changedParagraph.QuestionIds.Add(questionFound.Id);
-			}
+            Paragraph? newParagrahFound =  _context.Paragraph.Where(a => a.Id == request.ParagraphId).FirstOrDefault();
+            if (newParagrahFound == null)
+            {
+			    throw new KeyNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
+            }
+            oldParagraphFound.QuestionIds.Remove(id);
+            newParagrahFound.QuestionIds.Add(id);
+            questionFound.ParagraphId = newParagrahFound.Id;
 		}
 		if (request.Title != null) {
 			questionFound.Title = request.Title;
@@ -112,16 +97,18 @@ public class QuestionService : IQuestionService
         if (questionFound != null)
         {
 			Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == questionFound.ParagraphId).FirstOrDefault();
-			if (paragraphFound != null &&
-				paragraphFound.Id == questionFound.ParagraphId &&
-				paragraphFound.QuestionIds != null &&
-				paragraphFound.QuestionIds.Contains(questionFound.Id)
-				) {
-				paragraphFound.QuestionIds.Remove(questionFound.Id);
-			}
+			if (paragraphFound == null) throw new Exception("Illegal state, paragraph  of question must exist");
+			paragraphFound.QuestionIds.Remove(id);
+            
+            if (questionFound.ImageFileName != null && questionFound.Image.HasValue) 
+            {
+                _imageService.Delete((Image)questionFound.Image);
+            }
 			_context.Question.Remove(questionFound);
             _context.SaveChanges();
-        }else{
+        }
+        else
+        {
             throw new KeyNotFoundException($"Question with ID {id} not found.");
         }
     }

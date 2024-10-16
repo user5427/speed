@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SpeedReaderAPI.Attributes;
 using SpeedReaderAPI.Constants;
-using SpeedReaderAPI.DTOs;
 
 public class Question
 {
@@ -62,5 +61,4 @@ public class Question
     }
 
     public virtual Paragraph? Paragraph { get; set; }
-
 }
