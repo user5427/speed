@@ -7,9 +7,11 @@ import { FaQuestion } from "react-icons/fa6";
 import { QuestionComponent } from '../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
 import { IoReturnUpBackSharp } from "react-icons/io5";
+import { Table } from 'react-bootstrap';
+
+
 
 const Exercise = () => {
-
     const navigate = useNavigate();
 
     const redirectToCategories = () => {
@@ -62,33 +64,51 @@ const Exercise = () => {
     const [questionButtonClicked, setQuestionButtonClicked] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [articleCompleted, setArticleCompleted] = useState(false); // New state for article completion
+    const [timePerParagraph, setTimePerParagraph] = useState([]); // Array to store time for each paragraph
+    const [startTime, setStartTime] = useState(null); // Track the start time of a paragraph
+    const [answersCorrectness, setAnswersCorrectness] = useState([]); // Array to store correctness per paragraph
+
 
     const linearToLog = (value) => Math.round(Math.pow(10, value / 100));
     const logToLinear = (value) => Math.round(Math.log10(value) * 100);
 
     const words = paragraphs[currentParagraphIndex].split(" ");
 
-    // Word reveal loop for each paragraph
-    useEffect(() => {
-        if (!started) return;
+// Word reveal loop for each paragraph
+useEffect(() => {
+    if (!started || finished) return;
 
-        const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM);
-        const intervalTime = 60000 / wpm; // Convert WPM to milliseconds
+    const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM);
+    const intervalTime = 60000 / wpm; // Convert WPM to milliseconds
 
-        const interval = setInterval(() => {
-            setCurrentWordIndex((prevIndex) => {
-                if (prevIndex < words.length) {
-                    return prevIndex + 1;
-                } else {
-                    clearInterval(interval); // Finish current paragraph
-                    setFinished(true); // Mark paragraph as finished
-                    return prevIndex;
-                }
-            });
-        }, intervalTime);
+    // Record the start time when the paragraph starts
+    if (!startTime) {
+        setStartTime(Date.now());
+    }
 
-        return () => clearInterval(interval); // Cleanup
-    }, [started, inputValue, words.length]);
+    const interval = setInterval(() => {
+        setCurrentWordIndex((prevIndex) => {
+            if (prevIndex < words.length) {
+                return prevIndex + 1;
+            } else {
+                clearInterval(interval); // Finish current paragraph
+                setFinished(true); // Mark paragraph as finished
+
+                // Calculate the time taken to finish the paragraph
+                const endTime = Date.now();
+                const timeTaken = (endTime - startTime) / 1000; // Time in seconds
+                
+                
+                setTimePerParagraph([...timePerParagraph, timeTaken]);
+
+                return prevIndex;
+            }
+        });
+    }, intervalTime);
+
+    return () => clearInterval(interval); // Cleanup
+}, [started, inputValue, words.length, startTime, timePerParagraph, finished]);
+
 
     // Move to the next paragraph or display question
     const handleNextParagraphOrQuestion = () => {
@@ -101,6 +121,7 @@ const Exercise = () => {
             setQuestionButtonClicked(false);
             setShowQuestion(false); // Hide question for new paragraph
             setFeedbackMessage(""); // Reset feedback
+            setStartTime(null); // Reset start time for the new paragraph
         } else {
             // All paragraphs are finished
             setArticleCompleted(true); // Mark article as completed
@@ -114,38 +135,68 @@ const Exercise = () => {
 
     const handleQuestionSubmit = (selectedAnswer) => {
         const correctAnswer = questions[currentParagraphIndex].correctAnswer;
-        if (selectedAnswer === correctAnswer) {
+        const isCorrect = selectedAnswer === correctAnswer;
+    
+        // Update the answersCorrectness array
+        setAnswersCorrectness((prevAnswers) => [
+            ...prevAnswers,
+            isCorrect,
+        ]);
+    
+        if (isCorrect) {
             setFeedbackMessage("Correct!");
         } else {
             setFeedbackMessage(`Incorrect! The correct answer was '${correctAnswer}'.`);
         }
     };
+    
 
-    // Rendering
-    if (articleCompleted) {
-        // Show only "Exercise Completed" message when article is finished
-        return (
-            <div className="mainContainer" style={{ textAlign: 'left'}}>
-                <div style={{ textAlign: 'center'}}>
-                    <h1>Exercise Completed!</h1>
-                </div>
-
-                <Row >
-                    <Col>
-                        TODO Results 
-                    </Col>
-                </Row>
-                <Button
-                            className='subjectButtons'
-                            size="lg"
-                            style={{backgroundColor: '#cca300', borderColor: '#b38f00'}}
-                            onClick={redirectToCategories}
-                        >
-                            <IoReturnUpBackSharp style={{ marginTop: '-4px' }}/> Go back to categories
-                </Button>
+// Inside the articleCompleted section
+if (articleCompleted) {
+    return (
+        <div className="mainContainer" style={{ textAlign: 'left' }}>
+            <div style={{ textAlign: 'center' }}>
+                <h1>Exercise Completed!</h1>
+                <h4 style={{ textAlign: 'left' }}>Results:</h4>
+                <Table striped bordered hover size="sm">
+                    <thead>
+                        <tr>
+                            <th>Paragraph nr</th>
+                            <th>Time (seconds)</th>
+                            <th>Answers</th> {}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {timePerParagraph.map((time, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{time.toFixed(1)}s</td>
+                                <td>{answersCorrectness[index] ? "Correct" : "Incorrect"}</td> {/* Display correctness */}
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
             </div>
-        );
-    }
+
+            <Row>
+                <Col>
+                
+                </Col>
+            </Row>
+
+            <Button
+                className='subjectButtons'
+                size="lg"
+                style={{ backgroundColor: '#cca300', borderColor: '#b38f00' }}
+                onClick={redirectToCategories}
+            >
+                <IoReturnUpBackSharp style={{ marginTop: '-4px' }} /> Go back to categories
+            </Button>
+        </div>
+    );
+}
+
+
 
     return (
         <>
