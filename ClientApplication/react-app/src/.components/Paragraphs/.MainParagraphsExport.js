@@ -1,3 +1,3 @@
 import EditParagraph from './create-edit-paragraph';
-
-export { EditParagraph as CreateEditParagraph };
+import listOfParagraphs from './Listing/listOfParagraphsFromArticle';
+export { EditParagraph as CreateEditParagraph, listOfParagraphs };

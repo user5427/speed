@@ -6,7 +6,7 @@ import { ValidationConstants, ValidationPatternConstants } from '../../../.const
 import { Article } from '../../../.entities/.MainEntitiesExport';
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
-const EditArticle = ({ existingArticleId }) => {
+const EditArticle = ({ existingArticleId, sendCreatedId }) => {
     const [article, setArticle] = useState(
         new Article()
     );
@@ -65,6 +65,9 @@ const EditArticle = ({ existingArticleId }) => {
                 newArticle = await ArticleController.Post(article);
                 alert('Created article successfully.');
                 setUpdate(true);
+                if (sendCreatedId) {
+                    sendCreatedId(newArticle.id);
+                }
             }
             setArticle(newArticle);
         } catch (error) {

@@ -9,7 +9,7 @@ import AnswerItem from './answerItem';
 import Divider from '@mui/material/Divider';
 
 
-const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId }) => {
+const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreatedId }) => {
     const [question, setQuestion] = useState(
         new Question()
     );
@@ -69,6 +69,9 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId }) => {
                     newQuestion = await QuestionController.Post(question);
                     setUpdate(true);
                     alert('Created question successfully.');
+                    if (sendCreatedId) {
+                        sendCreatedId(newQuestion.id);
+                    }
                 }
                 setQuestion(newQuestion);
             } catch (error) {
@@ -211,6 +214,14 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId }) => {
             setAnswers(existingQuestion.answerChoices);
             setCorrectAnswerIndex(existingQuestion.correctAnswerIndex);
             setUpdate(true);
+
+            try {
+                let paragraph = await ParagraphController.Get(existingQuestion.paragraphId);
+                setOutsideParagraph(paragraph);
+            } catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
         }
 
     }
@@ -218,27 +229,36 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId }) => {
 
     return (
         <>
-            <ParagraphSearch
-                onParagraphSelected={updateParagraphId}
-                paragraphFromOutside={outsideParagraph}
-            />
+            {outsideParagraph ? "" :
+                (
+                    <ParagraphSearch
+                        onParagraphSelected={updateParagraphId}
+                        paragraphFromOutside={outsideParagraph}
+                    />
+                )}
 
             <Form validated={validated} onSubmit={handleSave}>
-                <Form.Group controlId="formtestTitle">
-                    <Form.Label>Paragraph ID</Form.Label>
-                    <Form.Control
-                        name={Question.varParagraphIdName()}
-                        value={question.paragraphId}
-                        required type="number"
-                        autoComplete='off'
-                        placeholder="Enter paragraph ID"
-                        onChange={handleFieldChange}
-                        pattern={ValidationPatternConstants.IdPattern.source}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Please enter paragraph ID.
-                    </Form.Control.Feedback>
-                </Form.Group>
+                {
+                    outsideParagraph ? "" :
+                        (
+                            <Form.Group controlId="formtestTitle">
+                                <Form.Label>Paragraph Title</Form.Label>
+                                <Form.Control
+                                    name={Question.varParagraphIdName()}
+                                    value={question.paragraphId}
+                                    required type="number"
+                                    autoComplete='off'
+                                    placeholder="Enter paragraph ID"
+                                    onChange={handleFieldChange}
+                                    pattern={ValidationPatternConstants.IdPattern.source}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Please enter paragraph ID.
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        )
+                }
+
 
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Question Title</Form.Label>

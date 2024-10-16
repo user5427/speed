@@ -1,6 +1,6 @@
 import { CreateEditArticle, ArticleList, ReturnToArticlesButton } from "./Articles/.MainArticlesExport";
-import { CreateEditParagraph } from  "./Paragraphs/.MainParagraphsExport";
-import { CreateEditQuestion } from  "./Questions/.MainQuestionsExport";
+import { CreateEditParagraph, listOfParagraphs } from  "./Paragraphs/.MainParagraphsExport";
+import { CreateEditQuestion, listOfQuestions } from  "./Questions/.MainQuestionsExport";
 import { QuestionComponent } from  "./Exercise/.MainExerciseExport";
 import { FlashingText } from  "./HomePage/.MainHomePageExport";
 
@@ -10,6 +10,8 @@ export { CreateEditParagraph };
 export { CreateEditQuestion };
 export { QuestionComponent };
 export { FlashingText };
+export { listOfParagraphs as ParagraphList };
+export { listOfQuestions as QuestionList };
 
 // Export as grouped objects (optional, if you need them grouped)
 export const MainArticles = {
