@@ -5,10 +5,6 @@ using SpeedReaderAPI.Constants;
 
 public record QuestionUpdateRequest
 (
-	[StringLength(ValidationConstants.MaxTitleLength,
-	MinimumLength = ValidationConstants.MinTitleLength,
-	ErrorMessage = "Title must be between {2} and {1} characters.")]
-	string? Title,
 	int? ParagraphId,
     [StringLength(ValidationConstants.MaxQuestionTextLength,
                 MinimumLength = ValidationConstants.MinQuestionTextLength,

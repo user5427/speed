@@ -39,6 +39,11 @@ public class QuestionService : IQuestionService
             throw new KeyNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
         }
 
+        if (request.CorrectAnswerIndex < 0 || request.CorrectAnswerIndex >= request.AnswerChoices.Length)
+        {
+            throw new IndexOutOfRangeException("Correct answer index out of bounds");
+        }
+
         Question createdQuestion = _mapper.Map<Question>(request);
         _context.Question.Add(createdQuestion);
         _context.SaveChanges();
@@ -59,6 +64,25 @@ public class QuestionService : IQuestionService
 		Paragraph? oldParagraphFound = _context.Paragraph.Where(a => a.Id == questionFound.ParagraphId).FirstOrDefault();
         if (oldParagraphFound == null) throw new Exception("Illegal state, paragraph of question must exist");
 		
+        if (request.CorrectAnswerIndex != null)
+        {
+            bool isIndexOutOfRequestBounds = request.AnswerChoices != null &&
+                                     request.CorrectAnswerIndex >= request.AnswerChoices.Length;
+            bool isIndexOutOfQuestionBounds = request.AnswerChoices == null &&
+                                        request.CorrectAnswerIndex >= questionFound.AnswerChoices.Length;
+            if (request.CorrectAnswerIndex < 0 || isIndexOutOfRequestBounds || isIndexOutOfQuestionBounds)
+            {
+                throw new IndexOutOfRangeException("Correct answer index is out of bounds.");
+            }
+        }
+       else if (request.AnswerChoices != null) 
+       {
+            if (questionFound.CorrectAnswerIndex >= request.AnswerChoices.Length)
+            {
+                throw new IndexOutOfRangeException("Correct answer index is out of bounds.");
+            }
+       }
+
         // Update if set in request
 		if (request.ParagraphId != null)
         {
@@ -70,9 +94,6 @@ public class QuestionService : IQuestionService
             oldParagraphFound.QuestionIds.Remove(id);
             newParagrahFound.QuestionIds.Add(id);
             questionFound.ParagraphId = newParagrahFound.Id;
-		}
-		if (request.Title != null) {
-			questionFound.Title = request.Title;
 		}
 		if (request.AnswerChoices != null)
         {

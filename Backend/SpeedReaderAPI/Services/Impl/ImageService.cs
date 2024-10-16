@@ -26,19 +26,19 @@ public class ImageService : IImageService {
         {
             throw new InvalidOperationException(file.FileName);
         }
-        string filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName, file.FileName);
+        string randomName = Path.GetRandomFileName();
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName, randomName);
 
         using (Stream stream = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
         }
-
-        return new Image(file.FileName, (MimeType)mimeType);
+        return new Image(file.FileName, (MimeType)mimeType, randomName);
     }
     public Stream? Get(Image img)
     {
         string filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName, img.ImageFilePath);
-        if (!System.IO.File.Exists(filePath))
+        if (!File.Exists(filePath))
         {
             return null;
         }
@@ -47,6 +47,6 @@ public class ImageService : IImageService {
     public void Delete(Image image)
     {
         string filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName, image.ImageFilePath);
-        System.IO.File.Delete(filePath);
+        File.Delete(filePath);
     }
 }

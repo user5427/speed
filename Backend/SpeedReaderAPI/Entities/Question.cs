@@ -32,16 +32,18 @@ public class Question
         ErrorMessage = "Correct answer choice cannot exceed {1} characters.")]
     public int CorrectAnswerIndex { get; set; }
 
-    public string? ImageFileName { get; set; }
+ public string? ImageFileName { get; set; }
+    public string? ImageFilePath {get; set;}
     public MimeType? ImageMimeType { get; set; }
+    
     [NotMapped]
     public Image? Image
     {
         get
         {
-            if (!string.IsNullOrEmpty(ImageFileName) && ImageMimeType.HasValue)
+            if (!string.IsNullOrEmpty(ImageFileName) && !string.IsNullOrEmpty(ImageFilePath) && ImageMimeType.HasValue)
             {
-                return new Image(ImageFileName, ImageMimeType.Value);
+                return new Image(ImageFileName, ImageMimeType.Value, ImageFilePath);
             }
             return null; 
         }
@@ -49,11 +51,13 @@ public class Question
         {
             if (value.HasValue)
             {
-                ImageFileName = value.Value.ImageFilePath;
+                ImageFilePath = value.Value.ImageFilePath;
+                ImageFileName = value.Value.ImageFileName;
                 ImageMimeType = value.Value.ImageMimeType;
             }
             else 
             {
+                ImageFilePath = null;
                 ImageFileName = null;
                 ImageMimeType = null;
             }

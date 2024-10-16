@@ -14,17 +14,18 @@ public class Article
             ErrorMessage = "Title must be between {2} and {1} characters.")]
     public required string Title { get; set; }
     public string? CategoryTitle { get; set; }
-    
     public string? ImageFileName { get; set; }
+    public string? ImageFilePath {get; set;}
     public MimeType? ImageMimeType { get; set; }
+    
     [NotMapped]
     public Image? Image
     {
         get
         {
-            if (!string.IsNullOrEmpty(ImageFileName) && ImageMimeType.HasValue)
+            if (!string.IsNullOrEmpty(ImageFileName) && !string.IsNullOrEmpty(ImageFilePath) && ImageMimeType.HasValue)
             {
-                return new Image(ImageFileName, ImageMimeType.Value);
+                return new Image(ImageFileName, ImageMimeType.Value, ImageFilePath);
             }
             return null; 
         }
@@ -32,11 +33,13 @@ public class Article
         {
             if (value.HasValue)
             {
-                ImageFileName = value.Value.ImageFilePath;
+                ImageFilePath = value.Value.ImageFilePath;
+                ImageFileName = value.Value.ImageFileName;
                 ImageMimeType = value.Value.ImageMimeType;
             }
             else 
             {
+                ImageFilePath = null;
                 ImageFileName = null;
                 ImageMimeType = null;
             }

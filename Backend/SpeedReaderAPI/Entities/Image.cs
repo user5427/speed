@@ -1,9 +1,10 @@
 
 namespace SpeedReaderAPI.Entities;
 
-public struct Image(string filePath, MimeType mimeType)
+public struct Image(string fileName, MimeType mimeType, string imageFilePath)
 {
-    public string ImageFilePath { get; set; } = filePath;
+    public string ImageFileName { get; set; } = fileName;
+    public string ImageFilePath { get; set; } = imageFilePath;
     public MimeType ImageMimeType { get; set; } = mimeType;
     public Stream? FileStream { get; set; }
 }

@@ -243,6 +243,16 @@ public class QuestionsController : ControllerBase
             QuestionResponse questionResponse = _questionService.CreateQuestion(request);
             return Ok(questionResponse);
         }
+        catch(IndexOutOfRangeException ex)
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Index out of bounds",
+                Detail = $"Answer choice index is out of answer choices list bounds",
+                Status = 400,
+                Instance = HttpContext.Request.Path
+            });
+        }
         catch (KeyNotFoundException ex)
         {
             // Note: Every Question is assigned to Paragraph
@@ -288,6 +298,16 @@ public class QuestionsController : ControllerBase
 
             QuestionResponse questionResponse = _questionService.UpdateQuestion(id, request);
             return Ok(questionResponse); ;
+        }
+        catch(IndexOutOfRangeException ex)
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Index out of bounds",
+                Detail = $"Answer choice index is out of answer choices list bounds",
+                Status = 400,
+                Instance = HttpContext.Request.Path
+            });
         }
         catch (KeyNotFoundException ex)
         {
