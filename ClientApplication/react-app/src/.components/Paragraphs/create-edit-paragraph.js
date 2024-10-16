@@ -148,7 +148,16 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId }) => {
         if (paragraph) {
             setParagraph(paragraph);
             setUpdate(true);
+
+            try {
+                let article = await ArticleController.Get(paragraph.articleId);
+                setOutsideArticle(article);
+            } catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
         }
+        
     }
 
     return (

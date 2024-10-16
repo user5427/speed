@@ -211,6 +211,14 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId }) => {
             setAnswers(existingQuestion.answerChoices);
             setCorrectAnswerIndex(existingQuestion.correctAnswerIndex);
             setUpdate(true);
+
+            try {
+                let paragraph = await ParagraphController.Get(existingQuestion.paragraphId);
+                setOutsideParagraph(paragraph);
+            } catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
         }
 
     }

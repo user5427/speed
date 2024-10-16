@@ -6,7 +6,7 @@ const ArticleItem = (props) => {
     const { settings } = props;
     const handleClick = () => {
         // You can handle the click action here, e.g., navigate to a link or trigger something
-        console.log('Article clicked!');
+        // console.log('Article clicked!');
     };
 
 
