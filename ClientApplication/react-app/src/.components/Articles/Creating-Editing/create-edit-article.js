@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
 
 import NoImage from '../../../no-image.png'
@@ -6,7 +6,7 @@ import { ValidationConstants, ValidationPatternConstants } from '../../../.const
 import { Article } from '../../../.entities/.MainEntitiesExport';
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
-const EditArticle = () => {
+const EditArticle = ({ existingArticleId }) => {
     const [article, setArticle] = useState(
         new Article()
     );
@@ -15,6 +15,11 @@ const EditArticle = () => {
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+
+    // Trigger setArticleFromExisting when component mounts or existingArticleId changes
+    useEffect(() => {
+        setArticleFromExisting(existingArticleId);
+    }, [existingArticleId]); // Add existingArticleId as a dependency
 
     /**
      * Handle file upload
@@ -88,6 +93,26 @@ const EditArticle = () => {
         setShowErrorModal(false);
     };
 
+    const setArticleFromExisting = async (exArtId) => {
+        if (!exArtId) {
+            return;
+        }
+        
+        let existingArticle = null;
+        try {
+            existingArticle = await ArticleController.Get(exArtId);
+        } catch (error) {
+            setErrorMessage("Article ID does not exist.");
+            setShowErrorModal(true);
+        }
+
+        if (existingArticle) {
+            setArticle(existingArticle);
+            setUpdate(true);
+        }
+    }
+
+
     return (
         <>
             <Form validated={validated} onSubmit={handleSave}>
@@ -132,10 +157,10 @@ const EditArticle = () => {
             </Form>
 
             {/* Error Popup */}
-            <ErrorPopup 
-                showErrorModal={showErrorModal} 
-                errorMessage={errorMessage} 
-                onClose={closeErrorModal} 
+            <ErrorPopup
+                showErrorModal={showErrorModal}
+                errorMessage={errorMessage}
+                onClose={closeErrorModal}
             />
         </>
     )

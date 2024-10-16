@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Row, Col, Button, Form, Image } from 'react-bootstrap';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { Question } from '../../.entities/.MainEntitiesExport';
@@ -9,7 +9,7 @@ import AnswerItem from './answerItem';
 import Divider from '@mui/material/Divider';
 
 
-const EditQuestions = ({paragraphFromOutside}) => {
+const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId }) => {
     const [question, setQuestion] = useState(
         new Question()
     );
@@ -24,6 +24,14 @@ const EditQuestions = ({paragraphFromOutside}) => {
 
     const [outsideParagraph, setOutsideParagraph] = useState(null);
 
+    useEffect(() => {
+        getParagraphFromOutside(paragraphFromOutsideId);
+    }, [paragraphFromOutsideId]); // Add articleFromOutside as a dependency
+
+    useEffect(() => {
+        setQuestionFromExisting(existingQuestionId);
+    }, [existingQuestionId]); // Add articleFromOutside as a dependency
+
     const handleSave = async (event) => {
         event.preventDefault();
         const form = event.currentTarget;
@@ -35,6 +43,12 @@ const EditQuestions = ({paragraphFromOutside}) => {
 
         if (correctAnswerIndex === -1) {
             setErrorMessage("Please select a correct answer.");
+            setShowErrorModal(true);
+            return;
+        }
+
+        if (answers.length < ValidationConstants.MinAnswerChoicesCount) {
+            setErrorMessage("Please add at least 2 answers.");
             setShowErrorModal(true);
             return;
         }
@@ -122,8 +136,8 @@ const EditQuestions = ({paragraphFromOutside}) => {
     }
 
     const deleteAnswer = (index) => {
+        answers.splice(index, 1);
         let newAnswers = [...answers];
-        newAnswers.splice(index, 1);
         setAnswers(newAnswers);
 
         if (index === correctAnswerIndex) {
@@ -156,11 +170,11 @@ const EditQuestions = ({paragraphFromOutside}) => {
         });
     }
 
-    const getParagraphFromOutside = async () => {
-        if (paragraphFromOutside) {
+    const getParagraphFromOutside = async (parFromOut) => {
+        if (parFromOut) {
             let paragraph = null;
             try {
-                paragraph = await ParagraphController.Get(paragraphFromOutside.id);
+                paragraph = await ParagraphController.Get(parFromOut);
             } catch (error) {
                 setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
@@ -179,12 +193,34 @@ const EditQuestions = ({paragraphFromOutside}) => {
         }
     }
 
+    const setQuestionFromExisting = async (exQuesId) => {
+        if (!exQuesId) {
+            return;
+        }
+
+        let existingQuestion = null;
+        try {
+            existingQuestion = await QuestionController.Get(exQuesId);
+        } catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
+
+        if (existingQuestion) {
+            setQuestion(existingQuestion);
+            setAnswers(existingQuestion.answerChoices);
+            setCorrectAnswerIndex(existingQuestion.correctAnswerIndex);
+            setUpdate(true);
+        }
+
+    }
+
 
     return (
         <>
-            <ParagraphSearch 
-                onParagraphSelected={updateParagraphId} 
-                paragraphFromOutside={outsideParagraph}    
+            <ParagraphSearch
+                onParagraphSelected={updateParagraphId}
+                paragraphFromOutside={outsideParagraph}
             />
 
             <Form validated={validated} onSubmit={handleSave}>

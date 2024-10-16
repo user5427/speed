@@ -6,5 +6,6 @@ export const ValidationConstants = {
     MaxAnswerChoiceLength: 255,
     MinAnswerChoicesCount: 2,
     MaxParagraphLength: 1500,
-    MinParagraphLength: 10
+    MinParagraphLength: 10,
+    MinAnswerChoicesCount: 2,
 };

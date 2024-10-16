@@ -7,7 +7,7 @@ import { Paragraph } from '../../.entities/.MainEntitiesExport';
 import { ArticleController, ParagraphController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from '../.common-components/ErrorPopup';
 
-const EditParagraph = ({ articleFromOutside }) => {
+const EditParagraph = ({ articleFromOutsideId, existingParagraphId }) => {
     const [paragraph, setParagraph] = useState(
         new Paragraph()
     );
@@ -21,8 +21,14 @@ const EditParagraph = ({ articleFromOutside }) => {
 
     // Trigger getArticleFromOutside when component mounts or articleFromOutside changes
     useEffect(() => {
-        getArticleFromOutside();
-    }, [articleFromOutside]); // Add articleFromOutside as a dependency
+        getArticleFromOutside(articleFromOutsideId);
+    }, [articleFromOutsideId]); // Add articleFromOutside as a dependency
+
+    // Trigger setParagraphFromExisting when component mounts or existingParagraphId changes
+    useEffect(() => {
+        setParagraphFromExisting(existingParagraphId);
+    }, [existingParagraphId]); // Add existingParagraphId as a dependency
+
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -102,11 +108,11 @@ const EditParagraph = ({ articleFromOutside }) => {
         setShowErrorModal(false);
     };
 
-    const getArticleFromOutside = async () => {
-        if (articleFromOutside) {
+    const getArticleFromOutside = async (artFromOut) => {
+        if (artFromOut) {
             let article = null;
             try {
-                article = await ArticleController.Get(paragraph.articleId);
+                article = await ArticleController.Get(artFromOut);
             } catch (error) {
                 setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
@@ -123,6 +129,25 @@ const EditParagraph = ({ articleFromOutside }) => {
                     return newParagraph;
                 });
             }
+        }
+    }
+
+    const setParagraphFromExisting = async (exParId) => {
+        if (!exParId) {
+            return;
+        }
+        
+        let paragraph = null;
+        try {
+            paragraph = await ParagraphController.Get(exParId);
+        } catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
+
+        if (paragraph) {
+            setParagraph(paragraph);
+            setUpdate(true);
         }
     }
 

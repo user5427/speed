@@ -1,12 +1,12 @@
 import { ValidationPatternConstants } from '../../.constants/MainConstants';
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { MdDelete } from "react-icons/md";
 import { GiConfirmed } from "react-icons/gi";
 
 const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect, correctAnswerIndex }) => {
     const [validated, setValidated] = useState(false);
-    const [text, setText] = useState(articleText);
+    const [text, setText] = useState(articleText); //
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
