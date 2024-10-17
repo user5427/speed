@@ -314,7 +314,6 @@ const Exercise = () => {
       {!showQuestion && (
         <>
           <div className="mainContainer">
-            {/* Exercise Container */}
             <Row style={{ marginTop: '10px', marginBottom: '10px', color: 'grey' }}>
               <Col>
                 <h3>{subject}</h3>
@@ -423,11 +422,13 @@ const Exercise = () => {
 
       {showQuestion && (
         <div className="mainContainer">
-          <QuestionComponent
-            question={questions[currentParagraphIndex].question}
-            options={questions[currentParagraphIndex].options}
-            onSubmit={handleQuestionSubmit}
-          />
+<QuestionComponent
+  question={questions[currentParagraphIndex].question}
+  options={questions[currentParagraphIndex].options}
+  onSubmit={handleQuestionSubmit}
+  currentParagraphIndex={currentParagraphIndex} // Pass current paragraph index as a prop
+/>
+
         </div>
       )}
 
