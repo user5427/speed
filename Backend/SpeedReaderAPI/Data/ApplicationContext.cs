@@ -20,14 +20,12 @@ namespace SpeedReaderAPI.Data
             modelBuilder.Entity<Article>()
            .HasMany(a => a.Paragraphs)
            .WithOne(p => p.Article)
-           .HasForeignKey(p => p.ArticleId)
-           .OnDelete(DeleteBehavior.Cascade);
+           .HasForeignKey(p => p.ArticleId);
 
             modelBuilder.Entity<Paragraph>()
             .HasMany(p => p.Questions)
             .WithOne(q => q.Paragraph)
-            .HasForeignKey(q => q.ParagraphId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(q => q.ParagraphId);
 
             base.OnModelCreating(modelBuilder);
         }

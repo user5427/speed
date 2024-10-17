@@ -1,9 +1,11 @@
 using AutoMapper;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.Entities;
-using SpeedReaderAPI.DTOs;
+using SpeedReaderAPI.Exceptions;
+using SpeedReaderAPI.Constants;
 namespace SpeedReaderAPI.Services.Impl;
 
 
@@ -13,11 +15,14 @@ public class ParagraphService : IParagraphService
 
     private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
-
-    public ParagraphService(ApplicationContext context, IMapper mapper)
+    private readonly IImageService  _imageService;
+    private readonly IQuestionService _questionService;
+    public ParagraphService(ApplicationContext context, IMapper mapper, IImageService imageService, IQuestionService questionService)
     {
         _context = context;
         _mapper = mapper;
+        _imageService = imageService;
+        _questionService = questionService;
     }
 
     public ParagraphResponse GetParagraph(int id)
@@ -32,31 +37,26 @@ public class ParagraphService : IParagraphService
 
     }
 
-    public ParagraphResponse CreateParagraph(ParagraphCreateRequest request)
+   public ParagraphResponse CreateParagraph(ParagraphCreateRequest request)
     {
-        Article? articleFound = _context.Article.Where(a => a.Id == request.ArticleId).FirstOrDefault();
+        Article? articleFound = _context.Article
+            .FirstOrDefault(a => a.Id == request.ArticleId);
+
         if (articleFound == null)
         {
             throw new KeyNotFoundException($"Article with ID {request.ArticleId} not found.");
         }
 
         Paragraph createdParagraph = _mapper.Map<Paragraph>(request);
-        if(createdParagraph.QuestionIds == null){
-            createdParagraph.QuestionIds = new List<int>();
-        }
-		_context.Paragraph.Add(createdParagraph);
-        _context.SaveChanges();
 
+        _context.Paragraph.Add(createdParagraph);
+        _context.SaveChanges(); 
+        articleFound.ParagraphIds.Add(createdParagraph.Id);
+        _context.SaveChanges(); 
 
-
-        if (articleFound.ParagraphIds == null) {
-			articleFound.ParagraphIds = new List<int>();
-		}
-		articleFound.ParagraphIds.Add(createdParagraph.Id);
-		_context.SaveChanges();
-
-		return _mapper.Map<ParagraphResponse>(createdParagraph);
+        return _mapper.Map<ParagraphResponse>(createdParagraph);
     }
+
 
     public ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request)
     {
@@ -66,27 +66,21 @@ public class ParagraphService : IParagraphService
             throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
         }
 
-		Article? articleFound = _context.Article.Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
+		Article? oldArticleFound = _context.Article.Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
+        if (oldArticleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
 
 		// Update if set in request
 		if (request.articleId != null)
         {
-            paragraphFound.ArticleId = (int)request.articleId;
-			if (articleFound != null && 
-                articleFound.Id != paragraphFound.ArticleId && 
-                articleFound.ParagraphIds != null
-				&& articleFound.ParagraphIds.Contains(paragraphFound.Id) //<-- del saugumo jei norit atkomentuokit (jau atkomentuota)
-				) {
-				articleFound.ParagraphIds.Remove(paragraphFound.Id);
-                var changedArticle = _context.Article.Where(x => x.Id == paragraphFound.ArticleId).FirstOrDefault();
-				if (changedArticle == null) {
-					throw new KeyNotFoundException($"Article with ID {paragraphFound.ArticleId} not found.");
-				}
-				if (changedArticle.ParagraphIds == null) {
-                    changedArticle.ParagraphIds = new List<int>();
-				}
-                changedArticle.ParagraphIds.Add(paragraphFound.Id);
-			}
+            Article? newArticleFound =  _context.Article.Where(a => a.Id == request.articleId).FirstOrDefault();
+            if (newArticleFound == null)
+            {
+			    throw new KeyNotFoundException($"Article with ID {request.articleId} not found.");
+            }
+
+            oldArticleFound.ParagraphIds.Remove(id);
+            newArticleFound.ParagraphIds.Add(id);
+            paragraphFound.ArticleId = newArticleFound.Id;
 		}
 		if (request.Title != null) {
 			paragraphFound.Title = request.Title;
@@ -95,13 +89,8 @@ public class ParagraphService : IParagraphService
         {
             paragraphFound.Text = request.Text;
         }
-        if (request.NextParagraphId != null)
-        {
-            paragraphFound.nextParagraphId = request.NextParagraphId;
-        }
-		
-		_context.SaveChanges();
 
+		_context.SaveChanges();
 		return _mapper.Map<ParagraphResponse>(paragraphFound);
     }
 
@@ -110,17 +99,23 @@ public class ParagraphService : IParagraphService
         Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == id).FirstOrDefault();
         if (paragraphFound != null)
         {
-			Article? articleFound = _context.Article.Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
-			if (articleFound != null &&
-				articleFound.Id == paragraphFound.ArticleId &&
-				articleFound.ParagraphIds != null && 
-                articleFound.ParagraphIds.Contains(paragraphFound.Id)
-				) {
-				articleFound.ParagraphIds.Remove(paragraphFound.Id);
-			}
+			Article? articleFound = _context.Article
+                                        .Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
+			if (articleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
+
+            articleFound.ParagraphIds.Remove(id);
+
+            if (paragraphFound.Image != null && paragraphFound.Image.HasValue) 
+            {
+                _imageService.Delete((Image)paragraphFound.Image);
+            }
+            var copyOfQuestionIds = paragraphFound.QuestionIds.ToList();
+            copyOfQuestionIds.ForEach(_questionService.DeleteQuestion);
 			_context.Paragraph.Remove(paragraphFound);
             _context.SaveChanges();
-        }else{
+        }
+        else
+        {
             throw new KeyNotFoundException($"Question with ID {id} not found.");
         }
     }
@@ -139,5 +134,52 @@ public class ParagraphService : IParagraphService
                                         .ToList();
         List<ParagraphResponse> paragraphResponseList = _mapper.Map<List<ParagraphResponse>>(paragraphs);
         return new PageResponse<ParagraphResponse>(paragraphCount, paragraphResponseList);
+    }
+
+    public async Task<ParagraphResponse> UploadImage(int id, ImageUploadRequest request)
+    {
+        Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        if (paragraphFound == null) 
+        {
+            throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
+        }
+        if (paragraphFound.Image.HasValue) 
+        {
+            throw new ResourceAlreadyExistsException($"Paragraph with ID {id} has an image.");
+        }
+        paragraphFound.Image = await _imageService.Create(request);
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<ParagraphResponse>(paragraphFound);
+    }
+
+    public Image? GetImage(int id)
+    {
+        Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        if (paragraphFound == null) 
+        {
+            throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
+        }
+        if (!paragraphFound.Image.HasValue) return null;
+        Image img = paragraphFound.Image.Value;
+        Stream? stream = _imageService.Get(img);
+        if (stream == null) return null;
+        img.FileStream = stream;
+        
+        return img;
+    }
+
+    public void DeleteImage(int id)
+    {
+        Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        if (paragraphFound == null) 
+        {
+            throw new KeyNotFoundException($"Paragraph with ID {id} not found.");
+        }
+        if (paragraphFound.Image == null || !paragraphFound.Image.HasValue) return;
+        _imageService.Delete((Image)paragraphFound.Image);
+        
+        paragraphFound.Image = null;
+        _context.SaveChanges();
     }
 }

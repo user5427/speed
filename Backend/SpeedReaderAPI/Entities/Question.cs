@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SpeedReaderAPI.Attributes;
 using SpeedReaderAPI.Constants;
-using SpeedReaderAPI.DTOs;
 
 public class Question
 {
@@ -33,6 +32,38 @@ public class Question
     [StringLength(ValidationConstants.MaxAnswerChoiceLength,
         ErrorMessage = "Correct answer choice cannot exceed {1} characters.")]
     public int CorrectAnswerIndex { get; set; }
-    public virtual Paragraph? Paragraph { get; set; }
 
+ public string? ImageFileName { get; set; }
+    public string? ImageFilePath {get; set;}
+    public MimeType? ImageMimeType { get; set; }
+    
+    [NotMapped]
+    public Image? Image
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(ImageFileName) && !string.IsNullOrEmpty(ImageFilePath) && ImageMimeType.HasValue)
+            {
+                return new Image(ImageFileName, ImageMimeType.Value, ImageFilePath);
+            }
+            return null; 
+        }
+        set
+        {
+            if (value.HasValue)
+            {
+                ImageFilePath = value.Value.ImageFilePath;
+                ImageFileName = value.Value.ImageFileName;
+                ImageMimeType = value.Value.ImageMimeType;
+            }
+            else 
+            {
+                ImageFilePath = null;
+                ImageFileName = null;
+                ImageMimeType = null;
+            }
+        }
+    }
+
+    public virtual Paragraph? Paragraph { get; set; }
 }

@@ -9,11 +9,10 @@ public record ParagraphCreateRequest(
 	ErrorMessage = "Title must be between {2} and {1} characters.")]
 	string Title,
 	[Required(ErrorMessage = "Article id is required.")]
-	int ArticleId,
+	int? ArticleId,
 	[Required(ErrorMessage = "Text is required.")]
 	[StringLength(ValidationConstants.MaxParagraphLength,
 		MinimumLength = ValidationConstants.MinParagraphLength,
 		ErrorMessage = "Text must be between {2} and {1} characters.")]
-    string Text,
-	int? NextParagraphId
+    string Text
 );
