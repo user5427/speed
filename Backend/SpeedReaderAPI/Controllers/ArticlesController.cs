@@ -282,12 +282,12 @@ public class ArticlesController : ControllerBase
         }
     }
 
-    [HttpGet("search/{Search}")]
-    public IActionResult SearchArticles(string Search, [FromQuery] QueryParameters queryParameters)
+    [HttpGet("search/")]
+    public IActionResult SearchArticles([FromQuery] QueryParameters queryParameters)
     {
         try
         {
-            PageResponse<ArticleResponse> articles = _articleService.SearchArticles(Search, queryParameters);
+            PageResponse<ArticleResponse> articles = _articleService.SearchArticles(queryParameters);
             return Ok(articles);
         }
         catch (Exception ex)

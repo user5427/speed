@@ -120,15 +120,11 @@ public class ParagraphService : IParagraphService
         }
     }
 
-    public PageResponse<ParagraphResponse> SearchParagraphs(string Search, QueryParameters queryParameters)
+    public PageResponse<ParagraphResponse> SearchParagraphs(QueryParameters queryParameters)
     {
-        if (Search == null)
-        {
-            throw new ArgumentNullException("Search query parameter is required.");
-        }
         long paragraphCount = _context.Paragraph.Count();
         List<Paragraph> paragraphs = _context.Paragraph
-                                        .Where(a => a.Title.Contains(Search))
+                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
                                         .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
                                         .Take(queryParameters.PageSize)
                                         .ToList();

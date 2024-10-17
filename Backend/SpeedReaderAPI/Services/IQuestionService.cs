@@ -9,7 +9,7 @@ public interface IQuestionService : IServiceWithImage<QuestionResponse>
 {
     QuestionResponse CreateQuestion(QuestionCreateRequest request);
     public QuestionResponse GetQuestion(int idquestionId);
-    public PageResponse<QuestionResponse> SearchQuestions(string search, QueryParameters queryParameters);
+    public PageResponse<QuestionResponse> SearchQuestions(QueryParameters queryParameters);
     QuestionResponse UpdateQuestion(int questionId, QuestionUpdateRequest request);
     void DeleteQuestion(int questionId);
 }

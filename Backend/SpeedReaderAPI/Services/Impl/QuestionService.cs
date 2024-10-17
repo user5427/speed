@@ -134,15 +134,11 @@ public class QuestionService : IQuestionService
         }
     }
 
-    public PageResponse<QuestionResponse> SearchQuestions(string Search, QueryParameters queryParameters)
+    public PageResponse<QuestionResponse> SearchQuestions(QueryParameters queryParameters)
     {
-        if (Search == null)
-        {
-            throw new ArgumentNullException("Search query parameter is required.");
-        }
         long questionCount = _context.Question.Count();
         List<Question> questions = _context.Question
-                                        .Where(a => a.QuestionText.Contains(Search))
+                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search))
                                         .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
                                         .Take(queryParameters.PageSize)
                                         .ToList();

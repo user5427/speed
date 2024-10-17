@@ -273,12 +273,12 @@ public class ParagraphsController : ControllerBase
         }
     }
 
-    [HttpGet("search/{Search}")]
-    public IActionResult SearchParagraphs(string Search, [FromQuery] QueryParameters queryParameters)
+    [HttpGet("search/")]
+    public IActionResult SearchParagraphs([FromQuery] QueryParameters queryParameters)
     {
         try
         {
-            PageResponse<ParagraphResponse> paragraphs = _paragraphService.SearchParagraphs(Search, queryParameters);
+            PageResponse<ParagraphResponse> paragraphs = _paragraphService.SearchParagraphs(queryParameters);
             return Ok(paragraphs);
         }
         catch (Exception ex)

@@ -226,12 +226,12 @@ public class QuestionsController : ControllerBase
         }
     }
 
-    [HttpGet("search/{Search}")]
-    public IActionResult SearchQuestions(string Search, [FromQuery] QueryParameters queryParameters)
+    [HttpGet("search/")]
+    public IActionResult SearchQuestions([FromQuery] QueryParameters queryParameters)
     {
         try
         {
-            PageResponse<QuestionResponse> questionPageResponse = _questionService.SearchQuestions(Search, queryParameters);
+            PageResponse<QuestionResponse> questionPageResponse = _questionService.SearchQuestions(queryParameters);
             return Ok(questionPageResponse);
         }
         catch (Exception ex)

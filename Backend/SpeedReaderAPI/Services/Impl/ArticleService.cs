@@ -103,13 +103,10 @@ public class ArticleService : IArticleService
         }
     }
 
-    public PageResponse<ArticleResponse> SearchArticles(string Search, QueryParameters queryParameters) {
-        if (Search == null) {
-            throw new ArgumentNullException("Search query parameter is required.");
-        }
+    public PageResponse<ArticleResponse> SearchArticles(QueryParameters queryParameters) {
         long articleCount = _context.Article.Count();
         List<Article> articles = _context.Article
-                                        .Where(a => a.Title.Contains(Search))
+                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
                                         .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
                                         .Take(queryParameters.PageSize)
                                         .ToList();
