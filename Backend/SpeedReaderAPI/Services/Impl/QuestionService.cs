@@ -142,7 +142,7 @@ public class QuestionService : IQuestionService
         }
         long questionCount = _context.Question.Count();
         List<Question> questions = _context.Question
-                                        .Where(a => a.Title.Contains(Search))
+                                        .Where(a => a.QuestionText.Contains(Search))
                                         .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
                                         .Take(queryParameters.PageSize)
                                         .ToList();

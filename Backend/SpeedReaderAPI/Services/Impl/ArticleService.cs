@@ -103,10 +103,8 @@ public class ArticleService : IArticleService
         }
     }
 
-    public PageResponse<ArticleResponse> SearchArticles(string Search, QueryParameters queryParameters)
-    {
-        if (Search == null)
-        {
+    public PageResponse<ArticleResponse> SearchArticles(string Search, QueryParameters queryParameters) {
+        if (Search == null) {
             throw new ArgumentNullException("Search query parameter is required.");
         }
         long articleCount = _context.Article.Count();
@@ -117,6 +115,7 @@ public class ArticleService : IArticleService
                                         .ToList();
         List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
         return new PageResponse<ArticleResponse>(articleCount, articleResponseList);
+    }
     
     public async Task<ArticleResponse> UploadImage(int id, ImageUploadRequest request)
     {
