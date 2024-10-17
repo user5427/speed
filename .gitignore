@@ -486,3 +486,4 @@ $RECYCLE.BIN/
 /SpeedReaderAPI/SpeedReaderAPI/.editorconfig
 /Backend/SpeedReaderAPI/appsettings.json
 /Backend/SpeedReaderAPI/appsettings.Development.json
+Backend/SpeedReaderAPI/dbCons.txt
