@@ -10,9 +10,10 @@ import { IoReturnUpBackSharp } from 'react-icons/io5';
 import { MdOutlineCelebration } from 'react-icons/md';
 import Divider from '@mui/material/Divider';
 import { TiMinus } from 'react-icons/ti';
-import { GrFormNextLink } from "react-icons/gr";
-import { GiFinishLine } from "react-icons/gi";
+import { GrFormNextLink } from 'react-icons/gr';
+import { GiFinishLine } from 'react-icons/gi';
 import { ArticleController, ParagraphController, QuestionController } from '../.controllers/.services/.MainServices';
+import ArticleInfo from '../.components/Exercise/ArticleInfo'; 
 
 const Exercise = () => {
   const navigate = useNavigate();
@@ -33,8 +34,7 @@ const Exercise = () => {
   // Questions array corresponding to each paragraph
   const questions = [
     {
-      question:
-        "Waxy coverings on blue-colored fruits such as blueberries, grapes and some plums contain nanostructures that scatter what light?",
+      question: "Waxy coverings on blue-colored fruits such as blueberries, grapes and some plums contain nanostructures that scatter what light?",
       correctAnswer: "Blue and ultraviolet light",
       options: [
         "Cyan and ultraviolet light",
@@ -44,8 +44,7 @@ const Exercise = () => {
       ]
     },
     {
-      question:
-        "Structures in the fruits’ waxy outer layers can create their own blues. Thus, this kind of coloring ...?",
+      question: "Structures in the fruits’ waxy outer layers can create their own blues. Thus, this kind of coloring ...?",
       correctAnswer: "Doesn't stain",
       options: ["Is also tasty", "Is eco-friendly", "Looks cool", "Doesn't stain"]
     },
@@ -285,29 +284,7 @@ const Exercise = () => {
           </Button>
         </div>
 
-        <div>
-          <Row style={{ color: 'grey' }}>
-            <Col style={{ textAlign: 'right' }}>
-              <p style={{ marginBottom: '0px', marginTop: '20px' }}>
-                <span style={{ color: '#4d4d4d' }}>Title:</span> {title}
-              </p>
-              <p>
-                <span style={{ color: '#4d4d4d' }}>Author:</span> {author}
-              </p>
-            </Col>
-            <Col style={{ textAlign: 'left' }}>
-              <p style={{ marginBottom: '0px', marginTop: '20px' }}>
-                <span style={{ color: '#4d4d4d' }}>Publisher:</span> {publisher}
-              </p>
-              <p>
-                <span style={{ color: '#4d4d4d' }}>Link:</span>{' '}
-                <a href={source} target="_blank" rel="noopener noreferrer">
-                  {source}
-                </a>
-              </p>
-            </Col>
-          </Row>
-        </div>
+        <ArticleInfo title={title} author={author} publisher={publisher} source={source} />
       </>
     );
   }
@@ -332,33 +309,31 @@ const Exercise = () => {
             </Row>
 
             <div className="exerciseWindow">
-  <p className="singleWord">
-    {started ? (
-      <>
-        {words[currentWordIndex]}
-        {finished && (
-          <>
-            {' '}
-            <span>End of Paragraph</span>
-            {' '}
-            <div className="yellowCircle" style={{ marginLeft: '3px'}}>
-              {currentParagraphIndex + 1}
+              <p className="singleWord">
+                {started ? (
+                  <>
+                    {words[currentWordIndex]}
+                    {finished && (
+                      <>
+                        {' '}
+                        <span>End of Paragraph</span>
+                        {' '}
+                        <div className="yellowCircle" style={{ marginLeft: '3px' }}>
+                          {currentParagraphIndex + 1}
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    Press Start to begin Paragraph{' '}
+                    <div className="yellowCircle">
+                      {currentParagraphIndex + 1}
+                    </div>
+                  </>
+                )}
+              </p>
             </div>
-          </>
-        )}
-      </>
-    ) : (
-      <>
-        Press Start to begin Paragraph{' '}
-        <div className="yellowCircle">
-          {currentParagraphIndex + 1}
-        </div>
-      </>
-    )}
-  </p>
-</div>
-
-
 
             <Row style={{ marginTop: '18px', marginBottom: '0px' }}>
               <Col xs={12} md={2}>
@@ -417,82 +392,56 @@ const Exercise = () => {
             </Row>
           </div>
 
-          <div>
-            <Row style={{ color: 'grey' }}>
-              <Col style={{ textAlign: 'right' }}>
-                <p style={{ marginBottom: '0px', marginTop: '20px' }}>
-                  <span style={{ color: '#4d4d4d' }}>Title:</span> {title}
-                </p>
-                <p>
-                  <span style={{ color: '#4d4d4d' }}>Author:</span> {author}
-                </p>
-              </Col>
-              <Col style={{ textAlign: 'left' }}>
-                <p style={{ marginBottom: '0px', marginTop: '20px' }}>
-                  <span style={{ color: '#4d4d4d' }}>Publisher:</span> {publisher}
-                </p>
-                <p>
-                  <span style={{ color: '#4d4d4d' }}>Link:</span>{' '}
-                  <a href={source} target="_blank" rel="noopener noreferrer">
-                    {source}
-                  </a>
-                </p>
-              </Col>
-            </Row>
-          </div>
+          <ArticleInfo title={title} author={author} publisher={publisher} source={source} />
         </>
       )}
 
       {showQuestion && (
         <div className="mainContainer">
-<QuestionComponent
-  question={questions[currentParagraphIndex].question}
-  options={questions[currentParagraphIndex].options}
-  onSubmit={handleQuestionSubmit}
-  currentParagraphIndex={currentParagraphIndex} // Pass current paragraph index as a prop
-/>
-
+          <QuestionComponent
+            question={questions[currentParagraphIndex].question}
+            options={questions[currentParagraphIndex].options}
+            onSubmit={handleQuestionSubmit}
+            currentParagraphIndex={currentParagraphIndex} // Pass current paragraph index as a prop
+          />
         </div>
       )}
 
-{feedbackMessage && (
-  <div
-    className="mainContainer"
-    style={{ color: feedbackMessage.includes('Correct') ? '#a6ff4d' : '#ff6666' }}
-  >
-    <Row style={{ alignItems: 'center', height: '100%' }}>
-      <Col>
-        <h4 style={{ display: 'flex', alignItems: 'center', height: '100%', fontSize: '30px' }}>
-          {feedbackMessage}
-        </h4>
-      </Col>
-      <Button
-        className="subjectButtons"
-        size="lg"
-        style={{
-          marginRight: '12px',
-          backgroundColor: '#008fb3',
-          borderColor: '#006680',
-          width: '200px'
-        }}
-        onClick={handleNextParagraphOrQuestion}
-      >
-        {currentParagraphIndex < paragraphs.length - 1 ? (
-          <>
-            Next paragraph <GrFormNextLink />
-          </>
-        ) : (
-          <>
-            Finish <GiFinishLine />
-          </>
-        )}
-      </Button>
-    </Row>
-  </div>
-)}
-
-
-
+      {feedbackMessage && (
+        <div
+          className="mainContainer"
+          style={{ color: feedbackMessage.includes('Correct') ? '#a6ff4d' : '#ff6666' }}
+        >
+          <Row style={{ alignItems: 'center', height: '100%' }}>
+            <Col>
+              <h4 style={{ display: 'flex', alignItems: 'center', height: '100%', fontSize: '30px' }}>
+                {feedbackMessage}
+              </h4>
+            </Col>
+            <Button
+              className="subjectButtons"
+              size="lg"
+              style={{
+                marginRight: '12px',
+                backgroundColor: '#008fb3',
+                borderColor: '#006680',
+                width: '200px'
+              }}
+              onClick={handleNextParagraphOrQuestion}
+            >
+              {currentParagraphIndex < paragraphs.length - 1 ? (
+                <>
+                  Next paragraph <GrFormNextLink />
+                </>
+              ) : (
+                <>
+                  Finish <GiFinishLine />
+                </>
+              )}
+            </Button>
+          </Row>
+        </div>
+      )}
     </>
   );
 };
