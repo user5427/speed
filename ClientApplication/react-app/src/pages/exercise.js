@@ -10,10 +10,9 @@ import { IoReturnUpBackSharp } from 'react-icons/io5';
 import { MdOutlineCelebration } from 'react-icons/md';
 import Divider from '@mui/material/Divider';
 import { TiMinus } from 'react-icons/ti';
-import { GrFormNextLink } from 'react-icons/gr';
-import { GiFinishLine } from 'react-icons/gi';
 import { ArticleController, ParagraphController, QuestionController } from '../.controllers/.services/.MainServices';
-import ArticleInfo from '../.components/Exercise/ArticleInfo'; 
+import { ArticleInfo, FeedbackMessage, ConfettiComponent} from '../.components/Exercise/.MainExerciseExport';
+
 
 const Exercise = () => {
   const navigate = useNavigate();
@@ -85,6 +84,8 @@ const Exercise = () => {
 
   const words = paragraphs[currentParagraphIndex].split(' ');
 
+  const [confettiActive, setConfettiActive] = useState(false);
+
   // Word reveal loop for each paragraph
   useEffect(() => {
     if (!started || finished) return;
@@ -137,6 +138,13 @@ const Exercise = () => {
     }
   };
 
+  useEffect(() => {
+    if (articleCompleted) {
+      setConfettiActive(true);
+    }
+  }, [articleCompleted]);
+  
+
   const calculateAverageWPM = () => {
     // Get indices of paragraphs where the answer was correct
     const correctIndices = answersCorrectness
@@ -176,12 +184,15 @@ const Exercise = () => {
 
   // Inside the articleCompleted section
   if (articleCompleted) {
+ 
     // Calculate average WPM only for correct answers
     const averageWPM = calculateAverageWPM();
-
+  
     return (
       <>
-        <div className="mainContainer" style={{ textAlign: 'left' }}>
+        <div className="mainContainer" style={{ textAlign: 'left', position: 'relative' }}>
+        <ConfettiComponent active={confettiActive} />
+  
           <div style={{ textAlign: 'center' }}>
             <h1 style={{ marginBottom: '10px' }}>
               <MdOutlineCelebration color="#ffd633" style={{ marginTop: '-7px' }} /> Exercise
@@ -274,7 +285,7 @@ const Exercise = () => {
               </tbody>
             </Table>
           </div>
-
+  
           <Button
             className="subjectButtons"
             style={{ backgroundColor: '#8400ff', borderColor: '#6900cc', marginTop: '5px' }}
@@ -283,11 +294,12 @@ const Exercise = () => {
             <IoReturnUpBackSharp style={{ marginTop: '-4px' }} /> Go back to categories
           </Button>
         </div>
-
+  
         <ArticleInfo title={title} author={author} publisher={publisher} source={source} />
       </>
     );
   }
+  
 
   return (
     <>
@@ -408,39 +420,12 @@ const Exercise = () => {
       )}
 
       {feedbackMessage && (
-        <div
-          className="mainContainer"
-          style={{ color: feedbackMessage.includes('Correct') ? '#a6ff4d' : '#ff6666' }}
-        >
-          <Row style={{ alignItems: 'center', height: '100%' }}>
-            <Col>
-              <h4 style={{ display: 'flex', alignItems: 'center', height: '100%', fontSize: '30px' }}>
-                {feedbackMessage}
-              </h4>
-            </Col>
-            <Button
-              className="subjectButtons"
-              size="lg"
-              style={{
-                marginRight: '12px',
-                backgroundColor: '#008fb3',
-                borderColor: '#006680',
-                width: '200px'
-              }}
-              onClick={handleNextParagraphOrQuestion}
-            >
-              {currentParagraphIndex < paragraphs.length - 1 ? (
-                <>
-                  Next paragraph <GrFormNextLink />
-                </>
-              ) : (
-                <>
-                  Finish <GiFinishLine />
-                </>
-              )}
-            </Button>
-          </Row>
-        </div>
+        <FeedbackMessage
+          feedbackMessage={feedbackMessage}
+          currentParagraphIndex={currentParagraphIndex}
+          paragraphs={paragraphs}
+          handleNextParagraphOrQuestion={handleNextParagraphOrQuestion}
+        />
       )}
     </>
   );
