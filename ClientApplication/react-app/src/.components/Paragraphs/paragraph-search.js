@@ -54,6 +54,7 @@ const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
                         name="paragraphSearch"
                         required
                         type="text"
+                        className="form-control darkInput"
                         placeholder="Enter paragraph title"
                         onChange={handleFieldChange}
                         onInput={handleParagraphSelect}

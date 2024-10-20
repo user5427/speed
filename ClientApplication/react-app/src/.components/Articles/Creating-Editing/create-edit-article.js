@@ -123,7 +123,7 @@ const EditArticle = ({ existingArticleId, sendCreatedId }) => {
                     <Image width="200" height="200" src={article && article.coverImage || NoImage} />
                 </Form.Group>
                 <Form.Group className="d-flex justify-content-center">
-                    <div><input type="file" onChange={handleFileUpload} /> </div>
+                    <div><input className="form-control darkInput" type="file" onChange={handleFileUpload} /> </div>
                 </Form.Group>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article Title</Form.Label>
@@ -132,6 +132,7 @@ const EditArticle = ({ existingArticleId, sendCreatedId }) => {
                         value={article.title}
                         required type="text" autoComplete='off'
                         placeholder="Enter Article Title"
+                        className="form-control darkInput"
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinTitleLength}
                         maxLength={ValidationConstants.MaxTitleLength}
@@ -147,6 +148,7 @@ const EditArticle = ({ existingArticleId, sendCreatedId }) => {
                     <Form.Control
                         name={Article.varCategoryTitleName()}
                         value={article.categoryTitle}
+                        className="form-control darkInput"
                         required type="text" placeholder="Enter Article Category"
                         onChange={handleFieldChange}
                         pattern={ValidationPatternConstants.ArticleCategoryPattern.source}

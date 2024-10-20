@@ -112,7 +112,7 @@ const ResultsTable = ({
 
         <Button
           className="subjectButtons"
-          style={{ backgroundColor: '#8400ff', borderColor: '#6900cc', marginTop: '5px' }}
+          style={{ backgroundColor: '#8400ff', borderColor: '#6900cc', marginTop: '5px', fontSize: '18px'}}
           onClick={redirectToCategories}
         >
           <IoReturnUpBackSharp style={{ marginTop: '-4px' }} /> Go back to categories

@@ -102,7 +102,7 @@ const ReadingExerciseComponent = ({
                   Math.min(Math.max(Math.round(e.target.value), 50), worldRecordWPM)
                 )
               }
-              className="form-control"
+              className="form-control darkInput"
               disabled={started}
               style={{ marginLeft: '5px', width: '100px' }}
             />

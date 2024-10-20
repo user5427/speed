@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/exerciseStyle.css';
-import { Row, Col, Button, Table } from 'react-bootstrap';
-import Slider from '@mui/material/Slider';
-import { VscDebugStart } from 'react-icons/vsc';
-import { FaQuestion} from 'react-icons/fa6';
 import { QuestionComponent } from '../../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
-import { ArticleController, ParagraphController, QuestionController } from '../../.controllers/.services/.MainServices';
+//import { ArticleController, ParagraphController, QuestionController } from '../../.controllers/.services/.MainServices';
 import { ArticleInfo, FeedbackMessage, ConfettiEffect, ResultsTableComponent, ReadingExerciseComponent} from '../../.components/Exercise/.MainExerciseExport';
 
 

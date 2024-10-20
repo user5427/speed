@@ -81,7 +81,24 @@ body {
 }
 
 
+.form-control.darkInput {
+  background-color: #16161d !important; /* Force the background to be dark */
+  color: #d9d9d9 !important; /* Force text color to be white */
+  border: 1px solid #2c2c3a !important;
+}
 
+.form-control.darkInput:focus,
+.form-control.darkInput:hover,
+.form-control.darkInput:active {
+  background-color: #21212c !important;
+  color: #f2f2f2 !important;
+  border: 0.5px solid #4d4d66 !important; /* Optional: change border color for better visibility */
+  outline: none !important; /* Remove default blue outline on focus */
+}
 
+.darkInput::placeholder {
+  color: #666666; /* Change this color to whatever you prefer */
+  opacity: 1; /* Ensures the color is applied fully */
+}
 
 
