@@ -1,4 +1,3 @@
-// ConfettiComponent.js
 import React from 'react';
 import Confetti from 'react-dom-confetti';
 
@@ -9,16 +8,16 @@ const ConfettiComponent = ({ active }) => {
     startVelocity: 100,
     elementCount: 117,
     dragFriction: 0.59,
-    duration: 900,
+    duration: 850,
     stagger: 3,
     width: '12px',
     height: '10px',
-    perspective: '1000px',
+    perspective: '471px',
     colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a']
   };
 
   return (
-    <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+    <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1000 }}>
       <Confetti active={active} config={config} />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
@@ -23,9 +23,14 @@ const QuestionComponent = ({ question, options = [], onSubmit, currentParagraphI
     const [selectedAnswer, setSelectedAnswer] = useState(''); // Track selected answer
     const [submitted, setSubmitted] = useState(false); // Track if the user has submitted the answer
 
+    const optionsShuffled = useRef(false); // Track if options are already shuffled
+
     // Shuffle the options only once when the component is first rendered
     useEffect(() => {
-        setShuffledOptions(shuffleArray([...options])); // Shuffle options when the component mounts
+        if (!optionsShuffled.current) {
+            setShuffledOptions(shuffleArray([...options])); // Shuffle options when the component mounts
+            optionsShuffled.current = true; // Mark options as shuffled
+        }
     }, [options]);
 
     // Handle answer selection
