@@ -11,9 +11,9 @@ import '@fontsource/fredoka/300.css';
 import '@fontsource/fredoka/700.css';
 
 import Landing from './pages/HomePage/homePage'
-import Categories from './pages/categories'
+import Categories from './pages/Categories/categories'
 import ArticleHomePage from './pages/Articles/articleManagementPage';
-import Exercise from './pages/exercise';
+import Exercise from './pages/Exercise/exercise';
 import CreateArticle from './pages/CreatePages/createArticlePage';
 import CreateParagraph from './pages/CreatePages/createParagraphPage';
 import CreateQuestion from './pages/CreatePages/createQuestionPage';

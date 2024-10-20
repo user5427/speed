@@ -88,7 +88,7 @@ const ResultsTable = ({
                 <td>
                   <span style={{ color: '#ce99ff' }}>{usersWPM}</span> WPM
                 </td>
-                <td>Your reading speed during exercise:</td>
+                <td>Your average reading speed during exercise:</td>
                 <td>
                   {averageWPM ? (
                     <>

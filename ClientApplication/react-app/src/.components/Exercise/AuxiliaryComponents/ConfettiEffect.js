@@ -1,14 +1,14 @@
 import React from 'react';
 import Confetti from 'react-dom-confetti';
 
-const ConfettiComponent = ({ active }) => {
+const ConfettiEffect = ({ active }) => {
   const config = {
     angle: 136,
     spread: 360,
     startVelocity: 100,
     elementCount: 117,
-    dragFriction: 0.59,
-    duration: 850,
+    dragFriction: 0.4,
+    duration: 800,
     stagger: 3,
     width: '12px',
     height: '10px',
@@ -23,4 +23,4 @@ const ConfettiComponent = ({ active }) => {
   );
 };
 
-export default ConfettiComponent;
+export default ConfettiEffect;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/exerciseStyle.css';
+import '../../styles/exerciseStyle.css';
 import { Row, Col, Button, Table } from 'react-bootstrap';
 import Slider from '@mui/material/Slider';
 import { VscDebugStart } from 'react-icons/vsc';
 import { FaQuestion} from 'react-icons/fa6';
-import { QuestionComponent } from '../.components/.MainComponentsExport';
+import { QuestionComponent } from '../../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
-import { ArticleController, ParagraphController, QuestionController } from '../.controllers/.services/.MainServices';
-import { ArticleInfo, FeedbackMessage, ConfettiComponent, ResultsTable} from '../.components/Exercise/.MainExerciseExport';
+import { ArticleController, ParagraphController, QuestionController } from '../../.controllers/.services/.MainServices';
+import { ArticleInfo, FeedbackMessage, ConfettiEffect, ResultsTableComponent, ReadingExerciseComponent} from '../../.components/Exercise/.MainExerciseExport';
 
 
 const Exercise = () => {
@@ -81,6 +81,7 @@ const Exercise = () => {
   const words = paragraphs[currentParagraphIndex].split(' ');
 
   const [confettiActive, setConfettiActive] = useState(false);
+  
 
   // Word reveal loop for each paragraph
   useEffect(() => {
@@ -159,6 +160,7 @@ const Exercise = () => {
     return totalWords / (totalTime / 60);
   };
 
+  const handleStart = () => setStarted(true);
   const handleShowQuestion = () => {
     setShowQuestion(true);
     setQuestionButtonClicked(true);
@@ -181,8 +183,8 @@ const Exercise = () => {
   if (articleCompleted) {
     return (
       <>
-        <ConfettiComponent active={confettiActive} />
-        <ResultsTable
+        <ConfettiEffect active={confettiActive} />
+        <ResultsTableComponent
           timePerParagraph={timePerParagraph}
           wordsPerParagraph={wordsPerParagraph}
           usersWPM={usersWPM}
@@ -199,107 +201,28 @@ const Exercise = () => {
     <>
       {!showQuestion && (
         <>
-          <div className="mainContainer">
-            <Row style={{ marginTop: '10px', marginBottom: '10px', color: 'grey' }}>
-              <Col>
-                <h3>{subject}</h3>
-              </Col>
-              <Col style={{ textAlign: 'center', color: '#d9d9d9' }}>
-                <h3>{title}</h3>
-              </Col>
-              <Col>
-                <h3 style={{ textAlign: 'right' }}>
-                  {currentParagraphIndex + 1}/{paragraphs.length}
-                </h3>
-              </Col>
-            </Row>
-
-            <div className="exerciseWindow">
-              <p className="singleWord">
-                {started ? (
-                  <>
-                    {words[currentWordIndex]}
-                    {finished && (
-                      <>
-                        {' '}
-                        <span>End of Paragraph</span>
-                        {' '}
-                        <div className="yellowCircle" style={{ marginLeft: '3px' }}>
-                          {currentParagraphIndex + 1}
-                        </div>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    Press Start to begin Paragraph{' '}
-                    <div className="yellowCircle">
-                      {currentParagraphIndex + 1}
-                    </div>
-                  </>
-                )}
-              </p>
-            </div>
-
-            <Row style={{ marginTop: '18px', marginBottom: '0px' }}>
-              <Col xs={12} md={2}>
-                <Button
-                  className="subjectButtons"
-                  size="lg"
-                  style={{ backgroundColor: '#739900', borderColor: '#608000' }}
-                  onClick={() => setStarted(true)}
-                  disabled={started}
-                >
-                  Start<VscDebugStart style={{ marginTop: '-3px' }} />
-                </Button>
-              </Col>
-
-              <Col>
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px' }}>
-                  <Slider
-                    aria-label="WPM Slider"
-                    value={logToLinear(inputValue)}
-                    onChange={(e, newValue) =>
-                      setInputValue(Math.min(linearToLog(newValue), worldRecordWPM))
-                    }
-                    getAriaValueText={valuetext}
-                    color="secondary"
-                    min={logToLinear(50)}
-                    max={logToLinear(worldRecordWPM)}
-                    style={{ marginRight: '20px' }}
-                  />
-                  <input
-                    type="number"
-                    value={inputValue}
-                    onChange={(e) =>
-                      setInputValue(
-                        Math.min(Math.max(Math.round(e.target.value), 50), worldRecordWPM)
-                      )
-                    }
-                    className="form-control"
-                    disabled={started}
-                    style={{ marginLeft: '5px', width: '100px' }}
-                  />
-                  <span style={{ marginLeft: '10px' }}>WPM</span>
-                </div>
-              </Col>
-
-              <Col>
-                <Button
-                  className="subjectButtons"
-                  size="lg"
-                  style={{ backgroundColor: '#e67300', borderColor: '#994d00' }}
-                  onClick={handleShowQuestion}
-                  disabled={!finished || questionButtonClicked}
-                >
-                  <FaQuestion style={{ marginTop: '-3px' }} /> Go to question
-                </Button>
-              </Col>
-            </Row>
-          </div>
-
-          <ArticleInfo title={title} author={author} publisher={publisher} source={source} />
+        <ReadingExerciseComponent
+          subject={subject}
+          title={title}
+          currentParagraphIndex={currentParagraphIndex}
+          paragraphs={paragraphs}
+          words={words}
+          started={started}
+          finished={finished}
+          currentWordIndex={currentWordIndex}
+          handleStart={handleStart}
+          handleShowQuestion={handleShowQuestion}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          logToLinear={logToLinear}
+          linearToLog={linearToLog}
+          worldRecordWPM={worldRecordWPM}
+          valuetext={valuetext}
+          questionButtonClicked={questionButtonClicked}
+        />
+        <ArticleInfo title={title} author={author} publisher={publisher} source={source} />
         </>
+        
       )}
 
       {showQuestion && (
@@ -308,7 +231,7 @@ const Exercise = () => {
             question={questions[currentParagraphIndex].question}
             options={questions[currentParagraphIndex].options}
             onSubmit={handleQuestionSubmit}
-            currentParagraphIndex={currentParagraphIndex} // Pass current paragraph index as a prop
+            currentParagraphIndex={currentParagraphIndex}
           />
         </div>
       )}
