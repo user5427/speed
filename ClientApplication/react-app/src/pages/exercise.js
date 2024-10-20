@@ -10,6 +10,9 @@ import { IoReturnUpBackSharp } from 'react-icons/io5';
 import { MdOutlineCelebration } from 'react-icons/md';
 import Divider from '@mui/material/Divider';
 import { TiMinus } from 'react-icons/ti';
+import { GrFormNextLink } from "react-icons/gr";
+import { GiFinishLine } from "react-icons/gi";
+import { ArticleController, ParagraphController, QuestionController } from '../.controllers/.services/.MainServices';
 
 const Exercise = () => {
   const navigate = useNavigate();
@@ -329,13 +332,33 @@ const Exercise = () => {
             </Row>
 
             <div className="exerciseWindow">
-              <p className="singleWord">
-                {started
-                  ? words[currentWordIndex]
-                  : `Press Start to begin Paragraph ${currentParagraphIndex + 1}`}
-                {finished ? `End of Paragraph ${currentParagraphIndex + 1}` : ''}
-              </p>
+  <p className="singleWord">
+    {started ? (
+      <>
+        {words[currentWordIndex]}
+        {finished && (
+          <>
+            {' '}
+            <span>End of Paragraph</span>
+            {' '}
+            <div className="yellowCircle" style={{ marginLeft: '3px'}}>
+              {currentParagraphIndex + 1}
             </div>
+          </>
+        )}
+      </>
+    ) : (
+      <>
+        Press Start to begin Paragraph{' '}
+        <div className="yellowCircle">
+          {currentParagraphIndex + 1}
+        </div>
+      </>
+    )}
+  </p>
+</div>
+
+
 
             <Row style={{ marginTop: '18px', marginBottom: '0px' }}>
               <Col xs={12} md={2}>
@@ -432,31 +455,44 @@ const Exercise = () => {
         </div>
       )}
 
-      {feedbackMessage && (
-        <div
-          className="mainContainer"
-          style={{ color: feedbackMessage.includes('Correct') ? '#a6ff4d' : '#ff6666' }}
-        >
-          <Row>
-            <Col>
-              <h4>{feedbackMessage}</h4>
-            </Col>
-            <Button
-              className="subjectButtons"
-              size="lg"
-              style={{
-                marginRight: '12px',
-                backgroundColor: '#cc0066',
-                borderColor: '#99004d',
-                width: '200px'
-              }}
-              onClick={handleNextParagraphOrQuestion}
-            >
-              {currentParagraphIndex < paragraphs.length - 1 ? 'Next paragraph' : 'Finish'}
-            </Button>
-          </Row>
-        </div>
-      )}
+{feedbackMessage && (
+  <div
+    className="mainContainer"
+    style={{ color: feedbackMessage.includes('Correct') ? '#a6ff4d' : '#ff6666' }}
+  >
+    <Row style={{ alignItems: 'center', height: '100%' }}>
+      <Col>
+        <h4 style={{ display: 'flex', alignItems: 'center', height: '100%', fontSize: '30px' }}>
+          {feedbackMessage}
+        </h4>
+      </Col>
+      <Button
+        className="subjectButtons"
+        size="lg"
+        style={{
+          marginRight: '12px',
+          backgroundColor: '#008fb3',
+          borderColor: '#006680',
+          width: '200px'
+        }}
+        onClick={handleNextParagraphOrQuestion}
+      >
+        {currentParagraphIndex < paragraphs.length - 1 ? (
+          <>
+            Next paragraph <GrFormNextLink />
+          </>
+        ) : (
+          <>
+            Finish <GiFinishLine />
+          </>
+        )}
+      </Button>
+    </Row>
+  </div>
+)}
+
+
+
     </>
   );
 };

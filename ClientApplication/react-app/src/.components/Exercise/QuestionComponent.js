@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import '../../styles/exerciseStyle.css'; 
 
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -18,11 +26,11 @@ const QuestionComponent = ({ question, options = [], onSubmit, currentParagraphI
     // Shuffle the options only once when the component is first rendered
     useEffect(() => {
         setShuffledOptions(shuffleArray([...options])); // Shuffle options when the component mounts
-    }, []); // Empty dependency array ensures this runs only once after the first render
+    }, [options]);
 
     // Handle answer selection
-    const handleAnswerChange = (e) => {
-        setSelectedAnswer(e.target.value);
+    const handleListItemClick = (option) => {
+        setSelectedAnswer(option);
     };
 
     const handleSubmit = () => {
@@ -34,34 +42,58 @@ const QuestionComponent = ({ question, options = [], onSubmit, currentParagraphI
         <div className="questionContainer">
             <Row>
                 <Col>
-                    <h3>{currentParagraphIndex + 1}. {question}</h3>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div className="yellowCircle">
+                            {currentParagraphIndex + 1}
+                        </div>
+                        <h3 style={{ margin: 0 }}>{question}</h3>
+                    </div>
                 </Col>
             </Row>
-            <Divider variant="middle" style={{ margin: '13px 0', backgroundColor: '#ccc', borderBottomWidth: 3 }} />
-            <ul 
-                style={{
-                    listStyleType: 'none', 
-                    paddingLeft: 0, 
-                    marginLeft: "15px",
-                    pointerEvents: submitted ? 'none' : 'auto' // Disable list interaction on submit
-                }}
-            >
-                {shuffledOptions.map((option, index) => (
-                    <li key={index}>
-                        <input
-                            type="radio"
-                            name="answer"
-                            value={option}
-                            onChange={handleAnswerChange}
-                            checked={selectedAnswer === option}
-                        /> {option}
-                    </li>
-                ))}
-            </ul>
+            <Divider variant="middle" style={{ margin: '13px 0', backgroundColor: '#666', borderBottomWidth: 3 }} />
+            <Box sx={{ width: '100%', bgcolor: '#0e0e13', color: 'white', borderRadius: '8px', padding: '20px', marginBottom: '5px' }}>
+                <Grid container spacing={2}>
+                    {shuffledOptions.map((option, index) => (
+                        <Grid item xs={12} sm={6} key={index}>
+                            <ListItemButton
+                                onClick={() => handleListItemClick(option)}
+                                disabled={submitted} // Disable interaction on submit
+                                sx={{
+                                    bgcolor: selectedAnswer === option ? '#4d0039 !important' : '#1f1f2d',
+                                    '&:hover': {
+                                        bgcolor: '#3f3f5a',
+                                    },
+                                    color: 'white',
+                                    borderRadius: '4px',
+                                    width: '100%',
+                                }}
+                            >
+                                <ListItemIcon>
+                                    {selectedAnswer === option ? (
+                                        <RadioButtonCheckedIcon sx={{ color: '#ffccff' }} />
+                                    ) : (
+                                        <RadioButtonUncheckedIcon sx={{ color: 'white' }} />
+                                    )}
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={option}
+                                    primaryTypographyProps={{
+                                        style: {
+                                            fontFamily: 'Fredoka, sans-serif',
+                                            color: 'white',
+                                            fontSize: '18px',
+                                        },
+                                    }}
+                                />
+                            </ListItemButton>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
             <Button
-                className='subjectButtons'
+                className="subjectButtons"
                 size="lg"
-                style={{ marginTop: "10px", backgroundColor: '#2eb8b8', borderColor: '#248f8f' }}
+                style={{ marginTop: "10px", backgroundColor: '#862d86', borderColor: '#602060' }}
                 onClick={handleSubmit} // Call the handleSubmit when user submits
                 disabled={submitted || !selectedAnswer} // Disable the button if already submitted or if no answer selected
             >
