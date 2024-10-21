@@ -11,13 +11,17 @@ import { IconContext } from "react-icons";
 import ReactPaginate from 'react-paginate';
 
 
-const listOfParagraphs = ({articleId, getSelected}) => {
+const listOfParagraphs = ({articleId, getSelected, update}) => {
     const [paragraphs, setParagraphs] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+
+    useEffect(() => {
+        getParagraphs();
+    }, [update])
 
     useEffect(() => {
         // get all tests
@@ -27,14 +31,15 @@ const listOfParagraphs = ({articleId, getSelected}) => {
     const getParagraphs = async () => {
         const maxPageSize = process.env.REACT_APP_PAGING_SIZE;
         let allArticleParagraphs = [];
-
         try {
-            let article = await ArticleController.GetArticle(articleId);
+            let article = await ArticleController.Get(articleId);
             allArticleParagraphs = article.paragraphIDs;
         } catch (error) {
             setErrorMessage(error.message); // Set error message
             setShowErrorModal(true); // Show modal
+            return;
         }
+
 
         setPageSize(() => {
             return Math.ceil(allArticleParagraphs.length / maxPageSize)

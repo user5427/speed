@@ -27,7 +27,7 @@ const ArticleService = {
     },
 
     getArticleByTitle: async function(title) {
-        const apiUrl = process.env.REACT_APP_API_URL + `Articles/search/${title}?PageSize=${SearchSizeConstants.MaxPageSize}`;
+        const apiUrl = process.env.REACT_APP_API_URL + `Articles/search?Search=${title}&PageSize=${SearchSizeConstants.MaxPageSize}`;
         return FetchHelper.fetchEntity(apiUrl).then(res => {return res});
     },
 

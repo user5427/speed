@@ -7,9 +7,9 @@ import { ParagraphController, QuestionController } from '../../.controllers/.Mai
 import ErrorPopup from '../.common-components/ErrorPopup';
 import AnswerItem from './answerItem';
 import Divider from '@mui/material/Divider';
+import SuccessPopup from '../.common-components/SuccessPopup';
 
-
-const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreatedId }) => {
+const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=undefined, sendCreatedId=undefined, redirect=true }) => {
     const [question, setQuestion] = useState(
         new Question()
     );
@@ -22,7 +22,12 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
     const [answers, setAnswers] = useState([]);
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
 
+    const [successMessage, setSuccessMessage] = useState(""); // State for success message
+    const [showSuccessModal, setShowSuccessModal] = useState(false); // State to show/hide modal
+
     const [outsideParagraph, setOutsideParagraph] = useState(null);
+
+    const [MyRedirect, setRedirect] = useState(redirect);
 
     useEffect(() => {
         getParagraphFromOutside(paragraphFromOutsideId);
@@ -31,6 +36,10 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
     useEffect(() => {
         setQuestionFromExisting(existingQuestionId);
     }, [existingQuestionId]); // Add articleFromOutside as a dependency
+
+    useEffect(() => {
+        setRedirect(redirect);
+    }, []); // Add redirect as a dependency
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -64,11 +73,14 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
                 let newQuestion;
                 if (update) {
                     newQuestion = await QuestionController.Put(question);
-                    alert('Updated question successfully.');
+                    setRedirect(false);
+                    setSuccessMessage("Updated question successfully.");
+                    setShowSuccessModal(true);
                 } else {
                     newQuestion = await QuestionController.Post(question);
                     setUpdate(true);
-                    alert('Created question successfully.');
+                    setSuccessMessage("Created question successfully.");
+                    setShowSuccessModal(true);
                     if (sendCreatedId) {
                         sendCreatedId(newQuestion.id);
                     }
@@ -79,7 +91,8 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
                 setShowErrorModal(true); // Show modal
             }
         } else {
-            alert("Please enter paragraph ID.");
+            setErrorMessage("Please enter paragraph ID."); // Set error message
+            setShowErrorModal(true); // Show modal
         }
     }
 
@@ -122,6 +135,13 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
     const closeErrorModal = () => {
         setShowErrorModal(false);
     };
+
+    const closeSuccessModal = () => {
+        setShowSuccessModal(false);
+        if (MyRedirect) {
+            window.location.href = `/edit-question?questionId=${question.id}`;
+        }
+    }
 
     const sendBackText = (index, text) => {
         let newAnswers = [...answers];
@@ -166,9 +186,7 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
         setAnswers(newAnswers);
         setQuestion(prevQuestion => {
             const newQuestion = Question.createQuestionFromCopy(prevQuestion);
-
             newQuestion.correctAnswerIndex = index;
-
             return newQuestion;
         });
     }
@@ -242,7 +260,7 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
                     outsideParagraph ? "" :
                         (
                             <Form.Group controlId="formtestTitle">
-                                <Form.Label>Paragraph Title</Form.Label>
+                                <Form.Label>Paragraph ID</Form.Label>
                                 <Form.Control
                                     name={Question.varParagraphIdName()}
                                     value={question.paragraphId}
@@ -311,7 +329,7 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
 
 
                 <div>
-                    <Button type="submit">{update ? "Update" : "Create"}</Button>
+                    <Button variant="success" type="submit" >{update ? "Update" : "Create"}</Button>
                 </div>
                 {/* if you can update the article, make a button apear for creating a new article */}
                 {/* {update ?
@@ -324,6 +342,13 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
                 showErrorModal={showErrorModal}
                 errorMessage={errorMessage}
                 onClose={closeErrorModal}
+            />
+
+            {/* Success Popup */}
+            <SuccessPopup
+                showCreateModal={showSuccessModal}
+                message={successMessage}
+                onClose={closeSuccessModal}
             />
         </>
     )

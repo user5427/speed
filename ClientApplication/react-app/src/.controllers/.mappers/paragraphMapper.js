@@ -7,8 +7,7 @@ class ParagraphMapper {
             data[ParagraphJson.text], 
             data[ParagraphJson.articleId],
             data[ParagraphJson.id],
-            data[ParagraphJson.questionIds] || [],
-            data[ParagraphJson.nextParagraphId] || null
+            data[ParagraphJson.questionIds] || []
         );
     }
 
@@ -29,10 +28,6 @@ class ParagraphMapper {
 
         if (paragraph._articleId) {
             json[ParagraphJson.articleId] = paragraph._articleId;
-        }
-
-        if (paragraph._nextParagraphId) {
-            json[ParagraphJson.nextParagraphId] = paragraph._nextParagraphId;
         }
 
         return json;

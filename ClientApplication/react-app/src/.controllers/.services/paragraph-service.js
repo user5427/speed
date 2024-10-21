@@ -24,7 +24,7 @@ const ParagraphService = {
 
     getParagraphsByTitle: async function (search) {
         const requestOptions = FetchHelper.generateRequestOptions("GET");
-        const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/search/${search}?PageSize=${SearchSizeConstants.MaxPageSize}`;
+        const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/search?Search=${search}&PageSize=${SearchSizeConstants.MaxPageSize}`;
         return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
     },
 

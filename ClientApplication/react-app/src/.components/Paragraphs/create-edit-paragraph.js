@@ -6,8 +6,8 @@ import ArticleSearch from '../Articles/article-search';
 import { Paragraph } from '../../.entities/.MainEntitiesExport';
 import { ArticleController, ParagraphController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from '../.common-components/ErrorPopup';
-
-const EditParagraph = ({ articleFromOutsideId, existingParagraphId, sendCreatedId }) => {
+import SuccessPopup from '../.common-components/SuccessPopup';
+const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=undefined, sendCreatedId=undefined, redirect=true }) => {
     const [paragraph, setParagraph] = useState(
         new Paragraph()
     );
@@ -17,7 +17,12 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId, sendCreatedI
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
+    const [successMessage, setSuccessMessage] = useState(""); // State for success message
+    const [showSuccessModal, setShowSuccessModal] = useState(false); // State to show/hide modal
+
     const [outsideArticle, setOutsideArticle] = useState(null);
+
+    const [MyRedirect, setRedirect] = useState(redirect);
 
     // Trigger getArticleFromOutside when component mounts or articleFromOutside changes
     useEffect(() => {
@@ -29,6 +34,9 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId, sendCreatedI
         setParagraphFromExisting(existingParagraphId);
     }, [existingParagraphId]); // Add existingParagraphId as a dependency
 
+    useEffect(() => {
+        setRedirect(redirect);
+    }, []); // Add redirect as a dependency
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -50,10 +58,14 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId, sendCreatedI
                 let newParagraph;
                 if (update) {
                     newParagraph = await ParagraphController.Put(paragraph);
-                    alert('Updated paragraph successfully.');
+                    setRedirect(false);
+                    setSuccessMessage("Updated paragraph successfully.");
+                    setShowSuccessModal(true);
+                    
                 } else {
                     newParagraph = await ParagraphController.Post(paragraph);
-                    alert('Created paragraph successfully.');
+                    setSuccessMessage("Created paragraph successfully.");
+                    setShowSuccessModal(true);
                     setUpdate(true);
                     if (sendCreatedId) {
                         sendCreatedId(newParagraph.id);
@@ -66,7 +78,8 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId, sendCreatedI
                 // alert("js sucks");
             }
         } else {
-            alert("Please enter article ID.");
+            setErrorMessage("Please enter article ID."); // Set error message
+            setShowErrorModal(true); // Show modal
         }
     }
 
@@ -109,6 +122,14 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId, sendCreatedI
     // Function to close the error modal
     const closeErrorModal = () => {
         setShowErrorModal(false);
+    };
+
+    // Function to close the success modal
+    const closeSuccessModal = () => {
+        setShowSuccessModal(false);
+        if (MyRedirect) {
+            window.location.href = `/edit-paragraph-question?paragraphId=${paragraph.id}`;
+        }
     };
 
     const getArticleFromOutside = async (artFromOut) => {
@@ -241,7 +262,7 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId, sendCreatedI
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button type="submit">{update ? "Update" : "Create"}</Button>
+                <Button variant="success" type="submit">{update ? "Update" : "Create"}</Button>
                 {/* {update ?
                     <Button onClick={resetUpdating}>Reset</Button> : ""
                 } */}
@@ -252,6 +273,13 @@ const EditParagraph = ({ articleFromOutsideId, existingParagraphId, sendCreatedI
                 showErrorModal={showErrorModal}
                 errorMessage={errorMessage}
                 onClose={closeErrorModal}
+            />
+
+            {/* Success Popup */}
+            <SuccessPopup
+                showCreateModal={showSuccessModal}
+                message={successMessage}
+                onClose={closeSuccessModal}
             />
         </>
     )

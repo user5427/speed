@@ -10,13 +10,17 @@ import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons f
 import { IconContext } from "react-icons";
 import ReactPaginate from 'react-paginate';
 
-const listOfQuestions = ({paragraphId, getSelected}) => {
+const listOfQuestions = ({paragraphId, getSelected, update}) => {
     const [questions, setQuestions] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+
+    useEffect(() => {
+        getQuestions();
+    }, [update])
 
     useEffect(() => {
         // get all tests
@@ -33,6 +37,7 @@ const listOfQuestions = ({paragraphId, getSelected}) => {
         } catch (error) {
             setErrorMessage(error.message); // Set error message
             setShowErrorModal(true); // Show modal
+            return;
         }
 
         setPageSize(() => {

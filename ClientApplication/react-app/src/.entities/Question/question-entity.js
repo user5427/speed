@@ -5,9 +5,9 @@ class Question {
         this.#createEmptyQuestion();
     }
 
-    static createQuestionFromParams(title, text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null) {
+    static createQuestionFromParams(text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null) {
         const question = new Question();
-        question.#createQuestionFromParams(title, text, paragraphId, answerChoices, correctAnswerIndex, id);
+        question.#createQuestionFromParams(text, paragraphId, answerChoices, correctAnswerIndex, id);
         return question;
     }
 
@@ -21,12 +21,12 @@ class Question {
         return newQuestion;
     }
 
-    #createQuestionFromParams(title, text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null) {
+    #createQuestionFromParams(text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null) {
         // Validate text
         if (typeof text !== "string" ||
-            text.length < ValidationConstants.MinTextLength ||
-            text.length > ValidationConstants.MaxTextLength) {
-            throw new Error(`Text must be a string between ${ValidationConstants.MinTextLength} and ${ValidationConstants.MaxTextLength} characters.`);
+            text.length < ValidationConstants.MinQuestionTextLength ||
+            text.length > ValidationConstants.MaxQuestionTextLength) {
+            throw new Error(`Text must be a string between ${ValidationConstants.MinQuestionTextLength} and ${ValidationConstants.MaxQuestionTextLength} characters.`);
         }
 
         // Validate paragraphId

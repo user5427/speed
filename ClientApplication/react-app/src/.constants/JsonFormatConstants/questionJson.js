@@ -1,7 +1,6 @@
 //
 
 const QuestionJson = {
-    title: "title",
     paragraphId: "paragraphId",
     id: "id",
     questionText: "questionText",

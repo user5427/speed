@@ -23,7 +23,7 @@ class QuestionMapper {
             json[QuestionJson.id] = question._id;
         }
 
-        if (question._correctAnswerIndex) {
+        if (question._correctAnswerIndex !== null) {
             json[QuestionJson.correctAnswerIndex] = question._correctAnswerIndex;
         }
 

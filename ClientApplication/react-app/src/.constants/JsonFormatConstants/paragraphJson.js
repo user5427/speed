@@ -5,7 +5,6 @@ const ParagraphJson = {
     articleId: "articleId",
     id: "id",
     text: "text",
-    nextParagraphId: "nextParagraphId",
     questionIds: "questionIds"
 };
 

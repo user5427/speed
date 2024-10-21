@@ -21,7 +21,7 @@ const QuestionSearch = ({ onQuestionSelected, questionFromOutside }) => {
                 let questionPage = await QuestionController.Search(value);
                 if (questionPage.questions.length > 0) {
                     const options = questionPage.questions.map((question) => (
-                        <option key={question.id} value={question.title}></option>
+                        <option key={question.id} value={question.text}></option>
                     ));
                     setOptions(options);
                 } else {

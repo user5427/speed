@@ -18,6 +18,9 @@ import CreateArticle from './pages/CreatePages/createArticlePage';
 import CreateParagraph from './pages/CreatePages/createParagraphPage';
 import CreateQuestion from './pages/CreatePages/createQuestionPage';
 import EditArticleParagraphQuestion from './pages/EditPages/editAll';
+import EditParagraphQuestion from './pages/EditPages/editParagraphQuestionPage';
+import EditQuestion from './pages/EditPages/editQuestionPage';
+
 function App() {
   return (
    
@@ -43,7 +46,10 @@ function App() {
           <Route exact path="/create-article" Component={() => <CreateArticle/>} />
           <Route exact path="/create-paragraph" Component={() => <CreateParagraph/>} />
           <Route exact path="/create-question" Component={() => <CreateQuestion/>} />
-          <Route exact path="/edit" Component={() => <EditArticleParagraphQuestion/>} />
+          <Route exact path="/edit-all" Component={() => <EditArticleParagraphQuestion/>} />
+          <Route exact path="/edit-paragraph-question" Component={() => <EditParagraphQuestion/>} />
+          <Route exact path="/edit-question" Component={() => <EditQuestion/>} />
+
           </Routes>
       </BrowserRouter>
     </Container>

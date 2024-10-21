@@ -35,7 +35,7 @@ const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect
                 <Col xs={12} md={12} >
                     <Form.Group controlId="answer">
                         <Form.Label>
-                            Answer {index + 1} {correctAnswerIndex === index ? <GiConfirmed /> : null}
+                            Answer {index + 1} {correctAnswerIndex === index ? <span style={{ color: '#b5ffbb' }}><GiConfirmed /></span> : null}
                         </Form.Label>
                         <Form.Control
                             name="answer"
@@ -56,7 +56,7 @@ const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect
             </Row>
             <Row className="d-flex justify-content-between align-items-center" style={{ marginBottom: '10px', marginTop: '10px' }}>
                 <Col xs={12} md={2}>
-                    <Button variant="primary" onClick={() => setCorrect(index)}>
+                    <Button variant="success" onClick={() => setCorrect(index)}>
                         <GiConfirmed /> Correct
                     </Button>
                 </Col>
@@ -66,7 +66,6 @@ const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect
                     </Button>
                 </Col>
             </Row>
-
         </>
     );
 }
