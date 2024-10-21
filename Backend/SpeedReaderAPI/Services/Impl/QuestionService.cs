@@ -134,6 +134,17 @@ public class QuestionService : IQuestionService
         }
     }
 
+    public PageResponse<QuestionResponse> SearchQuestions(QueryParameters queryParameters)
+    {
+        long questionCount = _context.Question.Count();
+        List<Question> questions = _context.Question
+                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search))
+                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
+                                        .Take(queryParameters.PageSize)
+                                        .ToList();
+        List<QuestionResponse> questionResponseList = _mapper.Map<List<QuestionResponse>>(questions);
+        return new PageResponse<QuestionResponse>(questionCount, questionResponseList);
+    }
     public async Task<QuestionResponse> UploadImage(int id, ImageUploadRequest request)
     {
         Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();

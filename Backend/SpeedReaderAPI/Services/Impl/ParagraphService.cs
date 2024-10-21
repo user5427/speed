@@ -120,6 +120,18 @@ public class ParagraphService : IParagraphService
         }
     }
 
+    public PageResponse<ParagraphResponse> SearchParagraphs(QueryParameters queryParameters)
+    {
+        long paragraphCount = _context.Paragraph.Count();
+        List<Paragraph> paragraphs = _context.Paragraph
+                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
+                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
+                                        .Take(queryParameters.PageSize)
+                                        .ToList();
+        List<ParagraphResponse> paragraphResponseList = _mapper.Map<List<ParagraphResponse>>(paragraphs);
+        return new PageResponse<ParagraphResponse>(paragraphCount, paragraphResponseList);
+    }
+
     public async Task<ParagraphResponse> UploadImage(int id, ImageUploadRequest request)
     {
         Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();

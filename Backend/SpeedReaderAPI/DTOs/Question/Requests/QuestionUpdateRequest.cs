@@ -5,6 +5,7 @@ using SpeedReaderAPI.Constants;
 
 public record QuestionUpdateRequest
 (
+
 	int? ParagraphId,
     [StringLength(ValidationConstants.MaxQuestionTextLength,
                 MinimumLength = ValidationConstants.MinQuestionTextLength,

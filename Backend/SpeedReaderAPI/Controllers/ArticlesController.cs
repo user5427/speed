@@ -282,6 +282,28 @@ public class ArticlesController : ControllerBase
         }
     }
 
+    [HttpGet("search/")]
+    public IActionResult SearchArticles([FromQuery] QueryParameters queryParameters)
+    {
+        try
+        {
+            PageResponse<ArticleResponse> articles = _articleService.SearchArticles(queryParameters);
+            return Ok(articles);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Something went wrong in ArticleController while searching! {ExceptionMessage}.", ex.GetBaseException().Message);
+            return NotFound(new ProblemDetails
+                {
+                    Title = "No Articles Found",
+                    Detail = "No articles match the specified criteria.",
+                    Status = 404,
+                    Instance = HttpContext.Request.Path
+                }
+            );
+        }
+    }
+
     [HttpPut("{id}")]
     public IActionResult UpdateArticle(int id, [FromBody] ArticleUpdateRequest request)
     {
@@ -298,7 +320,7 @@ public class ArticlesController : ControllerBase
                     Extensions = { ["errors"] = ModelState }
                 });
             }
-            
+
             ArticleResponse articleResponse = _articleService.UpdateArticle(id, request);
             return Ok(articleResponse);
         }

@@ -12,7 +12,7 @@ public class Article
     [StringLength(ValidationConstants.MaxTitleLength,
             MinimumLength = ValidationConstants.MinTitleLength,
             ErrorMessage = "Title must be between {2} and {1} characters.")]
-    public required string Title { get; set; }
+    public string Title { get; set; }
     public string? CategoryTitle { get; set; }
     public string? ImageFileName { get; set; }
     public string? ImageFilePath {get; set;}

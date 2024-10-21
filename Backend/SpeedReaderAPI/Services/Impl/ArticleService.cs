@@ -103,6 +103,17 @@ public class ArticleService : IArticleService
         }
     }
 
+    public PageResponse<ArticleResponse> SearchArticles(QueryParameters queryParameters) {
+        long articleCount = _context.Article.Count();
+        List<Article> articles = _context.Article
+                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
+                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
+                                        .Take(queryParameters.PageSize)
+                                        .ToList();
+        List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
+        return new PageResponse<ArticleResponse>(articleCount, articleResponseList);
+    }
+    
     public async Task<ArticleResponse> UploadImage(int id, ImageUploadRequest request)
     {
         Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
