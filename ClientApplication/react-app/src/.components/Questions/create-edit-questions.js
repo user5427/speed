@@ -260,26 +260,6 @@ const EditQuestions = ({ paragraphFromOutsideId, existingQuestionId, sendCreated
                         )
                 }
 
-
-                <Form.Group controlId="formtestTitle">
-                    <Form.Label>Question Title</Form.Label>
-                    <Form.Control
-                        name={Question.varTitleName()}
-                        value={question.title}
-                        required type="text"
-                        autoComplete='off'
-                        className="form-control darkInput"
-                        placeholder="Enter Question Title"
-                        onChange={handleFieldChange}
-                        minLength={ValidationConstants.MinTitleLength}
-                        maxLength={ValidationConstants.MaxTitleLength}
-                        pattern={ValidationPatternConstants.TitlePattern.source}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Please enter question text.
-                    </Form.Control.Feedback>
-                </Form.Group>
-
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Question Text</Form.Label>
                     <Form.Control

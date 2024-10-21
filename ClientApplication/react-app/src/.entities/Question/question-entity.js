@@ -22,16 +22,6 @@ class Question {
     }
 
     #createQuestionFromParams(title, text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null) {
-        // Validate title
-        if (typeof title !== "string" ||
-            title.length < ValidationConstants.MinTitleLength ||
-            title.length > ValidationConstants.MaxTitleLength) {
-            throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
-        }
-        if (!ValidationPatternConstants.TitlePattern.test(title)) {
-            throw new Error("Title does not match the required pattern.");
-        }
-
         // Validate text
         if (typeof text !== "string" ||
             text.length < ValidationConstants.MinTextLength ||
@@ -60,7 +50,6 @@ class Question {
         }
 
         // Assign properties
-        this._title = title;
         this._text = text;
         this._paragraphId = paragraphId;
         this._answerChoices = answerChoices;
@@ -69,7 +58,6 @@ class Question {
     }
 
     #createEmptyQuestion() {
-        this._title = "";
         this._text = "";
         this._paragraphId = null;
         this._answerChoices = [];
@@ -78,10 +66,6 @@ class Question {
     }
 
     #copyQuestion(question) {
-        if (question.title === undefined) {
-            throw new Error("Title is required.");
-        }
-
         if (question.text === undefined) {
             throw new Error("Text is required.");
         }
@@ -90,7 +74,6 @@ class Question {
             throw new Error("Paragraph ID is required.");
         }
 
-        this._title = question.title;
         this._text = question.text;
         this._paragraphId = question.paragraphId;
         if (question.answerChoices) {
@@ -113,26 +96,6 @@ class Question {
     // Method to check if a field exists
     hasField(field) {
         return Object.prototype.hasOwnProperty.call(this, `_${field}`);
-    }
-
-
-    // Getters and setters with validation
-    get title() {
-        return this._title;
-    }
-    set title(value) {
-        // if (typeof value !== "string" ||
-        //     value.length < ValidationConstants.MinTitleLength ||
-        //     value.length > ValidationConstants.MaxTitleLength) {
-        //     throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
-        // }
-        // if (!ValidationPatternConstants.TitlePattern.test(value)) {
-        //     throw new Error("Title does not match the required pattern.");
-        // }
-        this._title = value;
-    }
-    static varTitleName() {
-        return "title"
     }
 
     get text() {

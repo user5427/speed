@@ -4,7 +4,6 @@ import { QuestionJson, QuestionPageJson } from "../../.constants/MainConstants";
 class QuestionMapper {
     static fromJson(data) {
         return Question.createQuestionFromParams(
-            data[QuestionJson.title], 
             data[QuestionJson.questionText], 
             data[QuestionJson.paragraphId] || null,
             data[QuestionJson.answerChoices] || [],
@@ -16,10 +15,6 @@ class QuestionMapper {
     static toJson(question) {
         const json = {};
         
-        if (question._title) {
-            json[QuestionJson.title] = question._title;
-        }
-
         if (question._text) {
             json[QuestionJson.questionText] = question._text;
         }
