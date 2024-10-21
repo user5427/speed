@@ -14,7 +14,7 @@ public class Paragraph
 	[StringLength(ValidationConstants.MaxTitleLength,
 	MinimumLength = ValidationConstants.MinTitleLength,
 	ErrorMessage = "Title must be between {2} and {1} characters.")]
-	public required string Title { get; set; }
+	public string Title { get; set; }
 
 	[ForeignKey(nameof(Article))]
     public int ArticleId { get; set; }
