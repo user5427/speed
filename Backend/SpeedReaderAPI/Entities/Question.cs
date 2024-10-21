@@ -4,18 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SpeedReaderAPI.Attributes;
 using SpeedReaderAPI.Constants;
-using SpeedReaderAPI.DTOs;
 
 public class Question
 {
 	[Key]
     public int Id { get; set; }
-
-    [Required(ErrorMessage = "Title is required.")]
-	[StringLength(ValidationConstants.MaxTitleLength,
-	MinimumLength = ValidationConstants.MinTitleLength,
-	ErrorMessage = "Title must be between {2} and {1} characters.")]
-	public required string Title { get; set; }
 
 	[ForeignKey(nameof(Paragraph))]
     public int ParagraphId { get; set; }
@@ -33,6 +26,38 @@ public class Question
     [StringLength(ValidationConstants.MaxAnswerChoiceLength,
         ErrorMessage = "Correct answer choice cannot exceed {1} characters.")]
     public int CorrectAnswerIndex { get; set; }
-    public virtual Paragraph? Paragraph { get; set; }
 
+ public string? ImageFileName { get; set; }
+    public string? ImageFilePath {get; set;}
+    public MimeType? ImageMimeType { get; set; }
+    
+    [NotMapped]
+    public Image? Image
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(ImageFileName) && !string.IsNullOrEmpty(ImageFilePath) && ImageMimeType.HasValue)
+            {
+                return new Image(ImageFileName, ImageMimeType.Value, ImageFilePath);
+            }
+            return null; 
+        }
+        set
+        {
+            if (value.HasValue)
+            {
+                ImageFilePath = value.Value.ImageFilePath;
+                ImageFileName = value.Value.ImageFileName;
+                ImageMimeType = value.Value.ImageMimeType;
+            }
+            else 
+            {
+                ImageFilePath = null;
+                ImageFileName = null;
+                ImageMimeType = null;
+            }
+        }
+    }
+
+    public virtual Paragraph? Paragraph { get; set; }
 }

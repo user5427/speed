@@ -1,25 +1,30 @@
 using AutoMapper;
+using SpeedReaderAPI.Constants;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Exceptions;
+
 namespace SpeedReaderAPI.Services.Impl;
 
 
 
 public class ArticleService : IArticleService
-{
-
-    private readonly ApplicationContext _context;
+{    private readonly ApplicationContext _context;
+    private readonly IImageService _imageService;
+    private readonly IParagraphService _paragraphService;
     private readonly IMapper _mapper;
 
-    public ArticleService(ApplicationContext context, IMapper mapper)
+    public ArticleService(ApplicationContext context, IMapper mapper,
+        IImageService imageService, IParagraphService paragraphService)
     {
         _context = context;
         _mapper = mapper;
+        _imageService = imageService;
+        _paragraphService = paragraphService;
     }
-
 
     public ArticlePageResponse GetArticles(QueryParameters queryParameters)
     {
@@ -45,9 +50,6 @@ public class ArticleService : IArticleService
     public ArticleResponse CreateArticle(ArticleCreateRequest request)
     {
         Article createdArticle = _mapper.Map<Article>(request);
-        if(createdArticle.ParagraphIds == null){
-            createdArticle.ParagraphIds = new List<int>();
-        }
         _context.Article.Add(createdArticle);
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(createdArticle);
@@ -70,6 +72,14 @@ public class ArticleService : IArticleService
         {
             articleFound.CategoryTitle = request.CategoryTitle;
         }
+        if (request.ParagraphIds != null)
+        {
+            var difference = articleFound.ParagraphIds.Except(request.ParagraphIds);
+            if (difference.Any() || articleFound.ParagraphIds.Count != request.ParagraphIds.Count) {
+                throw new InvalidParagraphIdListException();
+            }
+            articleFound.ParagraphIds = request.ParagraphIds;
+        }
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(articleFound);
     }
@@ -80,6 +90,12 @@ public class ArticleService : IArticleService
         Article? articleFound = _context.Article.Where(x => x.Id == articleId).FirstOrDefault();
         if (articleFound != null)
         {
+            if (articleFound.Image != null && articleFound.Image.HasValue) 
+            {
+                _imageService.Delete((Image)articleFound.Image);
+            }
+            var copyOfParaphIds = articleFound.ParagraphIds.ToList();
+            copyOfParaphIds.ForEach(_paragraphService.DeleteParagraph);
             _context.Article.Remove(articleFound);
             _context.SaveChanges();
         }else{
@@ -87,19 +103,61 @@ public class ArticleService : IArticleService
         }
     }
 
-    public PageResponse<ArticleResponse> SearchArticles(string Search, QueryParameters queryParameters)
-    {
-        if (Search == null)
-        {
-            throw new ArgumentNullException("Search query parameter is required.");
-        }
+    public PageResponse<ArticleResponse> SearchArticles(QueryParameters queryParameters) {
         long articleCount = _context.Article.Count();
         List<Article> articles = _context.Article
-                                        .Where(a => a.Title.Contains(Search))
+                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
                                         .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
                                         .Take(queryParameters.PageSize)
                                         .ToList();
         List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
         return new PageResponse<ArticleResponse>(articleCount, articleResponseList);
+    }
+    
+    public async Task<ArticleResponse> UploadImage(int id, ImageUploadRequest request)
+    {
+        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        if (articleFound == null) 
+        {
+            throw new KeyNotFoundException($"Article with ID {id} not found.");
+        }
+        if (articleFound.Image.HasValue) 
+        {
+            throw new ResourceAlreadyExistsException($"Article with ID {id} has an image.");
+        }
+        articleFound.Image = await _imageService.Create(request);
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<ArticleResponse>(articleFound);
+    }
+
+    public Image? GetImage(int id)
+    {
+        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        if (articleFound == null) 
+        {
+            throw new KeyNotFoundException($"Article with ID {id} not found.");
+        }
+        if (!articleFound.Image.HasValue) return null;
+        Image img = articleFound.Image.Value;
+        Stream? stream = _imageService.Get(img);
+        if (stream == null) return null;
+        img.FileStream = stream;
+        
+        return img;
+    }
+
+    public void DeleteImage(int id)
+    {
+        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        if (articleFound == null) 
+        {
+            throw new KeyNotFoundException($"Article with ID {id} not found.");
+        }
+        if (articleFound.Image == null || !articleFound.Image.HasValue) return;
+        _imageService.Delete((Image)articleFound.Image);
+        
+        articleFound.Image = null;
+        _context.SaveChanges();
     }
 }

@@ -5,11 +5,11 @@ using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Entities;
 
-public interface IQuestionService
+public interface IQuestionService : IServiceWithImage<QuestionResponse>
 {
     QuestionResponse CreateQuestion(QuestionCreateRequest request);
     public QuestionResponse GetQuestion(int idquestionId);
-    public PageResponse<QuestionResponse> SearchQuestions(string search, QueryParameters queryParameters);
+    public PageResponse<QuestionResponse> SearchQuestions(QueryParameters queryParameters);
     QuestionResponse UpdateQuestion(int questionId, QuestionUpdateRequest request);
     void DeleteQuestion(int questionId);
 }
