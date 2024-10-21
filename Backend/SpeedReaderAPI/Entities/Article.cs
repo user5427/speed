@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SpeedReaderAPI.Constants;
-public class Article
+public class Article : IComparable<Article>
 {
     [Key]
     public int Id { get; set; }
@@ -12,7 +12,7 @@ public class Article
     [StringLength(ValidationConstants.MaxTitleLength,
             MinimumLength = ValidationConstants.MinTitleLength,
             ErrorMessage = "Title must be between {2} and {1} characters.")]
-    public string Title { get; set; }
+    public required string Title { get; set; }
     public string? CategoryTitle { get; set; }
     public string? ImageFileName { get; set; }
     public string? ImageFilePath {get; set;}
@@ -49,4 +49,9 @@ public class Article
     // ONE TO MANY
     public List<int> ParagraphIds { get; set; }  = [];
     public virtual ICollection<Paragraph> Paragraphs { get; set; }  = [];
+
+    public int CompareTo(Article other)
+    {
+        return Title.CompareTo(other.Title);
+    }
 }
