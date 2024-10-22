@@ -11,7 +11,7 @@ import { IconContext } from "react-icons";
 import ReactPaginate from 'react-paginate';
 
 
-const listOfParagraphs = ({articleId, getSelected, update}) => {
+const listOfParagraphs = ({articleId, getSelected, update, settings}) => {
     const [paragraphs, setParagraphs] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
@@ -20,13 +20,9 @@ const listOfParagraphs = ({articleId, getSelected, update}) => {
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     useEffect(() => {
-        getParagraphs();
-    }, [update])
-
-    useEffect(() => {
         // get all tests
         getParagraphs();
-    }, [page]) // [] if empty, will load for only the first and only first time
+    }, [page, update]) // [] if empty, will load for only the first and only first time
 
     const getParagraphs = async () => {
         const maxPageSize = process.env.REACT_APP_PAGING_SIZE;
@@ -77,7 +73,8 @@ const listOfParagraphs = ({articleId, getSelected, update}) => {
                         <div key={i}>
                             <ParagraphItem 
                                 data={m}
-                                editThis={() => getSelected(m.id)}
+                                selectThis={() => getSelected(m.id)}
+                                settings={settings}
                             />
                         </div>
                     ))

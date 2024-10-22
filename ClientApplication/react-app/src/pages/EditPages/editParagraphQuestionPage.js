@@ -11,6 +11,8 @@ const EditParagraphQuestion = () => {
     const [paragraphId, setParagraphId] = useState(null);
     const [questionId, setQuestionId] = useState(null);
 
+    const [updateQuestionList, setUpdateQuestionList] = useState(false);
+
     // Get the articleId from the query string, or default to null if not provided
     // setArticleId(searchParams.get('articleId'));
     useEffect(() => {
@@ -20,6 +22,7 @@ const EditParagraphQuestion = () => {
     const getSelectedParagraph = (paragraphId) => {
         setParagraphId(paragraphId);
         setQuestionId(null);
+        setUpdateQuestionList(!updateQuestionList);
     }
 
     const getSelectedQuestion = (questionId) => {
@@ -28,19 +31,25 @@ const EditParagraphQuestion = () => {
 
     const receiveParagraphId = (paragraphId) => {
         setParagraphId(paragraphId);
+        setUpdateQuestionList(!updateQuestionList);
     }
 
     const receiveQuestionId = (questionId) => {
         setQuestionId(questionId);
+        setUpdateQuestionList(!updateQuestionList);
     }
 
-    const handleCreateParagraph = () => {
+    const handleResetParagraph = () => {
         setParagraphId(null);
         setQuestionId(null);
     }
 
-    const handleCreateQuestion = () => {
+    const handleResetQuestion = () => {
         setQuestionId(null);
+    }
+
+    const triggerUpdateQuestionList = () => {
+        setUpdateQuestionList(!updateQuestionList)
     }
 
     return (
@@ -57,6 +66,7 @@ const EditParagraphQuestion = () => {
                         {
                             paragraphId ? (
                                 <CreateEditParagraph
+                                    key={`edit-${paragraphId}`}
                                     existingParagraphId={paragraphId}
                                     redirect={false}
                                 />
@@ -72,14 +82,17 @@ const EditParagraphQuestion = () => {
                         {
                             questionId ? (
                                 <CreateEditQuestion
+                                    key={`edit-${questionId}`}
                                     existingQuestionId={questionId}
                                     redirect={false}
+                                    sendUpdate={triggerUpdateQuestionList}
                                 />
                             ) : paragraphId ? (
                                 <CreateEditQuestion
                                     paragraphFromOutsideId={paragraphId}
                                     sendCreatedId={receiveQuestionId}
                                     redirect={false}
+                                    sendUpdate={triggerUpdateQuestionList}
                                 />
                             ) : (
                                 <p>Question editing or creating unavailable</p>
@@ -94,18 +107,18 @@ const EditParagraphQuestion = () => {
                     <Col xs={12} md={4}>
                         {
                             paragraphId ? (
-                                <Button onClick={handleCreateParagraph} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Paragraph</Button>
+                                <Button onClick={handleResetParagraph} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Paragraph</Button>
                             ) : (
-                                <Button onClick={handleCreateParagraph} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Paragraph</Button>
+                                <Button onClick={handleResetParagraph} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Paragraph</Button>
                             )
                         }
                     </Col>
                     <Col xs={12} md={4}>
                         {
                             questionId ? (
-                                <Button onClick={handleCreateQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Question</Button>
+                                <Button onClick={handleResetQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Question</Button>
                             ) : (
-                                <Button onClick={handleCreateQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Question</Button>
+                                <Button onClick={handleResetQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Question</Button>
                             )
                         }
                     </Col>
@@ -118,8 +131,10 @@ const EditParagraphQuestion = () => {
                         {
                             paragraphId ? (
                                 <QuestionList
+                                    settings={{ showSelectButton: true }}
                                     paragraphId={paragraphId}
                                     getSelected={getSelectedQuestion}
+                                    update={updateQuestionList}
                                 />
                             ) : (
                                 <p>Questions unavailable</p>

@@ -46,13 +46,13 @@ const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect
                     </Form.Group>
                 </Col>
             </Row>
-            <Row className="d-flex justify-content-between align-items-center" style={{ marginBottom: '10px', marginTop: '10px' }}>
-                <Col xs={12} md={2}>
+            <Row className="no-gutters d-flex justify-content-between align-items-center" style={{ marginBottom: '10px', marginTop: '10px' }}>
+                <Col xs={12} md={3}>
                     <Button variant="success" onClick={() => setCorrect(index)}>
                         <GiConfirmed /> Correct
                     </Button>
                 </Col>
-                <Col xs={12} md={2}>
+                <Col xs={12} md={3}>
                     <Button variant="danger" onClick={() => deleteAnswer(index)}>
                         <MdDelete /> Delete
                     </Button>

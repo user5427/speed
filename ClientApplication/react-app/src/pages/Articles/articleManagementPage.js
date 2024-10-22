@@ -19,6 +19,12 @@ const ArticleHomePage = () => {
     const redirectToCreateQuestion = () => {
         navigate('/create-question');
     }
+
+    const getSelectedArticle = (articleId) => {
+        window.location.href = `/edit-all?articleId=${articleId}`;
+
+    }
+    
     
     const settings = {
         showEditButton: true
@@ -44,7 +50,10 @@ const ArticleHomePage = () => {
                 <h2>Article list</h2>
             </div>
 
-            <ArticleList settings={settings}/>
+            <ArticleList 
+                settings={settings}
+                getEditing={getSelectedArticle}
+            />
         </>
 
     );

@@ -8,7 +8,7 @@ import "../../../styles/stylesPaginator.css"; // stylesheet
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
 
-const ArticleList = ({ settings, getSelected }) => {
+const ArticleList = ({ settings, getSelected, update, getEditing }) => {
     const [articles, setArticles] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
@@ -17,9 +17,8 @@ const ArticleList = ({ settings, getSelected }) => {
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     useEffect(() => {
-        // get all tests
         getArticles();
-    }, [page]) // [] if empty, will load for only the first and only first time
+    }, [update, page]) // [] if empty, will load for only the first and only first time
 
     const getArticles = async () => {
         try {
@@ -52,7 +51,8 @@ const ArticleList = ({ settings, getSelected }) => {
                             <ArticleItem 
                             data={m} 
                             settings={settings}
-                            editThis={() => getSelected(m.id)}
+                            selectThis={() => getSelected(m.id)}
+                            editThis={() => getEditing(m.id)}
                             />
                         </div>
                     ))

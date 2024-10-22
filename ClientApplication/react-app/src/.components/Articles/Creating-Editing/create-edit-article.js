@@ -7,7 +7,7 @@ import { Article } from '../../../.entities/.MainEntitiesExport';
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
 import SuccessPopup from '../../.common-components/SuccessPopup';
-const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, redirect=true }) => {
+const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
     const [article, setArticle] = useState(
         new Article()
     );
@@ -74,6 +74,9 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
                 setRedirect(false);
                 setSuccessMessage("Updated article successfully.");
                 setShowSuccessModal(true);
+                if (sendUpdate) {
+                    sendUpdate();
+                }
             } else {
                 newArticle = await ArticleController.Post(article);
                 setSuccessMessage("Created article successfully.");

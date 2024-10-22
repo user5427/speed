@@ -7,7 +7,7 @@ import { Paragraph } from '../../.entities/.MainEntitiesExport';
 import { ArticleController, ParagraphController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from '../.common-components/ErrorPopup';
 import SuccessPopup from '../.common-components/SuccessPopup';
-const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=undefined, sendCreatedId=undefined, redirect=true }) => {
+const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
     const [paragraph, setParagraph] = useState(
         new Paragraph()
     );
@@ -61,7 +61,9 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     setRedirect(false);
                     setSuccessMessage("Updated paragraph successfully.");
                     setShowSuccessModal(true);
-                    
+                    if (sendUpdate) {
+                        sendUpdate();
+                    }
                 } else {
                     newParagraph = await ParagraphController.Post(paragraph);
                     setSuccessMessage("Created paragraph successfully.");

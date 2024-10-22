@@ -9,7 +9,7 @@ import AnswerItem from './answerItem';
 import Divider from '@mui/material/Divider';
 import SuccessPopup from '../.common-components/SuccessPopup';
 
-const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=undefined, sendCreatedId=undefined, redirect=true }) => {
+const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
     const [question, setQuestion] = useState(
         new Question()
     );
@@ -76,6 +76,9 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
                     setRedirect(false);
                     setSuccessMessage("Updated question successfully.");
                     setShowSuccessModal(true);
+                    if (sendUpdate) {
+                        sendUpdate();
+                    }
                 } else {
                     newQuestion = await QuestionController.Post(question);
                     setUpdate(true);

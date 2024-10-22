@@ -12,6 +12,7 @@ const EditArticleParagraphQuestion = () => {
     const [paragraphId, setParagraphId] = useState(null);
     const [questionId, setQuestionId] = useState(null);
 
+    const [updateArticleList, setUpdateArticleList] = useState(false);
     const [updateParagraphList, setUpdateParagraphList] = useState(false);
     const [updateQuestionList, setUpdateQuestionList] = useState(false);
 
@@ -68,6 +69,19 @@ const EditArticleParagraphQuestion = () => {
         setQuestionId(null);
     }
 
+    const triggerUpdateArticleList = () => {
+        setUpdateArticleList(!updateArticleList)
+        console.log("u alive bro?")
+    }
+
+    const triggerUpdateParagraphList = () => {
+        setUpdateParagraphList(!updateParagraphList)
+    }
+
+    const triggerUpdateQuestionList = () => {
+        setUpdateQuestionList(!updateQuestionList)
+    }
+
     return (
         <>
             <ReturnToArticlesButton />
@@ -85,11 +99,13 @@ const EditArticleParagraphQuestion = () => {
                                     key={`edit-${articleId}`}
                                     existingArticleId={articleId}
                                     redirect={false}
+                                    sendUpdate={triggerUpdateArticleList}
                                 />
                             ) : (
                                 <CreateEditArticle
                                     sendCreatedId={receiveArticleId}
                                     redirect={false}
+                                    sendUpdate={triggerUpdateArticleList}
                                 />
                             )}
                     </Col>
@@ -100,12 +116,14 @@ const EditArticleParagraphQuestion = () => {
                                     key={`edit-${paragraphId}`}
                                     existingParagraphId={paragraphId}
                                     redirect={false}
+                                    sendUpdate={triggerUpdateParagraphList}
                                 />
                             ) : articleId ? (
                                 <CreateEditParagraph
                                     articleFromOutsideId={articleId}
                                     sendCreatedId={receiveParagraphId}
                                     redirect={false}
+                                    sendUpdate={triggerUpdateParagraphList}
                                 />
                             ) : (
                                 <p>Paragraph editing or creating unavailable</p>
@@ -119,12 +137,14 @@ const EditArticleParagraphQuestion = () => {
                                     key={`edit-${questionId}`}
                                     existingQuestionId={questionId}
                                     redirect={false}
+                                    sendUpdate={triggerUpdateQuestionList}
                                 />
                             ) : paragraphId ? (
                                 <CreateEditQuestion
                                     paragraphFromOutsideId={paragraphId}
                                     sendCreatedId={receiveQuestionId}
                                     redirect={false}
+                                    sendUpdate={triggerUpdateQuestionList}
                                 />
                             ) : (
                                 <p>Question editing or creating unavailable</p>
@@ -170,8 +190,9 @@ const EditArticleParagraphQuestion = () => {
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={4}>
                         <ArticleList
-                            settings={{ showEditButton: false, showSelectButton: true }}
+                            settings={{ showSelectButton: true }}
                             getSelected={getSelectedArticle}
+                            update={updateArticleList}
                         />
                     </Col>
                     <Col xs={12} md={4}>
@@ -179,6 +200,7 @@ const EditArticleParagraphQuestion = () => {
                             articleId ? (
                                 <ParagraphList
                                     articleId={articleId}
+                                    settings={{ showSelectButton: true }}
                                     getSelected={getSelectedParagraph}
                                     update={updateParagraphList}
                                 />
@@ -192,6 +214,7 @@ const EditArticleParagraphQuestion = () => {
                             paragraphId ? (
                                 <QuestionList
                                     paragraphId={paragraphId}
+                                    settings={{ showSelectButton: true }}
                                     getSelected={getSelectedQuestion}
                                     update={updateQuestionList}
                                 />

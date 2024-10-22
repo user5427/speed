@@ -77,3 +77,19 @@
     text-decoration: none;
 }
 
+
+
+.wrap-title {
+    word-wrap: break-word;      /* Break long words if needed */
+    overflow-wrap: break-word;  /* Add compatibility for older browsers */
+}
+
+.wrap-category {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.wrap-text {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}

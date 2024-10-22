@@ -10,7 +10,7 @@ import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons f
 import { IconContext } from "react-icons";
 import ReactPaginate from 'react-paginate';
 
-const listOfQuestions = ({paragraphId, getSelected, update}) => {
+const listOfQuestions = ({paragraphId, getSelected, update, settings}) => {
     const [questions, setQuestions] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
@@ -19,13 +19,9 @@ const listOfQuestions = ({paragraphId, getSelected, update}) => {
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     useEffect(() => {
-        getQuestions();
-    }, [update])
-
-    useEffect(() => {
         // get all tests
         getQuestions();
-    }, [page]) // [] if empty, will load for only the first and only first time
+    }, [page, update]) // [] if empty, will load for only the first and only first time
 
     const getQuestions = async () => {
         const maxPageSize = process.env.REACT_APP_PAGING_SIZE;
@@ -76,7 +72,8 @@ const listOfQuestions = ({paragraphId, getSelected, update}) => {
                         <div key={i}>
                             <QuestionItem 
                                 data={m}
-                                editThis={() => getSelected(m.id)}
+                                selectThis={() => getSelected(m.id)}
+                                settings={settings}
                             />
                         </div>
                     ))

@@ -37,6 +37,7 @@ const EditQuestion = () => {
                         {
                             questionId ? (
                                 <CreateEditQuestion
+                                    key={`edit-${questionId}`}
                                     existingQuestionId={questionId}
                                     redirect={false}
                                 />
