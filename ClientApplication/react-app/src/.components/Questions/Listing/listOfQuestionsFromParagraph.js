@@ -54,6 +54,7 @@ const listOfQuestions = ({paragraphId, getSelected, update}) => {
             }));
             setQuestions(questions);
         } catch (error) {
+            console.log(error);
             setErrorMessage(error.message); // Set error message
             setShowErrorModal(true); // Show modal
         }

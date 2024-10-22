@@ -44,25 +44,27 @@ const EditArticleParagraphQuestion = () => {
 
     const receiveParagraphId = (paragraphId) => {
         setParagraphId(paragraphId);
+        setUpdateParagraphList(!updateParagraphList);
         setUpdateQuestionList(!updateQuestionList);
     }
 
     const receiveQuestionId = (questionId) => {
         setQuestionId(questionId);
+        setUpdateQuestionList(!updateQuestionList);
     }
 
-    const handleCreateArticle = () => {
+    const resetArticleId = () => {
         setArticleId(null);
         setParagraphId(null);
         setQuestionId(null);
     }
 
-    const handleCreateParagraph = () => {
+    const resetParagraphId = () => {
         setParagraphId(null);
         setQuestionId(null);
     }
 
-    const handleCreateQuestion = () => {
+    const resetQuestionId = () => {
         setQuestionId(null);
     }
 
@@ -80,6 +82,7 @@ const EditArticleParagraphQuestion = () => {
                         {
                             articleId ? (
                                 <CreateEditArticle
+                                    key={`edit-${articleId}`}
                                     existingArticleId={articleId}
                                     redirect={false}
                                 />
@@ -94,6 +97,7 @@ const EditArticleParagraphQuestion = () => {
                         {
                             paragraphId ? (
                                 <CreateEditParagraph
+                                    key={`edit-${paragraphId}`}
                                     existingParagraphId={paragraphId}
                                     redirect={false}
                                 />
@@ -112,6 +116,7 @@ const EditArticleParagraphQuestion = () => {
                         {
                             questionId ? (
                                 <CreateEditQuestion
+                                    key={`edit-${questionId}`}
                                     existingQuestionId={questionId}
                                     redirect={false}
                                 />
@@ -134,27 +139,27 @@ const EditArticleParagraphQuestion = () => {
                     <Col xs={12} md={4}>
                         {
                             articleId ? (
-                                <Button onClick={handleCreateArticle} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Article</Button>
+                                <Button onClick={resetArticleId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Article</Button>
                             ) : (
-                                <Button onClick={handleCreateArticle} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Article</Button>
+                                <Button onClick={resetArticleId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Article</Button>
                             )
                         }
                     </Col>
                     <Col xs={12} md={4}>
                         {
                             paragraphId ? (
-                                <Button onClick={handleCreateParagraph} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Paragraph</Button>
+                                <Button onClick={resetParagraphId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Paragraph</Button>
                             ) : (
-                                <Button onClick={handleCreateParagraph} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Paragraph</Button>
+                                <Button onClick={resetParagraphId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Paragraph</Button>
                             )
                         }
                     </Col>
                     <Col xs={12} md={4}>
                         {
                             questionId ? (
-                                <Button onClick={handleCreateQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Question</Button>
+                                <Button onClick={resetQuestionId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Question</Button>
                             ) : (
-                                <Button onClick={handleCreateQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Question</Button>
+                                <Button onClick={resetQuestionId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Question</Button>
                             )
                         }
                     </Col>

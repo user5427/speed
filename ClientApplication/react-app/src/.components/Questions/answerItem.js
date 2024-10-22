@@ -6,20 +6,11 @@ import { GiConfirmed } from "react-icons/gi";
 
 const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect, correctAnswerIndex }) => {
     const [validated, setValidated] = useState(false);
-    const [text, setText] = useState(articleText); //
+    const [text, setText] = useState(""); //
 
-    const [errorMessage, setErrorMessage] = useState(""); // State for error message
-    const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
-
-    const handleSave = async (event) => {
-        event.preventDefault();
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.stopPropagation();
-            setValidated(true);
-            return;
-        }
-    }
+    useEffect(() => {
+        setText(articleText)
+    }, [articleText])
 
     const handleFieldChange = (event) => {
         const { name, value } = event.target;
@@ -40,6 +31,7 @@ const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect
                         <Form.Control
                             name="answer"
                             as="textarea"
+                            value={text}
                             rows={3}
                             required
                             type="text"
