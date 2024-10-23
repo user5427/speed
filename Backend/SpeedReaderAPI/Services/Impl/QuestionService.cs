@@ -1,3 +1,4 @@
+using System.Data;
 using AutoMapper;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
@@ -26,7 +27,7 @@ public class QuestionService : IQuestionService
         Question? question = _context.Question.FirstOrDefault(a => a.Id == id);
         if (question == null)
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
         return _mapper.Map<QuestionResponse>(question);
 
@@ -36,7 +37,7 @@ public class QuestionService : IQuestionService
         Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == request.ParagraphId).FirstOrDefault();
         if (paragraphFound == null)
         {
-            throw new KeyNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
+            throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
         }
 
         if (request.CorrectAnswerIndex < 0 || request.CorrectAnswerIndex >= request.AnswerChoices.Length)
@@ -58,7 +59,7 @@ public class QuestionService : IQuestionService
         Question? questionFound = _context.Question.Where(x => x.Id == id).FirstOrDefault();
         if (questionFound == null)
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
 
 		Paragraph? oldParagraphFound = _context.Paragraph.Where(a => a.Id == questionFound.ParagraphId).FirstOrDefault();
@@ -89,7 +90,7 @@ public class QuestionService : IQuestionService
             Paragraph? newParagrahFound =  _context.Paragraph.Where(a => a.Id == request.ParagraphId).FirstOrDefault();
             if (newParagrahFound == null)
             {
-			    throw new KeyNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
+			    throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
             }
             oldParagraphFound.QuestionIds.Remove(id);
             newParagrahFound.QuestionIds.Add(id);
@@ -130,7 +131,7 @@ public class QuestionService : IQuestionService
         }
         else
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
     }
 
@@ -150,7 +151,7 @@ public class QuestionService : IQuestionService
         Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
         if (questionFound == null) 
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
         if (questionFound.Image.HasValue) 
         {
@@ -162,20 +163,26 @@ public class QuestionService : IQuestionService
         return _mapper.Map<QuestionResponse>(questionFound);
     }
 
-    public Image? GetImage(int id)
+    public Image GetImage(int id)
     {
         Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
         if (questionFound == null) 
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
-        if (!questionFound.Image.HasValue) return null;
-        Image img = questionFound.Image.Value;
-        Stream? stream = _imageService.Get(img);
-        if (stream == null) return null;
-        img.FileStream = stream;
-        
-        return img;
+        try 
+        {
+            if (!questionFound.Image.HasValue) throw new Exception();
+            Image img = questionFound.Image.Value;
+            Stream? stream = _imageService.Get(img);
+            if (stream == null) throw new Exception();
+            img.FileStream = stream;
+            return img;
+        }
+        catch(Exception) 
+        {
+            throw new ResourceNotFoundException($"Question with ID {id} doesn't have an image.");
+        }
     }
 
     public void DeleteImage(int id)
@@ -183,7 +190,7 @@ public class QuestionService : IQuestionService
         Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
         if (questionFound == null) 
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
         if (questionFound.Image == null || !questionFound.Image.HasValue) return;
         _imageService.Delete((Image)questionFound.Image);

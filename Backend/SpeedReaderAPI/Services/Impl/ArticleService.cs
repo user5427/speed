@@ -42,7 +42,7 @@ public class ArticleService : IArticleService
         Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
         if (articleFound == null)
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
         return _mapper.Map<ArticleResponse>(articleFound);
     }
@@ -61,7 +61,7 @@ public class ArticleService : IArticleService
         Article? articleFound = _context.Article.Where(x => x.Id == id).FirstOrDefault();
         if (articleFound == null)
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
 
         if (request.Title != null)
@@ -98,8 +98,10 @@ public class ArticleService : IArticleService
             copyOfParaphIds.ForEach(_paragraphService.DeleteParagraph);
             _context.Article.Remove(articleFound);
             _context.SaveChanges();
-        }else{
-            throw new KeyNotFoundException($"Question with ID {articleId} not found.");
+        } 
+        else
+        {
+            throw new ResourceNotFoundException($"Article with ID {articleId} not found.");
         }
     }
 
@@ -119,7 +121,7 @@ public class ArticleService : IArticleService
         Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
         if (articleFound == null) 
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
         if (articleFound.Image.HasValue) 
         {
@@ -131,20 +133,26 @@ public class ArticleService : IArticleService
         return _mapper.Map<ArticleResponse>(articleFound);
     }
 
-    public Image? GetImage(int id)
+    public Image GetImage(int id)
     {
         Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
         if (articleFound == null) 
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
-        if (!articleFound.Image.HasValue) return null;
-        Image img = articleFound.Image.Value;
-        Stream? stream = _imageService.Get(img);
-        if (stream == null) return null;
-        img.FileStream = stream;
-        
-        return img;
+        try 
+        {
+            if (!articleFound.Image.HasValue) throw new Exception();
+            Image img = articleFound.Image.Value;
+            Stream? stream = _imageService.Get(img);
+            if (stream == null) throw new Exception();
+            img.FileStream = stream;
+            return img;
+        }
+        catch(Exception) 
+        {
+            throw new ResourceNotFoundException($"Article with ID {id} doesn't have an image.");
+        }
     }
 
     public void DeleteImage(int id)
@@ -152,7 +160,7 @@ public class ArticleService : IArticleService
         Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
         if (articleFound == null) 
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
         if (articleFound.Image == null || !articleFound.Image.HasValue) return;
         _imageService.Delete((Image)articleFound.Image);

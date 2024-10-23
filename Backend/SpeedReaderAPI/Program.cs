@@ -2,12 +2,15 @@ using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Services;
 using SpeedReaderAPI.Services.Impl;
-
+using SpeedReaderAPI.Filters;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add<ExceptionFilter>();
+    });
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IParagraphService, ParagraphService>();

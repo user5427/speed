@@ -3,6 +3,8 @@ namespace SpeedReaderAPI.Services.Impl;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Constants;
 using SpeedReaderAPI.DTOs;
+using SpeedReaderAPI.Exceptions;
+
 public class ImageService : IImageService {
 
     public ImageService() {
@@ -18,13 +20,13 @@ public class ImageService : IImageService {
         IFormFile file = request.File;
         if (file == null) 
         {
-            throw new ArgumentNullException("No file uploaded.");
+            throw new ArgumentNullException("File was not uploaded.");
         }
 
         MimeType? mimeType = MimeTypeHelpers.GetMimeTypeFromFileName(file.FileName);
         if (mimeType == null)
         {
-            throw new InvalidOperationException(file.FileName);
+            throw new UnsupportedFileFormatException(file.FileName);
         }
         string randomName = Path.GetRandomFileName();
         string filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName, randomName);
