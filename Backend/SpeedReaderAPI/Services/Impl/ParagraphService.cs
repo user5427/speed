@@ -15,7 +15,7 @@ public class ParagraphService : IParagraphService
 
     private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
-    private readonly IImageService  _imageService;
+    private readonly IImageService _imageService;
     private readonly IQuestionService _questionService;
     public ParagraphService(ApplicationContext context, IMapper mapper, IImageService imageService, IQuestionService questionService)
     {
@@ -37,7 +37,7 @@ public class ParagraphService : IParagraphService
 
     }
 
-   public ParagraphResponse CreateParagraph(ParagraphCreateRequest request)
+    public ParagraphResponse CreateParagraph(ParagraphCreateRequest request)
     {
         Article? articleFound = _context.Article
             .FirstOrDefault(a => a.Id == request.ArticleId);
@@ -50,9 +50,9 @@ public class ParagraphService : IParagraphService
         Paragraph createdParagraph = _mapper.Map<Paragraph>(request);
 
         _context.Paragraph.Add(createdParagraph);
-        _context.SaveChanges(); 
+        _context.SaveChanges();
         articleFound.ParagraphIds.Add(createdParagraph.Id);
-        _context.SaveChanges(); 
+        _context.SaveChanges();
 
         return _mapper.Map<ParagraphResponse>(createdParagraph);
     }
@@ -66,32 +66,33 @@ public class ParagraphService : IParagraphService
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
         }
 
-		Article? oldArticleFound = _context.Article.Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
+        Article? oldArticleFound = _context.Article.Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
         if (oldArticleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
 
-		// Update if set in request
-		if (request.articleId != null)
+        // Update if set in request
+        if (request.articleId != null)
         {
-            Article? newArticleFound =  _context.Article.Where(a => a.Id == request.articleId).FirstOrDefault();
+            Article? newArticleFound = _context.Article.Where(a => a.Id == request.articleId).FirstOrDefault();
             if (newArticleFound == null)
             {
-			    throw new ResourceNotFoundException($"Article with ID {request.articleId} not found.");
+                throw new ResourceNotFoundException($"Article with ID {request.articleId} not found.");
             }
 
             oldArticleFound.ParagraphIds.Remove(id);
             newArticleFound.ParagraphIds.Add(id);
             paragraphFound.ArticleId = newArticleFound.Id;
-		}
-		if (request.Title != null) {
-			paragraphFound.Title = request.Title;
-		}
-		if (request.Text != null)
+        }
+        if (request.Title != null)
+        {
+            paragraphFound.Title = request.Title;
+        }
+        if (request.Text != null)
         {
             paragraphFound.Text = request.Text;
         }
 
-		_context.SaveChanges();
-		return _mapper.Map<ParagraphResponse>(paragraphFound);
+        _context.SaveChanges();
+        return _mapper.Map<ParagraphResponse>(paragraphFound);
     }
 
     public void DeleteParagraph(int id)
@@ -99,19 +100,19 @@ public class ParagraphService : IParagraphService
         Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == id).FirstOrDefault();
         if (paragraphFound != null)
         {
-			Article? articleFound = _context.Article
+            Article? articleFound = _context.Article
                                         .Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
-			if (articleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
+            if (articleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
 
             articleFound.ParagraphIds.Remove(id);
 
-            if (paragraphFound.Image != null && paragraphFound.Image.HasValue) 
+            if (paragraphFound.Image != null && paragraphFound.Image.HasValue)
             {
                 _imageService.Delete((Image)paragraphFound.Image);
             }
             var copyOfQuestionIds = paragraphFound.QuestionIds.ToList();
             copyOfQuestionIds.ForEach(_questionService.DeleteQuestion);
-			_context.Paragraph.Remove(paragraphFound);
+            _context.Paragraph.Remove(paragraphFound);
             _context.SaveChanges();
         }
         else
@@ -135,11 +136,11 @@ public class ParagraphService : IParagraphService
     public async Task<ParagraphResponse> UploadImage(int id, ImageUploadRequest request)
     {
         Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
-        if (paragraphFound == null) 
+        if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
         }
-        if (paragraphFound.Image.HasValue) 
+        if (paragraphFound.Image.HasValue)
         {
             throw new ResourceAlreadyExistsException($"Paragraph with ID {id} has an image.");
         }
@@ -152,20 +153,20 @@ public class ParagraphService : IParagraphService
     public Image GetImage(int id)
     {
         Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
-        if (paragraphFound == null) 
+        if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
         }
-        try 
+        try
         {
             if (!paragraphFound.Image.HasValue) throw new Exception();
             Image img = paragraphFound.Image.Value;
             Stream? stream = _imageService.Get(img);
-            if (stream == null) throw new Exception();;
+            if (stream == null) throw new Exception(); ;
             img.FileStream = stream;
             return img;
         }
-        catch(Exception) 
+        catch (Exception)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} doesn't have an image.");
         }
@@ -174,13 +175,13 @@ public class ParagraphService : IParagraphService
     public void DeleteImage(int id)
     {
         Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
-        if (paragraphFound == null) 
+        if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
         }
         if (paragraphFound.Image == null || !paragraphFound.Image.HasValue) return;
         _imageService.Delete((Image)paragraphFound.Image);
-        
+
         paragraphFound.Image = null;
         _context.SaveChanges();
     }

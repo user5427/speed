@@ -7,10 +7,10 @@ using SpeedReaderAPI.Constants;
 
 public class Question
 {
-	[Key]
+    [Key]
     public int Id { get; set; }
 
-	[ForeignKey(nameof(Paragraph))]
+    [ForeignKey(nameof(Paragraph))]
     public int ParagraphId { get; set; }
 
     [Required(ErrorMessage = "Question text is required.")]
@@ -27,10 +27,10 @@ public class Question
         ErrorMessage = "Correct answer choice cannot exceed {1} characters.")]
     public int CorrectAnswerIndex { get; set; }
 
- public string? ImageFileName { get; set; }
-    public string? ImageFilePath {get; set;}
+    public string? ImageFileName { get; set; }
+    public string? ImageFilePath { get; set; }
     public MimeType? ImageMimeType { get; set; }
-    
+
     [NotMapped]
     public Image? Image
     {
@@ -40,7 +40,7 @@ public class Question
             {
                 return new Image(ImageFileName, ImageMimeType.Value, ImageFilePath);
             }
-            return null; 
+            return null;
         }
         set
         {
@@ -50,7 +50,7 @@ public class Question
                 ImageFileName = value.Value.ImageFileName;
                 ImageMimeType = value.Value.ImageMimeType;
             }
-            else 
+            else
             {
                 ImageFilePath = null;
                 ImageFileName = null;

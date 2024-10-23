@@ -11,13 +11,13 @@ public class RequestValidationFilter : IActionFilter
         if (!context.ModelState.IsValid)
         {
             context.Result = new BadRequestObjectResult(new ProblemDetails
-                {
-                    Title = "Validation Error",
-                    Detail = "One or more validation errors occurred.",
-                    Status = 410,
-                    Instance = context.HttpContext.Request.Path,
-                    Extensions = { ["errors"] = context.ModelState }
-                });
+            {
+                Title = "Validation Error",
+                Detail = "One or more validation errors occurred.",
+                Status = 410,
+                Instance = context.HttpContext.Request.Path,
+                Extensions = { ["errors"] = context.ModelState }
+            });
         }
     }
 

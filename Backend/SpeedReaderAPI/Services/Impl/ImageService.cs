@@ -5,9 +5,11 @@ using SpeedReaderAPI.Constants;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.Exceptions;
 
-public class ImageService : IImageService {
+public class ImageService : IImageService
+{
 
-    public ImageService() {
+    public ImageService()
+    {
         string directoryPath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName);
         if (!Directory.Exists(directoryPath))
         {
@@ -18,7 +20,7 @@ public class ImageService : IImageService {
     public async Task<Image> Create(ImageUploadRequest request)
     {
         IFormFile file = request.File;
-        if (file == null) 
+        if (file == null)
         {
             throw new ArgumentNullException("File was not uploaded.");
         }

@@ -30,7 +30,7 @@ public class ParagraphsController : ControllerBase
 
     [HttpDelete("{id}/img")]
     public IActionResult DeleteImage(int id)
-    {   
+    {
         _paragraphService.DeleteImage(id);
         return Ok("Deleted");
     }

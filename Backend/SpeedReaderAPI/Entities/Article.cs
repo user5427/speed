@@ -15,9 +15,9 @@ public class Article
     public string Title { get; set; }
     public string? CategoryTitle { get; set; }
     public string? ImageFileName { get; set; }
-    public string? ImageFilePath {get; set;}
+    public string? ImageFilePath { get; set; }
     public MimeType? ImageMimeType { get; set; }
-    
+
     [NotMapped]
     public Image? Image
     {
@@ -27,7 +27,7 @@ public class Article
             {
                 return new Image(ImageFileName, ImageMimeType.Value, ImageFilePath);
             }
-            return null; 
+            return null;
         }
         set
         {
@@ -37,7 +37,7 @@ public class Article
                 ImageFileName = value.Value.ImageFileName;
                 ImageMimeType = value.Value.ImageMimeType;
             }
-            else 
+            else
             {
                 ImageFilePath = null;
                 ImageFileName = null;
@@ -47,6 +47,6 @@ public class Article
     }
 
     // ONE TO MANY
-    public List<int> ParagraphIds { get; set; }  = [];
-    public virtual ICollection<Paragraph> Paragraphs { get; set; }  = [];
+    public List<int> ParagraphIds { get; set; } = [];
+    public virtual ICollection<Paragraph> Paragraphs { get; set; } = [];
 }

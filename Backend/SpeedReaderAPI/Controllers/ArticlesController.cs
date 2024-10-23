@@ -30,7 +30,7 @@ public class ArticlesController : ControllerBase
 
     [HttpDelete("{id}/img")]
     public IActionResult DeleteImage(int id)
-    {   
+    {
         _articleService.DeleteImage(id);
         return Ok("Deleted");
     }

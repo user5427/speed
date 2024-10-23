@@ -20,7 +20,7 @@ public class QuestionsController : ControllerBase
         _questionService = questionService;
     }
 
-     [HttpPost("{id}/img")]
+    [HttpPost("{id}/img")]
     public async Task<IActionResult> UploadImage(int id, [FromForm] ImageUploadRequest request)
     {
         QuestionResponse result = await _questionService.UploadImage(id, request);
@@ -29,7 +29,7 @@ public class QuestionsController : ControllerBase
 
     [HttpDelete("{id}/img")]
     public IActionResult DeleteImage(int id)
-    {   
+    {
         _questionService.DeleteImage(id);
         return Ok("Deleted");
     }
@@ -45,8 +45,8 @@ public class QuestionsController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetQuestion(int id)
     {
-            QuestionResponse questionResponse = _questionService.GetQuestion(id);
-            return Ok(questionResponse);
+        QuestionResponse questionResponse = _questionService.GetQuestion(id);
+        return Ok(questionResponse);
     }
 
     [HttpGet("search/")]
