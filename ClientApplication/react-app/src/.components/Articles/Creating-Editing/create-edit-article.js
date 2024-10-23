@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
-
+import { MdDelete } from "react-icons/md";
 import NoImage from '../../../no-image.png'
 import { ValidationConstants, ValidationPatternConstants } from '../../../.constants/MainConstants';
 import { Article } from '../../../.entities/.MainEntitiesExport';
@@ -27,6 +27,10 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
     const [imageFile, setImageFile] = useState(undefined)
     const [updateImageFile, setUpdateImageFile] = useState(false)
 
+    const [deleteMessage, setDeleteMessage] = useState(""); // State for success message
+    const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show/hide modal
+    const [deleteRequest, setDeleteRequest] = useState(null)
+
     // Trigger setArticleFromExisting when component mounts or existingArticleId changes
     useEffect(() => {
         setArticleFromExisting(existingArticleId);
@@ -35,6 +39,13 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
     useEffect(() => {
         setRedirect(redirect);
     }, []); // Add redirect as a dependency
+
+    useEffect(() => {
+        if (article && article.imageFileName) {
+            getArticleImage(); // Fetch image when the article is updated
+        }
+    }, [article.imageFileName]);
+    
 
     // save the image, then if user creates or updates the article, do the same for the image
     /**
@@ -63,21 +74,19 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                 setImageFile(undefined);
                 setUpdateImageFile(false);
             }
-        } catch (err) {
-            throw err;
+        } catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
         }
     }
 
     const updateArticleImage = async () => {
         try {
-            if (imageFile === undefined) {
-                return;
-            }
-
-            if (article.imageFileName && imageFile === null) {
+            if (article.imageFileName && imageFile === undefined) {
                 await ArticleController.DeleteImage(article.id);
                 article.imageFileName = null;
                 imageFile === undefined
+                setImageUrl(NoImage);
             } if (article.imageFileName === null && imageFile) {
                 await ArticleController.PostImage(article.id, imageFile);
                 article.imageFileName = "hasImage";
@@ -93,16 +102,34 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
         }
     }
 
-    const deleteArticleImage = async () => {
-        try {
-            if (imageFile === undefined) {
+    const deleteArticleImage = () => {
+            if (!article.imageFileName) {
                 return;
             }
+            setDeleteRequest(1);
+            setShowDeleteModal(true);
+            setDeleteMessage("Are you sure you want to delete the image?");
+    }
+
+    const deleteConfirmed = async () => {
+        setShowDeleteModal(false);
+        if (deleteRequest === 1){
+            try {
+                await updateArticleImage();
+            }
+            catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
+
         }
-        catch (error) {
-            setErrorMessage(error.message); // Set error message
-            setShowErrorModal(true); // Show modal
-        }
+        setDeleteRequest(null)
+
+    }
+
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+        setDeleteRequest(null)
     }
 
     const handleSave = async (event) => {
@@ -118,7 +145,6 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
             let newArticle;
             if (update) {
                 newArticle = await ArticleController.Put(article);
-                await updateArticleImage();
                 setRedirect(false);
                 setSuccessMessage("Updated article successfully.");
                 setShowSuccessModal(true);
@@ -127,7 +153,6 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                 }
             } else {
                 newArticle = await ArticleController.Post(article);
-                await updateArticleImage();
                 setSuccessMessage("Created article successfully.");
                 setShowSuccessModal(true);
                 setUpdate(true);
@@ -136,6 +161,7 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                 }
             }
             setArticle(newArticle);
+            await updateArticleImage();
         } catch (error) {
             setErrorMessage(error.message); // Set error message
             setShowErrorModal(true); // Show modal
@@ -170,7 +196,6 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
         let existingArticle = null;
         try {
             existingArticle = await ArticleController.Get(exArtId);
-            await getArticleImage();
             setArticle(existingArticle);
             setUpdate(true);
         } catch (error) {
@@ -202,10 +227,12 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                         />
                     </div>
                 </Form.Group>
-                {article._imageFileName && (
-                    <Button>Delete image</Button>
-                    
+                {article.imageFileName && (
+                    <Button variant="danger" onClick={deleteArticleImage}><MdDelete /> Delete image</Button>
                 )}
+                {/* {!article._imageFileName && (
+                     <Button variant="danger" onClick={deleteArticleImage} disabled><MdDelete /> Delete image</Button>
+                )} */}
             </Form>
 
             <Form validated={validated} onSubmit={handleSave}>
@@ -257,6 +284,13 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                 showCreateModal={showSuccessModal}
                 message={successMessage}
                 onClose={closeSuccessModal}
+            />
+
+            <DeletePopup
+                showDeleteModal={showDeleteModal}
+                message={deleteMessage}
+                onClose={closeDeleteModal}
+                onDelete={deleteConfirmed}
             />
         </>
     )

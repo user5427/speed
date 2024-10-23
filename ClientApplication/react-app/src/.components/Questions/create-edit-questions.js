@@ -8,6 +8,9 @@ import ErrorPopup from '../.common-components/ErrorPopup';
 import AnswerItem from './answerItem';
 import Divider from '@mui/material/Divider';
 import SuccessPopup from '../.common-components/SuccessPopup';
+import DeletePopup from '../.common-components/DeletePopup';
+import { MdDelete } from "react-icons/md";
+import NoImage from '../../no-image.png'
 
 const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
     const [question, setQuestion] = useState(
@@ -29,6 +32,14 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
 
     const [MyRedirect, setRedirect] = useState(redirect);
 
+    const [imageFileUrl, setImageUrl] = useState(NoImage)
+    const [imageFile, setImageFile] = useState(undefined)
+    const [updateImageFile, setUpdateImageFile] = useState(false)
+
+    const [deleteMessage, setDeleteMessage] = useState(""); // State for success message
+    const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show/hide modal
+    const [deleteRequest, setDeleteRequest] = useState(null)
+
     useEffect(() => {
         getParagraphFromOutside(paragraphFromOutsideId);
     }, [paragraphFromOutsideId]); // Add articleFromOutside as a dependency
@@ -40,6 +51,96 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
     useEffect(() => {
         setRedirect(redirect);
     }, []); // Add redirect as a dependency
+
+    useEffect(() => {
+        if (question && question.imageFileName) {
+            getParagraphImage(); // Fetch image when the article is updated
+        }
+    }, [question.imageFileName]);
+
+    // save the image, then if user creates or updates the question, do the same for the image
+    /**
+     * Handle file upload
+     */
+    const handleFileUpload = (event) => {
+        event.preventDefault();
+        const file = event.target.files[0];
+
+        if (file) {
+            setImageFile(file);
+            setUpdateImageFile(true);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageUrl(reader.result); // Set the image to the data URL
+            };
+            reader.readAsDataURL(file); // Read the file as a Data URL
+        }
+    };
+
+    const getQuestionImage = async () => {
+        try {
+            if (question.imageFileName) {
+                let imageURL = await QuestionController.GetImage(question.id);
+                setImageUrl(imageURL);
+                setImageFile(undefined);
+                setUpdateImageFile(false);
+            }
+        } catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
+    }
+
+    const updateQuestionImage = async () => {
+        try {
+            if (question.imageFileName && imageFile === undefined) {
+                await QuestionController.DeleteImage(question.id);
+                question.imageFileName = null;
+                imageFile === undefined
+                setImageUrl(NoImage);
+            } if (question.imageFileName === null && imageFile) {
+                await QuestionController.PostImage(question.id, imageFile);
+                question.imageFileName = "hasImage";
+            } else if (question.imageFileName && imageFile && updateImageFile) {
+                await QuestionController.DeleteImage(question.id);
+                await QuestionController.PostImage(question.id, imageFile);
+                question.imageFileName = "hasImage";
+                imageFile === undefined
+                setUpdateImageFile(false);
+            }
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    const deleteQuestionImage = () => {
+        if (!question.imageFileName) {
+            return;
+        }
+        setDeleteRequest(1);
+        setShowDeleteModal(true);
+        setDeleteMessage("Are you sure you want to delete the image?");
+    }
+
+    const deleteConfirmed = async () => {
+        setShowDeleteModal(false);
+        if (deleteRequest === 1){
+            try {
+                await updateQuestionImage();
+            }
+            catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
+
+        }
+        setDeleteRequest(null)
+    }
+
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+        setDeleteRequest(null)
+    }
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -89,6 +190,7 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
                     }
                 }
                 setQuestion(newQuestion);
+                await updateQuestionImage();
             } catch (error) {
                 setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
@@ -250,6 +352,27 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
 
     return (
         <>
+            <Form>
+                <Form.Group className="d-flex justify-content-center">
+                    <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
+                </Form.Group>
+                <Form.Group className="d-flex justify-content-center">
+                    <div>
+                        <input
+                            className="form-control darkInput"
+                            type="file"
+                            onChange={handleFileUpload}
+                        />
+                    </div>
+                </Form.Group>
+                {question.imageFileName && (
+                    <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> Delete image</Button>
+                )}
+                {/* {!article._imageFileName && (
+                     <Button variant="danger" onClick={deleteArticleImage} disabled><MdDelete /> Delete image</Button>
+                )} */}
+            </Form>
+
             {outsideParagraph ? "" :
                 (
                     <ParagraphSearch
