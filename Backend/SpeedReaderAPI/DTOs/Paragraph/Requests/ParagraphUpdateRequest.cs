@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 using SpeedReaderAPI.Constants;
 
 public record ParagraphUpdateRequest(
-	[StringLength(ValidationConstants.MaxTitleLength,
-	MinimumLength = ValidationConstants.MinTitleLength,
-	ErrorMessage = "Title must be between {2} and {1} characters.")]
-	string? Title,
-	int? articleId,
-	[StringLength(ValidationConstants.MaxParagraphLength,
-		MinimumLength = ValidationConstants.MinParagraphLength,
-		ErrorMessage = "Text must be between {2} and {1} characters.")]
-	string? Text
-	);
+    [StringLength(ValidationConstants.MaxTitleLength,
+    MinimumLength = ValidationConstants.MinTitleLength,
+    ErrorMessage = "Title must be between {2} and {1} characters.")]
+    string? Title,
+    int? articleId,
+    [StringLength(ValidationConstants.MaxParagraphLength,
+        MinimumLength = ValidationConstants.MinParagraphLength,
+        ErrorMessage = "Text must be between {2} and {1} characters.")]
+    string? Text
+    );
