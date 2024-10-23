@@ -4,7 +4,7 @@ const ArticleJson = {
     categoryTitle: "categoryTitle",
     id: "id",
     paragraphIds: "paragraphIds",
-    coverImage: "coverImage"
+    imageFileName: "imageFileName"
 };
 
 const ArticlePageJson = {

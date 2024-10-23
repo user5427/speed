@@ -71,7 +71,6 @@ const EditArticleParagraphQuestion = () => {
 
     const triggerUpdateArticleList = () => {
         setUpdateArticleList(!updateArticleList)
-        console.log("u alive bro?")
     }
 
     const triggerUpdateParagraphList = () => {

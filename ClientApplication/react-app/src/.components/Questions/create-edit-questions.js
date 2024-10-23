@@ -8,8 +8,11 @@ import ErrorPopup from '../.common-components/ErrorPopup';
 import AnswerItem from './answerItem';
 import Divider from '@mui/material/Divider';
 import SuccessPopup from '../.common-components/SuccessPopup';
-
-const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
+import DeletePopup from '../.common-components/DeletePopup';
+import { MdDelete } from "react-icons/md";
+import NoImage from '../../no-image.png'
+import { GrRevert } from "react-icons/gr";
+const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId = undefined, sendCreatedId = undefined, redirect = true, sendUpdate = undefined }) => {
     const [question, setQuestion] = useState(
         new Question()
     );
@@ -20,6 +23,7 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     const [answers, setAnswers] = useState([]);
+    let answerCount = 0;
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
 
     const [successMessage, setSuccessMessage] = useState(""); // State for success message
@@ -28,6 +32,14 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
     const [outsideParagraph, setOutsideParagraph] = useState(null);
 
     const [MyRedirect, setRedirect] = useState(redirect);
+
+    const [imageFileUrl, setImageUrl] = useState(NoImage)
+    const [imageFile, setImageFile] = useState(undefined)
+    const [updateImageFile, setUpdateImageFile] = useState(false)
+
+    const [deleteMessage, setDeleteMessage] = useState(""); // State for success message
+    const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show/hide modal
+    const [deleteRequest, setDeleteRequest] = useState(null)
 
     useEffect(() => {
         getParagraphFromOutside(paragraphFromOutsideId);
@@ -40,6 +52,103 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
     useEffect(() => {
         setRedirect(redirect);
     }, []); // Add redirect as a dependency
+
+    useEffect(() => {
+        if (question && question.imageFileName) {
+            getQuestionImage(); // Fetch image when the article is updated
+        }
+    }, [question.imageFileName]);
+
+    useEffect(() => {
+        updateQuestionImage();
+    }, [question.id]);
+
+    // save the image, then if user creates or updates the question, do the same for the image
+    /**
+     * Handle file upload
+     */
+    const handleFileUpload = (event) => {
+        event.preventDefault();
+        const file = event.target.files[0];
+
+        if (file) {
+            setImageFile(file);
+            setUpdateImageFile(true);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageUrl(reader.result); // Set the image to the data URL
+            };
+            reader.readAsDataURL(file); // Read the file as a Data URL
+        }
+    };
+
+    const getQuestionImage = async () => {
+        try {
+            if (question.imageFileName) {
+                let imageURL = await QuestionController.GetImage(question.id);
+                setImageUrl(imageURL);
+                setImageFile(undefined);
+                setUpdateImageFile(false);
+            }
+        } catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
+    }
+
+    const updateQuestionImage = async () => {
+        try {
+            if (question.id === null) {
+                return;
+            }
+            if (question.imageFileName === null && imageFile) {
+                await QuestionController.PostImage(question.id, imageFile);
+                question.imageFileName = "hasImage";
+            } else if (question.imageFileName && imageFile && updateImageFile) {
+                await QuestionController.DeleteImage(question.id);
+                await QuestionController.PostImage(question.id, imageFile);
+                question.imageFileName = "hasImage";
+                imageFile === undefined
+                setUpdateImageFile(false);
+            }
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    const deleteQuestionImage = () => {
+        if (!question.imageFileName) {
+            return;
+        }
+        setDeleteRequest(1);
+        setShowDeleteModal(true);
+        setDeleteMessage("Are you sure you want to delete the image?");
+    }
+
+    const deleteConfirmed = async () => {
+        setShowDeleteModal(false);
+        if (deleteRequest === 1) {
+            try {
+                if (question.imageFileName) {
+                    await QuestionController.DeleteImage(question.id);
+                    question.imageFileName = null;
+                    imageFile === undefined
+                    setImageUrl(NoImage);
+                }
+            }
+            catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
+
+        }
+        setDeleteRequest(null)
+    }
+
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+        setDeleteRequest(null)
+    }
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -76,6 +185,7 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
                     setRedirect(false);
                     setSuccessMessage("Updated question successfully.");
                     setShowSuccessModal(true);
+                    updateQuestionImage();
                     if (sendUpdate) {
                         sendUpdate();
                     }
@@ -84,9 +194,6 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
                     setUpdate(true);
                     setSuccessMessage("Created question successfully.");
                     setShowSuccessModal(true);
-                    if (sendCreatedId) {
-                        sendCreatedId(newQuestion.id);
-                    }
                 }
                 setQuestion(newQuestion);
             } catch (error) {
@@ -118,12 +225,6 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
         });
     }
 
-    // const resetUpdating = () => {
-    //     setUpdate(false);
-    //     setQuestion(new Question());
-    //     setAnswers([]);
-    // }
-
     const updateParagraphId = (paragraphId) => {
         setQuestion(prevQuestion => {
             const newQuestion = Question.createQuestionFromCopy(prevQuestion);
@@ -144,16 +245,21 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
         if (MyRedirect) {
             window.location.href = `/edit-question?questionId=${question.id}`;
         }
+        if (sendCreatedId) {
+            sendCreatedId(question.id);
+        }
     }
 
     const sendBackText = (index, text) => {
         let newAnswers = [...answers];
-        newAnswers[index] = text;
+        newAnswers[index].text = text;
+
+        let answersText = newAnswers.map((answer) => answer.text);
 
         setQuestion(prevQuestion => {
             const newQuestion = Question.createQuestionFromCopy(prevQuestion);
 
-            newQuestion.answerChoices = newAnswers;
+            newQuestion.answerChoices = answersText;
 
             return newQuestion;
         });
@@ -180,7 +286,14 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
     }
 
     const addEmptyAnswer = () => {
-        setAnswers([...answers, ""]);
+        // add text and index as empty string
+        let newAnswers = [...answers];
+        newAnswers.push({
+            text: "",
+            index: answerCount
+        });
+        answerCount += 1;
+        setAnswers(newAnswers);
     }
 
     const setCorrect = (index) => {
@@ -232,7 +345,18 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
 
         if (existingQuestion) {
             setQuestion(existingQuestion);
-            setAnswers(existingQuestion.answerChoices);
+            answerCount = existingQuestion.answerChoices.length;
+            let newAnswers = [];
+            for (let i = 0; i < existingQuestion.answerChoices.length; i++) {
+                newAnswers.push({
+                    text: existingQuestion.answerChoices[i],
+                    index: i
+                });
+            }
+            setAnswers(newAnswers);
+            answerCount = existingQuestion.answerChoices.length;
+
+
             setCorrectAnswerIndex(existingQuestion.correctAnswerIndex);
             setUpdate(true);
 
@@ -250,6 +374,37 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
 
     return (
         <>
+            <Form>
+                <Form.Group className="d-flex justify-content-center">
+                    <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
+                </Form.Group>
+                <Form.Group className="d-flex justify-content-center">
+                    <div>
+                        <input
+                            className="form-control darkInput"
+                            type="file"
+                            onChange={handleFileUpload}
+                        />
+                    </div>
+                </Form.Group>
+                <Row>
+                    {question.imageFileName && (
+                        <Col>
+
+                            <Button onClick={getQuestionImage}><GrRevert /> Reset image</Button>
+                        </Col>
+                    )}
+
+                    {question.imageFileName && (
+                        <Col>
+
+                            <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> Delete image</Button>
+                        </Col>
+                    )}
+
+                </Row>
+            </Form>
+
             {outsideParagraph ? "" :
                 (
                     <ParagraphSearch
@@ -313,10 +468,10 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
                     <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 2 }}></Divider>
 
                     {answers.map((answer, index) => (
-                        <div key={index}>
+                        <div key={answer.index}>
                             <AnswerItem
                                 index={index}
-                                articleText={answer}
+                                articleText={answer.text}
                                 sendBackText={sendBackText}
                                 deleteAnswer={deleteAnswer}
                                 setCorrect={setCorrect}
@@ -334,10 +489,6 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
                 <div>
                     <Button variant="success" type="submit" >{update ? "Update" : "Create"}</Button>
                 </div>
-                {/* if you can update the article, make a button apear for creating a new article */}
-                {/* {update ?
-                    <Button onClick={resetUpdating}>Reset</Button> : ""
-                } */}
             </Form>
 
             {/* Error Popup */}
@@ -352,6 +503,13 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
                 showCreateModal={showSuccessModal}
                 message={successMessage}
                 onClose={closeSuccessModal}
+            />
+
+            <DeletePopup
+                showDeleteModal={showDeleteModal}
+                message={deleteMessage}
+                onClose={closeDeleteModal}
+                onDelete={deleteConfirmed}
             />
         </>
     )

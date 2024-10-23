@@ -15,6 +15,18 @@ const ParagraphErrors = {
 
     DeleteError(){
         return `Could not delete ${this.type}`;
+    },
+
+    PostImageError(){
+        return `Could not post image for ${this.type}`
+    },
+
+    DeleteImageError(){
+        return `Could not post image for ${this.type}`
+    },
+
+    GetImageError(){
+        return `Could not post image for ${this.type}`
     }
 }
 

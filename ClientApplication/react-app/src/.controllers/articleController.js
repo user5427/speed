@@ -76,6 +76,42 @@ class ArticleController {
             throw error;
         }
     }
+
+    static async PostImage(articleId, file){
+        try {
+            const response = await ArticleService.postImage(articleId, file);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ArticleErrors.PostImageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async GetImage(articleId){
+        try {
+            const response = await ArticleService.getImage(articleId);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ArticleErrors.GetImageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async DeleteImage(articleId){
+        try {
+            const response = await ArticleService.deleteImage(articleId);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ArticleErrors.DeleteImageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export { ArticleController }

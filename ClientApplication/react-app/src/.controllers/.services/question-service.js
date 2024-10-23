@@ -32,6 +32,30 @@ const QuestionService = {
         const requestOptions = FetchHelper.generateRequestOptions("DELETE");
         const apiUrl = process.env.REACT_APP_API_URL + `Questions/${id}`;
         return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
+    },
+
+    postImage: async function(questionId, file) {
+        const form = new FormData()
+        form.append("File", file)
+        const requestOptions = FetchHelper.generateImageRequestOptions(form);
+        const apiUrl = process.env.REACT_APP_API_URL + `Questions/${questionId}/img`;
+        return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
+    },
+
+    /**
+     * 
+     * @param {questionId} questionId 
+     * @returns url to image
+     */
+    getImage: async function(questionId) {
+        const apiUrl = process.env.REACT_APP_API_URL + `Questions/${questionId}/img`;
+        return FetchHelper.getImage(apiUrl).then(res => {return res});
+    },
+
+    deleteImage: async function(questionId) {
+        const requestOptions = FetchHelper.generateRequestOptions("DELETE");
+        const apiUrl = process.env.REACT_APP_API_URL + `Questions/${questionId}/img`;
+        return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
     }
 
 }

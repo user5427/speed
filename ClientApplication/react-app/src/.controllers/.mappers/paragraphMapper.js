@@ -7,7 +7,8 @@ class ParagraphMapper {
             data[ParagraphJson.text], 
             data[ParagraphJson.articleId],
             data[ParagraphJson.id],
-            data[ParagraphJson.questionIds] || []
+            data[ParagraphJson.questionIds] || [],
+            data[ParagraphJson.imageFileName]
         );
     }
 

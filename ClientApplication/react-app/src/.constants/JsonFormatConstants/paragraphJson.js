@@ -5,7 +5,9 @@ const ParagraphJson = {
     articleId: "articleId",
     id: "id",
     text: "text",
-    questionIds: "questionIds"
+    questionIds: "questionIds",
+    imageFileName: "imageFileName"
+
 };
 
 const ParagraphPageJson = {

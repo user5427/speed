@@ -51,20 +51,6 @@ const EditQuestion = () => {
                     </Col>
                 </Row>
             </div>
-
-            <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
-                <Row className='justify-content-md-center'>
-                    <Col xs={12} md={4}>
-                        {
-                            questionId ? (
-                                <Button onClick={handleCreateQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Question</Button>
-                            ) : (
-                                <Button onClick={handleCreateQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Question</Button>
-                            )
-                        }
-                    </Col>
-                </Row>
-            </div>
         </>
     );
 }

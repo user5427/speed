@@ -5,9 +5,9 @@ class Question {
         this.#createEmptyQuestion();
     }
 
-    static createQuestionFromParams(text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null) {
+    static createQuestionFromParams(text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null, imageFileName = null) {
         const question = new Question();
-        question.#createQuestionFromParams(text, paragraphId, answerChoices, correctAnswerIndex, id);
+        question.#createQuestionFromParams(text, paragraphId, answerChoices, correctAnswerIndex, id, imageFileName);
         return question;
     }
 
@@ -21,7 +21,7 @@ class Question {
         return newQuestion;
     }
 
-    #createQuestionFromParams(text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null) {
+    #createQuestionFromParams(text, paragraphId, answerChoices = [], correctAnswerIndex = 0, id = null, imageFileName = null) {
         // Validate text
         if (typeof text !== "string" ||
             text.length < ValidationConstants.MinQuestionTextLength ||
@@ -55,6 +55,8 @@ class Question {
         this._answerChoices = answerChoices;
         this._correctAnswerIndex = correctAnswerIndex;
         this._id = id;
+        this._imageFileName = imageFileName;
+
     }
 
     #createEmptyQuestion() {
@@ -63,6 +65,7 @@ class Question {
         this._answerChoices = [];
         this._correctAnswerIndex = 0;
         this._id = null;
+        this._imageFileName = null;
     }
 
     #copyQuestion(question) {
@@ -90,6 +93,11 @@ class Question {
             this._id = question.id;
         } else {
             this._id = null;
+        }
+        if (question.imageFileName) {
+            this._imageFileName = question.imageFileName
+        } else {
+            this._imageFileName = null;
         }
     }
 
@@ -152,6 +160,17 @@ class Question {
         return "correctAnswerIndex"
     }
 
+    get imageFileName() {
+        return this._imageFileName;
+    }
+
+    set imageFileName(value) {
+        this._imageFileName = value;
+    }
+
+    resetImageFileName(){
+        this._imageFileName = null;
+    }
 
     get id() {
         return this._id;

@@ -1,4 +1,4 @@
-import { fetchEntity, generateRequestOptions } from "./fetch-helper";
+import { fetchEntity, generateRequestOptions, generateImageRequestOptions, downloadImage, getImage } from "./fetch-helper";
 import { isOK, isError, getErrorMessage } from "./status-helper";
 
 const StatusHelper = {
@@ -9,7 +9,10 @@ const StatusHelper = {
 
 const FetchHelper = {
     fetchEntity,
-    generateRequestOptions
+    generateRequestOptions,
+    generateImageRequestOptions,
+    downloadImage,
+    getImage
 }
 
 export { FetchHelper, StatusHelper };

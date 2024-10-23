@@ -105,13 +105,7 @@ const EditParagraphQuestion = () => {
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={4}>
-                        {
-                            paragraphId ? (
-                                <Button onClick={handleResetParagraph} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Paragraph</Button>
-                            ) : (
-                                <Button onClick={handleResetParagraph} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Paragraph</Button>
-                            )
-                        }
+                        
                     </Col>
                     <Col xs={12} md={4}>
                         {

@@ -5,9 +5,9 @@ class ArticleMapper {
         return Article.createArticleFromParams(
             data[ArticleJson.title], 
             data[ArticleJson.categoryTitle], 
-            data[ArticleJson.coverImage] || null, 
             data[ArticleJson.paragraphIds]  || [],
-            data[ArticleJson.id]
+            data[ArticleJson.id],
+            data[ArticleJson.imageFileName]
         );
     }
 
@@ -25,10 +25,6 @@ class ArticleMapper {
         if (article._id) {
             json[ArticleJson.id] = article._id;
         }
-
-        // if (article._coverImage) {
-        //     json[ArticleJson.coverImage] = article._coverImage;
-        // }
 
         return json;
     }

@@ -1,12 +1,16 @@
 import { React, useState, useEffect } from 'react';
-import { Button, Form, Image } from 'react-bootstrap';
-
-import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
+import { Button, Form, Image, Col, Row } from 'react-bootstrap';
+import { MdDelete } from "react-icons/md";
+import NoImage from '../../no-image.png'
 import ArticleSearch from '../Articles/article-search';
+import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { Paragraph } from '../../.entities/.MainEntitiesExport';
 import { ArticleController, ParagraphController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from '../.common-components/ErrorPopup';
 import SuccessPopup from '../.common-components/SuccessPopup';
+import DeletePopup from '../.common-components/DeletePopup';
+import { GrRevert } from "react-icons/gr";
+
 const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
     const [paragraph, setParagraph] = useState(
         new Paragraph()
@@ -24,6 +28,14 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
 
     const [MyRedirect, setRedirect] = useState(redirect);
 
+    const [imageFileUrl, setImageUrl] = useState(NoImage)
+    const [imageFile, setImageFile] = useState(undefined)
+    const [updateImageFile, setUpdateImageFile] = useState(false)
+
+    const [deleteMessage, setDeleteMessage] = useState(""); // State for success message
+    const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show/hide modal
+    const [deleteRequest, setDeleteRequest] = useState(null)
+
     // Trigger getArticleFromOutside when component mounts or articleFromOutside changes
     useEffect(() => {
         getArticleFromOutside(articleFromOutsideId);
@@ -37,6 +49,105 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
     useEffect(() => {
         setRedirect(redirect);
     }, []); // Add redirect as a dependency
+
+    useEffect(() => {
+        if (paragraph && paragraph.imageFileName) {
+            getParagraphImage(); // Fetch image when the article is updated
+        }
+    }, [paragraph.imageFileName]);
+
+    useEffect(() => {
+        updateParagraphImage();
+    }, [paragraph.id]);
+
+    // save the image, then if user creates or updates the paragraph, do the same for the image
+    /**
+     * Handle file upload
+     */
+    const handleFileUpload = (event) => {
+        event.preventDefault();
+        const file = event.target.files[0];
+
+        if (file) {
+            setImageFile(file);
+            setUpdateImageFile(true);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageUrl(reader.result); // Set the image to the data URL
+            };
+            reader.readAsDataURL(file); // Read the file as a Data URL
+        }
+    };
+
+    const getParagraphImage = async () => {
+        try {
+            if (paragraph.imageFileName) {
+                let imageURL = await ParagraphController.GetImage(paragraph.id);
+                setImageUrl(imageURL);
+                setImageFile(undefined);
+                setUpdateImageFile(false);
+            }
+        } catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
+    }
+
+
+    const updateParagraphImage = async () => {
+        try {
+            if (paragraph.id === null) {
+                return;
+            }
+            if (paragraph.imageFileName === null && imageFile) {
+                await ParagraphController.PostImage(paragraph.id, imageFile);
+                paragraph.imageFileName = "hasImage";
+            } else if (paragraph.imageFileName && imageFile && updateImageFile) {
+                await ParagraphController.DeleteImage(paragraph.id);
+                await ParagraphController.PostImage(paragraph.id, imageFile);
+                paragraph.imageFileName = "hasImage";
+                imageFile === undefined
+                setUpdateImageFile(false);
+            }
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    const deleteParagraphImage = () => {
+        if (!paragraph.imageFileName) {
+            return;
+        }
+        setDeleteRequest(1);
+        setShowDeleteModal(true);
+        setDeleteMessage("Are you sure you want to delete the image?");
+    }
+
+    const deleteConfirmed = async () => {
+        setShowDeleteModal(false);
+        if (deleteRequest === 1){
+            try {
+                if (paragraph.imageFileName) {
+                    await ParagraphController.DeleteImage(paragraph.id);
+                    paragraph.imageFileName = null;
+                    imageFile === undefined
+                    setImageUrl(NoImage);
+                }
+            }
+            catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
+
+        }
+        setDeleteRequest(null)
+    }
+
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+        setDeleteRequest(null)
+    }
+
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -61,6 +172,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     setRedirect(false);
                     setSuccessMessage("Updated paragraph successfully.");
                     setShowSuccessModal(true);
+                    updateParagraphImage();
                     if (sendUpdate) {
                         sendUpdate();
                     }
@@ -69,9 +181,6 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     setSuccessMessage("Created paragraph successfully.");
                     setShowSuccessModal(true);
                     setUpdate(true);
-                    if (sendCreatedId) {
-                        sendCreatedId(newParagraph.id);
-                    }
                 }
                 setParagraph(newParagraph);
             } catch (error) {
@@ -104,12 +213,6 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
         });
     }
 
-    // const resetUpdating = () => {
-    //     setUpdate(false);
-    //     setParagraph(new Paragraph());
-    //     setOutsideArticle(null);
-    // }
-
     const updateArticleId = (articleId) => {
         setParagraph(prevParagraph => {
             const newParagraph = Paragraph.createParagraphFromCopy(prevParagraph);
@@ -131,6 +234,9 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
         setShowSuccessModal(false);
         if (MyRedirect) {
             window.location.href = `/edit-paragraph-question?paragraphId=${paragraph.id}`;
+        }
+        if (sendCreatedId) {
+            sendCreatedId(paragraph.id);
         }
     };
 
@@ -188,6 +294,34 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
 
     return (
         <>
+            <Form>
+                <Form.Group className="d-flex justify-content-center">
+                    <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
+                </Form.Group>
+                <Form.Group className="d-flex justify-content-center">
+                    <div>
+                        <input
+                            className="form-control darkInput"
+                            type="file"
+                            onChange={handleFileUpload}
+                        />
+                    </div>
+                </Form.Group>
+                {paragraph.imageFileName && (
+                        <Col>
+
+                            <Button onClick={getParagraphImage}><GrRevert /> Reset image</Button>
+                        </Col>
+                    )}
+
+                    {paragraph.imageFileName && (
+                        <Col>
+
+                            <Button variant="danger" onClick={deleteParagraphImage}><MdDelete /> Delete image</Button>
+                        </Col>
+                    )}
+            </Form>
+
             {
                 outsideArticle ? "" :
                     (
@@ -282,6 +416,13 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                 showCreateModal={showSuccessModal}
                 message={successMessage}
                 onClose={closeSuccessModal}
+            />
+
+            <DeletePopup
+                showDeleteModal={showDeleteModal}
+                message={deleteMessage}
+                onClose={closeDeleteModal}
+                onDelete={deleteConfirmed}
             />
         </>
     )

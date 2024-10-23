@@ -1,13 +1,16 @@
 import { React, useState, useEffect } from 'react';
-import { Button, Form, Image } from 'react-bootstrap';
-
+import { Button, Form, Image, Col, Row } from 'react-bootstrap';
+import { MdDelete } from "react-icons/md";
 import NoImage from '../../../no-image.png'
 import { ValidationConstants, ValidationPatternConstants } from '../../../.constants/MainConstants';
 import { Article } from '../../../.entities/.MainEntitiesExport';
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
 import SuccessPopup from '../../.common-components/SuccessPopup';
-const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
+import DeletePopup from '../../.common-components/DeletePopup';
+import { GrRevert } from "react-icons/gr";
+
+const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined, redirect = true, sendUpdate = undefined }) => {
     const [article, setArticle] = useState(
         new Article()
     );
@@ -22,6 +25,14 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
 
     const [MyRedirect, setRedirect] = useState(redirect);
 
+    const [imageFileUrl, setImageUrl] = useState(NoImage)
+    const [imageFile, setImageFile] = useState(undefined)
+    const [updateImageFile, setUpdateImageFile] = useState(false)
+
+    const [deleteMessage, setDeleteMessage] = useState(""); // State for success message
+    const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show/hide modal
+    const [deleteRequest, setDeleteRequest] = useState(null)
+
     // Trigger setArticleFromExisting when component mounts or existingArticleId changes
     useEffect(() => {
         setArticleFromExisting(existingArticleId);
@@ -31,32 +42,104 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
         setRedirect(redirect);
     }, []); // Add redirect as a dependency
 
+    useEffect(() => {
+        if (article && article.imageFileName) {
+            getArticleImage(); // Fetch image when the article is updated
+        }
+    }, [article.imageFileName]);
+
+    useEffect(() => {
+        updateArticleImage();
+    }, [article.id]);
+
+
     // save the image, then if user creates or updates the article, do the same for the image
     /**
      * Handle file upload
      */
-    // const handleFileUpload = (event) => {
-    //     event.preventDefault();
-    //     var file = event.target.files[0];
-    //     const form = new FormData();
-    //     form.append("imageFile", file);
+    const handleFileUpload = (event) => {
+        event.preventDefault();
+        const file = event.target.files[0];
 
-    //     fetch(process.env.REACT_APP_API_URL + "Articles/upload-test-image", {
-    //         method: "POST",
-    //         body: form
-    //     }).then(res => {
-    //         if (res.ok) {
-    //             return res.json();
-    //         } else {
-    //             throw new Error(`Failed to save image. Status code: ${res.status}`);
-    //         }
-    //     }).then(res => {
-    //         var newArticle = article;
-    //         newArticle.coverImage = res.profileImage;
+        if (file) {
+            setImageFile(file);
+            setUpdateImageFile(true);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageUrl(reader.result); // Set the image to the data URL
+            };
+            reader.readAsDataURL(file); // Read the file as a Data URL
+        }
+    };
 
-    //         setArticle(oldData => { return { ...oldData, ...newArticle }; });
-    //     }).catch(err => alert("Error in file upload"));
-    // }
+    const getArticleImage = async () => {
+        try {
+            if (article.imageFileName) {
+                let imageURL = await ArticleController.GetImage(article.id);
+                setImageUrl(imageURL);
+                setImageFile(undefined);
+                setUpdateImageFile(false);
+            }
+        } catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
+    }
+
+    const updateArticleImage = async () => {
+        try {
+            if (article.id === null){
+                return;
+            }
+            if (article.imageFileName === null && imageFile) {
+                await ArticleController.PostImage(article.id, imageFile);
+                article.imageFileName = "hasImage";
+            } else if (article.imageFileName && imageFile && updateImageFile) {
+                await ArticleController.DeleteImage(article.id);
+                await ArticleController.PostImage(article.id, imageFile);
+                article.imageFileName = "hasImage";
+                imageFile === undefined
+                setUpdateImageFile(false);
+            }
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    const deleteArticleImage = () => {
+        if (!article.imageFileName) {
+            return;
+        }
+        setDeleteRequest(1);
+        setShowDeleteModal(true);
+        setDeleteMessage("Are you sure you want to delete the image?");
+    }
+
+    const deleteConfirmed = async () => {
+        setShowDeleteModal(false);
+        if (deleteRequest === 1) {
+            try {
+                if (article.imageFileName) {
+                    await ArticleController.DeleteImage(article.id);
+                    article.imageFileName = null;
+                    imageFile === undefined
+                    setImageUrl(NoImage);
+                }
+            }
+            catch (error) {
+                setErrorMessage(error.message); // Set error message
+                setShowErrorModal(true); // Show modal
+            }
+
+        }
+        setDeleteRequest(null)
+
+    }
+
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+        setDeleteRequest(null)
+    }
 
     const handleSave = async (event) => {
         event.preventDefault(); // we do not want the page to reload.
@@ -74,6 +157,7 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
                 setRedirect(false);
                 setSuccessMessage("Updated article successfully.");
                 setShowSuccessModal(true);
+                updateArticleImage();
                 if (sendUpdate) {
                     sendUpdate();
                 }
@@ -82,9 +166,6 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
                 setSuccessMessage("Created article successfully.");
                 setShowSuccessModal(true);
                 setUpdate(true);
-                if (sendCreatedId) {
-                    sendCreatedId(newArticle.id);
-                }
             }
             setArticle(newArticle);
         } catch (error) {
@@ -117,18 +198,15 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
         if (!exArtId) {
             return;
         }
-        
+
         let existingArticle = null;
         try {
             existingArticle = await ArticleController.Get(exArtId);
-        } catch (error) {
-            setErrorMessage("Article ID does not exist.");
-            setShowErrorModal(true);
-        }
-
-        if (existingArticle) {
             setArticle(existingArticle);
             setUpdate(true);
+        } catch (error) {
+            setErrorMessage(error.message);
+            setShowErrorModal(true);
         }
     }
 
@@ -137,18 +215,43 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
         if (MyRedirect) {
             window.location.href = `/edit-all?articleId=${article.id}`;
         }
+        if (sendCreatedId) {
+            sendCreatedId(article.id);
+        }
     }
 
 
     return (
         <>
-            <Form validated={validated} onSubmit={handleSave}>
-                {/* <Form.Group className="d-flex justify-content-center">
-                    <Image width="200" height="200" src={article && article.coverImage || NoImage} />
+            <Form>
+                <Form.Group className="d-flex justify-content-center">
+                    <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
                 </Form.Group>
                 <Form.Group className="d-flex justify-content-center">
-                    <div><input className="form-control darkInput" type="file" onChange={handleFileUpload} /> </div>
-                </Form.Group> */}
+                    <div>
+                        <input
+                            className="form-control darkInput"
+                            type="file"
+                            onChange={handleFileUpload}
+                        />
+                    </div>
+                </Form.Group>
+                {article.imageFileName && (
+                    <Col>
+
+                        <Button onClick={getArticleImage}><GrRevert /> Reset image</Button>
+                    </Col>
+                )}
+
+                {article.imageFileName && (
+                    <Col>
+
+                        <Button variant="danger" onClick={deleteArticleImage}><MdDelete /> Delete image</Button>
+                    </Col>
+                )}
+            </Form>
+
+            <Form validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article Title</Form.Label>
                     <Form.Control
@@ -197,6 +300,13 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
                 showCreateModal={showSuccessModal}
                 message={successMessage}
                 onClose={closeSuccessModal}
+            />
+
+            <DeletePopup
+                showDeleteModal={showDeleteModal}
+                message={deleteMessage}
+                onClose={closeDeleteModal}
+                onDelete={deleteConfirmed}
             />
         </>
     )
