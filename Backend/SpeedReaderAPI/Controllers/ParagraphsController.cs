@@ -1,14 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
-using SpeedReaderAPI.Entities;
-using SpeedReaderAPI.Services;
 namespace SpeedReaderAPI.Controllers;
 
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.Entities;
-using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.Services;
 
 [ApiController]
@@ -28,18 +24,6 @@ public class ParagraphsController : ControllerBase
     [HttpPost("{id}/img")]
     public async Task<IActionResult> UploadImage(int id, [FromForm] ImageUploadRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(
-                new ProblemDetails
-                {
-                    Title = "Validation Error",
-                    Detail = "One or more validation errors occurred.",
-                    Status = 410,
-                    Instance = HttpContext.Request.Path,
-                    Extensions = { ["errors"] = ModelState }
-                });
-        }
         ParagraphResponse result = await _paragraphService.UploadImage(id, request);
         return Ok(result);
     }
@@ -61,18 +45,6 @@ public class ParagraphsController : ControllerBase
     [HttpPost]
     public ActionResult<int> CreateParagraph(ParagraphCreateRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(new ProblemDetails
-            {
-                Title = "Validation Error",
-                Detail = "One or more validation errors occurred.",
-                Status = 400,
-                Instance = HttpContext.Request.Path,
-                Extensions = { ["errors"] = ModelState }
-            });
-        }
-
         ParagraphResponse paragraphResponse = _paragraphService.CreateParagraph(request);
         return Ok(paragraphResponse);
     }
@@ -95,18 +67,6 @@ public class ParagraphsController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult UpdateParagraph(int id, ParagraphUpdateRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(new ProblemDetails
-            {
-                Title = "Validation Error",
-                Detail = "One or more validation errors occurred.",
-                Status = 400,
-                Instance = HttpContext.Request.Path,
-                Extensions = { ["errors"] = ModelState }
-            });
-        }
-
         ParagraphResponse paragraphResponse = _paragraphService.UpdateParagraph(id, request);
         return Ok(paragraphResponse);
     }

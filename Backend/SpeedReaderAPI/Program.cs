@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
     {
+        options.Filters.Add<RequestValidationFilter>();
         options.Filters.Add<ExceptionFilter>();
     });
 builder.Services.AddScoped<IImageService, ImageService>();

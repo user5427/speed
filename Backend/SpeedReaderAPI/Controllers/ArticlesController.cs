@@ -5,7 +5,6 @@ using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
-using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.Services;
 
 [ApiController]
@@ -25,18 +24,6 @@ public class ArticlesController : ControllerBase
     [HttpPost("{id}/img")]
     public async Task<IActionResult> UploadImage(int id, [FromForm] ImageUploadRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(
-                new ProblemDetails
-                {
-                    Title = "Validation Error",
-                    Detail = "One or more validation errors occurred.",
-                    Status = 410,
-                    Instance = HttpContext.Request.Path,
-                    Extensions = { ["errors"] = ModelState }
-                });
-        }          
         ArticleResponse result = await _articleService.UploadImage(id, request);
         return Ok(result);
     }
@@ -58,18 +45,6 @@ public class ArticlesController : ControllerBase
     [HttpPost]
     public IActionResult CreateArticle(ArticleCreateRequest createArticle)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(
-                new ProblemDetails
-                {
-                    Title = "Validation Error",
-                    Detail = "One or more validation errors occurred.",
-                    Status = 400,
-                    Instance = HttpContext.Request.Path,
-                    Extensions = { ["errors"] = ModelState }
-                });
-        }
         ArticleResponse articleResponse = _articleService.CreateArticle(createArticle);
         return Ok(articleResponse);
     }
@@ -98,18 +73,6 @@ public class ArticlesController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult UpdateArticle(int id, [FromBody] ArticleUpdateRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(new ProblemDetails
-            {
-                Title = "Validation Error",
-                Detail = "One or more validation errors occurred.",
-                Status = 400,
-                Instance = HttpContext.Request.Path,
-                Extensions = { ["errors"] = ModelState }
-            });
-        }
-
         ArticleResponse articleResponse = _articleService.UpdateArticle(id, request);
         return Ok(articleResponse);
     }
