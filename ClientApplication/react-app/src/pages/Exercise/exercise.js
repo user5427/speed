@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import '../../styles/exerciseStyle.css';
 import { QuestionComponent } from '../../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
 import { ArticleInfo, FeedbackMessage, ConfettiEffect, ResultsTableComponent, ReadingExerciseComponent} from '../../.components/Exercise/.MainExerciseExport';
-import { questions, exerciseInfo } from './articleData';
+import { exerciseInfo } from './articleData';
 
-import { ArticleController, ParagraphController } from '../../.controllers/.MainControllersExport';
+import { ArticleController, ParagraphController, QuestionController} from '../../.controllers/.MainControllersExport';
 
 const Exercise = () => {
   const navigate = useNavigate();
@@ -16,9 +16,11 @@ const Exercise = () => {
 
   const valuetext = (value) => `${value}`;
 
-  // Initialize Hooks at the top level
   const [articleData, setArticleData] = useState(null);
   const [paragraphs, setParagraphs] = useState([]);
+  const [questionsPerParagraph, setQuestionsPerParagraph] = useState([]);
+
+
   const [inputValue, setInputValue] = useState(238); // Track WPM value
   const [currentWordIndex, setCurrentWordIndex] = useState(0); // Index of the current word
   const [currentParagraphIndex, setCurrentParagraphIndex] = useState(0); // Track current paragraph
@@ -33,6 +35,9 @@ const Exercise = () => {
   const [answersCorrectness, setAnswersCorrectness] = useState([]); // Array to store correctness per paragraph
   const [confettiActive, setConfettiActive] = useState(false);
 
+  const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
+
+
   const {
     avgReadingSpeed,
     worldRecordWPM,
@@ -42,11 +47,10 @@ const Exercise = () => {
     publisher,
   } = exerciseInfo;
 
-
-  // Declare variables that might be used in useEffect hooks
-  const words = paragraphs[currentParagraphIndex]?.text?.split(' ') || [];
-
-  // Fetch the article data when the component mounts
+  const words = useMemo(() => {
+    return paragraphs[currentParagraphIndex]?.text?.split(' ') || [];
+  }, [paragraphs, currentParagraphIndex]);
+  
   useEffect(() => {
     const fetchArticle = async () => {
       try {
@@ -59,42 +63,73 @@ const Exercise = () => {
     fetchArticle();
   }, []);
 
-  // Fetch the paragraphs after articleData is loaded
+
+useEffect(() => {
+  const fetchParagraphs = async () => {
+    try {
+      const paragraphsData = await Promise.all(
+        articleData.paragraphIDs.map((id) => ParagraphController.Get(id))
+      );
+
+      // Sort the paragraphsData based on the numbers in the titles
+      //TO RECONSIDER
+      paragraphsData.sort((a, b) => {
+        const aNumber = parseInt(a.title.split('.')[0]);
+        const bNumber = parseInt(b.title.split('.')[0]);
+        return aNumber - bNumber;
+      });
+
+      setParagraphs(paragraphsData);
+    } catch (error) {
+      console.error('Error fetching paragraphs:', error);
+    }
+  };
+  if (articleData && articleData.paragraphIDs && articleData.paragraphIDs.length > 0) {
+    fetchParagraphs();
+  }
+}, [articleData]);
+
+const totalParagraphs = paragraphs.length;
+
+
   useEffect(() => {
-    const fetchParagraphs = async () => {
+    const fetchQuestions = async () => {
       try {
-        const paragraphsData = await Promise.all(
-          articleData.paragraphIDs.map((id) => ParagraphController.Get(id))
+        const questionsData = await Promise.all(
+          paragraphs.map(async (paragraph) => {
+            if (paragraph.questionIDs && paragraph.questionIDs.length > 0) {
+              const questionsForParagraph = await Promise.all(
+                paragraph.questionIDs.map((questionID) => QuestionController.Get(questionID))
+              );
+              return questionsForParagraph;
+            } else {
+              return [];
+            }
+          })
         );
-        setParagraphs(paragraphsData);
+        setQuestionsPerParagraph(questionsData);
       } catch (error) {
-        console.error('Error fetching paragraphs:', error);
+        console.error('Error fetching questions:', error);
       }
     };
-    if (articleData && articleData.paragraphIDs && articleData.paragraphIDs.length > 0) {
-      fetchParagraphs();
+    if (paragraphs.length > 0) {
+      fetchQuestions();
     }
-  }, [articleData]);
+  }, [paragraphs]);
+  
 
-  const totalParagraphs = paragraphs.length;
 
 
-  // Word reveal loop for each paragraph
+// Word reveal loop for each paragraph
 useEffect(() => {
   if (articleCompleted) return;
   if (!started || finished) return;
-  //if (timePerParagraph.length >= totalParagraphs) return; // Prevent extra intervals
-
-  // Ensure that avgReadingSpeed and worldRecordWPM are defined
   if (avgReadingSpeed == null || worldRecordWPM == null) return;
-
-  // Ensure that words are defined
   if (!words || words.length === 0) return;
 
   const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM);
   const intervalTime = 60000 / wpm; // Convert WPM to milliseconds
 
-  // Record the start time when the paragraph starts
   if (!startTime) {
     setStartTime(Date.now());
   }
@@ -133,7 +168,8 @@ useEffect(() => {
   avgReadingSpeed,
   worldRecordWPM,
   words,
-  articleCompleted, // Include in dependency array
+  articleCompleted,
+  totalParagraphs,
 ]);
 
   // Confetti effect when the article is completed
@@ -143,44 +179,40 @@ useEffect(() => {
     }
   }, [articleCompleted]);
 
-  // All Hooks have been called at this point
-
-// Now, check if data is loaded
-if (!articleData || paragraphs.length === 0) {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '50vh',
-      }}
-    >
-      <h1 style={{ color: 'white' }}>Loading...</h1>
-    </div>
-  );
-}
 
 
-  // Now you can safely access articleData properties
+  if (!articleData || paragraphs.length === 0 || questionsPerParagraph.length === 0) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '50vh',
+        }}
+      >
+        <h1 style={{ color: 'white' }}>Loading...</h1>
+      </div>
+    );
+  }
+  
   const title = articleData.title;
   const subject = articleData.categoryTitle;
-  const paragraphIDs = articleData.paragraphIDs;
 
   const wordsPerParagraph = paragraphs.map((paragraph) => paragraph.text.split(' ').length);
   const linearToLog = (value) => Math.round(Math.pow(10, value / 100));
   const logToLinear = (value) => Math.round(Math.log10(value) * 100);
 
-  // Other functions and event handlers
+
   const calculateAverageWPM = () => {
     // Get indices of paragraphs where the answer was correct
     const correctIndices = answersCorrectness
       .map((isCorrect, index) => (isCorrect ? index : null))
       .filter((index) => index !== null);
 
-    // If no correct answers, return null or NaN
+    // If no correct answers - null
     if (correctIndices.length === 0) {
-      return null; // Or you can return NaN
+      return null;
     }
 
     // Sum words and time only for paragraphs with correct answers
@@ -202,10 +234,17 @@ if (!articleData || paragraphs.length === 0) {
     setQuestionButtonClicked(true);
   };
 
-  const handleQuestionSubmit = (selectedAnswer) => {
-    // Access the correct answer from the questions array
-    const correctAnswer = questions[currentParagraphIndex].correctAnswer;
-    const isCorrect = selectedAnswer === correctAnswer;
+
+  const handleQuestionSubmit = (selectedAnswerIndex) => {
+    const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
+    const question = currentQuestions[0]; // Assuming one question per paragraph 
+    // TO COME BACK ^^^^^^^^
+    if (!question) {
+      setFeedbackMessage('No question available for this paragraph.');
+      return;
+    }
+    const correctAnswerIndex = question.correctAnswerIndex;
+    const isCorrect = selectedAnswerIndex === correctAnswerIndex;
   
     setAnswersCorrectness((prevAnswers) => {
       if (prevAnswers.length < totalParagraphs) {
@@ -214,19 +253,21 @@ if (!articleData || paragraphs.length === 0) {
         return prevAnswers;
       }
     });
-    
+  
     if (isCorrect) {
       setFeedbackMessage('Correct!');
     } else {
-      setFeedbackMessage(`Incorrect! The correct answer was '${correctAnswer}'.`);
+      const correctAnswerText = question.answerChoices[correctAnswerIndex];
+      setFeedbackMessage(`Incorrect! The correct answer was '${correctAnswerText}'.`);
     }
   };
+  
+  
   
   
 
   const handleNextParagraphOrQuestion = () => {
     if (currentParagraphIndex < paragraphs.length - 1) {
-      // Move to next paragraph
       setCurrentParagraphIndex(currentParagraphIndex + 1);
       setCurrentWordIndex(0);
       setStarted(false); // Reset to start new paragraph
@@ -244,9 +285,6 @@ if (!articleData || paragraphs.length === 0) {
     }
   
   };
-  
-
- 
 
   if (articleCompleted) {
     return (
@@ -293,17 +331,16 @@ if (!articleData || paragraphs.length === 0) {
         
       )}
 
-{showQuestion && (
+{showQuestion && currentQuestions.length > 0 && (
   <div className="mainContainer">
     <QuestionComponent
-      question={questions[currentParagraphIndex].question}
-      options={questions[currentParagraphIndex].options}
+      question={currentQuestions[0].text}
+      options={currentQuestions[0].answerChoices}
       onSubmit={handleQuestionSubmit}
       currentParagraphIndex={currentParagraphIndex}
     />
   </div>
 )}
-
 
       {feedbackMessage && (
         <FeedbackMessage
