@@ -23,6 +23,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     const [answers, setAnswers] = useState([]);
+    let answerCount = 0;
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
 
     const [successMessage, setSuccessMessage] = useState(""); // State for success message
@@ -224,12 +225,6 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
         });
     }
 
-    // const resetUpdating = () => {
-    //     setUpdate(false);
-    //     setQuestion(new Question());
-    //     setAnswers([]);
-    // }
-
     const updateParagraphId = (paragraphId) => {
         setQuestion(prevQuestion => {
             const newQuestion = Question.createQuestionFromCopy(prevQuestion);
@@ -257,12 +252,14 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
 
     const sendBackText = (index, text) => {
         let newAnswers = [...answers];
-        newAnswers[index] = text;
+        newAnswers[index].text = text;
+
+        let answersText = newAnswers.map((answer) => answer.text);
 
         setQuestion(prevQuestion => {
             const newQuestion = Question.createQuestionFromCopy(prevQuestion);
 
-            newQuestion.answerChoices = newAnswers;
+            newQuestion.answerChoices = answersText;
 
             return newQuestion;
         });
@@ -289,7 +286,14 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
     }
 
     const addEmptyAnswer = () => {
-        setAnswers([...answers, ""]);
+        // add text and index as empty string
+        let newAnswers = [...answers];
+        newAnswers.push({
+            text: "",
+            index: answerCount
+        });
+        answerCount += 1;
+        setAnswers(newAnswers);
     }
 
     const setCorrect = (index) => {
@@ -341,7 +345,18 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
 
         if (existingQuestion) {
             setQuestion(existingQuestion);
-            setAnswers(existingQuestion.answerChoices);
+            answerCount = existingQuestion.answerChoices.length;
+            let newAnswers = [];
+            for (let i = 0; i < existingQuestion.answerChoices.length; i++) {
+                newAnswers.push({
+                    text: existingQuestion.answerChoices[i],
+                    index: i
+                });
+            }
+            setAnswers(newAnswers);
+            answerCount = existingQuestion.answerChoices.length;
+
+
             setCorrectAnswerIndex(existingQuestion.correctAnswerIndex);
             setUpdate(true);
 
@@ -453,10 +468,10 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                     <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 2 }}></Divider>
 
                     {answers.map((answer, index) => (
-                        <div key={index}>
+                        <div key={answer.index}>
                             <AnswerItem
                                 index={index}
-                                articleText={answer}
+                                articleText={answer.text}
                                 sendBackText={sendBackText}
                                 deleteAnswer={deleteAnswer}
                                 setCorrect={setCorrect}
