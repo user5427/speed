@@ -64,6 +64,42 @@ class ParagraphController {
             throw error;
         }
     }
+
+    static async PostImage(paragraphId, file){
+        try {
+            const response = await ParagraphService.postImage(paragraphId, file);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ParagraphErrors.PostImageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async GetImage(paragraphId){
+        try {
+            const response = await ParagraphService.getImage(paragraphId);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ParagraphErrors.GetImageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async DeleteImage(paragraphId){
+        try {
+            const response = await ParagraphService.deleteImage(paragraphId);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ParagraphErrors.DeleteImageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export { ParagraphController }

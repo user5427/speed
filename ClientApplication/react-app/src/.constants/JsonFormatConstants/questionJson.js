@@ -5,7 +5,9 @@ const QuestionJson = {
     id: "id",
     questionText: "questionText",
     answerChoices: "answerChoices",
-    correctAnswerIndex: "correctAnswerIndex"
+    correctAnswerIndex: "correctAnswerIndex",
+    imageFileName: "imageFileName"
+
 };
 
 const QuestionPageJson = {

@@ -64,6 +64,42 @@ class QuestionController {
             throw error;
         }
     }
+
+    static async PostImage(questionId, file){
+        try {
+            const response = await QuestionService.postImage(questionId, file);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${QuestionErrors.PostImageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async GetImage(questionId){
+        try {
+            const response = await QuestionService.getImage(questionId);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${QuestionErrors.GetImageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async DeleteImage(questionId){
+        try {
+            const response = await QuestionService.deleteImage(questionId);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${QuestionErrors.DeleteImageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export { QuestionController }

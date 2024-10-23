@@ -7,7 +7,8 @@ import { Article } from '../../../.entities/.MainEntitiesExport';
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
 import SuccessPopup from '../../.common-components/SuccessPopup';
-const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
+import DeletePopup from '../../.common-components/DeletePopup';
+const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined, redirect = true, sendUpdate = undefined }) => {
     const [article, setArticle] = useState(
         new Article()
     );
@@ -22,6 +23,10 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
 
     const [MyRedirect, setRedirect] = useState(redirect);
 
+    const [imageFileUrl, setImageUrl] = useState(NoImage)
+    const [imageFile, setImageFile] = useState(undefined)
+    const [updateImageFile, setUpdateImageFile] = useState(false)
+
     // Trigger setArticleFromExisting when component mounts or existingArticleId changes
     useEffect(() => {
         setArticleFromExisting(existingArticleId);
@@ -35,28 +40,70 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
     /**
      * Handle file upload
      */
-    // const handleFileUpload = (event) => {
-    //     event.preventDefault();
-    //     var file = event.target.files[0];
-    //     const form = new FormData();
-    //     form.append("imageFile", file);
+    const handleFileUpload = (event) => {
+        event.preventDefault();
+        const file = event.target.files[0];
 
-    //     fetch(process.env.REACT_APP_API_URL + "Articles/upload-test-image", {
-    //         method: "POST",
-    //         body: form
-    //     }).then(res => {
-    //         if (res.ok) {
-    //             return res.json();
-    //         } else {
-    //             throw new Error(`Failed to save image. Status code: ${res.status}`);
-    //         }
-    //     }).then(res => {
-    //         var newArticle = article;
-    //         newArticle.coverImage = res.profileImage;
+        if (file) {
+            setImageFile(file);
+            setUpdateImageFile(true);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageUrl(reader.result); // Set the image to the data URL
+            };
+            reader.readAsDataURL(file); // Read the file as a Data URL
+        }
+    };
 
-    //         setArticle(oldData => { return { ...oldData, ...newArticle }; });
-    //     }).catch(err => alert("Error in file upload"));
-    // }
+    const getArticleImage = async () => {
+        try {
+            if (article.imageFileName) {
+                let imageURL = await ArticleController.GetImage(article.id);
+                setImageUrl(imageURL);
+                setImageFile(undefined);
+                setUpdateImageFile(false);
+            }
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    const updateArticleImage = async () => {
+        try {
+            if (imageFile === undefined) {
+                return;
+            }
+
+            if (article.imageFileName && imageFile === null) {
+                await ArticleController.DeleteImage(article.id);
+                article.imageFileName = null;
+                imageFile === undefined
+            } if (article.imageFileName === null && imageFile) {
+                await ArticleController.PostImage(article.id, imageFile);
+                article.imageFileName = "hasImage";
+            } else if (article.imageFileName && imageFile && updateImageFile) {
+                await ArticleController.DeleteImage(article.id);
+                await ArticleController.PostImage(article.id, imageFile);
+                article.imageFileName = "hasImage";
+                imageFile === undefined
+                setUpdateImageFile(false);
+            }
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    const deleteArticleImage = async () => {
+        try {
+            if (imageFile === undefined) {
+                return;
+            }
+        }
+        catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
+    }
 
     const handleSave = async (event) => {
         event.preventDefault(); // we do not want the page to reload.
@@ -71,6 +118,7 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
             let newArticle;
             if (update) {
                 newArticle = await ArticleController.Put(article);
+                await updateArticleImage();
                 setRedirect(false);
                 setSuccessMessage("Updated article successfully.");
                 setShowSuccessModal(true);
@@ -79,6 +127,7 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
                 }
             } else {
                 newArticle = await ArticleController.Post(article);
+                await updateArticleImage();
                 setSuccessMessage("Created article successfully.");
                 setShowSuccessModal(true);
                 setUpdate(true);
@@ -117,18 +166,16 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
         if (!exArtId) {
             return;
         }
-        
+
         let existingArticle = null;
         try {
             existingArticle = await ArticleController.Get(exArtId);
-        } catch (error) {
-            setErrorMessage("Article ID does not exist.");
-            setShowErrorModal(true);
-        }
-
-        if (existingArticle) {
+            await getArticleImage();
             setArticle(existingArticle);
             setUpdate(true);
+        } catch (error) {
+            setErrorMessage(error.message);
+            setShowErrorModal(true);
         }
     }
 
@@ -142,13 +189,26 @@ const EditArticle = ({ existingArticleId=undefined, sendCreatedId=undefined, red
 
     return (
         <>
-            <Form validated={validated} onSubmit={handleSave}>
-                {/* <Form.Group className="d-flex justify-content-center">
-                    <Image width="200" height="200" src={article && article.coverImage || NoImage} />
+            <Form>
+                <Form.Group className="d-flex justify-content-center">
+                    <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
                 </Form.Group>
                 <Form.Group className="d-flex justify-content-center">
-                    <div><input className="form-control darkInput" type="file" onChange={handleFileUpload} /> </div>
-                </Form.Group> */}
+                    <div>
+                        <input
+                            className="form-control darkInput"
+                            type="file"
+                            onChange={handleFileUpload}
+                        />
+                    </div>
+                </Form.Group>
+                {article._imageFileName && (
+                    <Button>Delete image</Button>
+                    
+                )}
+            </Form>
+
+            <Form validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
                     <Form.Label>Article Title</Form.Label>
                     <Form.Control

@@ -9,6 +9,7 @@ class QuestionMapper {
             data[QuestionJson.answerChoices] || [],
             data[QuestionJson.correctAnswerIndex],
             data[QuestionJson.id], 
+            data[QuestionJson.imageFileName]
         );
     }
 

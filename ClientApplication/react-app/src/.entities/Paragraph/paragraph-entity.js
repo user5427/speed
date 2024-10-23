@@ -5,9 +5,9 @@ class Paragraph {
         this.#createEmptyParagraph();
     }
 
-    static createParagraphFromParams(title, text, articleId, id = null, questionIDs = [], nextParagraphId = null) {
+    static createParagraphFromParams(title, text, articleId, id = null, questionIDs = [], imageFileName = null) {
         const paragraph = new Paragraph();
-        paragraph.#createParagraphFromParams(title, text, articleId, id, questionIDs, nextParagraphId);
+        paragraph.#createParagraphFromParams(title, text, articleId, id, questionIDs, imageFileName);
         return paragraph;
     }
 
@@ -21,7 +21,7 @@ class Paragraph {
         return newParagraph;
     }
 
-    #createParagraphFromParams(title, text, articleId, id = null, questionIDs = [], nextParagraphId = null) {
+    #createParagraphFromParams(title, text, articleId, id = null, questionIDs = [], imageFileName = null) {
         // Validate title
         if (typeof title !== "string" ||
             title.length < ValidationConstants.MinTitleLength ||
@@ -54,18 +54,13 @@ class Paragraph {
             throw new Error("Question IDs must be an array.");
         }
 
-        // Validate next paragraph ID (if provided)
-        if (nextParagraphId !== null && typeof nextParagraphId !== "number") {
-            throw new Error("Next paragraph ID must be a number.");
-        }
-
         // Assign properties
         this._title = title;
         this._text = text;
         this._articleId = articleId;
         this._questionIDs = questionIDs; // Initialize questionIDs
         this._id = id
-        this._nextParagraphId = nextParagraphId;
+        this._imageFileName = imageFileName;
     }
 
     #createEmptyParagraph() {
@@ -74,7 +69,7 @@ class Paragraph {
         this._articleId = null;
         this._questionIDs = [];
         this._id = null;
-        this._nextParagraphId = null;
+        this._imageFileName = null;
     }
 
     #copyParagraph(paragraph) {
@@ -103,10 +98,10 @@ class Paragraph {
         } else {
             this._id = null;
         }
-        if (paragraph.nextParagraphId) {
-            this._nextParagraphId = paragraph.nextParagraphId;
+        if (paragraph.imageFileName) {
+            this._imageFileName = question.imageFileName
         } else {
-            this._nextParagraphId = null;
+            this._imageFileName = null;
         }
     }
 
@@ -179,6 +174,18 @@ class Paragraph {
     }
     static varNextParagraphIdName() {
         return "nextParagraphId"
+    }
+
+    get imageFileName() {
+        return this._imageFileName;
+    }
+
+    set imageFileName(value) {
+        this._imageFileName = value;
+    }
+
+    resetImageFileName(){
+        this._imageFileName = null;
     }
 
     get id() {

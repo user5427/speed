@@ -5,9 +5,9 @@ class Article {
         this.#createEmptyArticle();
     }
 
-    static createArticleFromParams(title, categoryTitle, coverImage = null, paragraphIDs = [], id = null) {
+    static createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null) {
         const article = new Article();
-        article.#createArticleFromParams(title, categoryTitle, coverImage, paragraphIDs, id);
+        article.#createArticleFromParams(title, categoryTitle, paragraphIDs, id, imageFileName);
         return article;
     }
 
@@ -21,7 +21,7 @@ class Article {
         return newArticle;
     }
 
-    #createArticleFromParams(title, categoryTitle, coverImage = null, paragraphIDs = [], id = null) {
+    #createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null) {
         // Validate title
         if (typeof title !== "string" ||
             title.length < ValidationConstants.MinTitleLength ||
@@ -38,11 +38,6 @@ class Article {
             throw new Error("Category title must be a string and match the required pattern.");
         }
 
-        // Validate cover image (if provided)
-        if (coverImage !== null && typeof coverImage !== "string") {
-            throw new Error("Cover image must be a string.");
-        }
-
         // Validate paragraph IDs (if provided)
         if (paragraphIDs && !Array.isArray(paragraphIDs)) {
             throw new Error("Paragraph IDs must be an array.");
@@ -56,17 +51,17 @@ class Article {
         // Assign properties
         this._title = title;
         this._categoryTitle = categoryTitle;
-        this._coverImage = coverImage;
         this._paragraphIDs = paragraphIDs; // Initialize paragraphIDs as an empty array
         this._id = id;
+        this._imageFileName = imageFileName;
     }
 
     #createEmptyArticle() {
         this._title = "";
         this._categoryTitle = "";
-        this._coverImage = null;
         this._paragraphIDs = [];
         this._id = null;
+        this._imageFileName = null;
     }
 
     #copyArticle(article) {
@@ -80,11 +75,6 @@ class Article {
 
         this._title = article.title;
         this._categoryTitle = article.categoryTitle;
-        if (article.coverImage) {
-            this._coverImage = article.coverImage;
-        } else {
-            this._coverImage = "";
-        }
         if (article.paragraphIDs) {
             this._paragraphIDs = article.paragraphIDs;
         } else {
@@ -94,6 +84,11 @@ class Article {
             this._id = article.id;
         } else {
             this._id = null;
+        }
+        if (article.imageFileName) {
+            this._imageFileName = question.imageFileName
+        } else {
+            this._imageFileName = null;
         }
 
     }
@@ -137,19 +132,6 @@ class Article {
         return "categoryTitle"
     }
 
-    get coverImage() {
-        return this._coverImage;
-    }
-    set coverImage(value) {
-        // if (value && typeof value !== "string") {
-        // throw new Error("Cover image must be a string.");
-        // }
-        this._coverImage = value;
-    }
-    static varCoverImageName() {
-        return "coverImage"
-    }
-
     get paragraphIDs() {
         return this._paragraphIDs;
     }
@@ -158,6 +140,18 @@ class Article {
         // throw new Error("Paragraph IDs must be an array.");
         // }
         this._paragraphIDs = value;
+    }
+
+    get imageFileName() {
+        return this._imageFileName;
+    }
+
+    set imageFileName(value) {
+        this._imageFileName = value;
+    }
+
+    resetImageFileName(){
+        this._imageFileName = null;
     }
 
 
