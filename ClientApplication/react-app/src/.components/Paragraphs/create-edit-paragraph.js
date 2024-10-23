@@ -56,6 +56,10 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
         }
     }, [paragraph.imageFileName]);
 
+    useEffect(() => {
+        updateParagraphImage();
+    }, [paragraph.id]);
+
     // save the image, then if user creates or updates the paragraph, do the same for the image
     /**
      * Handle file upload
@@ -92,12 +96,10 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
 
     const updateParagraphImage = async () => {
         try {
-            if (paragraph.imageFileName && imageFile === undefined) {
-                await ParagraphController.DeleteImage(paragraph.id);
-                paragraph.imageFileName = null;
-                imageFile === undefined
-                setImageUrl(NoImage);
-            } if (paragraph.imageFileName === null && imageFile) {
+            if (paragraph.id === null) {
+                return;
+            }
+            if (paragraph.imageFileName === null && imageFile) {
                 await ParagraphController.PostImage(paragraph.id, imageFile);
                 paragraph.imageFileName = "hasImage";
             } else if (paragraph.imageFileName && imageFile && updateImageFile) {
@@ -125,7 +127,12 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
         setShowDeleteModal(false);
         if (deleteRequest === 1){
             try {
-                await updateParagraphImage();
+                if (paragraph.imageFileName) {
+                    await ParagraphController.DeleteImage(paragraph.id);
+                    paragraph.imageFileName = null;
+                    imageFile === undefined
+                    setImageUrl(NoImage);
+                }
             }
             catch (error) {
                 setErrorMessage(error.message); // Set error message
@@ -165,6 +172,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     setRedirect(false);
                     setSuccessMessage("Updated paragraph successfully.");
                     setShowSuccessModal(true);
+                    updateParagraphImage();
                     if (sendUpdate) {
                         sendUpdate();
                     }
@@ -173,12 +181,8 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     setSuccessMessage("Created paragraph successfully.");
                     setShowSuccessModal(true);
                     setUpdate(true);
-                    if (sendCreatedId) {
-                        sendCreatedId(newParagraph.id);
-                    }
                 }
                 setParagraph(newParagraph);
-                await updateParagraphImage();
             } catch (error) {
                 setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
@@ -230,6 +234,9 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
         setShowSuccessModal(false);
         if (MyRedirect) {
             window.location.href = `/edit-paragraph-question?paragraphId=${paragraph.id}`;
+        }
+        if (sendCreatedId) {
+            sendCreatedId(paragraph.id);
         }
     };
 

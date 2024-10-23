@@ -48,6 +48,10 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
         }
     }, [article.imageFileName]);
 
+    useEffect(() => {
+        updateArticleImage();
+    }, [article.id]);
+
 
     // save the image, then if user creates or updates the article, do the same for the image
     /**
@@ -84,12 +88,10 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
 
     const updateArticleImage = async () => {
         try {
-            if (article.imageFileName && imageFile === undefined) {
-                await ArticleController.DeleteImage(article.id);
-                article.imageFileName = null;
-                imageFile === undefined
-                setImageUrl(NoImage);
-            } if (article.imageFileName === null && imageFile) {
+            if (article.id === null){
+                return;
+            }
+            if (article.imageFileName === null && imageFile) {
                 await ArticleController.PostImage(article.id, imageFile);
                 article.imageFileName = "hasImage";
             } else if (article.imageFileName && imageFile && updateImageFile) {
@@ -117,7 +119,12 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
         setShowDeleteModal(false);
         if (deleteRequest === 1) {
             try {
-                await updateArticleImage();
+                if (article.imageFileName) {
+                    await ArticleController.DeleteImage(article.id);
+                    article.imageFileName = null;
+                    imageFile === undefined
+                    setImageUrl(NoImage);
+                }
             }
             catch (error) {
                 setErrorMessage(error.message); // Set error message
@@ -150,6 +157,7 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                 setRedirect(false);
                 setSuccessMessage("Updated article successfully.");
                 setShowSuccessModal(true);
+                updateArticleImage();
                 if (sendUpdate) {
                     sendUpdate();
                 }
@@ -158,12 +166,8 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                 setSuccessMessage("Created article successfully.");
                 setShowSuccessModal(true);
                 setUpdate(true);
-                if (sendCreatedId) {
-                    sendCreatedId(newArticle.id);
-                }
             }
             setArticle(newArticle);
-            await updateArticleImage();
         } catch (error) {
             setErrorMessage(error.message); // Set error message
             setShowErrorModal(true); // Show modal
@@ -210,6 +214,9 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
         setShowSuccessModal(false);
         if (MyRedirect) {
             window.location.href = `/edit-all?articleId=${article.id}`;
+        }
+        if (sendCreatedId) {
+            sendCreatedId(article.id);
         }
     }
 

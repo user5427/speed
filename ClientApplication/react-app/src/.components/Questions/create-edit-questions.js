@@ -58,6 +58,10 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
         }
     }, [question.imageFileName]);
 
+    useEffect(() => {
+        updateQuestionImage();
+    }, [question.id]);
+
     // save the image, then if user creates or updates the question, do the same for the image
     /**
      * Handle file upload
@@ -93,12 +97,10 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
 
     const updateQuestionImage = async () => {
         try {
-            if (question.imageFileName && imageFile === undefined) {
-                await QuestionController.DeleteImage(question.id);
-                question.imageFileName = null;
-                imageFile === undefined
-                setImageUrl(NoImage);
-            } if (question.imageFileName === null && imageFile) {
+            if (question.id === null) {
+                return;
+            }
+            if (question.imageFileName === null && imageFile) {
                 await QuestionController.PostImage(question.id, imageFile);
                 question.imageFileName = "hasImage";
             } else if (question.imageFileName && imageFile && updateImageFile) {
@@ -126,7 +128,12 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
         setShowDeleteModal(false);
         if (deleteRequest === 1) {
             try {
-                await updateQuestionImage();
+                if (question.imageFileName) {
+                    await QuestionController.DeleteImage(question.id);
+                    question.imageFileName = null;
+                    imageFile === undefined
+                    setImageUrl(NoImage);
+                }
             }
             catch (error) {
                 setErrorMessage(error.message); // Set error message
@@ -177,6 +184,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                     setRedirect(false);
                     setSuccessMessage("Updated question successfully.");
                     setShowSuccessModal(true);
+                    updateQuestionImage();
                     if (sendUpdate) {
                         sendUpdate();
                     }
@@ -185,12 +193,8 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                     setUpdate(true);
                     setSuccessMessage("Created question successfully.");
                     setShowSuccessModal(true);
-                    if (sendCreatedId) {
-                        sendCreatedId(newQuestion.id);
-                    }
                 }
                 setQuestion(newQuestion);
-                await updateQuestionImage();
             } catch (error) {
                 setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
@@ -245,6 +249,9 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
         setShowSuccessModal(false);
         if (MyRedirect) {
             window.location.href = `/edit-question?questionId=${question.id}`;
+        }
+        if (sendCreatedId) {
+            sendCreatedId(question.id);
         }
     }
 
@@ -467,10 +474,6 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                 <div>
                     <Button variant="success" type="submit" >{update ? "Update" : "Create"}</Button>
                 </div>
-                {/* if you can update the article, make a button apear for creating a new article */}
-                {/* {update ?
-                    <Button onClick={resetUpdating}>Reset</Button> : ""
-                } */}
             </Form>
 
             {/* Error Popup */}
@@ -485,6 +488,13 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                 showCreateModal={showSuccessModal}
                 message={successMessage}
                 onClose={closeSuccessModal}
+            />
+
+            <DeletePopup
+                showDeleteModal={showDeleteModal}
+                message={deleteMessage}
+                onClose={closeDeleteModal}
+                onDelete={deleteConfirmed}
             />
         </>
     )
