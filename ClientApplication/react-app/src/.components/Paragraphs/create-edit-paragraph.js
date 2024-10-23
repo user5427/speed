@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Button, Form, Image } from 'react-bootstrap';
+import { Button, Form, Image, Col, Row } from 'react-bootstrap';
 import { MdDelete } from "react-icons/md";
 import NoImage from '../../no-image.png'
 import ArticleSearch from '../Articles/article-search';
@@ -9,6 +9,7 @@ import { ArticleController, ParagraphController } from '../../.controllers/.Main
 import ErrorPopup from '../.common-components/ErrorPopup';
 import SuccessPopup from '../.common-components/SuccessPopup';
 import DeletePopup from '../.common-components/DeletePopup';
+import { GrRevert } from "react-icons/gr";
 
 const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
     const [paragraph, setParagraph] = useState(
@@ -300,11 +301,18 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     </div>
                 </Form.Group>
                 {paragraph.imageFileName && (
-                    <Button variant="danger" onClick={deleteParagraphImage}><MdDelete /> Delete image</Button>
-                )}
-                {/* {!article._imageFileName && (
-                     <Button variant="danger" onClick={deleteArticleImage} disabled><MdDelete /> Delete image</Button>
-                )} */}
+                        <Col>
+
+                            <Button onClick={getParagraphImage}><GrRevert /> Reset image</Button>
+                        </Col>
+                    )}
+
+                    {paragraph.imageFileName && (
+                        <Col>
+
+                            <Button variant="danger" onClick={deleteParagraphImage}><MdDelete /> Delete image</Button>
+                        </Col>
+                    )}
             </Form>
 
             {

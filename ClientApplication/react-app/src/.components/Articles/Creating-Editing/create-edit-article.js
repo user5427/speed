@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Button, Form, Image } from 'react-bootstrap';
+import { Button, Form, Image, Col, Row } from 'react-bootstrap';
 import { MdDelete } from "react-icons/md";
 import NoImage from '../../../no-image.png'
 import { ValidationConstants, ValidationPatternConstants } from '../../../.constants/MainConstants';
@@ -8,6 +8,8 @@ import { ArticleController } from '../../../.controllers/.MainControllersExport'
 import ErrorPopup from '../../.common-components/ErrorPopup';
 import SuccessPopup from '../../.common-components/SuccessPopup';
 import DeletePopup from '../../.common-components/DeletePopup';
+import { GrRevert } from "react-icons/gr";
+
 const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined, redirect = true, sendUpdate = undefined }) => {
     const [article, setArticle] = useState(
         new Article()
@@ -45,7 +47,7 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
             getArticleImage(); // Fetch image when the article is updated
         }
     }, [article.imageFileName]);
-    
+
 
     // save the image, then if user creates or updates the article, do the same for the image
     /**
@@ -103,17 +105,17 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
     }
 
     const deleteArticleImage = () => {
-            if (!article.imageFileName) {
-                return;
-            }
-            setDeleteRequest(1);
-            setShowDeleteModal(true);
-            setDeleteMessage("Are you sure you want to delete the image?");
+        if (!article.imageFileName) {
+            return;
+        }
+        setDeleteRequest(1);
+        setShowDeleteModal(true);
+        setDeleteMessage("Are you sure you want to delete the image?");
     }
 
     const deleteConfirmed = async () => {
         setShowDeleteModal(false);
-        if (deleteRequest === 1){
+        if (deleteRequest === 1) {
             try {
                 await updateArticleImage();
             }
@@ -228,11 +230,18 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                     </div>
                 </Form.Group>
                 {article.imageFileName && (
-                    <Button variant="danger" onClick={deleteArticleImage}><MdDelete /> Delete image</Button>
+                    <Col>
+
+                        <Button onClick={getArticleImage}><GrRevert /> Reset image</Button>
+                    </Col>
                 )}
-                {/* {!article._imageFileName && (
-                     <Button variant="danger" onClick={deleteArticleImage} disabled><MdDelete /> Delete image</Button>
-                )} */}
+
+                {article.imageFileName && (
+                    <Col>
+
+                        <Button variant="danger" onClick={deleteArticleImage}><MdDelete /> Delete image</Button>
+                    </Col>
+                )}
             </Form>
 
             <Form validated={validated} onSubmit={handleSave}>

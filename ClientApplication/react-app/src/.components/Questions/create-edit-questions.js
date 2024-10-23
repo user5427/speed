@@ -11,8 +11,8 @@ import SuccessPopup from '../.common-components/SuccessPopup';
 import DeletePopup from '../.common-components/DeletePopup';
 import { MdDelete } from "react-icons/md";
 import NoImage from '../../no-image.png'
-
-const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
+import { GrRevert } from "react-icons/gr";
+const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId = undefined, sendCreatedId = undefined, redirect = true, sendUpdate = undefined }) => {
     const [question, setQuestion] = useState(
         new Question()
     );
@@ -54,7 +54,7 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
 
     useEffect(() => {
         if (question && question.imageFileName) {
-            getParagraphImage(); // Fetch image when the article is updated
+            getQuestionImage(); // Fetch image when the article is updated
         }
     }, [question.imageFileName]);
 
@@ -124,7 +124,7 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
 
     const deleteConfirmed = async () => {
         setShowDeleteModal(false);
-        if (deleteRequest === 1){
+        if (deleteRequest === 1) {
             try {
                 await updateQuestionImage();
             }
@@ -365,12 +365,22 @@ const EditQuestions = ({ paragraphFromOutsideId=undefined, existingQuestionId=un
                         />
                     </div>
                 </Form.Group>
-                {question.imageFileName && (
-                    <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> Delete image</Button>
-                )}
-                {/* {!article._imageFileName && (
-                     <Button variant="danger" onClick={deleteArticleImage} disabled><MdDelete /> Delete image</Button>
-                )} */}
+                <Row>
+                    {question.imageFileName && (
+                        <Col>
+
+                            <Button onClick={getQuestionImage}><GrRevert /> Reset image</Button>
+                        </Col>
+                    )}
+
+                    {question.imageFileName && (
+                        <Col>
+
+                            <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> Delete image</Button>
+                        </Col>
+                    )}
+
+                </Row>
             </Form>
 
             {outsideParagraph ? "" :
