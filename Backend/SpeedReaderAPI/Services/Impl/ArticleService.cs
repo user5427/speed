@@ -109,7 +109,7 @@ public class ArticleService : IArticleService
                                         .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
                                         .Take(queryParameters.PageSize)
                                         .ToList();
-        var sortedArticles = Sorter.SortList(articles);                                
+        var sortedArticles = Sorter.SortList(articles,asc: false);                                
         List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(sortedArticles);
         return new PageResponse<ArticleResponse>(articleCount, articleResponseList);
     }

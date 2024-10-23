@@ -6,6 +6,7 @@ using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.Constants;
+using SpeedReaderAPI.helpers;
 namespace SpeedReaderAPI.Services.Impl;
 
 
@@ -128,7 +129,8 @@ public class ParagraphService : IParagraphService
                                         .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
                                         .Take(queryParameters.PageSize)
                                         .ToList();
-        List<ParagraphResponse> paragraphResponseList = _mapper.Map<List<ParagraphResponse>>(paragraphs);
+        var sortedList = Sorter.SortList(paragraphs);
+        List<ParagraphResponse> paragraphResponseList = _mapper.Map<List<ParagraphResponse>>(sortedList);
         return new PageResponse<ParagraphResponse>(paragraphCount, paragraphResponseList);
     }
 
