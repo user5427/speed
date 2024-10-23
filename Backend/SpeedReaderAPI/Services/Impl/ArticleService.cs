@@ -1,12 +1,11 @@
 using AutoMapper;
-using SpeedReaderAPI.Constants;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Exceptions;
-
+using SpeedReaderAPI.helpers;
 namespace SpeedReaderAPI.Services.Impl;
 
 
@@ -115,7 +114,8 @@ public class ArticleService : IArticleService
                                         .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
                                         .Take(queryParameters.PageSize)
                                         .ToList();
-        List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
+        var sortedArticles = Sorter.SortList(articles);                                
+        List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(sortedArticles);
         return new PageResponse<ArticleResponse>(articleCount, articleResponseList);
     }
 

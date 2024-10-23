@@ -6,6 +6,7 @@ using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Exceptions;
+using SpeedReaderAPI.helpers;
 namespace SpeedReaderAPI.Services.Impl;
 
 
@@ -143,7 +144,8 @@ public class QuestionService : IQuestionService
                                         .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
                                         .Take(queryParameters.PageSize)
                                         .ToList();
-        List<QuestionResponse> questionResponseList = _mapper.Map<List<QuestionResponse>>(questions);
+        var sortedList = Sorter.SortList(questions, asc: false);
+        List<QuestionResponse> questionResponseList = _mapper.Map<List<QuestionResponse>>(sortedList);
         return new PageResponse<QuestionResponse>(questionCount, questionResponseList);
     }
     public async Task<QuestionResponse> UploadImage(int id, ImageUploadRequest request)

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using SpeedReaderAPI.Constants;
 using SpeedReaderAPI.DTOs;
 
-public class Paragraph
+public class Paragraph : IComparable<Paragraph>
 {
     [Key]
     public int Id { get; set; }
@@ -59,4 +59,8 @@ public class Paragraph
     // ONE TO MANY
     public List<int> QuestionIds { get; set; } = [];
     public virtual List<Question> Questions { get; set; } = [];
+    public int CompareTo(Paragraph other)
+    {
+        return Title.CompareTo(other.Title);
+    }
 }

@@ -1,7 +1,6 @@
 namespace SpeedReaderAPI.Services;
 
 using SpeedReaderAPI.DTOs;
-using SpeedReaderAPI.DTOs.Paragraph;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
 

@@ -3,7 +3,6 @@ namespace SpeedReaderAPI.Services;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
-using SpeedReaderAPI.Entities;
 
 public interface IQuestionService : IServiceWithImage<QuestionResponse>
 {
