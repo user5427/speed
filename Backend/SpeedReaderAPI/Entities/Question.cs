@@ -62,6 +62,6 @@ public class Question : IComparable<Question>
     public virtual Paragraph? Paragraph { get; set; }
     public int CompareTo(Question other)
     {
-        return QuestionText.CompareTo(other.QuestionText);
+        return Id.CompareTo(other.Id);
     }
 }
