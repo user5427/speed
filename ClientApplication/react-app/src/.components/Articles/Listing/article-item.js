@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import "../../../styles/Articles/articleItemStyle.css"; // stylesheet
 import { MdModeEdit } from "react-icons/md";
 const ArticleItem = (props) => {
-    const { settings, selectThis, deleteThis, editThis } = props;
+    const { settings, selectThis, deleteThis, editThis, playThis } = props;
 
     return (
         <>
@@ -41,6 +41,14 @@ const ArticleItem = (props) => {
                         <Row className="row">
                             <Col xs={12} md={2} className="col col-12 col-md-2">
                                 <Button onClick={editThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}><MdModeEdit /> Edit</Button> {/* Apply a button class */}
+                            </Col>
+                        </Row>
+                    )}
+
+                    {settings && settings.showPlayButton && (
+                        <Row className="row">
+                            <Col xs={12} md={2} className="col col-12 col-md-2">
+                                <Button onClick={playThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Play</Button> {/* Apply a button class */}
                             </Col>
                         </Row>
                     )}

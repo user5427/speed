@@ -6,6 +6,7 @@ import { ArticleInfo, FeedbackMessage, ConfettiEffect, ResultsTableComponent, Re
 import { exerciseInfo } from './articleData';
 
 import { ArticleController, ParagraphController, QuestionController} from '../../.controllers/.MainControllersExport';
+import { useSearchParams } from 'react-router-dom';  // Import hook for query params
 
 const Exercise = () => {
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ const Exercise = () => {
   };
 
   const valuetext = (value) => `${value}`;
+
+  const [searchParams] = useSearchParams();
+  const [articleId, setArticleId] = useState(searchParams.get('articleId'));
 
   const [articleData, setArticleData] = useState(null);
   const [paragraphs, setParagraphs] = useState([]);
@@ -37,7 +41,6 @@ const Exercise = () => {
 
   const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
 
-
   const {
     avgReadingSpeed,
     worldRecordWPM,
@@ -54,7 +57,11 @@ const Exercise = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const article = await ArticleController.Get(111);
+        let MyArticleId = articleId;
+        if (MyArticleId === null) {
+          MyArticleId = 111; // DEFAULT ARTICLE ID
+        }
+        const article = await ArticleController.Get(MyArticleId);
         setArticleData(article);
       } catch (error) {
         console.error('Error fetching article:', error);

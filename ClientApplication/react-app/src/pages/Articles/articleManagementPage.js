@@ -24,10 +24,15 @@ const ArticleHomePage = () => {
         window.location.href = `/edit-all?articleId=${articleId}`;
 
     }
+
+    const getPlayArticle = (articleId) => {
+        window.location.href = `/exercise?articleId=${articleId}`;
+    }
     
     
     const settings = {
-        showEditButton: true
+        showEditButton: true,
+        showPlayButton: true
     };
 
     return (
@@ -53,6 +58,7 @@ const ArticleHomePage = () => {
             <ArticleList 
                 settings={settings}
                 getEditing={getSelectedArticle}
+                getPlay={getPlayArticle}
             />
         </>
 
