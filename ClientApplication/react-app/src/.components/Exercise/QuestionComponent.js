@@ -131,8 +131,8 @@ const QuestionComponent = ({
           backgroundColor: '#862d86',
           borderColor: '#602060',
         }}
-        onClick={handleSubmit} // Call the handleSubmit when user submits
-        disabled={submitted || !selectedAnswer} // Disable the button if already submitted or if no answer selected
+        onClick={handleSubmit}
+        disabled={submitted || !selectedAnswer}
       >
         Submit Answer
       </Button>
