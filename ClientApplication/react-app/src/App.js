@@ -7,6 +7,8 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 import { CgProfile } from "react-icons/cg";
 
+import LanguageSelector from './.components/LanguageSelector/LanguageSelector';
+
 // font:
 import '@fontsource/fredoka';
 import '@fontsource/fredoka/300.css';
@@ -23,14 +25,9 @@ import EditArticleParagraphQuestion from './pages/EditPages/editAll';
 import EditParagraphQuestion from './pages/EditPages/editParagraphQuestionPage';
 import EditQuestion from './pages/EditPages/editQuestionPage';
 
-import { LanguagesConstants } from './.constants/MainConstants';
-
 function App() {
-  const { i18n, t } = useTranslation(); 
 
-  const handleLanguageChange = (event) => {
-    i18n.changeLanguage(event.target.value);
-  };
+  const { t } = useTranslation();
 
   return (
     <Container>
@@ -41,20 +38,15 @@ function App() {
           </Navbar.Brand>
           <Navbar.Brand as={Link} to="/" className='siteName'>Speedreader.com</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">{t('home')}</Nav.Link>  {/* Translated "Home" */}
-            <Nav.Link as={Link} to="/about">{t('about')}</Nav.Link> {/* Translated "About us" */}
-
+            <Nav.Link as={Link} to="/">{t('home')}</Nav.Link> 
+            <Nav.Link as={Link} to="/about">{t('about')}</Nav.Link>
 
           </Nav>
           <Nav>
             <Nav.Link as={Link} to="/" style={{ marginRight: '5px' }}>Jonas Jonaitis <CgProfile size={30}/></Nav.Link>
-            <select  style={{ marginRight: '15px' }} value={i18n.language} onChange={handleLanguageChange}> {/* Bind value to i18n.language */}
-              {LanguagesConstants.map(({ code, label }) => (
-                <option key={code} value={code}>
-                  {label}
-                </option>
-              ))}
-            </select>
+          </Nav>
+          <Nav style={{ marginRight: '10px' }}>
+          <LanguageSelector/> 
           </Nav>
         </Navbar>
         <Routes>
