@@ -12,7 +12,7 @@ i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: "/i18n/{{lng}}.json",  // Relative path for translation files
+      loadPath: "/i18n/{{lng}}.json",
     },
   });
 

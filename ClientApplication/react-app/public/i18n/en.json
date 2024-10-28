@@ -1,10 +1,55 @@
 {
-    "home": "Home",
-    "about": "About",
-    "goToCategories": "Go to Categories",
-    "goToArticles": "Go to Articles",
-    "goToExercise": "Go to Exercise",
-    "flashingSentance": "Introducing our new web page \"Speedreader.com\", designed to help users read sentences quickly without being distracted by inner thoughts boosting focus, improving comprehension, and saving time with faster reading speeds."
-}
+    "homepage" : {
+        "home" : "Home",
+        "about" : "About",
+        "goToCategories" : "Go to Categories",
+        "goToArticles" : "Go to Articles",
+        "goToExercise" : "Go to Exercise",
+        "flashingSentence" : "Introducing our new web page \"Speedreader.com\", designed to help users read sentences quickly without being distracted by inner thoughts, boosting focus, improving comprehension, and saving time with faster reading speeds."
+    },
 
-  
+    "exercise" : {
+        "loading" : "Loading",
+
+
+        "reading" : {
+            "endOfParagraph" : "End of Paragraph",
+            "pressStartToBeginPar" : "Press Start to begin Paragraph",
+            "start" : "Start",
+            "wpm" : "WPM",
+            "goToQuestion" : "Go to question"
+        },
+        
+        "question" : {
+            "submitAnswer" : "Submit answer"
+        },
+
+        "message" : {
+            "nextParagrah" : "Next paragraph",
+            "finish" : "Finish",
+            "correct" : "Correct",
+            "incorrect" : "Incorrect! The correct answer was "
+        },
+
+        "articleInfo" : {
+            "title" : "Title",
+            "author" : "Author",
+            "publisher" : "Publisher",
+            "link" : "Link"
+        },
+
+        "results" : {
+            "exerciseCompleted" : "Exercise completed",
+            "resultsInner" : "Results",
+            "paragraphNr" : "Paragraph nr",
+            "words" : "Words",
+            "time" : "Time",
+            "wpm" : "WPM",
+            "questions" : "Questions",
+            "inConclusion" : "In conclusion",
+            "yourCurrentReadingSpeed" : "Your current reading speed",
+            "yourAverageReadingSpeedDuringExercise" : "Your average reading speed during exercise:",
+            "goBackToCategories" : "Go back to Categories"
+        }
+    }
+}

@@ -10,6 +10,8 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import '../../styles/exerciseStyle.css';
 
+import { useTranslation } from 'react-i18next'; 
+
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -53,6 +55,8 @@ const QuestionComponent = ({
     setSubmitted(true);
     onSubmit(selectedOptionIndex);
   };
+
+  const { t } = useTranslation();
 
   return (
     <div className="questionContainer">
@@ -134,7 +138,7 @@ const QuestionComponent = ({
         onClick={handleSubmit}
         disabled={submitted || !selectedAnswer}
       >
-        Submit Answer
+        {t('exercise.question.submitAnswer')}
       </Button>
     </div>
   );

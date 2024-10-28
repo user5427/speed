@@ -38,8 +38,8 @@ function App() {
           </Navbar.Brand>
           <Navbar.Brand as={Link} to="/" className='siteName'>Speedreader.com</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">{t('home')}</Nav.Link> 
-            <Nav.Link as={Link} to="/about">{t('about')}</Nav.Link>
+            <Nav.Link as={Link} to="/">{t('homepage.home')}</Nav.Link> 
+            <Nav.Link as={Link} to="/about">{t('homepage.about')}</Nav.Link>
 
           </Nav>
           <Nav>

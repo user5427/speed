@@ -1,8 +1,54 @@
 {
-    "home": "Namai",
-    "about": "Apie mus",
-    "goToCategories": "Eiti į Ketegorijos",
-    "goToArticles": "Eiti į Straipsniai",
-    "goToExercise": "Eiti į Užduotis",
-    "flashingSentance": "Pristatome mūsų naują internetinį puslapį \"Speedreader.com\", kuris padeda atsikratyti vidinio monologo skaitant. Šalia to, puslapis siekia pagerinti skaitytojo tekstų supratimą bei skaitytojo dėmesingumą. O svarbiausia - naudojantis šia svetaine, žmonės tiesiog sutaupys laiko skaitydami greičiau."
+    "homepage": {
+        "home": "Namai",
+        "about": "Apie mus",
+        "goToCategories": "Eiti į Ketegorijos",
+        "goToArticles": "Eiti į Straipsniai",
+        "goToExercise": "Eiti į Užduotis",
+        "flashingSentence": "Pristatome mūsų naują internetinį puslapį \"Speedreader.com\", kuris padeda atsikratyti vidinio monologo skaitant. Šalia to, puslapis siekia pagerinti skaitytojo tekstų supratimą bei skaitytojo dėmesingumą. O svarbiausia - naudojantis šia svetaine, žmonės tiesiog sutaupys laiko skaitydami greičiau."
+    },
+
+    "exercise" : {
+        "loading" : "Kraunama",
+
+        "reading" : {
+            "endOfParagraph" : "Baigta Pastraipa",
+            "pressStartToBeginPar" : "Spauskite Pradėti, kad startuotumėte Pastraipą",
+            "start" : "Pradėti",
+            "wpm" : "ŽPM",
+            "goToQuestion" : "Eiti prie klausimo"
+        },
+        
+        "question" : {
+            "submitAnswer" : "Pateikti atsakymą"
+        },
+
+        "message" : {
+            "nextParagrah" : "Kita pastraipa",
+            "finish" : "Finišuoti",
+            "correct" : "Teisingai",
+            "incorrect" : "Neteisingai! Tesingas atsakymas buvo "
+        },
+
+        "articleInfo" : {
+            "title" : "Pavadinimas",
+            "author" : "Autorius",
+            "publisher" : "Leidėjas",
+            "link" : "Nuoroda"
+        },
+
+        "results" : {
+            "exerciseCompleted" : "Užduotis baigta",
+            "resultsInner" : "Rezultatai",
+            "paragraphNr" : "Pastraipos nr",
+            "words" : "Žodžiai",
+            "time" : "Laikas",
+            "wpm" : "ŽPM",
+            "questions" : "Klausimai",
+            "inConclusion" : "Apibendrinimas",
+            "yourCurrentReadingSpeed" : "Jūsų dabartinis skaitymo greitis",
+            "yourAverageReadingSpeedDuringExercise" : "Jūsų skaitymo greitis pratimo metu",
+            "goBackToCategories" : "Eiti atgal prie Katekorijų"
+        }
+    }
 }

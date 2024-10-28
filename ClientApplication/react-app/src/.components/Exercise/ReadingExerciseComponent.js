@@ -5,6 +5,8 @@ import Slider from '@mui/material/Slider';
 import { VscDebugStart } from 'react-icons/vsc';
 import { FaQuestion} from 'react-icons/fa6';
 
+import { useTranslation } from 'react-i18next'; 
+
 const ReadingExerciseComponent = ({
   subject,
   title,
@@ -24,6 +26,9 @@ const ReadingExerciseComponent = ({
   valuetext,
   questionButtonClicked
 }) => {
+
+  const { t } = useTranslation();
+
   return (
     <div className="mainContainer">
       <Row style={{ marginTop: '10px', marginBottom: '10px', color: 'grey' }}>
@@ -48,7 +53,7 @@ const ReadingExerciseComponent = ({
               {finished && (
                 <>
                   {' '}
-                  <span>End of Paragraph</span>
+                  <span>{t('exercise.reading.endOfParagraph')}</span>
                   {' '}
                   <div className="yellowCircle" style={{ marginLeft: '3px' }}>
                     {currentParagraphIndex + 1}
@@ -58,7 +63,7 @@ const ReadingExerciseComponent = ({
             </>
           ) : (
             <>
-              Press Start to begin Paragraph{' '}
+              {t('exercise.reading.pressStartToBeginPar')}{' '}
               <div className="yellowCircle">
                 {currentParagraphIndex + 1}
               </div>
@@ -76,7 +81,7 @@ const ReadingExerciseComponent = ({
             onClick={handleStart}
             disabled={started}
           >
-            Start<VscDebugStart style={{ marginTop: '-3px' }} />
+            {t('exercise.reading.start')}<VscDebugStart style={{ marginTop: '-3px' }} />
           </Button>
         </Col>
 
@@ -106,7 +111,7 @@ const ReadingExerciseComponent = ({
               disabled={started}
               style={{ marginLeft: '5px', width: '100px' }}
             />
-            <span style={{ marginLeft: '10px' }}>WPM</span>
+            <span style={{ marginLeft: '10px' }}>{t('exercise.reading.wpm')}</span>
           </div>
         </Col>
 
@@ -118,7 +123,7 @@ const ReadingExerciseComponent = ({
             onClick={handleShowQuestion}
             disabled={!finished || questionButtonClicked}
           >
-            <FaQuestion style={{ marginTop: '-3px' }} /> Go to question
+            <FaQuestion style={{ marginTop: '-3px' }} /> {t('exercise.reading.goToQuestion')}
           </Button>
         </Col>
       </Row>

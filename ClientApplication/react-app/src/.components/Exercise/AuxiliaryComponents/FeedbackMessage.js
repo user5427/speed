@@ -3,7 +3,12 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { GrFormNextLink } from 'react-icons/gr';
 import { GiFinishLine } from 'react-icons/gi';
 
+import { useTranslation } from 'react-i18next'; 
+
 const FeedbackMessage = ({ feedbackMessage, currentParagraphIndex, paragraphs, handleNextParagraphOrQuestion }) => {
+ 
+  const { t } = useTranslation();
+
   return (
     <div
       className="mainContainer"
@@ -28,11 +33,11 @@ const FeedbackMessage = ({ feedbackMessage, currentParagraphIndex, paragraphs, h
         >
           {currentParagraphIndex < paragraphs.length - 1 ? (
             <>
-              Next paragraph <GrFormNextLink />
+              {t('exercise.message.nextParagrah')} <GrFormNextLink />
             </>
           ) : (
             <>
-              Finish <GiFinishLine />
+              {t('exercise.message.finish')} <GiFinishLine />
             </>
           )}
         </Button>

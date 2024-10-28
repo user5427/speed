@@ -1,9 +1,56 @@
 {
-      "home": "Heim",
-      "about": "Über uns",
-      "goToCategories": "Gehe zu Kategorien",
-      "goToArticles": "Gehe zu den Artikeln",
-      "goToExercise": "Zur Übung",
-      "flashingSentance": "Eins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht \nEins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht \nEins, zwei, Polizei \n Drei, vier, Grenadier\n Fünf, sechs, alte Hex' \nSieben, acht, gute Nacht"
-
-}
+      "homepage": {
+          "home": "Heim",
+          "about": "Über uns",
+          "goToCategories": "Gehe zu Kategorien",
+          "goToArticles": "Gehe zu den Artikeln",
+          "goToExercise": "Zur Übung",
+          "flashingSentence": "Eins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht \nEins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht \nEins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht"
+      },
+      
+      "exercise" : {
+            "loading" : "Loading",
+    
+    
+            "reading" : {
+                "endOfParagraph" : "End of Paragraph",
+                "pressStartToBeginPar" : "Press Start to begin Paragraph",
+                "start" : "Start",
+                "wpm" : "WPM",
+                "goToQuestion" : "Go to question"
+            },
+            
+            "question" : {
+                "submitAnswer" : "Submit answer"
+            },
+    
+            "message" : {
+                "nextParagrah" : "Next paragraph",
+                "finish" : "Finish",
+                "correct" : "Correct",
+                "incorrect" : "Incorrect! The correct answer was "
+            },
+    
+            "articleInfo" : {
+                "title" : "Title",
+                "author" : "Author",
+                "publisher" : "Publisher",
+                "link" : "Link"
+            },
+    
+            "results" : {
+                "exerciseCompleted" : "Exercise completed",
+                "resultsInner" : "Results",
+                "paragraphNr" : "Paragraph nr",
+                "words" : "Words",
+                "time" : "Time",
+                "wpm" : "WPM",
+                "questions" : "Questions",
+                "inConclusion" : "In conclusion",
+                "yourCurrentReadingSpeed" : "Your current reading speed",
+                "yourAverageReadingSpeedDuringExercise" : "Your average reading speed during exercise:",
+                "goBackToCategories" : "Go back to Categories"
+            }
+        }
+  }
+  

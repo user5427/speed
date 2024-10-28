@@ -6,6 +6,8 @@ import { TiMinus } from 'react-icons/ti';
 import { FaCheck, FaXmark } from 'react-icons/fa6';
 import Divider from '@mui/material/Divider';
 
+import { useTranslation } from 'react-i18next'; 
+
 const ResultsTable = ({
   timePerParagraph,
   wordsPerParagraph,
@@ -16,25 +18,26 @@ const ResultsTable = ({
 }) => {
   const averageWPM = calculateAverageWPM();
 
+  const { t } = useTranslation();
+
   return (
     <>
       <div className="mainContainer" style={{ textAlign: 'left', position: 'relative' }}>
         <div style={{ textAlign: 'center' }}>
           <h1 style={{ marginBottom: '10px' }}>
-            <MdOutlineCelebration color="#ffd633" style={{ marginTop: '-7px' }} /> Exercise
-            Completed!{' '}
+            <MdOutlineCelebration color="#ffd633" style={{ marginTop: '-7px' }} /> {t('exercise.results.exerciseCompleted')}{"! "}
             <MdOutlineCelebration color="#ffd633" style={{ marginTop: '-7px' }} />
           </h1>
           <Divider style={{ backgroundColor: '#a6a6a6', borderBottomWidth: 3 }}></Divider>
-          <h4 style={{ textAlign: 'left', marginTop: '10px' }}>Results:</h4>
+          <h4 style={{ textAlign: 'left', marginTop: '10px' }}>{t('exercise.results.resultsInner')}{':'}</h4>
           <Table striped bordered hover size="sm" variant="dark">
             <thead>
               <tr>
-                <th>Paragraph nr.</th>
-                <th>Words</th>
-                <th>Time</th>
-                <th style={{ color: '#ce99ff' }}>WPM</th>
-                <th style={{ color: '#ce99ff' }}>Questions</th>
+                <th>{t('exercise.results.paragraphNr')}{'.'}</th>
+                <th>{t('exercise.results.words')}</th>
+                <th>{t('exercise.results.time')}</th>
+                <th style={{ color: '#ce99ff' }}>{t('exercise.results.wpm')}</th>
+                <th style={{ color: '#ce99ff' }}>{t('exercise.results.questions')}</th>
               </tr>
             </thead>
             <tbody>
@@ -73,7 +76,7 @@ const ResultsTable = ({
               })}
             </tbody>
           </Table>
-          <h4 style={{ textAlign: 'left' }}>In conclusion:</h4>
+          <h4 style={{ textAlign: 'left' }}>{t('exercise.results.inConclusion')}{":"}</h4>
           <Table
             striped
             bordered
@@ -84,11 +87,11 @@ const ResultsTable = ({
           >
             <tbody>
               <tr>
-                <td>Your current reading speed: </td>
+                <td>{t('exercise.results.yourCurrentReadingSpeed')}{": "}</td>
                 <td>
-                  <span style={{ color: '#ce99ff' }}>{usersWPM}</span> WPM
+                  <span style={{ color: '#ce99ff' }}>{usersWPM}</span> {t('exercise.results.wpm')}
                 </td>
-                <td>Your average reading speed during exercise:</td>
+                <td>{t('exercise.results.yourAverageReadingSpeedDuringExercise')}{':'}</td>
                 <td>
                   {averageWPM ? (
                     <>
@@ -97,11 +100,11 @@ const ResultsTable = ({
                       ) : (
                         <span style={{ color: '#ff3300' }}>{averageWPM.toFixed(0)}</span>
                       )}{' '}
-                      WPM
+                      {t('exercise.results.wpm')}
                     </>
                   ) : (
                     <>
-                      <TiMinus /> WPM
+                      <TiMinus /> {t('exercise.results.wpm')}
                     </>
                   )}
                 </td>
@@ -115,7 +118,7 @@ const ResultsTable = ({
           style={{ backgroundColor: '#8400ff', borderColor: '#6900cc', marginTop: '5px', fontSize: '18px'}}
           onClick={redirectToCategories}
         >
-          <IoReturnUpBackSharp style={{ marginTop: '-4px' }} /> Go back to categories
+          <IoReturnUpBackSharp style={{ marginTop: '-4px' }} /> {t('exercise.results.goBackToCategories')}
         </Button>
       </div>
     </>

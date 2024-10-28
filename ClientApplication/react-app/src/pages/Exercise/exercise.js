@@ -8,7 +8,12 @@ import { exerciseInfo } from './articleData';
 import { ArticleController, ParagraphController, QuestionController} from '../../.controllers/.MainControllersExport';
 import { useSearchParams } from 'react-router-dom';  // Import hook for query params
 
+import { useTranslation } from 'react-i18next'; 
+
 const Exercise = () => {
+
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const redirectToCategories = () => {
@@ -198,7 +203,7 @@ useEffect(() => {
           minHeight: '50vh',
         }}
       >
-        <h1 style={{ color: 'white' }}>Loading...</h1>
+        <h1 style={{ color: 'white' }}>{t('exercise.loading')}{"..."}</h1>
       </div>
     );
   }
@@ -262,11 +267,11 @@ useEffect(() => {
     });
   
     if (isCorrect) {
-      setFeedbackMessage('Correct!');
-    } else {
+      setFeedbackMessage(`${t('exercise.message.correct')}!`);
+  } else {
       const correctAnswerText = question.answerChoices[correctAnswerIndex];
-      setFeedbackMessage(`Incorrect! The correct answer was '${correctAnswerText}'.`);
-    }
+      setFeedbackMessage(`${t('exercise.message.incorrect')} '${correctAnswerText}'.`);
+  }
   };
   
   
