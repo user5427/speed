@@ -1,4 +1,9 @@
 {
       "home": "Heim",
-      "about": "Über uns"
+      "about": "Über uns",
+      "goToCategories": "Gehe zu Kategorien",
+      "goToArticles": "Gehe zu den Artikeln",
+      "goToExercise": "Zur Übung",
+      "flashingSentance": "Eins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht \nEins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht \nEins, zwei, Polizei \n Drei, vier, Grenadier\n Fünf, sechs, alte Hex' \nSieben, acht, gute Nacht"
+
 }
