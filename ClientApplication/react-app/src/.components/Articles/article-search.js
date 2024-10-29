@@ -5,7 +5,12 @@ import { ArticleController } from "../../.controllers/.MainControllersExport";
 import { ValidationPatternConstants } from '../../.constants/MainConstants';
 import ErrorPopup from '../.common-components/ErrorPopup';
 
+import { useTranslation } from 'react-i18next'; 
+
 const ArticleSearch = ({ onArticleSelected, articleFromOutside}) => {
+
+    const { t } = useTranslation();
+
     const [options, setOptions] = useState([]);
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
@@ -47,7 +52,7 @@ const ArticleSearch = ({ onArticleSelected, articleFromOutside}) => {
         <>
             <Form NoValidate>
                 <Form.Group controlId="searchBar">
-                    <Form.Label>Search Articles</Form.Label>
+                    <Form.Label>{t('articles.search.searchArticles')}</Form.Label>
                     <Form.Control
                         value={articleFromOutside && articleFromOutside.title || searchValue}
                         list="articles"
@@ -65,7 +70,7 @@ const ArticleSearch = ({ onArticleSelected, articleFromOutside}) => {
                         {options}
                     </datalist>
                     <Form.Control.Feedback type="invalid">
-                        Please select an article.
+                        {t('articles.search.plsSelectArticle')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
             </Form>

@@ -10,8 +10,6 @@
 
     "exercise" : {
         "loading" : "Loading",
-
-
         "reading" : {
             "endOfParagraph" : "End of Paragraph",
             "pressStartToBeginPar" : "Press Start to begin Paragraph",
@@ -19,25 +17,21 @@
             "wpm" : "WPM",
             "goToQuestion" : "Go to question"
         },
-        
         "question" : {
             "submitAnswer" : "Submit answer"
         },
-
         "message" : {
             "nextParagrah" : "Next paragraph",
             "finish" : "Finish",
             "correct" : "Correct",
             "incorrect" : "Incorrect! The correct answer was "
         },
-
         "articleInfo" : {
             "title" : "Title",
             "author" : "Author",
             "publisher" : "Publisher",
             "link" : "Link"
         },
-
         "results" : {
             "exerciseCompleted" : "Exercise completed",
             "resultsInner" : "Results",
@@ -48,8 +42,58 @@
             "questions" : "Questions",
             "inConclusion" : "In conclusion",
             "yourCurrentReadingSpeed" : "Your current reading speed",
-            "yourAverageReadingSpeedDuringExercise" : "Your average reading speed during exercise:",
+            "yourAverageReadingSpeedDuringExercise" : "Your average reading speed during exercise",
             "goBackToCategories" : "Go back to Categories"
+        }
+    },
+
+    "paragraphs" : {
+        "search" : {
+            "searchPar" : "Search Paragraphs",
+            "plsSelectPar" : "Please select a paragraph"
+        },
+        "createEdit" : {
+            "resetImg" : "Reset image",
+            "deleteImg" : "Delete image",
+            "articleID" : "Article ID",
+            "plsEnterArticleID" : "Please enter article ID",
+            "parTitle" : "Paragraph Title",
+            "plsEnterValidParTitle" : "Please enter a valid paragraph title (letters and spaces only)",
+            "paragraphText" : "Paragraph Text",
+            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters"
+        },
+        "item" : {
+            "select" : "Select",
+            "delete" : "Delete",
+            "edit" : "Edit"
+        }
+    },
+
+    "articles" : {
+        "createEdit" : {
+            "resetImg" : "Reset image",
+            "deleteImg" : "Delete image",
+            "articleTitle" : "Article Title",
+            "enterArticleTitle" : "Enter Article Title",
+            "enterArticleCategory" : "Enter Article Category",
+            "plsEnterArticleTitle" : "Please enter article title",
+            "articleCategory" : "Article Category",
+            "plsEnterArticleCategory" : "Please enter article category"
+
+        },
+        "returnToArticlesBtn" : {
+            "main" : "Main"
+        },
+        "search" : {
+            "searchArticles" : "Search Articles",
+            "plsSelectArticle" : "Please select an article"
+        },
+        "item" : {
+            "select" : "Select",
+            "delete" : "Delete",
+            "edit" : "Edit",
+            "play" : "Play"
         }
     }
 }
+

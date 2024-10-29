@@ -11,7 +11,12 @@ import SuccessPopup from '../.common-components/SuccessPopup';
 import DeletePopup from '../.common-components/DeletePopup';
 import { GrRevert } from "react-icons/gr";
 
+import { useTranslation } from 'react-i18next'; 
+
 const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
+    
+    const { t } = useTranslation();
+
     const [paragraph, setParagraph] = useState(
         new Paragraph()
     );
@@ -310,14 +315,14 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                 {paragraph.imageFileName && (
                         <Col>
 
-                            <Button onClick={getParagraphImage}><GrRevert /> Reset image</Button>
+                            <Button onClick={getParagraphImage}><GrRevert /> {t('paragraphs.createEdit.resetImg')}</Button>
                         </Col>
                     )}
 
                     {paragraph.imageFileName && (
                         <Col>
 
-                            <Button variant="danger" onClick={deleteParagraphImage}><MdDelete /> Delete image</Button>
+                            <Button variant="danger" onClick={deleteParagraphImage}><MdDelete /> {t('paragraphs.createEdit.deleteImg')}</Button>
                         </Col>
                     )}
             </Form>
@@ -339,7 +344,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     outsideArticle ? "" :
                         (
                             <Form.Group controlId="formtestTitle">
-                                <Form.Label>Article ID</Form.Label>
+                                <Form.Label>{t('paragraphs.createEdit.deleteImg')}</Form.Label>
                                 <Form.Control
                                     name={Paragraph.varArticleIdName()}
                                     value={paragraph.articleId}
@@ -351,7 +356,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                                     pattern={ValidationPatternConstants.IdPattern.source}
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    Please enter article ID.
+                                    {t('paragraphs.createEdit.plsEnterArticleID')}{'.'}
                                 </Form.Control.Feedback>
                             </Form.Group>
                         )
@@ -359,7 +364,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
 
 
                 <Form.Group controlId="formtestTitle">
-                    <Form.Label>Paragraph Title</Form.Label>
+                    <Form.Label>{t('paragraphs.createEdit.parTitle')}</Form.Label>
                     <Form.Control
                         name={Paragraph.varTitleName()}
                         value={paragraph.title}
@@ -373,12 +378,12 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                         pattern={ValidationPatternConstants.TitlePattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
-                        Please enter a valid paragraph title (letters and spaces only).
+                        {t('paragraphs.createEdit.plsEnterValidParTitle')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="formtestText">
-                    <Form.Label>Paragraph Text</Form.Label>
+                    <Form.Label>{t('paragraphs.createEdit.paragraphText')}</Form.Label>
                     <Form.Control
                         name={Paragraph.varTextName()}
                         value={paragraph.text}
@@ -394,7 +399,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                         pattern={ValidationPatternConstants.ParagraphPattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
-                        Please enter paragraph text between 10 and 1500 characters.
+                        {t('paragraphs.createEdit.plsEnterParText')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
 

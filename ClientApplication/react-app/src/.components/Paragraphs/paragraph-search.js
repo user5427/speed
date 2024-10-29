@@ -5,7 +5,13 @@ import { useState } from 'react';
 import { ParagraphController } from "../../.controllers/.MainControllersExport";
 import { ValidationPatternConstants } from '../../.constants/MainConstants';
 import ErrorPopup from '../.common-components/ErrorPopup';
+
+import { useTranslation } from 'react-i18next'; 
+
 const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
+
+    const { t } = useTranslation();
+
     const [options, setOptions] = useState([]);
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
@@ -47,7 +53,7 @@ const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
         <>
             <Form NoValidate>
                 <Form.Group controlId="searchBar">
-                    <Form.Label>Search Paragraphs</Form.Label>
+                    <Form.Label>{t('paragraphs.search.searchPar')}</Form.Label>
                     <Form.Control
                         value={paragraphFromOutside && paragraphFromOutside.title || searchValue}
                         list="paragraphs"
@@ -65,7 +71,7 @@ const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
                         {options}
                     </datalist>
                     <Form.Control.Feedback type="invalid">
-                        Please select a paragraph.
+                        {t('paragraphs.search.plsSelectPar')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
             </Form>

@@ -11,7 +11,6 @@
       "exercise" : {
             "loading" : "Loading",
     
-    
             "reading" : {
                 "endOfParagraph" : "End of Paragraph",
                 "pressStartToBeginPar" : "Press Start to begin Paragraph",
@@ -51,6 +50,56 @@
                 "yourAverageReadingSpeedDuringExercise" : "Your average reading speed during exercise:",
                 "goBackToCategories" : "Go back to Categories"
             }
+        },
+
+        
+    "paragraphs" : {
+        "search" : {
+            "searchPar" : "Search Paragraphs",
+            "plsSelectPar" : "Please select a paragraph"
+        },
+        "createEdit" : {
+            "resetImg" : "Reset image",
+            "deleteImg" : "Delete image",
+            "articleID" : "Article ID",
+            "plsEnterArticleID" : "Please enter article ID",
+            "parTitle" : "Paragraph Title",
+            "plsEnterValidParTitle" : "Please enter a valid paragraph title (letters and spaces only)",
+            "paragraphText" : "Paragraph Text",
+            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters"
+        },
+        "item" : {
+            "select" : "Select",
+            "delete" : "Delete",
+            "edit" : "Edit"
         }
+    },
+
+    "articles" : {
+        "createEdit" : {
+            "resetImg" : "Reset image",
+            "deleteImg" : "Delete image",
+            "articleTitle" : "Article Title",
+            "plsEnterArticleTitle" : "Please enter article title",
+            "articleCategory" : "Article Category",
+            "plsEnterArticleCategory" : "Please enter article category"
+
+        },
+        "returnToArticlesBtn" : {
+            "main" : "Main"
+        },
+        "search" : {
+            "searchArticles" : "Search Articles",
+            "plsSelectArticle" : "Please select an article"
+        },
+        "item" : {
+            "select" : "Select",
+            "delete" : "Delete",
+            "edit" : "Edit",
+            "play" : "Play"
+        }
+    }
+
+
   }
   

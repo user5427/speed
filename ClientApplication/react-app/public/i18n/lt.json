@@ -50,5 +50,54 @@
             "yourAverageReadingSpeedDuringExercise" : "Jūsų skaitymo greitis pratimo metu",
             "goBackToCategories" : "Eiti atgal prie Katekorijų"
         }
+    },
+    
+    "paragraphs" : {
+        "search" : {
+            "searchPar" : "Ieškoti Paragrafų",
+            "plsSelectPar" : "Prašome pasirinkti paragrafą"
+        },
+        "createEdit" : {
+            "resetImg" : "Atstatyti paveikslėlį",
+            "deleteImg" : "Panaikinti paveikslėlį",
+            "articleID" : "Straipsnio ID",
+            "plsEnterArticleID" : "Prašome įvesti straipsnio ID",
+            "parTitle" : "Straipsnio Pavadinimas", 
+            "plsEnterValidParTitle" : "Prašome įvesti teisingą pastraipos pavadinimą (tik raidės ir tarpai)",
+            "paragraphText" : "Pastraipos tekstas", 
+            "plsEnterParText" : "Prašome įvesti pastraipos tekstą ilgio nuo 10 iki 1500 simbolių"
+        },
+        "item" : {
+            "select" : "Pasirinkti",
+            "delete" : "Panaikinti",
+            "edit" : "Redaguoti"
+        }
+    },
+
+    "articles" : {
+        "createEdit" : {
+            "resetImg" : "Atstatyti paveikslėlį",
+            "deleteImg" : "Panaikinti paveikslėlį",
+            "articleTitle" : "Straipsnio Pavadinimas",
+            "enterArticleTitle" : "Įveskite Straipsnio Pavadinimą",
+            "enterArticleCategory" : "Įveskite Straipsnio Kategoriją",
+            "plsEnterArticleTitle" : "Prašome įvesti straipsnio pavadinimą",
+            "articleCategory" : "Straipsnio Kategorija",
+            "plsEnterArticleCategory" : "Prašome įvesti straipsnio kategorją"
+
+        },
+        "returnToArticlesBtn" : {
+            "main" : "Pagrindinis"
+        },
+        "search" : {
+            "searchArticles" : "Ieškoti Straipsnių",
+            "plsSelectArticle" : "Prašome pasirinkti straipsnį"
+        },
+        "item" : {
+            "select" : "Pasirinkti",
+            "delete" : "Panaikinti",
+            "edit" : "Redaguoti",
+            "play" : "Žaisti"
+        }
     }
 }

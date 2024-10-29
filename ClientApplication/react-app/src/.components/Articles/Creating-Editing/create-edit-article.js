@@ -10,7 +10,12 @@ import SuccessPopup from '../../.common-components/SuccessPopup';
 import DeletePopup from '../../.common-components/DeletePopup';
 import { GrRevert } from "react-icons/gr";
 
+import { useTranslation } from 'react-i18next'; 
+
 const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined, redirect = true, sendUpdate = undefined }) => {
+
+    const { t } = useTranslation();
+
     const [article, setArticle] = useState(
         new Article()
     );
@@ -239,26 +244,26 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                 {article.imageFileName && (
                     <Col>
 
-                        <Button onClick={getArticleImage}><GrRevert /> Reset image</Button>
+                        <Button onClick={getArticleImage}><GrRevert /> {t('articles.createEdit.resetImg')}</Button>
                     </Col>
                 )}
 
                 {article.imageFileName && (
                     <Col>
 
-                        <Button variant="danger" onClick={deleteArticleImage}><MdDelete /> Delete image</Button>
+                        <Button variant="danger" onClick={deleteArticleImage}><MdDelete /> {t('articles.createEdit.deleteImg')}</Button>
                     </Col>
                 )}
             </Form>
 
             <Form validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle">
-                    <Form.Label>Article Title</Form.Label>
+                    <Form.Label>{t('articles.createEdit.articleTitle')}</Form.Label>
                     <Form.Control
                         name={Article.varTitleName()}
                         value={article.title}
                         required type="text" autoComplete='off'
-                        placeholder="Enter Article Title"
+                        placeholder={t('articles.createEdit.enterArticleTitle')}
                         className="form-control darkInput"
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinTitleLength}
@@ -266,22 +271,22 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                         pattern={ValidationPatternConstants.TitlePattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
-                        Please enter article title.
+                        {t('articles.createEdit.plsEnterArticleTitle')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="formtestCategory">
-                    <Form.Label>Article Category</Form.Label>
+                    <Form.Label>{t('articles.createEdit.articleCategory')}</Form.Label>
                     <Form.Control
                         name={Article.varCategoryTitleName()}
                         value={article.categoryTitle}
                         className="form-control darkInput"
-                        required type="text" placeholder="Enter Article Category"
+                        required type="text" placeholder={t('articles.createEdit.enterArticleCategory')}
                         onChange={handleFieldChange}
                         pattern={ValidationPatternConstants.ArticleCategoryPattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
-                        Please enter article category.
+                        {t('articles.createEdit.plsEnterArticleCategory')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
 
