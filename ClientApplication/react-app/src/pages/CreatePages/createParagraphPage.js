@@ -4,14 +4,18 @@ import { Row, Col } from 'react-bootstrap';
 
 import { CreateEditParagraph, ReturnToArticlesButton } from '../../.components/.MainComponentsExport';
 
+import { useTranslation } from 'react-i18next'; 
+
 const CreateParagraph = () => {
+
+    const { t } = useTranslation();
 
     return (
         <>
             <ReturnToArticlesButton />
 
             <div className="create-article-page">
-                <h2>Create paragraph</h2>
+                <h2>{t('createParagraphPage.createParagraph')}</h2>
             </div>
 
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>

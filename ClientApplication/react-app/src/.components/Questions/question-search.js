@@ -6,7 +6,13 @@ import { useState } from 'react';
 import { QuestionController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from "../.common-components/ErrorPopup";
 import { ValidationPatternConstants } from "../../.constants/MainConstants";
+
+import { useTranslation } from 'react-i18next'; 
+
 const QuestionSearch = ({ onQuestionSelected, questionFromOutside }) => {
+
+    const { t } = useTranslation();
+
     const [options, setOptions] = useState([]);
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
@@ -47,14 +53,14 @@ const QuestionSearch = ({ onQuestionSelected, questionFromOutside }) => {
         <>
             <Form NoValidate>
                 <Form.Group controlId="searchBar">
-                    <Form.Label>Search Questions</Form.Label>
+                    <Form.Label>{t('questions.search.searchQuestions')}</Form.Label>
                     <Form.Control
                         value={questionFromOutside && questionFromOutside.title || searchValue}
                         list="questions"
                         name="questionSearch"
                         required
                         type="text"
-                        placeholder="Enter question title"
+                        placeholder={t('questions.search.enterQuestionsTitle')}
                         onChange={handleFieldChange}
                         onInput={handleQuestionSelect}
                         autoComplete="off"
@@ -64,7 +70,7 @@ const QuestionSearch = ({ onQuestionSelected, questionFromOutside }) => {
                         {options}
                     </datalist>
                     <Form.Control.Feedback type="invalid">
-                        Please select a question.
+                        {t('questions.search.plsSelectQuestion')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
             </Form>

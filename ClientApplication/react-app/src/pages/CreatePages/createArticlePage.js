@@ -3,14 +3,17 @@ import '../../styles/Articles/createArticleStyle.css';
 import { CreateEditArticle, ReturnToArticlesButton } from '../../.components/.MainComponentsExport';
 import { Row, Col } from 'react-bootstrap';
 
+import { useTranslation } from 'react-i18next'; 
 const CreateArticle = () => {
+
+    const { t } = useTranslation();
 
     return (
         <>
             <ReturnToArticlesButton />
 
             <div className="create-article-page">
-                <h2>Create Article</h2>
+                <h2>{t('createArticlePage.createArticle')}</h2>
             </div>
 
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>

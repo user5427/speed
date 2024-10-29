@@ -290,7 +290,7 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant="success" type="submit">{update ? "Update" : "Create"}</Button>
+                <Button variant="success" type="submit">{update ? t('articles.createEdit.update') : t('articles.createEdit.create')}</Button>
             </Form>
 
             {/* Error Popup */}

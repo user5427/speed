@@ -12,7 +12,13 @@ import DeletePopup from '../.common-components/DeletePopup';
 import { MdDelete } from "react-icons/md";
 import NoImage from '../../no-image.png'
 import { GrRevert } from "react-icons/gr";
+
+import { useTranslation } from 'react-i18next'; 
+
 const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId = undefined, sendCreatedId = undefined, redirect = true, sendUpdate = undefined }) => {
+    
+    const { t } = useTranslation();
+    
     const [question, setQuestion] = useState(
         new Question()
     );
@@ -391,14 +397,14 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                     {question.imageFileName && (
                         <Col>
 
-                            <Button onClick={getQuestionImage}><GrRevert /> Reset image</Button>
+                            <Button onClick={getQuestionImage}><GrRevert /> {t('questions.createEdit.resetImg')}</Button>
                         </Col>
                     )}
 
                     {question.imageFileName && (
                         <Col>
 
-                            <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> Delete image</Button>
+                            <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> {t('questions.createEdit.deleteImg')}</Button>
                         </Col>
                     )}
 
@@ -418,26 +424,26 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                     outsideParagraph ? "" :
                         (
                             <Form.Group controlId="formtestTitle">
-                                <Form.Label>Paragraph ID</Form.Label>
+                                <Form.Label>{t('questions.createEdit.paragraphID')}</Form.Label>
                                 <Form.Control
                                     name={Question.varParagraphIdName()}
                                     value={question.paragraphId}
                                     required type="number"
                                     autoComplete='off'
                                     className="form-control darkInput"
-                                    placeholder="Enter paragraph ID"
+                                    placeholder={t('questions.createEdit.enterParagraphID')}
                                     onChange={handleFieldChange}
                                     pattern={ValidationPatternConstants.IdPattern.source}
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    Please enter paragraph ID.
+                                    {t('questions.createEdit.plsEnterParagraphID')}{'.'}
                                 </Form.Control.Feedback>
                             </Form.Group>
                         )
                 }
 
                 <Form.Group controlId="formtestTitle">
-                    <Form.Label>Question Text</Form.Label>
+                    <Form.Label>{t('questions.createEdit.questionText')}</Form.Label>
                     <Form.Control
                         name={Question.varTextName()}
                         value={question.text}
@@ -446,14 +452,14 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                         required type="text"
                         autoComplete='off'
                         className="form-control darkInput"
-                        placeholder="Enter Question Text"
+                        placeholder={t('questions.createEdit.eneterQuestionText')}
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinQuestionTextLength}
                         maxLength={ValidationConstants.MaxQuestionTextLength}
                         pattern={ValidationPatternConstants.QuestionTextPattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
-                        Please enter question text.
+                        {t('questions.createEdit.plsEnterQuestionText')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
 
@@ -461,7 +467,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                 <div>
                     <Row style={{ marginBottom: '10px', marginTop: '20px' }} >
                         <Col xs={12} md={10} >
-                            <Button onClick={() => addEmptyAnswer()}>Add answer</Button>
+                            <Button onClick={() => addEmptyAnswer()}>{t('questions.createEdit.addAnswer')}</Button>
                         </Col>
                     </Row>
 
@@ -487,7 +493,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
 
 
                 <div>
-                    <Button variant="success" type="submit" >{update ? "Update" : "Create"}</Button>
+                    <Button variant="success" type="submit" >{update ? t('questions.createEdit.update') : t('questions.createEdit.create')}</Button>
                 </div>
             </Form>
 

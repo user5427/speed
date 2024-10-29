@@ -7,45 +7,48 @@ import { GiMicroscope } from "react-icons/gi";
 import { GiBookmark } from "react-icons/gi";
 import { GiBlackKnightHelm } from "react-icons/gi";
 
+import { useTranslation } from 'react-i18next'; 
+
 const Categories = () => {
 
+    const { t } = useTranslation();
 
     return (
         <div className='mainContainer'>
              <Row style={{marginBottom: '10px'}} >
                  <Col xs={12} md={10} >
-                     <h2>Subjects</h2>
+                     <h2>{t('categories.subjects')}</h2>
                  </Col>
              </Row>
              <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 4}}></Divider>
               
              <Row className='rowCategories' style={{marginTop: '25px'}}>
                  <Col xs={12} md={2}>
-                  <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#739900', borderColor: '#608000'}} onClick={() => {}}><GiMicroscope />  Biology</Button>
+                  <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#739900', borderColor: '#608000'}} onClick={() => {}}><GiMicroscope />  {t('categories.biology')}</Button>
                  </Col>
-                 <Col className='categories'>Plants, molecules, animals</Col>
+                 <Col className='categories'>{t('categories.bCategories')}</Col>
              </Row >    
  
              <Row className='rowCategories'>
  
              <Col xs={12} md={2}>
-                  <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#0044cc', borderColor: '#003399'}} onClick={() => {}}><GiFallingStar />  Astronomy</Button>
+                  <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#0044cc', borderColor: '#003399'}} onClick={() => {}}><GiFallingStar />  {t('categories.astronomy')}</Button>
                  </Col>
-                 <Col className='categories'>Milky Way Galaxy, Closest star systems, Black holes</Col>
+                 <Col className='categories'>{t('categories.aCategories')}</Col>
              </Row>
  
              <Row className='rowCategories'>
                  <Col xs={12} md={2}>
-                  <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#b38600', borderColor: '#806000'}} onClick={() => {}}><GiBlackKnightHelm /> History</Button>
+                  <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#b38600', borderColor: '#806000'}} onClick={() => {}}><GiBlackKnightHelm /> {t('categories.history')}</Button>
                  </Col>
-                 <Col className='categories'>Ancient Egypt, Middle Ages, WW I, WW II</Col>
+                 <Col className='categories'>{t('categories.hCategories')}</Col>
              </Row>
  
              <Row className='rowCategories'>
                  <Col xs={12} md={2}>
-                  <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#b30059', borderColor: '#800040'}} onClick={() => {}}><GiBookmark /> Literature</Button>
+                  <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#b30059', borderColor: '#800040'}} onClick={() => {}}><GiBookmark /> {t('categories.literature')}</Button>
                   </Col>
-                 <Col className='categories'>William Shakespeare, Alexandre Dumas, Victor Hugo</Col>
+                 <Col className='categories'>{t('categories.lCategories')}</Col>
              </Row>
  
          </div>

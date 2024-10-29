@@ -5,7 +5,12 @@ import "../../styles/Articles/articleManagementPage.css";
 import { Row, Col, Button } from 'react-bootstrap';
 import { FaPlusSquare } from "react-icons/fa";
 
+import { useTranslation } from 'react-i18next'; 
+
 const ArticleHomePage = () => {
+
+    const { t } = useTranslation();
+
     const navigate = useNavigate();
 
     const redirectToCreateArticle = () => {
@@ -38,21 +43,21 @@ const ArticleHomePage = () => {
     return (
         <>
             <div className="article-home-page">
-                <h2>Article Home Page</h2>
+                <h2>{t('articleManagmentPage.articleHomePage')}</h2>
                 <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                     <Row className='row'>
                         <Col xs={12} md={4}>
-                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateArticle}><FaPlusSquare /> Create Article</Button>
+                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateArticle}><FaPlusSquare /> {t('articleManagmentPage.createArticle')}</Button>
                         </Col>
                         <Col xs={12} md={4}>
-                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateParagraph}><FaPlusSquare /> Create Paragraph</Button>
+                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateParagraph}><FaPlusSquare /> {t('articleManagmentPage.createParagraph')}</Button>
                         </Col>
                         <Col xs={12} md={4}>
-                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateQuestion}><FaPlusSquare /> Create Question</Button>
+                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateQuestion}><FaPlusSquare /> {t('articleManagmentPage.createQuestion')}</Button>
                         </Col>
                     </Row>
                 </div>
-                <h2>Article list</h2>
+                <h2>{t('articleManagmentPage.articleList')}</h2>
             </div>
 
             <ArticleList 

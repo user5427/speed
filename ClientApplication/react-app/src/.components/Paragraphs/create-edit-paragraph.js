@@ -350,7 +350,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                                     value={paragraph.articleId}
                                     required type="number"
                                     autoComplete='off'
-                                    placeholder="Enter article ID"
+                                    placeholder={t('paragraphs.createEdit.enterArticleID')}
                                     className="form-control darkInput"
                                     onChange={handleFieldChange}
                                     pattern={ValidationPatternConstants.IdPattern.source}
@@ -369,7 +369,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                         name={Paragraph.varTitleName()}
                         value={paragraph.title}
                         autoComplete='off'
-                        placeholder="Enter Paragraph Title"
+                        placeholder={t('paragraphs.createEdit.enterParTitle')}
                         className="form-control darkInput"
                         onChange={handleFieldChange}
                         required type="text"
@@ -392,7 +392,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                         className="form-control darkInput"
                         required type="text"
                         autoComplete='off'
-                        placeholder="Enter Paragraph Text"
+                        placeholder={t('paragraphs.createEdit.eneterParText')}
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinParagraphLength}
                         maxLength={ValidationConstants.MaxParagraphLength}
@@ -403,7 +403,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant="success" type="submit">{update ? "Update" : "Create"}</Button>
+                <Button variant="success" type="submit">{update ? t('paragraphs.createEdit.update') : t('paragraphs.createEdit.create')}</Button>
                 {/* {update ?
                     <Button onClick={resetUpdating}>Reset</Button> : ""
                 } */}

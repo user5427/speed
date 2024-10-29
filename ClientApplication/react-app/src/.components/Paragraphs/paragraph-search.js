@@ -61,7 +61,7 @@ const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
                         required
                         type="text"
                         className="form-control darkInput"
-                        placeholder="Enter paragraph title"
+                        placeholder={t('paragraphs.search.enterParTitle')}
                         onChange={handleFieldChange}
                         onInput={handleParagraphSelect}
                         autoComplete="off"

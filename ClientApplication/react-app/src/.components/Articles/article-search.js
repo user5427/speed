@@ -60,7 +60,7 @@ const ArticleSearch = ({ onArticleSelected, articleFromOutside}) => {
                         required
                         type="text"
                         className="form-control darkInput"
-                        placeholder="Enter article title"
+                        placeholder={t('articles.search.enterArticleTitle')}
                         onChange={handleFieldChange} // Update the options list
                         onInput={handleArticleSelect} // Handle article selection
                         autoComplete="off"

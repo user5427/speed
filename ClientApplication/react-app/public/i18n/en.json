@@ -8,6 +8,38 @@
         "flashingSentence" : "Introducing our new web page \"Speedreader.com\", designed to help users read sentences quickly without being distracted by inner thoughts, boosting focus, improving comprehension, and saving time with faster reading speeds."
     },
 
+    "articleManagmentPage" : {
+        "articleHomePage" : "Article Home Page",
+        "createArticle" : "Create Article",
+        "createParagraph" : "Create Paragraph",
+        "createQuestion" : "Create Question",
+        "articleList" : "Article list"
+    },
+
+    "createArticlePage" : {
+        "createArticle" : "Create Article"
+    },
+
+    "createParagraphPage" : {
+        "createParagraph" : "Create Paragraph"
+    },
+
+    "createQuestionPage" : {
+        "createQuestion" : "Create Question"
+    },
+
+    "categories" : {
+        "subjects" : "Subjects",
+        "biology" : "Biology",
+            "bCategories" : "Plants, molecules, animals",
+        "astronomy" : "Astronomy",
+            "aCategories" : "Milky Way Galaxy, Closest star systems, Black holes",
+        "history" : "History",
+            "hCategories" : "Ancient Egypt, Middle Ages, WW I, WW II",
+        "literature" : "Literature",
+            "lCategories" : "William Shakespeare, Alexandre Dumas, Victor Hugo"
+    },
+
     "exercise" : {
         "loading" : "Loading",
         "reading" : {
@@ -47,20 +79,27 @@
         }
     },
 
+
     "paragraphs" : {
         "search" : {
             "searchPar" : "Search Paragraphs",
+            "enterParTitle" : "Enter paragraph title",
             "plsSelectPar" : "Please select a paragraph"
         },
         "createEdit" : {
             "resetImg" : "Reset image",
             "deleteImg" : "Delete image",
             "articleID" : "Article ID",
+            "enterArticleID" : "Enter article ID",
             "plsEnterArticleID" : "Please enter article ID",
             "parTitle" : "Paragraph Title",
+            "enterParTitle" : "Enter Paragraph Title",
             "plsEnterValidParTitle" : "Please enter a valid paragraph title (letters and spaces only)",
             "paragraphText" : "Paragraph Text",
-            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters"
+            "eneterParText" : "Enter Paragraph Text",
+            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters",
+            "update" : "Update",
+            "create" : "Create"
         },
         "item" : {
             "select" : "Select",
@@ -78,13 +117,15 @@
             "enterArticleCategory" : "Enter Article Category",
             "plsEnterArticleTitle" : "Please enter article title",
             "articleCategory" : "Article Category",
-            "plsEnterArticleCategory" : "Please enter article category"
-
+            "plsEnterArticleCategory" : "Please enter article category",
+            "update" : "Update",
+            "create" : "Create"
         },
         "returnToArticlesBtn" : {
             "main" : "Main"
         },
         "search" : {
+            "enterArticleTitle" : "Enter Article Title",
             "searchArticles" : "Search Articles",
             "plsSelectArticle" : "Please select an article"
         },
@@ -93,6 +134,34 @@
             "delete" : "Delete",
             "edit" : "Edit",
             "play" : "Play"
+        }
+    },
+
+    "questions" : {
+        "createEdit" : {
+            "resetImg" : "Reset image",
+            "deleteImg" : "Delete image",
+            "paragraphID" : "Paragraph ID",
+            "enterParagraphID" : "Enter paragraph ID",
+            "plsEnterParagraphID" : "Please enter paragraph ID",
+            "questionText" : "Question Text",
+            "eneterQuestionText" : "Enter Question Text",
+            "plsEnterQuestionText" : "Please enter question text",
+            "addAnswer" : "Add answer",
+            "update" : "Update",
+            "create" : "Create"
+        },
+        "answerItem" : {
+            "answer" : "Answer",
+            "enterAnswer" : "Enter answer",
+            "plsEnterAnswer" : "Please enter an answer",
+            "correct" : "Correct",
+            "delete" : "Delete"
+        },
+        "search" : {
+            "searchQuestions" : "Search Questions",
+            "enterQuestionsTitle" : "Enter question title",
+            "plsSelectQuestion" : "Please select a question"
         }
     }
 }
