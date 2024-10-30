@@ -84,4 +84,11 @@ public class ArticlesController : ControllerBase
         _articleService.DeleteArticle(id);
         return Ok("Deleted");
     }
+
+    [HttpGet("count/")]
+    public IActionResult GetArticleCount()
+    {
+        int count = _articleService.GetCount();
+        return Ok(count);
+    }
 }

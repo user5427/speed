@@ -233,6 +233,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get article count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/articles/count",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles",
+								"count"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -317,7 +338,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"title\",\r\n    \"ArticleId\": 1,\r\n    \"Text\": \"text text text\"\r\n}",
+							"raw": "{\r\n    \"title\": \"title\",\r\n    \"ArticleId\": 1,\r\n    \"QuestionIds\":  [\r\n        1,\r\n        2,\r\n        3\r\n    ],\r\n    \"Text\": \"text text text\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -438,6 +459,27 @@
 									"key": "title",
 									"value": "a"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get paragraph count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/paragraphs/count",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"paragraphs",
+								"count"
 							]
 						}
 					},
@@ -647,6 +689,27 @@
 									"key": "title",
 									"value": "a"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get question count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/questions/count",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"questions",
+								"count"
 							]
 						}
 					},

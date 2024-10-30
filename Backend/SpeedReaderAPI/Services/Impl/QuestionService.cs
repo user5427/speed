@@ -196,4 +196,9 @@ public class QuestionService : IQuestionService
         questionFound.Image = null;
         _context.SaveChanges();
     }
+
+    public int GetCount()
+    {
+        return _context.Question.Count();
+    }
 }

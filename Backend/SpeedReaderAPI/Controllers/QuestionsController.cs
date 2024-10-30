@@ -76,4 +76,11 @@ public class QuestionsController : ControllerBase
         _questionService.DeleteQuestion(id);
         return Ok("Deleted");
     }
+
+    [HttpGet("count/")]
+    public IActionResult GetQuestionCount()
+    {
+        int count = _questionService.GetCount();
+        return Ok(count);
+    }
 }
