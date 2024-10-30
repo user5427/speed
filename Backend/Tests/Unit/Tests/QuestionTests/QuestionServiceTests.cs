@@ -119,5 +119,67 @@ public class QuestionServiceTests
             _questionService.GetQuestion(created.Id));
     }
 
-    
+    [Fact(DisplayName = "Question creating with paragraph id 0")]
+    public void CreateQuestionWithParagraphId0()
+    {
+        // Arrange
+        var request = new QuestionCreateRequest(0, "Test Question", ["answer 1", "answer 2"], 0);
+        
+        // Act
+        var exception = Assert.Throws<ResourceNotFoundException>(() => 
+            _questionService.CreateQuestion(request));
+    }
+
+    [Fact(DisplayName = "Question searching")]
+    public void SearchQuestion()
+    {
+        // Arrange
+        var request = new QuestionCreateRequest(createdParagraph.Id, "Test Question", ["answer 1", "answer 2"], 0);
+        var created = _questionService.CreateQuestion(request);
+
+        var request2 = new QuestionCreateRequest(createdParagraph.Id, "Test Questien 2", ["answer 1", "answer 2"], 0);
+        var created2 = _questionService.CreateQuestion(request2);
+        
+        // Act
+        var queryParam = new QueryParameters();
+        queryParam.Search = "Test Question";
+        var result = _questionService.SearchQuestions(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotEmpty(result.Items);
+        Assert.Equal("Test Question", result.Items[0].QuestionText);
+        Assert.Equal(createdParagraph.Id, result.Items[0].ParagraphId);
+    }
+
+    [Fact(DisplayName = "Question searching empty")]
+    public void SearchQuestionsEmpty()
+    {
+        // Act
+        var queryParam = new QueryParameters();
+        queryParam.Search = "Test Questioneeeee";
+        var result = _questionService.SearchQuestions(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result.Items);
+    }
+
+    [Fact(DisplayName = "Question searching, multiple results")]
+    public void SearchQuestionMulti()
+    {
+        // Arrange
+        var request = new QuestionCreateRequest(createdParagraph.Id, "Test999 Question", ["answer 1", "answer 2"], 0);
+        var created = _questionService.CreateQuestion(request);
+
+        var request2 = new QuestionCreateRequest(createdParagraph.Id, "Test999 Questien 2", ["answer 1", "answer 2"], 0);
+        var created2 = _questionService.CreateQuestion(request2);
+        
+        // Act
+        var queryParam = new QueryParameters();
+        queryParam.Search = "Test999";
+        var result = _questionService.SearchQuestions(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotEmpty(result.Items);
+        Assert.Equal(2, result.Items.Count);
+    }
 }

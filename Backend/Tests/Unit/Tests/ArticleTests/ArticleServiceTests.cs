@@ -107,4 +107,56 @@ public class ArticleServiceTests
         Assert.Equal($"Article with ID {created.Id} not found.", exception.Message);
     }
 
+    [Fact(DisplayName = "Article searching")]
+    public void SearchArticle()
+    {
+        // Arrange
+        var request = new ArticleCreateRequest("Test Article", "Test Category"); 
+        var created = _articleService.CreateArticle(request);
+        
+        var sideRequest = new ArticleCreateRequest("Test Articly", "Test Category"); 
+        var sideCreated = _articleService.CreateArticle(request);
+
+        // Act
+        var queryParam = new QueryParameters();
+        queryParam.Search = "Test Article";
+        var result = _articleService.SearchArticles(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotEmpty(result.Items);
+        Assert.Equal("Test Article", result.Items[0].Title);
+    }
+
+    [Fact(DisplayName = "Article searching empty")]
+    public void SearchArticlesEmpty()
+    {
+        // Act
+        var queryParam = new QueryParameters();
+        queryParam.Search = "Test Articleeeee";
+        var result = _articleService.SearchArticles(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result.Items);
+    }
+
+    [Fact(DisplayName = "Article searching, multiple results")]
+    public void SearchArticleMulti()
+    {
+        // Arrange
+        var request = new ArticleCreateRequest("Test999 Article", "Test Category"); 
+        var created = _articleService.CreateArticle(request);
+        
+        var sideRequest = new ArticleCreateRequest("Test999 Articly", "Test Category"); 
+        var sideCreated = _articleService.CreateArticle(sideRequest);
+
+        // Act
+        var queryParam = new QueryParameters
+        {
+            Search = "Test999"
+        };
+        var result = _articleService.SearchArticles(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Items.Count);
+    }
 }

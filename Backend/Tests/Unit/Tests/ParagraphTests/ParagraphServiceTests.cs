@@ -109,4 +109,66 @@ public class ParagraphServiceTests
         var exception = Assert.Throws<ResourceNotFoundException>(() => 
             _paragraphService.GetParagraph(createdP.Id));
     }
+
+    [Fact(DisplayName = "Paragraph creating with article id 0")]
+    public void CreateParagraphWithArticleId0()
+    {
+        var requestP = new ParagraphCreateRequest("Test Paragraph", 0, "Test Article");
+        
+        // Act
+        var exception = Assert.Throws<ResourceNotFoundException>(() => 
+            _paragraphService.CreateParagraph(requestP));
+    }
+
+    [Fact(DisplayName = "Paragraph searching")]
+    public void SearchParagraph()
+    {
+        var requestP = new ParagraphCreateRequest("Test ParagraphFromSearch", createdArticle.Id, "Test Article");
+        var createdP = _paragraphService.CreateParagraph(requestP);
+
+        var requestP2 = new ParagraphCreateRequest("Test Paragreph 2", createdArticle.Id, "Test Article");
+        var createdP2 = _paragraphService.CreateParagraph(requestP2);
+
+        // Act
+        var queryParam = new QueryParameters();
+        queryParam.Search = "Test ParagraphFromSearch";
+        var result = _paragraphService.SearchParagraphs(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotEmpty(result.Items);
+        Assert.Equal("Test ParagraphFromSearch", result.Items[0].Title);
+        Assert.Equal(createdArticle.Id, result.Items[0].ArticleId);
+    }
+
+    [Fact(DisplayName = "Paragraph searching empty")]
+    public void SearchParagraphEmpty()
+    {
+        // Act
+        var queryParam = new QueryParameters();
+        queryParam.Search = "Test Paragrapheeeee";
+        var result = _paragraphService.SearchParagraphs(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result.Items);
+    }
+
+    [Fact(DisplayName = "Paragraph searching, multiple results")]
+    public void SearchParagraphMulti()
+    {
+        var requestP = new ParagraphCreateRequest("Test999 Paragraph", createdArticle.Id, "Test Article");
+        var createdP = _paragraphService.CreateParagraph(requestP);
+
+        var requestP2 = new ParagraphCreateRequest("Test999 Paragreph 2", createdArticle.Id, "Test Article");
+        var createdP2 = _paragraphService.CreateParagraph(requestP2);
+
+        // Act
+        var queryParam = new QueryParameters();
+        queryParam.Search = "Test999";
+        var result = _paragraphService.SearchParagraphs(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotEmpty(result.Items);
+        Assert.Equal(2, result.Items.Count);
+
+    }
 }
