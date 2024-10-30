@@ -338,7 +338,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"title\",\r\n    \"ArticleId\": 1,\r\n    \"Text\": \"text text text\"\r\n}",
+							"raw": "{\r\n    \"title\": \"title\",\r\n    \"ArticleId\": 1,\r\n    \"QuestionIds\":  [\r\n        1,\r\n        2,\r\n        3\r\n    ],\r\n    \"Text\": \"text text text\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

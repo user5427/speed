@@ -71,12 +71,12 @@ public class ParagraphService : IParagraphService
         if (oldArticleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
 
         // Update if set in request
-        if (request.articleId != null)
+        if (request.ArticleId != null)
         {
-            Article? newArticleFound = _context.Article.Where(a => a.Id == request.articleId).FirstOrDefault();
+            Article? newArticleFound = _context.Article.Where(a => a.Id == request.ArticleId).FirstOrDefault();
             if (newArticleFound == null)
             {
-                throw new ResourceNotFoundException($"Article with ID {request.articleId} not found.");
+                throw new ResourceNotFoundException($"Article with ID {request.ArticleId} not found.");
             }
 
             oldArticleFound.ParagraphIds.Remove(id);
@@ -91,7 +91,15 @@ public class ParagraphService : IParagraphService
         {
             paragraphFound.Text = request.Text;
         }
-
+        if (request.QuestionIds != null)
+        {
+            var difference = paragraphFound.QuestionIds.Except(request.QuestionIds);
+            if (difference.Any() || paragraphFound.QuestionIds.Count != request.QuestionIds.Count)
+            {
+                throw new InvalidParagraphIdListException();
+            }
+            paragraphFound.QuestionIds = request.QuestionIds;
+        }
         _context.SaveChanges();
         return _mapper.Map<ParagraphResponse>(paragraphFound);
     }
