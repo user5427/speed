@@ -88,7 +88,7 @@ public class ArticlesController : ControllerBase
     [HttpGet("count/")]
     public IActionResult GetArticleCount()
     {
-        int count = _articleService.GetCount();
+        long count = _articleService.GetCount();
         return Ok(count);
     }
 }

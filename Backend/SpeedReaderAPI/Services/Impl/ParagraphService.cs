@@ -189,8 +189,8 @@ public class ParagraphService : IParagraphService
         _context.SaveChanges();
     }
 
-    public int GetCount()
+    public long GetCount()
     {
-        return (int)_context.Paragraph.Count();
+        return _context.Paragraph.Count();
     }
 }

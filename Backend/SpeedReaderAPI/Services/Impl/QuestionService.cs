@@ -197,7 +197,7 @@ public class QuestionService : IQuestionService
         _context.SaveChanges();
     }
 
-    public int GetCount()
+    public long GetCount()
     {
         return _context.Question.Count();
     }

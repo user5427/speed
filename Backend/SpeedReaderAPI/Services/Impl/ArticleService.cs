@@ -168,8 +168,8 @@ public class ArticleService : IArticleService
         _context.SaveChanges();
     }
 
-    public int GetCount()
+    public long GetCount()
     {
-        return _context.Article.Count();
+        return _context.Article.Count(); 
     }
 }
