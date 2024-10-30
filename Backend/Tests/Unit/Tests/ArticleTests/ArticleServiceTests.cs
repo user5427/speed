@@ -9,6 +9,7 @@ using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.Services.Impl;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI;
+using SpeedReaderAPI.Exceptions;
 
 public class ArticleServiceTests
 {
@@ -73,4 +74,37 @@ public class ArticleServiceTests
         Assert.NotNull(result);
         Assert.Equal(created.Id, result.Id);
     }
+
+    [Fact (DisplayName  = "Article updating")]
+    public void UpdateArticle ()
+    {
+        // Arrange
+        var request = new ArticleCreateRequest("Test Article", "Test Category"); 
+        var created = _articleService.CreateArticle(request);
+        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", null);
+        
+        // Act
+        var result = _articleService.UpdateArticle(created.Id, updateRequest);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("Updated Article", result.Title);
+        Assert.Equal("Updated Category", result.CategoryTitle);
+    }
+
+    [Fact(DisplayName = "Article deleting")]
+    public void DeleteArticle()
+    {
+        // Arrange
+        var request = new ArticleCreateRequest("Test Article", "Test Category"); 
+        var created = _articleService.CreateArticle(request);
+        
+        // Act
+        _articleService.DeleteArticle(created.Id);
+
+        // Assert
+        var exception = Assert.Throws<ResourceNotFoundException>(() => 
+            _articleService.GetArticleById(created.Id));
+        Assert.Equal($"Article with ID {created.Id} not found.", exception.Message);
+    }
+
 }
