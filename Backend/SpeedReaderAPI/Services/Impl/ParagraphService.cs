@@ -13,14 +13,13 @@ namespace SpeedReaderAPI.Services.Impl;
 
 public class ParagraphService : IParagraphService
 {
-
-    private readonly ApplicationContext _context;
+    private readonly CombinedRepositories _context;
     private readonly IMapper _mapper;
     private readonly IImageService _imageService;
     private readonly IQuestionService _questionService;
     public ParagraphService(ApplicationContext context, IMapper mapper, IImageService imageService, IQuestionService questionService)
     {
-        _context = context;
+        _context = new CombinedRepositories(context);
         _mapper = mapper;
         _imageService = imageService;
         _questionService = questionService;
@@ -28,7 +27,7 @@ public class ParagraphService : IParagraphService
 
     public ParagraphResponse GetParagraph(int id)
     {
-        Paragraph? paragraph = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        Paragraph? paragraph = _context.Paragraph.FindById(id);
         if (paragraph == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
@@ -40,8 +39,7 @@ public class ParagraphService : IParagraphService
 
     public ParagraphResponse CreateParagraph(ParagraphCreateRequest request)
     {
-        Article? articleFound = _context.Article
-            .FirstOrDefault(a => a.Id == request.ArticleId);
+        Article? articleFound = _context.Article.FindById(request.ArticleId);
 
         if (articleFound == null)
         {
@@ -61,19 +59,19 @@ public class ParagraphService : IParagraphService
 
     public ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request)
     {
-        Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == id).FirstOrDefault();
+        Paragraph? paragraphFound = _context.Paragraph.FindById(id);
         if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
         }
 
-        Article? oldArticleFound = _context.Article.Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
+        Article? oldArticleFound = _context.Article.FindById(paragraphFound.ArticleId);
         if (oldArticleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
 
         // Update if set in request
         if (request.articleId != null)
         {
-            Article? newArticleFound = _context.Article.Where(a => a.Id == request.articleId).FirstOrDefault();
+            Article? newArticleFound = _context.Article.FindById(request.articleId.Value);
             if (newArticleFound == null)
             {
                 throw new ResourceNotFoundException($"Article with ID {request.articleId} not found.");
@@ -98,11 +96,10 @@ public class ParagraphService : IParagraphService
 
     public void DeleteParagraph(int id)
     {
-        Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == id).FirstOrDefault();
+        Paragraph? paragraphFound = _context.Paragraph.FindById(id);
         if (paragraphFound != null)
         {
-            Article? articleFound = _context.Article
-                                        .Where(a => a.Id == paragraphFound.ArticleId).FirstOrDefault();
+            Article? articleFound = _context.Article.FindById(paragraphFound.ArticleId);
             if (articleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
 
             articleFound.ParagraphIds.Remove(id);
@@ -118,18 +115,14 @@ public class ParagraphService : IParagraphService
         }
         else
         {
-            throw new ResourceNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
         }
     }
 
     public PageResponse<ParagraphResponse> SearchParagraphs(QueryParameters queryParameters)
     {
         long paragraphCount = _context.Paragraph.Count();
-        List<Paragraph> paragraphs = _context.Paragraph
-                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
-                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
-                                        .Take(queryParameters.PageSize)
-                                        .ToList();
+        List<Paragraph> paragraphs = _context.Paragraph.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize).Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search)).ToList();
         var sortedList = Sorter.SortList(paragraphs);
         List<ParagraphResponse> paragraphResponseList = _mapper.Map<List<ParagraphResponse>>(sortedList);
         return new PageResponse<ParagraphResponse>(paragraphCount, paragraphResponseList);
@@ -137,7 +130,7 @@ public class ParagraphService : IParagraphService
 
     public async Task<ParagraphResponse> UploadImage(int id, ImageUploadRequest request)
     {
-        Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        Paragraph? paragraphFound = _context.Paragraph.FindById(id);
         if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
@@ -154,7 +147,7 @@ public class ParagraphService : IParagraphService
 
     public Image GetImage(int id)
     {
-        Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        Paragraph? paragraphFound = _context.Paragraph.FindById(id);
         if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
@@ -176,7 +169,7 @@ public class ParagraphService : IParagraphService
 
     public void DeleteImage(int id)
     {
-        Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == id).FirstOrDefault();
+        Paragraph? paragraphFound = _context.Paragraph.FindById(id);
         if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");

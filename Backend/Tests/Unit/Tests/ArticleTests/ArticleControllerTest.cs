@@ -1,3 +1,5 @@
+using Moq;
+
 namespace Unit;
 
 public class ArticleControllerTest
@@ -7,4 +9,9 @@ public class ArticleControllerTest
     {
         Assert.True(true);
     }
+
+    [Fact]
+    public void Test2()
+    {
+    }    
 }
