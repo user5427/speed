@@ -11,5 +11,6 @@ public interface IParagraphService : IServiceWithImage<ParagraphResponse>
     public PageResponse<ParagraphResponse> SearchParagraphs(QueryParameters queryParameters);
     ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request);
     void DeleteParagraph(int paragraphId);
+    int GetCount();
 
 }

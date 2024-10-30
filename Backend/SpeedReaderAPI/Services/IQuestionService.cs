@@ -11,4 +11,5 @@ public interface IQuestionService : IServiceWithImage<QuestionResponse>
     public PageResponse<QuestionResponse> SearchQuestions(QueryParameters queryParameters);
     QuestionResponse UpdateQuestion(int questionId, QuestionUpdateRequest request);
     void DeleteQuestion(int questionId);
+    int GetCount();
 }

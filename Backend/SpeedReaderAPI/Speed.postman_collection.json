@@ -233,6 +233,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get article count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/articles/count",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"articles",
+								"count"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -442,6 +463,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get paragraph count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/paragraphs/count",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"paragraphs",
+								"count"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -647,6 +689,27 @@
 									"key": "title",
 									"value": "a"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get question count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5268/api/questions/count",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5268",
+							"path": [
+								"api",
+								"questions",
+								"count"
 							]
 						}
 					},

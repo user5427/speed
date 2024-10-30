@@ -171,4 +171,9 @@ public class ArticleService : IArticleService
         articleFound.Image = null;
         _context.SaveChanges();
     }
+
+    public int GetCount()
+    {
+        return _context.Article.Count();
+    }
 }
