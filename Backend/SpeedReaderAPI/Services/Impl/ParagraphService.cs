@@ -187,4 +187,9 @@ public class ParagraphService : IParagraphService
         paragraphFound.Image = null;
         _context.SaveChanges();
     }
+
+    public int GetCount()
+    {
+        return _context.Paragraph.Count();
+    }
 }

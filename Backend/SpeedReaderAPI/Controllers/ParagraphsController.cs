@@ -77,4 +77,11 @@ public class ParagraphsController : ControllerBase
         _paragraphService.DeleteParagraph(id);
         return Ok("Deleted");
     }
+
+    [HttpGet("count/")]
+    public IActionResult GetParagraphCount()
+    {
+        int count = _paragraphService.GetCount();
+        return Ok(count);
+    }
 }
