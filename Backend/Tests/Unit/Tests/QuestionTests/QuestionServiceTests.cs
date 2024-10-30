@@ -19,6 +19,7 @@ public class QuestionServiceTests
 {
     private readonly ContextCreator _contextCreator;
     private readonly IMapper _mapper;
+    // private readonly Mock<IMapper> _mockMapper;
     private readonly ImageService _imageService;
     private readonly ArticleService _articleService;
     private readonly ParagraphService _paragraphService;
@@ -28,6 +29,21 @@ public class QuestionServiceTests
 
     public QuestionServiceTests()
     {
+        // _mockMapper = new Mock<IMapper>();
+        // _mockMapper.Setup(m => m.Map<Question>(It.IsAny<QuestionCreateRequest>()))
+        //     .Returns((QuestionCreateRequest source) =>
+        //     {
+        //         return new Question
+        //         {
+        //             Id = 1,
+        //             ParagraphId = source.ParagraphId,
+        //             QuestionText = source.QuestionText,
+        //             Answers = source.Answers,
+        //             CorrectAnswer = source.CorrectAnswer
+        //         };
+        //     });
+
+
         // Create the context creator
         _contextCreator = new ContextCreator();
         var context = _contextCreator.CreateContext();
