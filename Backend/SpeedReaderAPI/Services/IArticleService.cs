@@ -11,5 +11,5 @@ public interface IArticleService : IServiceWithImage<ArticleResponse>
     ArticleResponse GetArticleById(int id);
     ArticleResponse UpdateArticle(int id, ArticleUpdateRequest request);
     void DeleteArticle(int articleId);
-    int GetCount();
+    long GetCount();
 }
