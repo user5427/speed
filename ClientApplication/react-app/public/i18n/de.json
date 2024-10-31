@@ -1,75 +1,108 @@
 {
-      "homepage": {
-          "home": "Heim",
-          "about": "Über uns",
-          "goToCategories": "Gehe zu Kategorien",
-          "goToArticles": "Gehe zu den Artikeln",
-          "goToExercise": "Zur Übung",
-          "flashingSentence": "Eins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht \nEins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht \nEins, zwei, Polizei \nDrei, vier, Grenadier \nFünf, sechs, alte Hex' \nSieben, acht, gute Nacht"
-      },
-      
-      "exercise" : {
-            "loading" : "Loading",
-    
-            "reading" : {
-                "endOfParagraph" : "End of Paragraph",
-                "pressStartToBeginPar" : "Press Start to begin Paragraph",
-                "start" : "Start",
-                "wpm" : "WPM",
-                "goToQuestion" : "Go to question"
-            },
-            
-            "question" : {
-                "submitAnswer" : "Submit answer"
-            },
-    
-            "message" : {
-                "nextParagrah" : "Next paragraph",
-                "finish" : "Finish",
-                "correct" : "Correct",
-                "incorrect" : "Incorrect! The correct answer was "
-            },
-    
-            "articleInfo" : {
-                "title" : "Title",
-                "author" : "Author",
-                "publisher" : "Publisher",
-                "link" : "Link"
-            },
-    
-            "results" : {
-                "exerciseCompleted" : "Exercise completed",
-                "resultsInner" : "Results",
-                "paragraphNr" : "Paragraph nr",
-                "words" : "Words",
-                "time" : "Time",
-                "wpm" : "WPM",
-                "questions" : "Questions",
-                "inConclusion" : "In conclusion",
-                "yourCurrentReadingSpeed" : "Your current reading speed",
-                "yourAverageReadingSpeedDuringExercise" : "Your average reading speed during exercise:",
-                "goBackToCategories" : "Go back to Categories"
-            }
-        },
+    "homepage" : {
+        "home" : "Zur Hauptseite",
+        "about" : "Über uns",
+        "goToCategories" : "Go to Categories",
+        "goToArticles" : "Go to Articles",
+        "goToExercise" : "Go to Exercise",
+        "flashingSentence" : "Introducing our new web page \"Speedreader.com\", designed to help users read sentences quickly without being distracted by inner thoughts, boosting focus, improving comprehension, and saving time with faster reading speeds."
+    },
 
-        
+    "articleManagmentPage" : {
+        "articleHomePage" : "Zur Haupseite des Artikel",
+        "createArticle" : "Artikel zumachen",
+        "createParagraph" : "Absatz zumachen",
+        "createQuestion" : "Frage zumachen",
+        "articleList" : "Article list"
+    },
+
+    "createArticlePage" : {
+        "createArticle" : "Artikel erstellen"
+    },
+
+    "createParagraphPage" : {
+        "createParagraph" : "Strophen erstellen"
+    },
+
+    "createQuestionPage" : {
+        "createQuestion" : "Frage erstellen"
+    },
+
+    "categories" : {
+        "subjects" : "Subjects",
+        "biology" : "Biologie",
+            "bCategories" : "Plants, molecules, Tiere",
+        "astronomy" : "Astronomy",
+            "aCategories" : "Milky Way Galaxy, Closest star systems, Black holes",
+        "history" : "Geschichte",
+            "hCategories" : "Ancient Egypt, Middle Ages, WW I, WW II",
+        "literature" : "Literature",
+            "lCategories" : "William Shakespeare, Alexandre Dumas, Victor Hugo"
+    },
+
+    "exercise" : {
+        "loading" : "Loading",
+        "reading" : {
+            "endOfParagraph" : "End of Paragraph",
+            "pressStartToBeginPar" : "Press Start to begin Paragraph",
+            "start" : "Start",
+            "wpm" : "WPM",
+            "goToQuestion" : "Zum Fragen"
+        },
+        "question" : {
+            "submitAnswer" : "Submit answer"
+        },
+        "message" : {
+            "nextParagrah" : "Next paragraph",
+            "finish" : "Enden",
+            "correct" : "Richtig",
+            "incorrect" : "Falsch! Das richtige antwort war"
+        },
+        "articleInfo" : {
+            "title" : "Title",
+            "author" : "Author",
+            "publisher" : "Publisher",
+            "link" : "Link"
+        },
+        "results" : {
+            "exerciseCompleted" : "Exercise completed",
+            "resultsInner" : "Results",
+            "paragraphNr" : "Absatznummer",
+            "words" : "Wörter",
+            "time" : "Zeit",
+            "wpm" : "WPM",
+            "questions" : "Fragen",
+            "inConclusion" : "In conclusion",
+            "yourCurrentReadingSpeed" : "Your current reading speed",
+            "yourAverageReadingSpeedDuringExercise" : "Your average reading speed during exercise",
+            "goBackToCategories" : "Go back to Categories"
+        }
+    },
+
+
     "paragraphs" : {
         "search" : {
-            "searchPar" : "Search Paragraphs",
+            "searchPar" : "Absatz suchen",
+            "enterParTitle" : "Enter paragraph title",
             "plsSelectPar" : "Please select a paragraph"
         },
         "createEdit" : {
             "resetImg" : "Reset image",
             "deleteImg" : "Delete image",
-            "articleID" : "Article ID",
-            "plsEnterArticleID" : "Please enter article ID",
+            "articleID" : "Artikelnummer",
+            "enterArticleID" : "Tragen sie das Artikelnummer",
+            "plsEnterArticleID" : "Bitte tragen Sie das Artikelnummer ein",
             "parTitle" : "Paragraph Title",
+            "enterParTitle" : "Enter Paragraph Title",
             "plsEnterValidParTitle" : "Please enter a valid paragraph title (letters and spaces only)",
             "paragraphText" : "Paragraph Text",
-            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters"
+            "eneterParText" : "Enter Paragraph Text",
+            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters",
+            "update" : "Update",
+            "create" : "Ermachen"
         },
         "item" : {
-            "select" : "Select",
+            "select" : "Wählen",
             "delete" : "Delete",
             "edit" : "Edit"
         }
@@ -80,15 +113,19 @@
             "resetImg" : "Reset image",
             "deleteImg" : "Delete image",
             "articleTitle" : "Article Title",
+            "enterArticleTitle" : "Enter Article Title",
+            "enterArticleCategory" : "Enter Article Category",
             "plsEnterArticleTitle" : "Please enter article title",
             "articleCategory" : "Article Category",
-            "plsEnterArticleCategory" : "Please enter article category"
-
+            "plsEnterArticleCategory" : "Please enter article category",
+            "update" : "Update",
+            "create" : "Erstellen"
         },
         "returnToArticlesBtn" : {
-            "main" : "Main"
+            "main" : "Zurück"
         },
         "search" : {
+            "enterArticleTitle" : "Enter Article Title",
             "searchArticles" : "Search Articles",
             "plsSelectArticle" : "Please select an article"
         },
@@ -96,10 +133,35 @@
             "select" : "Select",
             "delete" : "Delete",
             "edit" : "Edit",
-            "play" : "Play"
+            "play" : "Lesen"
+        }
+    },
+
+    "questions" : {
+        "createEdit" : {
+            "resetImg" : "Reset image",
+            "deleteImg" : "Delete image",
+            "paragraphID" : "Absatznummer",
+            "enterParagraphID" : "Enter paragraph ID",
+            "plsEnterParagraphID" : "Please enter paragraph ID",
+            "questionText" : "Question Text",
+            "eneterQuestionText" : "Enter Question Text",
+            "plsEnterQuestionText" : "Please enter question text",
+            "addAnswer" : "Add answer",
+            "update" : "Update",
+            "create" : "Erstellen"
+        },
+        "answerItem" : {
+            "answer" : "Antwort",
+            "enterAnswer" : "Enter answer",
+            "plsEnterAnswer" : "Please enter an answer",
+            "correct" : "Richtig",
+            "delete" : "Delete"
+        },
+        "search" : {
+            "searchQuestions" : "Search Questions",
+            "enterQuestionsTitle" : "Enter question title",
+            "plsSelectQuestion" : "Please select a question"
         }
     }
-
-
-  }
-  
+}
