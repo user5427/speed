@@ -108,34 +108,42 @@
         }
     },
 
-    "articles" : {
-        "createEdit" : {
-            "resetImg" : "Reset image",
-            "deleteImg" : "Delete image",
-            "articleTitle" : "Article Title",
-            "enterArticleTitle" : "Enter Article Title",
-            "enterArticleCategory" : "Enter Article Category",
-            "plsEnterArticleTitle" : "Please enter article title",
-            "articleCategory" : "Article Category",
-            "plsEnterArticleCategory" : "Please enter article category",
-            "update" : "Update",
-            "create" : "Create"
+"articles": {
+        "createEdit": {
+            "resetImg": "Reset image",
+            "deleteImg": "Delete image",
+            "articleTitle": "Article Title",
+            "enterArticleTitle": "Enter Article Title",
+            "plsEnterArticleTitle": "Please enter article title",
+            "articleCategory": "Article Category",
+            "enterArticleCategory": "Enter Article Category",
+            "plsEnterArticleCategory": "Please enter article category",
+            "articleAuthor": "Author",
+            "enterAuthor": "Enter Author Name and Surname",
+            "plsEnterAuthor": "Please enter author name and surname",
+            "articlePublisher": "Publisher",
+            "enterPublisher": "Enter Publisher Name",
+            "plsEnterPublisher": "Please enter publisher name",
+            "articleLink": "Link",
+            "enterLink": "Enter Article Link",
+            "plsEnterLink": "Please enter a valid link",
+            "update": "Update",
+            "create": "Create"
         },
-        "returnToArticlesBtn" : {
-            "main" : "Main"
+        "returnToArticlesBtn": {
+            "main": "Main"
         },
-        "search" : {
-            "enterArticleTitle" : "Enter Article Title",
-            "searchArticles" : "Search Articles",
-            "plsSelectArticle" : "Please select an article"
+        "search": {
+            "enterArticleTitle": "Enter Article Title",
+            "searchArticles": "Search Articles",
+            "plsSelectArticle": "Please select an article"
         },
-        "item" : {
-            "select" : "Select",
-            "delete" : "Delete",
-            "edit" : "Edit",
-            "play" : "Play"
+        "item": {
+            "select": "Select",
+            "delete": "Delete",
+            "edit": "Edit",
+            "play": "Play"
         }
-        
     },
 
     "questions" : {

@@ -228,91 +228,156 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
 
     return (
         <>
-            <Form>
-                <Form.Group className="d-flex justify-content-center">
-                    <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
-                </Form.Group>
-                <Form.Group className="d-flex justify-content-center">
-                    <div>
-                        <input
-                            className="form-control darkInput"
-                            type="file"
-                            onChange={handleFileUpload}
-                        />
-                    </div>
-                </Form.Group>
-                {article.imageFileName && (
-                    <Col>
+<Row>
+    <Col style={{ padding: "0px", paddingLeft: "0px" }}>
+        <Form validated={validated} onSubmit={handleSave}>
+            {/* Article Title Field */}
+            <Form.Group controlId="formArticleTitle" className="input">
+                <Form.Label>{t('articles.createEdit.articleTitle')}</Form.Label>
+                <Form.Control
+                    name="title"
+                    value={article.title}
+                    required
+                    type="text"
+                    autoComplete="off"
+                    placeholder={t('articles.createEdit.enterArticleTitle')}
+                    className="form-control darkInput"
+                    onChange={handleFieldChange}
+                    minLength={ValidationConstants.MinTitleLength}
+                    maxLength={ValidationConstants.MaxTitleLength}
+                    pattern={ValidationPatternConstants.TitlePattern.source}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {t('articles.createEdit.plsEnterArticleTitle')}
+                </Form.Control.Feedback>
+            </Form.Group>
 
-                        <Button onClick={getArticleImage}><GrRevert /> {t('articles.createEdit.resetImg')}</Button>
-                    </Col>
-                )}
+            {/* Article Category Field */}
+            <Form.Group controlId="formArticleCategory" className="input">
+                <Form.Label>{t('articles.createEdit.articleCategory')}</Form.Label>
+                <Form.Control
+                    name="categoryTitle"
+                    value={article.categoryTitle}
+                    required
+                    type="text"
+                    placeholder={t('articles.createEdit.enterArticleCategory')}
+                    className="form-control darkInput"
+                    onChange={handleFieldChange}
+                    pattern={ValidationPatternConstants.ArticleCategoryPattern.source}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {t('articles.createEdit.plsEnterArticleCategory')}
+                </Form.Control.Feedback>
+            </Form.Group>
 
-                {article.imageFileName && (
-                    <Col>
+            {/* Author Field */}
+            <Form.Group controlId="formArticleAuthor" className="input">
+                <Form.Label>{t('articles.createEdit.articleAuthor')}</Form.Label>
+                <Form.Control
+                    name="author"
+                    value={article.author || ''}
+                    required
+                    type="text"
+                    placeholder={t('articles.createEdit.enterAuthor')}
+                    className="form-control darkInput"
+                    onChange={handleFieldChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {t('articles.createEdit.plsEnterAuthor')}
+                </Form.Control.Feedback>
+            </Form.Group>
 
-                        <Button variant="danger" onClick={deleteArticleImage}><MdDelete /> {t('articles.createEdit.deleteImg')}</Button>
-                    </Col>
-                )}
-            </Form>
+            {/* Publisher Field */}
+            <Form.Group controlId="formArticlePublisher" className="input">
+                <Form.Label>{t('articles.createEdit.articlePublisher')}</Form.Label>
+                <Form.Control
+                    name="publisher"
+                    value={article.publisher || ''}
+                    required
+                    type="text"
+                    placeholder={t('articles.createEdit.enterPublisher')}
+                    className="form-control darkInput"
+                    onChange={handleFieldChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {t('articles.createEdit.plsEnterPublisher')}
+                </Form.Control.Feedback>
+            </Form.Group>
 
-            <Form validated={validated} onSubmit={handleSave}>
-                <Form.Group controlId="formtestTitle">
-                    <Form.Label>{t('articles.createEdit.articleTitle')}</Form.Label>
-                    <Form.Control
-                        name={Article.varTitleName()}
-                        value={article.title}
-                        required type="text" autoComplete='off'
-                        placeholder={t('articles.createEdit.enterArticleTitle')}
-                        className="form-control darkInput"
-                        onChange={handleFieldChange}
-                        minLength={ValidationConstants.MinTitleLength}
-                        maxLength={ValidationConstants.MaxTitleLength}
-                        pattern={ValidationPatternConstants.TitlePattern.source}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        {t('articles.createEdit.plsEnterArticleTitle')}{'.'}
-                    </Form.Control.Feedback>
-                </Form.Group>
+            {/* Link Field */}
+            <Form.Group controlId="formArticleLink" className="input">
+                <Form.Label>{t('articles.createEdit.articleLink')}</Form.Label>
+                <Form.Control
+                    name="link"
+                    value={article.link || ''}
+                    required
+                    type="url"
+                    placeholder={t('articles.createEdit.enterLink')}
+                    className="form-control darkInput"
+                    onChange={handleFieldChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {t('articles.createEdit.plsEnterLink')}
+                </Form.Control.Feedback>
+            </Form.Group>
 
-                <Form.Group controlId="formtestCategory">
-                    <Form.Label>{t('articles.createEdit.articleCategory')}</Form.Label>
-                    <Form.Control
-                        name={Article.varCategoryTitleName()}
-                        value={article.categoryTitle}
-                        className="form-control darkInput"
-                        required type="text" placeholder={t('articles.createEdit.enterArticleCategory')}
-                        onChange={handleFieldChange}
-                        pattern={ValidationPatternConstants.ArticleCategoryPattern.source}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        {t('articles.createEdit.plsEnterArticleCategory')}{'.'}
-                    </Form.Control.Feedback>
-                </Form.Group>
+        </Form>
 
-                <Button variant="success" type="submit">{update ? t('articles.createEdit.update') : t('articles.createEdit.create')}</Button>
-            </Form>
+        {/* Error Popup */}
+        <ErrorPopup
+            showErrorModal={showErrorModal}
+            errorMessage={errorMessage}
+            onClose={closeErrorModal}
+        />
 
-            {/* Error Popup */}
-            <ErrorPopup
-                showErrorModal={showErrorModal}
-                errorMessage={errorMessage}
-                onClose={closeErrorModal}
-            />
+        {/* Success Popup */}
+        <SuccessPopup
+            showCreateModal={showSuccessModal}
+            message={successMessage}
+            onClose={closeSuccessModal}
+        />
 
-            {/* Success Popup */}
-            <SuccessPopup
-                showCreateModal={showSuccessModal}
-                message={successMessage}
-                onClose={closeSuccessModal}
-            />
+        {/* Delete Confirmation Popup */}
+        <DeletePopup
+            showDeleteModal={showDeleteModal}
+            message={deleteMessage}
+            onClose={closeDeleteModal}
+            onDelete={deleteConfirmed}
+        />
+    </Col>
 
-            <DeletePopup
-                showDeleteModal={showDeleteModal}
-                message={deleteMessage}
-                onClose={closeDeleteModal}
-                onDelete={deleteConfirmed}
-            />
+    <Col style={{ display: "flex", alignItems: "center", justifyContent: "center", paddingRight: "0px", paddingLeft: "12px", minHeight: "100%" }}>
+        <Form>
+            <Form.Group className="d-flex justify-content-center" style={{ marginBottom: "20px" }}>
+                <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
+            </Form.Group>
+            <Form.Group className="d-flex justify-content-center" style={{ marginBottom: "20px" }}>
+                <input
+                    className="form-control darkInput"
+                    type="file"
+                    onChange={handleFileUpload}
+                />
+            </Form.Group>
+            {article.imageFileName && (
+                <>
+                    <Button onClick={getArticleImage} className="mb-2" style={{ fontSize: "1rem", width: "100%" }}>
+                        <GrRevert /> {t('articles.createEdit.resetImg')}
+                    </Button>
+                    <Button variant="danger" onClick={deleteArticleImage} style={{ fontSize: "1rem", width: "100%" }}>
+                        <MdDelete /> {t('articles.createEdit.deleteImg')}
+                    </Button>
+                </>
+            )}
+        </Form>
+    </Col>
+
+
+
+    <Button variant="success" type="submit" style={{ marginTop: "10px" }}>
+                {update ? t('articles.createEdit.update') : t('articles.createEdit.create')}
+            </Button>
+</Row>
+
         </>
     )
 }
