@@ -33,7 +33,7 @@ const FeedbackMessage = ({ feedbackMessage, currentParagraphIndex, paragraphs, h
         >
           {currentParagraphIndex < paragraphs.length - 1 ? (
             <>
-              {t('exercise.message.nextParagrah')} <GrFormNextLink />
+              {t('exercise.message.nextParagraph')} <GrFormNextLink />
             </>
           ) : (
             <>

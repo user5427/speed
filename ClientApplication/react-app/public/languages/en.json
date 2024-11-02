@@ -53,10 +53,10 @@
             "submitAnswer" : "Submit answer"
         },
         "message" : {
-            "nextParagrah" : "Next paragraph",
+            "nextParagraph" : "Next paragraph",
             "finish" : "Finish",
             "correct" : "Correct",
-            "incorrect" : "Incorrect! The correct answer was "
+            "incorrect" : "Incorrect! The correct answer was"
         },
         "articleInfo" : {
             "title" : "Title",
@@ -135,6 +135,7 @@
             "edit" : "Edit",
             "play" : "Play"
         }
+        
     },
 
     "questions" : {

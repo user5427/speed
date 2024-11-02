@@ -53,7 +53,7 @@
             "submitAnswer" : "Submit answer"
         },
         "message" : {
-            "nextParagrah" : "Next paragraph",
+            "nextParagraph" : "Next paragraph",
             "finish" : "Enden",
             "correct" : "Richtig",
             "incorrect" : "Falsch! Das richtige antwort war"

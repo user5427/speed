@@ -56,10 +56,10 @@
         },
 
         "message" : {
-            "nextParagrah" : "Kita pastraipa",
+            "nextParagraph" : "Kita pastraipa",
             "finish" : "Finišuoti",
             "correct" : "Teisingai",
-            "incorrect" : "Neteisingai! Tesingas atsakymas buvo "
+            "incorrect" : "Neteisingai! Tesingas atsakymas buvo"
         },
 
         "articleInfo" : {
