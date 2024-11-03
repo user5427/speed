@@ -13,6 +13,7 @@ import SuccessPopup from '../../.common-components/SuccessPopup';
 import DeletePopup from '../../.common-components/DeletePopup';
 import { GrRevert } from 'react-icons/gr';
 import LanguageSelectInput from '../../LanguageSelector/LanguageSelectInput';
+
 import { useTranslation } from 'react-i18next';
 
 
@@ -233,7 +234,7 @@ const EditArticle = ({
   return (
     <>
       <Row>
-        <Col style={{ padding: '0px', paddingLeft: '0px' }}>
+        <Col>
           <Form validated={validated} onSubmit={handleSave}>
             <Form.Group controlId="formtestTitle" className="input">
               <Form.Label>{t('articles.createEdit.articleTitle')}</Form.Label>
@@ -337,16 +338,7 @@ const EditArticle = ({
           />
         </Col>
 
-        <Col
-        style={{
-         // display: 'flex',
-         // alignItems: 'center',
-         // justifyContent: 'center',
-            paddingRight: '0px',
-        //    paddingLeft: '12px',
-        //    minHeight: '100%',
-             }}
-        >
+        <Col>
           <Form>
 
 
@@ -402,7 +394,7 @@ const EditArticle = ({
         <Form
           validated={validated}
           onSubmit={handleSave}
-          style={{ paddingLeft: '0px', paddingRight: '0px' }}
+          style={{  }}
         >
           <Button className='subjectButtons' type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor: '#739900', borderColor: '#4d6600' }}>
             {update ? t('articles.createEdit.update') : t('articles.createEdit.create')}
