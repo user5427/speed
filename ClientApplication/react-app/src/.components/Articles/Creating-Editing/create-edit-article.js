@@ -15,6 +15,8 @@ import { GrRevert } from 'react-icons/gr';
 import LanguageSelectInput from '../../LanguageSelector/LanguageSelectInput';
 import { useTranslation } from 'react-i18next';
 
+
+
 const EditArticle = ({
   existingArticleId = undefined,
   sendCreatedId = undefined,
@@ -253,7 +255,7 @@ const EditArticle = ({
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formtestCategory" className="input">
+          <Form.Group controlId="formtestCategory" className="input">
               <Form.Label>{t('articles.createEdit.articleCategory')}</Form.Label>
               <Form.Control
                 name={Article.varCategoryTitleName()}
@@ -312,16 +314,7 @@ const EditArticle = ({
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formArticleLanguage" className="input">
-              <Form.Label>{t('articles.createEdit.articleLanguage')}</Form.Label>
-              <LanguageSelectInput
-                selectedLanguage={article.language}
-                onSelectLanguage={handleLanguageSelect}
-              />
-              <Form.Control.Feedback type="invalid">
-                {t('articles.createEdit.plsSelectArticleLanguage')}
-              </Form.Control.Feedback>
-            </Form.Group>
+
           </Form>
 
           <ErrorPopup
@@ -345,19 +338,33 @@ const EditArticle = ({
         </Col>
 
         <Col
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+        style={{
+         // display: 'flex',
+         // alignItems: 'center',
+         // justifyContent: 'center',
             paddingRight: '0px',
-            paddingLeft: '12px',
-            minHeight: '100%',
-          }}
+        //    paddingLeft: '12px',
+        //    minHeight: '100%',
+             }}
         >
           <Form>
+
+
+          <Form.Group controlId="formArticleLanguage" className="input">
+              <Form.Label>{t('articles.createEdit.articleLanguage')}</Form.Label>
+              <LanguageSelectInput
+                selectedLanguage={article.language}
+                onSelectLanguage={handleLanguageSelect}
+              />
+              <Form.Control.Feedback type="invalid">
+                {t('articles.createEdit.plsSelectArticleLanguage')}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+
             <Form.Group
               className="d-flex justify-content-center"
-              style={{ marginBottom: '20px' }}
+              style={{ marginBottom: '20px', marginTop:"25px" }}
             >
               <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
             </Form.Group>
@@ -397,7 +404,7 @@ const EditArticle = ({
           onSubmit={handleSave}
           style={{ paddingLeft: '0px', paddingRight: '0px' }}
         >
-          <Button variant="success" type="submit" style={{ marginTop: '10px', width: '100%' }}>
+          <Button className='subjectButtons' type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor: '#739900', borderColor: '#4d6600' }}>
             {update ? t('articles.createEdit.update') : t('articles.createEdit.create')}
           </Button>
         </Form>
