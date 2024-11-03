@@ -109,27 +109,31 @@
     },
 
     "articles" : {
-        "createEdit": {
-            "resetImg": "Reset image",
-            "deleteImg": "Delete image",
-            "articleTitle": "Article Title",
-            "enterArticleTitle": "Enter Article Title",
-            "plsEnterArticleTitle": "Please enter article title",
-            "articleCategory": "Article Category",
-            "enterArticleCategory": "Enter Article Category",
-            "plsEnterArticleCategory": "Please enter article category",
-            "articleAuthor": "Author",
-            "enterAuthor": "Enter Author Name and Surname",
-            "plsEnterAuthor": "Please enter author name and surname",
-            "articlePublisher": "Publisher",
-            "enterPublisher": "Enter Publisher Name",
-            "plsEnterPublisher": "Please enter publisher name",
-            "articleLink": "Link",
-            "enterLink": "Enter Article Link",
-            "plsEnterLink": "Please enter a valid link",
-            "update": "Update",
-            "create": "Erstellen"
-        },
+"createEdit": {
+    "resetImg": "Reset image",
+    "deleteImg": "Delete image",
+    "articleTitle": "Article Title",
+    "enterArticleTitle": "Enter Article Title",
+    "plsEnterArticleTitle": "Please enter article title",
+    "articleCategory": "Article Category",
+    "enterArticleCategory": "Enter Article Category",
+    "plsEnterArticleCategory": "Please enter article category",
+    "articleAuthor": "Author",
+    "enterAuthor": "Enter Author Name and Surname",
+    "plsEnterAuthor": "Please enter author name and surname",
+    "articlePublisher": "Publisher",
+    "enterPublisher": "Enter Publisher Name",
+    "plsEnterPublisher": "Please enter publisher name",
+    "articleLink": "Link",
+    "enterLink": "Enter Article Link",
+    "plsEnterLink": "Please enter a valid link",
+    "articleLanguage": "Article Language",
+    "selectArticleLanguage": "Select Article Language",
+    "plsSelectArticleLanguage": "Please select an article language",
+    "update": "Update",
+    "create": "Erstellen"
+},
+
         "returnToArticlesBtn" : {
             "main" : "Zurück"
         },

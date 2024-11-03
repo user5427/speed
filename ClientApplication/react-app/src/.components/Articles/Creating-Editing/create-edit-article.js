@@ -9,6 +9,7 @@ import ErrorPopup from '../../.common-components/ErrorPopup';
 import SuccessPopup from '../../.common-components/SuccessPopup';
 import DeletePopup from '../../.common-components/DeletePopup';
 import { GrRevert } from "react-icons/gr";
+import LanguageSelectInput from '../../LanguageSelector/LanguageSelectInput';
 
 import { useTranslation } from 'react-i18next'; 
 
@@ -38,6 +39,7 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
     const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show/hide modal
     const [deleteRequest, setDeleteRequest] = useState(null)
 
+    
     // Trigger setArticleFromExisting when component mounts or existingArticleId changes
     useEffect(() => {
         setArticleFromExisting(existingArticleId);
@@ -57,6 +59,13 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
         updateArticleImage();
     }, [article.id]);
 
+    
+    const handleLanguageSelect = (code) => {
+        setArticle((prevArticle) => ({
+          ...prevArticle,
+          language: code,
+        }));
+      };
 
     // save the image, then if user creates or updates the article, do the same for the image
     /**
@@ -227,15 +236,15 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
 
 
     return (
+
         <>
 <Row>
     <Col style={{ padding: "0px", paddingLeft: "0px" }}>
         <Form validated={validated} onSubmit={handleSave}>
-            {/* Article Title Field */}
             <Form.Group controlId="formArticleTitle" className="input">
                 <Form.Label>{t('articles.createEdit.articleTitle')}</Form.Label>
                 <Form.Control
-                    name="title"
+                    name={Article.varTitleName()}
                     value={article.title}
                     required
                     type="text"
@@ -252,11 +261,10 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                 </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Article Category Field */}
             <Form.Group controlId="formArticleCategory" className="input">
                 <Form.Label>{t('articles.createEdit.articleCategory')}</Form.Label>
                 <Form.Control
-                    name="categoryTitle"
+                    name={Article.varCategoryTitleName()}
                     value={article.categoryTitle}
                     required
                     type="text"
@@ -270,74 +278,81 @@ const EditArticle = ({ existingArticleId = undefined, sendCreatedId = undefined,
                 </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Author Field */}
             <Form.Group controlId="formArticleAuthor" className="input">
                 <Form.Label>{t('articles.createEdit.articleAuthor')}</Form.Label>
                 <Form.Control
                     name="author"
                     value={article.author || ''}
-                    required
+                    //required
                     type="text"
                     placeholder={t('articles.createEdit.enterAuthor')}
                     className="form-control darkInput"
-                    onChange={handleFieldChange}
+                    //onChange={handleFieldChange}
                 />
                 <Form.Control.Feedback type="invalid">
                     {t('articles.createEdit.plsEnterAuthor')}
                 </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Publisher Field */}
             <Form.Group controlId="formArticlePublisher" className="input">
                 <Form.Label>{t('articles.createEdit.articlePublisher')}</Form.Label>
                 <Form.Control
                     name="publisher"
                     value={article.publisher || ''}
-                    required
+                    //required
                     type="text"
                     placeholder={t('articles.createEdit.enterPublisher')}
                     className="form-control darkInput"
-                    onChange={handleFieldChange}
+                    //onChange={handleFieldChange}
                 />
                 <Form.Control.Feedback type="invalid">
                     {t('articles.createEdit.plsEnterPublisher')}
                 </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Link Field */}
             <Form.Group controlId="formArticleLink" className="input">
                 <Form.Label>{t('articles.createEdit.articleLink')}</Form.Label>
                 <Form.Control
                     name="link"
                     value={article.link || ''}
-                    required
+                    //required
                     type="url"
                     placeholder={t('articles.createEdit.enterLink')}
                     className="form-control darkInput"
-                    onChange={handleFieldChange}
+                    //onChange={handleFieldChange}
                 />
                 <Form.Control.Feedback type="invalid">
                     {t('articles.createEdit.plsEnterLink')}
                 </Form.Control.Feedback>
             </Form.Group>
 
+            <Form.Group controlId="formArticleLanguage" className="input">
+  <Form.Label>{t('articles.createEdit.articleLanguage')}</Form.Label>
+  <LanguageSelectInput
+    selectedLanguage={article.language}
+    onSelectLanguage={handleLanguageSelect}
+  />
+  <Form.Control.Feedback type="invalid">
+    {t('articles.createEdit.plsSelectArticleLanguage')}
+  </Form.Control.Feedback>
+</Form.Group>
+
+  
+
         </Form>
 
-        {/* Error Popup */}
         <ErrorPopup
             showErrorModal={showErrorModal}
             errorMessage={errorMessage}
             onClose={closeErrorModal}
         />
 
-        {/* Success Popup */}
         <SuccessPopup
             showCreateModal={showSuccessModal}
             message={successMessage}
             onClose={closeSuccessModal}
         />
 
-        {/* Delete Confirmation Popup */}
         <DeletePopup
             showDeleteModal={showDeleteModal}
             message={deleteMessage}

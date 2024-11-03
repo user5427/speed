@@ -113,27 +113,31 @@
     },
 
     "articles" : {
-        "createEdit": {
-            "resetImg": "Atstatyti paveikslėlį",
-            "deleteImg": "Panaikinti paveikslėlį",
-            "articleTitle": "Straipsnio pavadinimas",
-            "enterArticleTitle": "Įveskite straipsnio pavadinimą",
-            "plsEnterArticleTitle": "Prašome įvesti straipsnio pavadinimą",
-            "articleCategory": "Straipsnio kategorija",
-            "enterArticleCategory": "Įveskite straipsnio kategoriją",
-            "plsEnterArticleCategory": "Prašome įvesti straipsnio kategoriją",
-            "articleAuthor": "Autorius",
-            "enterAuthor": "Įveskite autoriaus vardą ir pavardę",
-            "plsEnterAuthor": "Prašome įvesti autoriaus vardą ir pavardę",
-            "articlePublisher": "Leidėjas",
-            "enterPublisher": "Įveskite leidėjo pavadinimą",
-            "plsEnterPublisher": "Prašome įvesti leidėjo pavadinimą",
-            "articleLink": "Nuoroda",
-            "enterLink": "Įveskite straipsnio nuorodą",
-            "plsEnterLink": "Prašome įvesti nuorodą",
-            "update": "Atnaujinti",
-            "create": "Sukurti"
-        },
+"createEdit": {
+    "resetImg": "Atstatyti paveikslėlį",
+    "deleteImg": "Panaikinti paveikslėlį",
+    "articleTitle": "Straipsnio pavadinimas",
+    "enterArticleTitle": "Įveskite straipsnio pavadinimą",
+    "plsEnterArticleTitle": "Prašome įvesti straipsnio pavadinimą",
+    "articleCategory": "Straipsnio kategorija",
+    "enterArticleCategory": "Įveskite straipsnio kategoriją",
+    "plsEnterArticleCategory": "Prašome įvesti straipsnio kategoriją",
+    "articleAuthor": "Autorius",
+    "enterAuthor": "Įveskite autoriaus vardą ir pavardę",
+    "plsEnterAuthor": "Prašome įvesti autoriaus vardą ir pavardę",
+    "articlePublisher": "Leidėjas",
+    "enterPublisher": "Įveskite leidėjo pavadinimą",
+    "plsEnterPublisher": "Prašome įvesti leidėjo pavadinimą",
+    "articleLink": "Nuoroda",
+    "enterLink": "Įveskite straipsnio nuorodą",
+    "plsEnterLink": "Prašome įvesti nuorodą",
+    "articleLanguage": "Straipsnio kalba",
+    "selectArticleLanguage": "Pasirinkite straipsnio kalbą",
+    "plsSelectArticleLanguage": "Prašome pasirinkti straipsnio kalbą",
+    "update": "Atnaujinti",
+    "create": "Sukurti"
+},
+
 
         "returnToArticlesBtn" : {
             "main" : "Pagrindinis"
