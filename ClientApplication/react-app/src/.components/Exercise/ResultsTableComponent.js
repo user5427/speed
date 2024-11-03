@@ -118,7 +118,7 @@ const ResultsTable = ({
           style={{ backgroundColor: '#8400ff', borderColor: '#6900cc', marginTop: '5px', fontSize: '18px'}}
           onClick={redirectToCategories}
         >
-          <IoReturnUpBackSharp style={{ marginTop: '-4px' }} /> {t('exercise.results.goBackToCategories')}
+          <IoReturnUpBackSharp className="icons" /> {t('exercise.results.goBackToCategories')}
         </Button>
       </div>
     </>

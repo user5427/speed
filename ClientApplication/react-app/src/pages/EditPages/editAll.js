@@ -5,7 +5,13 @@ import '../../styles/Articles/createArticleStyle.css';
 import { CreateEditArticle, CreateEditParagraph, ReturnToArticlesButton, CreateEditQuestion } from '../../.components/.MainComponentsExport';
 import { Row, Col } from 'react-bootstrap';
 import { ParagraphList, QuestionList, ArticleList } from '../../.components/.MainComponentsExport';
+
+import { useTranslation } from 'react-i18next';
+
 const EditArticleParagraphQuestion = () => {
+
+    const { t } = useTranslation();
+
     // Get search params from the URL
     const [searchParams] = useSearchParams();
     const [articleId, setArticleId] = useState(null);
@@ -86,7 +92,7 @@ const EditArticleParagraphQuestion = () => {
             <ReturnToArticlesButton />
 
             <div className="create-article-page">
-                <h2>Edit All</h2>
+                <h2>{t('editPages.all.editAll')}</h2>
             </div>
 
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
@@ -125,7 +131,7 @@ const EditArticleParagraphQuestion = () => {
                                     sendUpdate={triggerUpdateParagraphList}
                                 />
                             ) : (
-                                <p>Paragraph editing or creating unavailable</p>
+                                <p>{t('editPages.all.parUnavailable')}</p>
                             )
                         }
                     </Col>
@@ -146,7 +152,7 @@ const EditArticleParagraphQuestion = () => {
                                     sendUpdate={triggerUpdateQuestionList}
                                 />
                             ) : (
-                                <p>Question editing or creating unavailable</p>
+                                <p>{t('editPages.all.questUnavailable')}</p>
                             )
                         }
                     </Col>
@@ -158,27 +164,27 @@ const EditArticleParagraphQuestion = () => {
                     <Col xs={12} md={4}>
                         {
                             articleId ? (
-                                <Button onClick={resetArticleId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Article</Button>
+                                <Button onClick={resetArticleId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('editPages.all.resetArticle')}</Button>
                             ) : (
-                                <Button onClick={resetArticleId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Article</Button>
+                                <Button onClick={resetArticleId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>{t('editPages.all.resetArticle')}</Button>
                             )
                         }
                     </Col>
                     <Col xs={12} md={4}>
                         {
                             paragraphId ? (
-                                <Button onClick={resetParagraphId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Paragraph</Button>
+                                <Button onClick={resetParagraphId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('editPages.all.resetParagraph')}</Button>
                             ) : (
-                                <Button onClick={resetParagraphId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Paragraph</Button>
+                                <Button onClick={resetParagraphId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>{t('editPages.all.resetParagraph')}</Button>
                             )
                         }
                     </Col>
                     <Col xs={12} md={4}>
                         {
                             questionId ? (
-                                <Button onClick={resetQuestionId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Question</Button>
+                                <Button onClick={resetQuestionId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('editPages.all.resetQuestion')}</Button>
                             ) : (
-                                <Button onClick={resetQuestionId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Question</Button>
+                                <Button onClick={resetQuestionId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>{t('editPages.all.resetQuestion')}</Button>
                             )
                         }
                     </Col>
@@ -204,7 +210,7 @@ const EditArticleParagraphQuestion = () => {
                                     update={updateParagraphList}
                                 />
                             ) : (
-                                <p>Paragraphs unavailable</p>
+                                <p>{t('editPages.all.parsUnavailable')}</p>
                             )
                         }
                     </Col>
@@ -218,7 +224,7 @@ const EditArticleParagraphQuestion = () => {
                                     update={updateQuestionList}
                                 />
                             ) : (
-                                <p>Questions unavailable</p>
+                                <p>{t('editPages.all.questionsUnavailable')}</p>
                             )
                         }
                     </Col>

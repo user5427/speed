@@ -36,6 +36,10 @@ body {
   text-align: center;
 }
 
+.icons{
+  margin-top: -3px;
+}
+
 .mainContainer {
   color: white;
   font-size: 17px;
@@ -105,5 +109,3 @@ body {
 .form-label {
   margin-bottom: .1rem;
 }
-
-

@@ -31,7 +31,7 @@ const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect
                 <Col xs={12} md={12} >
                     <Form.Group controlId="answer">
                         <Form.Label>
-                            {t('questions.answerItem.answer')} {index + 1} {correctAnswerIndex === index ? <span style={{ color: '#b5ffbb' }}><GiConfirmed /></span> : null}
+                            {t('questions.answerItem.answer')} {index + 1} {correctAnswerIndex === index ? <span style={{ color: '#b5ffbb' }}><GiConfirmed className="icons"/></span> : null}
                         </Form.Label>
                         <Form.Control
                             name="answer"

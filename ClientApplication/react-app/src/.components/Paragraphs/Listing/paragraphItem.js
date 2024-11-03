@@ -39,7 +39,7 @@ const ParagraphItem = (props) => {
                     {settings && settings.showEditButton && (
                         <Row className="row">
                             <Col xs={12} md={2} className="col col-12 col-md-2">
-                                <Button onClick={editThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}><MdModeEdit /> {t('paragraphs.item.edit')}</Button> {/* Apply a button class */}
+                                <Button onClick={editThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}><MdModeEdit className="icons" /> {t('paragraphs.item.edit')}</Button> {/* Apply a button class */}
                             </Col>
                         </Row>
                     )}

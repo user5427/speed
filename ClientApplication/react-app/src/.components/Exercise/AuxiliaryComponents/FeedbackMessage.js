@@ -33,11 +33,11 @@ const FeedbackMessage = ({ feedbackMessage, currentParagraphIndex, paragraphs, h
         >
           {currentParagraphIndex < paragraphs.length - 1 ? (
             <>
-              {t('exercise.message.nextParagraph')} <GrFormNextLink />
+              {t('exercise.message.nextParagraph')} <GrFormNextLink className="icons"/>
             </>
           ) : (
             <>
-              {t('exercise.message.finish')} <GiFinishLine />
+              {t('exercise.message.finish')} <GiFinishLine className="icons"/>
             </>
           )}
         </Button>

@@ -81,7 +81,7 @@ const ReadingExerciseComponent = ({
             onClick={handleStart}
             disabled={started}
           >
-            {t('exercise.reading.start')}<VscDebugStart style={{ marginTop: '-3px' }} />
+            {t('exercise.reading.start')}<VscDebugStart className="icons"/>
           </Button>
         </Col>
 
@@ -123,7 +123,7 @@ const ReadingExerciseComponent = ({
             onClick={handleShowQuestion}
             disabled={!finished || questionButtonClicked}
           >
-            <FaQuestion style={{ marginTop: '-3px' }} /> {t('exercise.reading.goToQuestion')}
+            <FaQuestion className="icons" /> {t('exercise.reading.goToQuestion')}
           </Button>
         </Col>
       </Row>

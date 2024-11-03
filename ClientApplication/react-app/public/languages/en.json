@@ -40,6 +40,28 @@
             "lCategories" : "William Shakespeare, Alexandre Dumas, Victor Hugo"
     },
 
+    "editPages" : {
+        "all" : {
+            "editAll" : "Edit All",
+            "parUnavailable" : "Paragraph editing or creating unavailable",
+            "questUnavailable" : "Question editing or creating unavailable",
+            "resetArticle" : "Reset Article",
+            "resetParagraph" : "Reset Paragraph",
+            "resetQuestion" : "Reset Question",
+            "parsUnavailable" : "Paragraphs unavailable",
+            "questionsUnavailable" : "Questions unavailable"
+        },
+        "paragraphs" : {
+            "editParAndQ" : "Edit Paragraph and Question",
+            "qEditingorCreating" : "Question editing or creating unavailable",
+            "resetQuest" : "Reset Question",
+            "questUnavailable" : "Questions unavailable"
+        },
+        "questions" : {
+            "editQuestion" : "Edit Question"
+        }
+    },
+
     "exercise" : {
         "loading" : "Loading",
         "reading" : {
@@ -146,7 +168,7 @@
             "select": "Select",
             "delete": "Delete",
             "edit": "Edit",
-            "play": "Play"
+            "read": "Read"
         }
     },
 
@@ -177,5 +199,6 @@
             "plsSelectQuestion" : "Please select a question"
         }
     }
+
 }
 

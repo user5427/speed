@@ -40,6 +40,28 @@
             "lCategories" : "Viljemas Šekspyras, Aleksandras Diuma, Viktoras Hugo"
     },
 
+    "editPages" : {
+        "all" : {
+            "editAll" : "Visko readagavimas",
+            "parUnavailable" : "Pastraipos redagavimas arba kūrimas negalimas",
+            "questUnavailable" : "Klausimų redagavimas arba kūrimas negalimas",
+            "resetArticle" : "Atnaujinti straipsnį",
+            "resetParagraph" : "Atnaujinti pastraipą",
+            "resetQuestion" : "Atnaujinti klausimą",
+            "parsUnavailable" : "Pastraipos neprieinamos",
+            "questionsUnavailable" : "Klausimai neprieinami"
+        },
+        "paragraphs" : {
+            "editParAndQ" : "Pastraipų ir klausimų redagavimas",
+            "qEditingorCreating" : "Klausimų redagavimas arba kūrimas negalimas",
+            "resetQuest" : "Atnaujinti klausimą",
+            "questUnavailable" : "Klausimai neprieinami"
+        },
+        "questions" : {
+            "editQuestion" : "Klausimų redagavimas"
+        }
+    },
+
     "exercise" : {
         "loading" : "Kraunama",
 
@@ -96,7 +118,7 @@
             "articleID" : "Straipsnio ID",
             "enterArticleID" : "Įveskite straipsnio ID",
             "plsEnterArticleID" : "Prašome įvesti straipsnio ID",
-            "parTitle" : "Straipsnio pavadinimas", 
+            "parTitle" : "Pastraipos pavadinimas", 
             "enterParTitle" : "Įveskite pastraipos pavadinimą",
             "plsEnterValidParTitle" : "Prašome įvesti teisingą pastraipos pavadinimą (tik raidės ir tarpai)",
             "paragraphText" : "Pastraipos tekstas", 
@@ -151,7 +173,7 @@
             "select" : "Pasirinkti",
             "delete" : "Panaikinti",
             "edit" : "Redaguoti",
-            "play" : "Žaisti"
+            "read" : "Skaityti"
         }
     },
     
