@@ -109,3 +109,21 @@ body {
 .form-label {
   margin-bottom: .1rem;
 }
+
+.column-with-divider {
+  position: relative;
+}
+
+.column-with-divider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 100%;
+  background-color: #333333 ; /* Adjust color as needed */
+}
+
+.last-column::before {
+  display: none; /* Remove divider for the last column */
+}

@@ -97,7 +97,7 @@ const EditArticleParagraphQuestion = () => {
 
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                 <Row className='justify-content-md-center'>
-                    <Col xs={12} md={4}>
+                    <Col xs={12} md={4}  className="column-with-divider">
                         {
                             articleId ? (
                                 <CreateEditArticle
@@ -114,7 +114,7 @@ const EditArticleParagraphQuestion = () => {
                                 />
                             )}
                     </Col>
-                    <Col xs={12} md={4}>
+                    <Col xs={12} md={4}  className="column-with-divider">
                         {
                             paragraphId ? (
                                 <CreateEditParagraph
@@ -135,7 +135,7 @@ const EditArticleParagraphQuestion = () => {
                             )
                         }
                     </Col>
-                    <Col xs={12} md={4}>
+                    <Col xs={12} md={4} className="column-with-divider last-column">
                         {
                             questionId ? (
                                 <CreateEditQuestion

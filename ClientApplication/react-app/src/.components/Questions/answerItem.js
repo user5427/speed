@@ -29,7 +29,7 @@ const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect
         <>
             <Row style={{ marginBottom: '10px', marginTop: '10px' }} >
                 <Col xs={12} md={12} >
-                    <Form.Group controlId="answer">
+                    <Form.Group controlId="answer" >
                         <Form.Label>
                             {t('questions.answerItem.answer')} {index + 1} {correctAnswerIndex === index ? <span style={{ color: '#b5ffbb' }}><GiConfirmed className="icons"/></span> : null}
                         </Form.Label>
@@ -40,6 +40,7 @@ const AnswerItem = ({ index, articleText, sendBackText, deleteAnswer, setCorrect
                             rows={3}
                             required
                             type="text"
+                            className="form-control darkInput"
                             placeholder={t('questions.answerItem.enterAnswer')}
                             onChange={handleFieldChange}
                             onInput={handleFieldChange}

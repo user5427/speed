@@ -52,7 +52,7 @@ const QuestionSearch = ({ onQuestionSelected, questionFromOutside }) => {
     return (
         <>
             <Form NoValidate>
-                <Form.Group controlId="searchBar">
+                <Form.Group controlId="searchBar" className="input">
                     <Form.Label>{t('questions.search.searchQuestions')}</Form.Label>
                     <Form.Control
                         value={questionFromOutside && questionFromOutside.title || searchValue}

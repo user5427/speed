@@ -42,7 +42,7 @@
 
     "editPages" : {
         "all" : {
-            "editAll" : "Visko readagavimas",
+            "editAll" : "Visko redagavimas",
             "parUnavailable" : "Pastraipos redagavimas arba kūrimas negalimas",
             "questUnavailable" : "Klausimų redagavimas arba kūrimas negalimas",
             "resetArticle" : "Atnaujinti straipsnį",

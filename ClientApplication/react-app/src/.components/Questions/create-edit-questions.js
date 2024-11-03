@@ -384,7 +384,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                 <Form.Group className="d-flex justify-content-center">
                     <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
                 </Form.Group>
-                <Form.Group className="d-flex justify-content-center">
+                <Form.Group className="d-flex justify-content-center" >
                     <div>
                         <input
                             className="form-control darkInput"
@@ -423,7 +423,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                 {
                     outsideParagraph ? "" :
                         (
-                            <Form.Group controlId="formtestTitle">
+                            <Form.Group controlId="formtestTitle" className="input">
                                 <Form.Label>{t('questions.createEdit.paragraphID')}</Form.Label>
                                 <Form.Control
                                     name={Question.varParagraphIdName()}
@@ -442,7 +442,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                         )
                 }
 
-                <Form.Group controlId="formtestTitle">
+                <Form.Group controlId="formtestTitle" className="input">
                     <Form.Label>{t('questions.createEdit.questionText')}</Form.Label>
                     <Form.Control
                         name={Question.varTextName()}
