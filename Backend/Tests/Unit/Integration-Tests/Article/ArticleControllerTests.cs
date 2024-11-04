@@ -164,24 +164,20 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
     }
 
     [Fact]
-    public async Task SearchArticles_ReturnsMatchingArticles()
+    public async Task SearchArticles_ValidQuery_ReturnsArticles()
     {
         // Arrange
-        var queryParam = new QueryParameters
-        {
-            Search = "Test"
-        };
         await CreateArticle("Test Article 1", "Test Category");
         // Act
-        var response = await _client.GetAsync($"/api/articles/search/{queryParam}");
+        var response = await _client.GetAsync($"/api/articles/search?Search=Test");
+        var articlePage = await response.Content.ReadFromJsonAsync<ArticlePageResponse>();
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotNull(articlePage);
+        Assert.NotNull(articlePage.Articles);
+        Assert.NotEmpty(articlePage.Articles);
 
-        // You could also parse the result if expecting specific articles
-        var articles = await response.Content.ReadFromJsonAsync<List<ArticleResponse>>();
-        Assert.NotNull(articles);
-        Assert.True(articles.Count > 0); // Assuming there are matching articles
     }
     
       

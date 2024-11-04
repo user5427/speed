@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.Entities;
 
 namespace Unit;
 
@@ -38,4 +39,16 @@ public class PlaygroundApplication : WebApplicationFactory<Program>
 
             });
         }
+
+
+        // Method to seed the database with an article
+    public async Task SeedDatabaseWithArticle(ApplicationContext dbContext)
+    {
+        dbContext.Article.Add(new Article
+        {
+            Title = "Sample Article",
+            CategoryTitle = "Sample Category"
+        });
+        await dbContext.SaveChangesAsync();
+    }
 }
