@@ -39,7 +39,8 @@ public class UserService : IUserService
         
         return new LoginResponse {
             Id = user.Id,
-            Username = user.Email,
+            Username = user.Username,
+            Role = user.Role,
             Token = token
         };
     }
