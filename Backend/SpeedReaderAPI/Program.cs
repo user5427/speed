@@ -16,6 +16,7 @@ builder.Services.AddControllers(options =>
         options.Filters.Add<RequestValidationFilter>();
         options.Filters.Add<ExceptionFilter>();
     });
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IParagraphService, ParagraphService>();
