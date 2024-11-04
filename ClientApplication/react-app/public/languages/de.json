@@ -2,9 +2,9 @@
     "homepage" : {
         "home" : "Zur Hauptseite",
         "about" : "Über uns",
-        "goToCategories" : "Go to Categories",
-        "goToArticles" : "Go to Articles",
-        "goToExercise" : "Go to Exercise",
+        "goToCategories" : "Zu den Kategorien",
+        "goToArticles" : "Zum Artikel",
+        "goToExercise" : "Zu den Übungen",
         "flashingSentence" : "Introducing our new web page \"Speedreader.com\", designed to help users read sentences quickly without being distracted by inner thoughts, boosting focus, improving comprehension, and saving time with faster reading speeds."
     },
 
@@ -13,7 +13,7 @@
         "createArticle" : "Artikel zumachen",
         "createParagraph" : "Absatz zumachen",
         "createQuestion" : "Frage zumachen",
-        "articleList" : "Article list"
+        "articleList" : "Artikelliste"
     },
 
     "createArticlePage" : {
@@ -21,7 +21,7 @@
     },
 
     "createParagraphPage" : {
-        "createParagraph" : "Strophen erstellen"
+        "createParagraph" : "Absatz erstellen"
     },
 
     "createQuestionPage" : {
@@ -29,14 +29,14 @@
     },
 
     "categories" : {
-        "subjects" : "Subjects",
+        "subjects" : "Themen",
         "biology" : "Biologie",
-            "bCategories" : "Plants, molecules, Tiere",
-        "astronomy" : "Astronomy",
-            "aCategories" : "Milky Way Galaxy, Closest star systems, Black holes",
+            "bCategories" : "Pflanzen, Moleküle, Tiere",
+        "astronomy" : "Astronomie",
+            "aCategories" : "Milchstraße, nächsteSternbilder, Schwarzen Loche",
         "history" : "Geschichte",
-            "hCategories" : "Ancient Egypt, Middle Ages, WW I, WW II",
-        "literature" : "Literature",
+            "hCategories" : "Altes Ä, Mittelalter, Erste Weltkrieg, Zweite Weltkrieg",
+        "literature" : "Literatur",
             "lCategories" : "William Shakespeare, Alexandre Dumas, Victor Hugo"
     },
 
@@ -194,9 +194,9 @@
             "delete" : "Delete"
         },
         "search" : {
-            "searchQuestions" : "Search Questions",
+            "searchQuestions" : "suchen Fragen",
             "enterQuestionsTitle" : "Enter question title",
-            "plsSelectQuestion" : "Please select a question"
+            "plsSelectQuestion" : "Wählen Sie, bitte, eine Frage"
         }
     }
 }
