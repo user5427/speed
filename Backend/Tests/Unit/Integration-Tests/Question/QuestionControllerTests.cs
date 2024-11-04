@@ -1,6 +1,6 @@
 namespace Unit;
 
-public class QuestionControllerTest
+public class QuestionControllerTests
 {
     [Fact]
     public void Test1()

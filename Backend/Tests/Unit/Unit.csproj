@@ -1,5 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Target Name="CopyDepsFile" AfterTargets="Build">
+      <Copy SourceFiles="..\..\SpeedReaderAPI\bin\Debug\net8.0\SpeedReaderAPI.deps.json"
+            DestinationFolder="$(OutputPath)" 
+            SkipUnchangedFiles="true" />
+  </Target>
+
+
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

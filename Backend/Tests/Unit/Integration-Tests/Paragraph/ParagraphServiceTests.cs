@@ -26,7 +26,7 @@ public class ParagraphServiceTests
     {
         // Create the context creator
         _contextCreator = new ContextCreator();
-        var context = _contextCreator.CreateContext();
+        var context = ContextCreator.CreateContext();
 
          // Set up AutoMapper with the actual mappings
         var mapperConfig = new MapperConfiguration(cfg =>
@@ -86,7 +86,7 @@ public class ParagraphServiceTests
         var requestP = new ParagraphCreateRequest("Test Paragraph", createdArticle.Id, "Test Article");
         var createdP = _paragraphService.CreateParagraph(requestP);
 
-        var requestP2 = new ParagraphUpdateRequest("Test Paragraph 2", createdArticle.Id, "Test Article");
+        var requestP2 = new ParagraphUpdateRequest("Test Paragraph 2", createdArticle.Id, "Test Article", null);
         
         // Act
         var result = _paragraphService.UpdateParagraph(createdP.Id, requestP2);

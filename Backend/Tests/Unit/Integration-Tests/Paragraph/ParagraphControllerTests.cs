@@ -1,6 +1,6 @@
 namespace Unit;
 
-public class ParagraphControllerTest
+public class ParagraphControllerTests
 {
     [Fact]
     public void Test1()

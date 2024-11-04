@@ -46,7 +46,7 @@ public class QuestionServiceTests
 
         // Create the context creator
         _contextCreator = new ContextCreator();
-        var context = _contextCreator.CreateContext();
+        var context = ContextCreator.CreateContext();
 
          // Set up AutoMapper with the actual mappings
         var mapperConfig = new MapperConfiguration(cfg =>

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
 
 public class ContextCreator {
-    public ApplicationContext CreateContext()
+    public static ApplicationContext CreateContext()
     {
         // Create options for the in-memory database
         var options = new DbContextOptionsBuilder<ApplicationContext>()
