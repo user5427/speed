@@ -8,44 +8,26 @@ using SpeedReaderAPI.DTOs.Paragraph.Responses;
 
 namespace Unit;
 
-public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
+public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IAsyncLifetime
 {
-    private readonly HttpClient _client;
-    private int _paragraphCount = 0;
+    private readonly PlaygroundApplication _dbContextFactory;
+    private HttpClient _client;
+    private int? _articleId;
+    private int? _paragraphId;
 
     public ParagraphControllerTests(PlaygroundApplication factory)
     {
+        _dbContextFactory = factory;
         _client = factory.CreateClient();
-
-        // Seed database with an article before tests
-        using var scope = factory.Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-        factory.SeedDatabaseWithArticle(dbContext).Wait();
-    }
-
-    public async Task<int> CreateParagraph (string title = "Test Paragraph", string text = "Test Content", int articleId = 1) {
-        // Act
-        var request = new ParagraphCreateRequest(
-            Title: title + _paragraphCount++,
-            Text: text,
-            ArticleId: articleId
-        );
-
-        var response = await _client.PostAsJsonAsync("/api/paragraphs", request);
-        var createdParagraph = await response.Content.ReadFromJsonAsync<ParagraphResponse>();
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode); // Created
-        Assert.NotNull(createdParagraph);
-        return createdParagraph.Id;
     }
 
     [Fact]
     public async Task CreateParagraph_ValidData_ReturnsCreatedParagraph()
     {
-        // Arrange
         var request = new ParagraphCreateRequest(
             Title: "Test Paragraph",
             Text: "Test Content",
-            ArticleId: 1
+            ArticleId: _articleId.Value
         );
 
         // Act
@@ -63,11 +45,10 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
     [Fact]
     public async Task CreateParagraph_InvalidData_ReturnsBadRequest()
     {
-        // Arrange: Title does not meet the required length constraints
         var request = new ParagraphCreateRequest(
             Title: "Sh",  // Assume this is less than ValidationConstants.MinTitleLength
             Text: "Test Content",
-            ArticleId: 1
+            ArticleId: _articleId.Value
         );
 
         // Act
@@ -78,21 +59,21 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
     [Fact]
     public async Task GetParagraph_ValidId_ReturnsParagraph()
     {
-        // Arrange
-        var paragraphId = await CreateParagraph();
-        var response = await _client.GetAsync($"/api/paragraphs/{paragraphId}");
+        // Act
+        var response = await _client.GetAsync($"/api/paragraphs/{_paragraphId}");
         var paragraph = await response.Content.ReadFromJsonAsync<ParagraphResponse>();
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(paragraph);
-        Assert.Equal(paragraphId, paragraph?.Id);
+        Assert.Equal(_articleId.Value, paragraph?.Id);
     }
 
     [Fact]
     public async Task GetParagraph_InvalidId_ReturnsNotFound()
     {
-        // Arrange: Paragraph ID does not exist
+
+        // Act
         var response = await _client.GetAsync($"/api/paragraphs/0");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
@@ -100,17 +81,15 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
     [Fact]
     public async Task UpdateParagraph_ValidData_ReturnsUpdatedParagraph()
     {
-        // Arrange
-        var paragraphId = await CreateParagraph();
         var request = new ParagraphUpdateRequest(
             Title: "Updated Title",
             Text: "Updated Content",
-            ArticleId: 1,
+            ArticleId: _articleId.Value,
             QuestionIds: null
         );
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/api/paragraphs/{paragraphId}", request);
+        var response = await _client.PutAsJsonAsync($"/api/paragraphs/{_paragraphId.Value}", request);
         var updatedParagraph = await response.Content.ReadFromJsonAsync<ParagraphResponse>();
 
         // Assert
@@ -123,28 +102,23 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
     [Fact]
     public async Task UpdateParagraph_InvalidData_ReturnsBadRequest()
     {
-        // Arrange: Title does not meet the required length constraints
-        var paragraphId = await CreateParagraph();
         var request = new ParagraphUpdateRequest(
             Title: "Sh",  // Assume this is less than ValidationConstants.MinTitleLength
             Text: "Updated Content",
-            ArticleId: 1,
+            ArticleId: _articleId,
             QuestionIds: null
         );
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/api/paragraphs/{paragraphId}", request);
+        var response = await _client.PutAsJsonAsync($"/api/paragraphs/{_paragraphId.Value}", request);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
     [Fact]
     public async Task DeleteParagraph_ValidId_ReturnsNoContent()
     {
-        // Arrange
-        var paragraphId = await CreateParagraph();
-
         // Act
-        var response = await _client.DeleteAsync($"/api/paragraphs/{paragraphId}");
+        var response = await _client.DeleteAsync($"/api/paragraphs/{_paragraphId}");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode); // NoContent
@@ -153,17 +127,16 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
     [Fact]
     public async Task DeleteParagraph_InvalidId_ReturnsNotFound()
     {
-        // Arrange: Paragraph ID does not exist
+        // Act
         var response = await _client.DeleteAsync($"/api/paragraphs/0");
+
+        // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
     [Fact]
     public async Task SearchParagraphs_ValidQuery_ReturnsParagraphs()
     {
-        // Arrange
-        await CreateParagraph();
-
         // Act
         var response = await _client.GetAsync($"/api/paragraphs/search?Search=Test");
         var paragraphPage = await response.Content.ReadFromJsonAsync<ParagraphPageResponse>();
@@ -176,4 +149,27 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
         // Assert.Contains(paragraphPage.Paragraphs, p => p.Id == paragraphId);
     }
 
+    ValueTask IAsyncLifetime.InitializeAsync()
+    {
+        using var scope = _dbContextFactory.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync();
+        await HelperMethods.SeedInitialData(context);
+        _articleId = HelperMethods.GetFirstArticleId(context);
+        _paragraphId = HelperMethods.GetFirstParagraphId(context);
+        return ValueTask.CompletedTask;
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        using var scope = _dbContextFactory.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync();
+        await HelperMethods.SeedInitialData(context);
+        _articleId = HelperMethods.GetFirstArticleId(context);
+        _paragraphId = HelperMethods.GetFirstParagraphId(context);
+        return ValueTask.CompletedTask;
+    }
 }

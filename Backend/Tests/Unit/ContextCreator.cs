@@ -6,7 +6,7 @@ public class ContextCreator {
     {
         // Create options for the in-memory database
         var options = new DbContextOptionsBuilder<ApplicationContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase") // Name of the in-memory database
+            .UseInMemoryDatabase(databaseName: "TestDatabaseService") // Name of the in-memory database
             .Options;
 
         // Create the context using the options

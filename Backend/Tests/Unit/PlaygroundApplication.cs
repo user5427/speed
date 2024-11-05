@@ -12,43 +12,34 @@ namespace Unit;
 public class PlaygroundApplication : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            builder.ConfigureServices(services =>
-            {
-                // Remove the existing DbContext registration, if any.
-                var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType == typeof(DbContextOptions<ApplicationContext>));
-
-                if (descriptor != null)
-                {
-                    services.Remove(descriptor);
-                }
-
-                // Add the in-memory database context for testing
-                services.AddDbContext<ApplicationContext>(options =>
-                {
-                    options.UseInMemoryDatabase("TestDatabase");
-                });
-
-                // Ensure the database is created
-                var sp = services.BuildServiceProvider();
-                using var scope = sp.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-                db.Database.EnsureCreated();
-                db.Database.EnsureDeleted();
-
-            });
-        }
-
-
-        // Method to seed the database with an article
-    public async Task SeedDatabaseWithArticle(ApplicationContext dbContext)
     {
-        dbContext.Article.Add(new Article
+        builder.ConfigureServices(services =>
         {
-            Title = "Sample Article",
-            CategoryTitle = "Sample Category"
+            // Remove the existing DbContext registration, if any.
+            var descriptor = services.SingleOrDefault(
+                d => d.ServiceType == typeof(DbContextOptions<ApplicationContext>));
+
+            if (descriptor != null)
+            {
+                services.Remove(descriptor);
+            }
+
+            // Add the in-memory database context for testing
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseInMemoryDatabase("TestDatabase");
+            });
+
+
+
+            // Ensure the database is created
+
+            var sp = services.BuildServiceProvider();
+            using var scope = sp.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+            dbContext.Database.EnsureCreated();
         });
-        await dbContext.SaveChangesAsync();
     }
+
+
 }

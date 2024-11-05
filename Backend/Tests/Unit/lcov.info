@@ -1,0 +1,4321 @@
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\PageResponse.cs
+FN:0,System.Int64 PageResponse`1::get_Count()
+FNDA:0,System.Int64 PageResponse`1::get_Count()
+DA:1,0
+LF:1
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Program.cs
+FN:5,System.Void Program::<Main>$(System.String[])
+FNDA:0,System.Void Program::<Main>$(System.String[])
+DA:6,0
+DA:10,0
+DA:11,0
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:26,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:35,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:41,0
+BRDA:29,300,0,0
+BRDA:29,300,1,0
+LF:26
+LH:0
+BRF:2
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Repositories\Impl\CombinedRepositories.cs
+FN:18,System.Void CombinedRepositories::SaveChanges()
+FNDA:0,System.Void CombinedRepositories::SaveChanges()
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+BRDA:20,12,1,0
+BRDA:20,12,0,0
+FN:10,System.Void CombinedRepositories::.ctor(SpeedReaderAPI.Data.ApplicationContext)
+FNDA:0,System.Void CombinedRepositories::.ctor(SpeedReaderAPI.Data.ApplicationContext)
+DA:11,0
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+FN:23,System.Void CombinedRepositories/<SaveChangesAsync>d__6::MoveNext()
+FNDA:0,System.Void CombinedRepositories/<SaveChangesAsync>d__6::MoveNext()
+DA:24,0
+DA:25,0
+DA:26,0
+DA:27,0
+BRDA:25,31,0,0
+BRDA:25,31,1,0
+LF:15
+LH:0
+BRF:4
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Repositories\Impl\DbArticleRepository.cs
+FN:11,System.Int64 DbArticleRepository::Count()
+FNDA:0,System.Int64 DbArticleRepository::Count()
+DA:12,0
+FN:13,SpeedReaderAPI.Entities.Article DbArticleRepository::FindById(System.Int32)
+FNDA:0,SpeedReaderAPI.Entities.Article DbArticleRepository::FindById(System.Int32)
+DA:14,0
+FN:16,System.Void DbArticleRepository::Add(SpeedReaderAPI.Entities.Article)
+FNDA:0,System.Void DbArticleRepository::Add(SpeedReaderAPI.Entities.Article)
+DA:17,0
+FN:18,System.Void DbArticleRepository::Remove(SpeedReaderAPI.Entities.Article)
+FNDA:0,System.Void DbArticleRepository::Remove(SpeedReaderAPI.Entities.Article)
+DA:19,0
+FN:20,System.Collections.Generic.List`1<SpeedReaderAPI.Entities.Article> DbArticleRepository::GetPaged(System.Int32,System.Int32)
+FNDA:0,System.Collections.Generic.List`1<SpeedReaderAPI.Entities.Article> DbArticleRepository::GetPaged(System.Int32,System.Int32)
+DA:21,0
+FN:7,System.Void DbArticleRepository::.ctor(SpeedReaderAPI.Data.ApplicationContext)
+FNDA:0,System.Void DbArticleRepository::.ctor(SpeedReaderAPI.Data.ApplicationContext)
+DA:8,0
+DA:9,0
+DA:10,0
+DA:11,0
+LF:9
+LH:0
+BRF:0
+BRH:0
+FNF:6
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Repositories\Impl\DbParagraphRepository.cs
+FN:11,System.Int64 DbParagraphRepository::Count()
+FNDA:0,System.Int64 DbParagraphRepository::Count()
+DA:12,0
+FN:13,SpeedReaderAPI.Entities.Paragraph DbParagraphRepository::FindById(System.Int32)
+FNDA:0,SpeedReaderAPI.Entities.Paragraph DbParagraphRepository::FindById(System.Int32)
+DA:14,0
+FN:15,System.Void DbParagraphRepository::Add(SpeedReaderAPI.Entities.Paragraph)
+FNDA:0,System.Void DbParagraphRepository::Add(SpeedReaderAPI.Entities.Paragraph)
+DA:16,0
+FN:17,System.Void DbParagraphRepository::Remove(SpeedReaderAPI.Entities.Paragraph)
+FNDA:0,System.Void DbParagraphRepository::Remove(SpeedReaderAPI.Entities.Paragraph)
+DA:18,0
+FN:19,System.Collections.Generic.List`1<SpeedReaderAPI.Entities.Paragraph> DbParagraphRepository::GetPaged(System.Int32,System.Int32)
+FNDA:0,System.Collections.Generic.List`1<SpeedReaderAPI.Entities.Paragraph> DbParagraphRepository::GetPaged(System.Int32,System.Int32)
+DA:20,0
+FN:7,System.Void DbParagraphRepository::.ctor(SpeedReaderAPI.Data.ApplicationContext)
+FNDA:0,System.Void DbParagraphRepository::.ctor(SpeedReaderAPI.Data.ApplicationContext)
+DA:8,0
+DA:9,0
+DA:10,0
+DA:11,0
+LF:9
+LH:0
+BRF:0
+BRH:0
+FNF:6
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Repositories\Impl\DbQuestionRepository.cs
+FN:12,SpeedReaderAPI.Entities.Question DbQuestionRepository::FindById(System.Int32)
+FNDA:0,SpeedReaderAPI.Entities.Question DbQuestionRepository::FindById(System.Int32)
+DA:13,0
+FN:14,System.Void DbQuestionRepository::Add(SpeedReaderAPI.Entities.Question)
+FNDA:0,System.Void DbQuestionRepository::Add(SpeedReaderAPI.Entities.Question)
+DA:15,0
+FN:16,System.Void DbQuestionRepository::Remove(SpeedReaderAPI.Entities.Question)
+FNDA:0,System.Void DbQuestionRepository::Remove(SpeedReaderAPI.Entities.Question)
+DA:17,0
+FN:18,System.Int64 DbQuestionRepository::Count()
+FNDA:0,System.Int64 DbQuestionRepository::Count()
+DA:19,0
+FN:20,System.Collections.Generic.List`1<SpeedReaderAPI.Entities.Question> DbQuestionRepository::GetPaged(System.Int32,System.Int32)
+FNDA:0,System.Collections.Generic.List`1<SpeedReaderAPI.Entities.Question> DbQuestionRepository::GetPaged(System.Int32,System.Int32)
+DA:21,0
+FN:7,System.Void DbQuestionRepository::.ctor(SpeedReaderAPI.Data.ApplicationContext)
+FNDA:0,System.Void DbQuestionRepository::.ctor(SpeedReaderAPI.Data.ApplicationContext)
+DA:8,0
+DA:9,0
+DA:10,0
+DA:11,0
+LF:9
+LH:0
+BRF:0
+BRH:0
+FNF:6
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\MappingProfiles.cs
+FN:17,System.Void SpeedReaderAPI.MappingProfiles::.ctor()
+FNDA:0,System.Void SpeedReaderAPI.MappingProfiles::.ctor()
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+LF:12
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Services\Impl\ArticleService.cs
+FN:30,SpeedReaderAPI.DTOs.Article.Responses.ArticlePageResponse SpeedReaderAPI.Services.Impl.ArticleService::GetArticles(SpeedReaderAPI.DTOs.QueryParameters)
+FNDA:0,SpeedReaderAPI.DTOs.Article.Responses.ArticlePageResponse SpeedReaderAPI.Services.Impl.ArticleService::GetArticles(SpeedReaderAPI.DTOs.QueryParameters)
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+FN:38,SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse SpeedReaderAPI.Services.Impl.ArticleService::GetArticleById(System.Int32)
+FNDA:0,SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse SpeedReaderAPI.Services.Impl.ArticleService::GetArticleById(System.Int32)
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:45,0
+DA:46,0
+BRDA:41,25,0,0
+BRDA:41,25,1,0
+FN:48,SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse SpeedReaderAPI.Services.Impl.ArticleService::CreateArticle(SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest)
+FNDA:0,SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse SpeedReaderAPI.Services.Impl.ArticleService::CreateArticle(SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest)
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+FN:57,SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse SpeedReaderAPI.Services.Impl.ArticleService::UpdateArticle(System.Int32,SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest)
+FNDA:0,SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse SpeedReaderAPI.Services.Impl.ArticleService::UpdateArticle(System.Int32,SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest)
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+BRDA:60,25,0,0
+BRDA:60,25,1,0
+BRDA:65,97,0,0
+BRDA:65,97,1,0
+BRDA:69,127,0,0
+BRDA:69,127,1,0
+BRDA:73,157,0,0
+BRDA:76,186,0,0
+BRDA:76,186,1,0
+BRDA:76,222,0,0
+BRDA:76,222,1,0
+BRDA:73,157,1,0
+FN:87,System.Void SpeedReaderAPI.Services.Impl.ArticleService::DeleteArticle(System.Int32)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ArticleService::DeleteArticle(System.Int32)
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:102,0
+DA:103,0
+DA:105,0
+BRDA:90,25,0,0
+BRDA:92,46,0,0
+BRDA:92,46,1,0
+BRDA:92,68,0,0
+BRDA:92,68,1,0
+BRDA:90,25,1,0
+FN:107,PageResponse`1<SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse> SpeedReaderAPI.Services.Impl.ArticleService::SearchArticles(SpeedReaderAPI.DTOs.QueryParameters)
+FNDA:0,PageResponse`1<SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse> SpeedReaderAPI.Services.Impl.ArticleService::SearchArticles(SpeedReaderAPI.DTOs.QueryParameters)
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+BRDA:111,16,0,0
+BRDA:111,16,1,0
+FN:135,SpeedReaderAPI.Entities.Image SpeedReaderAPI.Services.Impl.ArticleService::GetImage(System.Int32)
+FNDA:0,SpeedReaderAPI.Entities.Image SpeedReaderAPI.Services.Impl.ArticleService::GetImage(System.Int32)
+DA:136,0
+DA:137,0
+DA:138,0
+DA:139,0
+DA:140,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:146,0
+DA:147,0
+DA:148,0
+DA:149,0
+DA:151,0
+DA:152,0
+DA:153,0
+DA:155,0
+BRDA:138,25,0,0
+BRDA:138,25,1,0
+BRDA:144,110,0,0
+BRDA:144,110,1,0
+BRDA:147,157,0,0
+BRDA:147,157,1,0
+FN:157,System.Void SpeedReaderAPI.Services.Impl.ArticleService::DeleteImage(System.Int32)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ArticleService::DeleteImage(System.Int32)
+DA:158,0
+DA:159,0
+DA:160,0
+DA:161,0
+DA:162,0
+DA:164,0
+DA:165,0
+DA:167,0
+DA:168,0
+DA:169,0
+BRDA:160,25,0,0
+BRDA:160,25,1,0
+BRDA:164,101,0,0
+BRDA:164,101,1,0
+BRDA:164,126,1,0
+BRDA:164,126,0,0
+FN:171,System.Int64 SpeedReaderAPI.Services.Impl.ArticleService::GetCount()
+FNDA:0,System.Int64 SpeedReaderAPI.Services.Impl.ArticleService::GetCount()
+DA:172,0
+DA:173,0
+DA:174,0
+FN:20,System.Void SpeedReaderAPI.Services.Impl.ArticleService::.ctor(SpeedReaderAPI.Data.ApplicationContext,AutoMapper.IMapper,SpeedReaderAPI.Services.IImageService,SpeedReaderAPI.Services.IParagraphService)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ArticleService::.ctor(SpeedReaderAPI.Data.ApplicationContext,AutoMapper.IMapper,SpeedReaderAPI.Services.IImageService,SpeedReaderAPI.Services.IParagraphService)
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+FN:118,System.Void SpeedReaderAPI.Services.Impl.ArticleService/<UploadImage>d__11::MoveNext()
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ArticleService/<UploadImage>d__11::MoveNext()
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:129,0
+DA:130,0
+DA:132,0
+DA:133,0
+BRDA:121,73,0,0
+BRDA:121,73,1,0
+BRDA:125,162,0,0
+BRDA:125,162,1,0
+LF:117
+LH:0
+BRF:38
+BRH:0
+FNF:11
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Services\Impl\ImageService.cs
+FN:42,System.IO.Stream SpeedReaderAPI.Services.Impl.ImageService::Get(SpeedReaderAPI.Entities.Image)
+FNDA:0,System.IO.Stream SpeedReaderAPI.Services.Impl.ImageService::Get(SpeedReaderAPI.Entities.Image)
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:49,0
+DA:50,0
+BRDA:45,35,0,0
+BRDA:45,35,1,0
+FN:51,System.Void SpeedReaderAPI.Services.Impl.ImageService::Delete(SpeedReaderAPI.Entities.Image)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ImageService::Delete(SpeedReaderAPI.Entities.Image)
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+FN:10,System.Void SpeedReaderAPI.Services.Impl.ImageService::.ctor()
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ImageService::.ctor()
+DA:11,0
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+BRDA:14,35,0,0
+BRDA:14,35,1,0
+FN:20,System.Void SpeedReaderAPI.Services.Impl.ImageService/<Create>d__1::MoveNext()
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ImageService/<Create>d__1::MoveNext()
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:33,0
+DA:34,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+BRDA:23,46,0,0
+BRDA:23,46,1,0
+BRDA:29,98,0,0
+BRDA:29,98,1,0
+LF:36
+LH:0
+BRF:8
+BRH:0
+FNF:4
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Services\Impl\ParagraphService.cs
+FN:28,SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse SpeedReaderAPI.Services.Impl.ParagraphService::GetParagraph(System.Int32)
+FNDA:0,SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse SpeedReaderAPI.Services.Impl.ParagraphService::GetParagraph(System.Int32)
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:36,0
+DA:38,0
+BRDA:31,25,0,0
+BRDA:31,25,1,0
+FN:40,SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse SpeedReaderAPI.Services.Impl.ParagraphService::CreateParagraph(SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest)
+FNDA:0,SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse SpeedReaderAPI.Services.Impl.ParagraphService::CreateParagraph(SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest)
+DA:41,0
+DA:42,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:49,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:56,0
+DA:57,0
+BRDA:44,30,0,0
+BRDA:44,30,1,0
+FN:60,SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse SpeedReaderAPI.Services.Impl.ParagraphService::UpdateParagraph(System.Int32,SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest)
+FNDA:0,SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse SpeedReaderAPI.Services.Impl.ParagraphService::UpdateParagraph(System.Int32,SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest)
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:68,0
+DA:69,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+BRDA:63,25,0,0
+BRDA:63,25,1,0
+BRDA:69,117,0,0
+BRDA:69,117,1,0
+BRDA:72,149,0,0
+BRDA:75,197,0,0
+BRDA:75,197,1,0
+BRDA:72,149,1,0
+BRDA:84,318,0,0
+BRDA:84,318,1,0
+BRDA:88,348,0,0
+BRDA:88,348,1,0
+BRDA:92,378,0,0
+BRDA:95,407,0,0
+BRDA:95,407,1,0
+BRDA:95,443,0,0
+BRDA:95,443,1,0
+BRDA:92,378,1,0
+FN:105,System.Void SpeedReaderAPI.Services.Impl.ParagraphService::DeleteParagraph(System.Int32)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ParagraphService::DeleteParagraph(System.Int32)
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:113,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:125,0
+DA:126,0
+DA:128,0
+BRDA:108,25,0,0
+BRDA:111,62,0,0
+BRDA:111,62,1,0
+BRDA:115,103,0,0
+BRDA:115,103,1,0
+BRDA:115,127,0,0
+BRDA:115,127,1,0
+BRDA:108,25,1,0
+FN:130,PageResponse`1<SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse> SpeedReaderAPI.Services.Impl.ParagraphService::SearchParagraphs(SpeedReaderAPI.DTOs.QueryParameters)
+FNDA:0,PageResponse`1<SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse> SpeedReaderAPI.Services.Impl.ParagraphService::SearchParagraphs(SpeedReaderAPI.DTOs.QueryParameters)
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:137,0
+BRDA:133,16,0,0
+BRDA:133,16,1,0
+FN:156,SpeedReaderAPI.Entities.Image SpeedReaderAPI.Services.Impl.ParagraphService::GetImage(System.Int32)
+FNDA:0,SpeedReaderAPI.Entities.Image SpeedReaderAPI.Services.Impl.ParagraphService::GetImage(System.Int32)
+DA:157,0
+DA:158,0
+DA:159,0
+DA:160,0
+DA:161,0
+DA:164,0
+DA:165,0
+DA:166,0
+DA:167,0
+DA:168,0
+DA:169,0
+DA:170,0
+DA:172,0
+DA:173,0
+DA:174,0
+DA:176,0
+BRDA:159,25,0,0
+BRDA:159,25,1,0
+BRDA:165,110,0,0
+BRDA:165,110,1,0
+BRDA:168,157,0,0
+BRDA:168,157,1,0
+FN:178,System.Void SpeedReaderAPI.Services.Impl.ParagraphService::DeleteImage(System.Int32)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ParagraphService::DeleteImage(System.Int32)
+DA:179,0
+DA:180,0
+DA:181,0
+DA:182,0
+DA:183,0
+DA:185,0
+DA:186,0
+DA:188,0
+DA:189,0
+DA:190,0
+BRDA:181,25,0,0
+BRDA:181,25,1,0
+BRDA:185,101,0,0
+BRDA:185,101,1,0
+BRDA:185,126,1,0
+BRDA:185,126,0,0
+FN:192,System.Int64 SpeedReaderAPI.Services.Impl.ParagraphService::GetCount()
+FNDA:0,System.Int64 SpeedReaderAPI.Services.Impl.ParagraphService::GetCount()
+DA:193,0
+DA:194,0
+DA:195,0
+FN:19,System.Void SpeedReaderAPI.Services.Impl.ParagraphService::.ctor(SpeedReaderAPI.Data.ApplicationContext,AutoMapper.IMapper,SpeedReaderAPI.Services.IImageService,SpeedReaderAPI.Services.IQuestionService)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ParagraphService::.ctor(SpeedReaderAPI.Data.ApplicationContext,AutoMapper.IMapper,SpeedReaderAPI.Services.IImageService,SpeedReaderAPI.Services.IQuestionService)
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+FN:139,System.Void SpeedReaderAPI.Services.Impl.ParagraphService/<UploadImage>d__10::MoveNext()
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.ParagraphService/<UploadImage>d__10::MoveNext()
+DA:140,0
+DA:141,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:146,0
+DA:147,0
+DA:148,0
+DA:150,0
+DA:151,0
+DA:153,0
+DA:154,0
+BRDA:142,73,0,0
+BRDA:142,73,1,0
+BRDA:146,162,0,0
+BRDA:146,162,1,0
+LF:129
+LH:0
+BRF:48
+BRH:0
+FNF:10
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Services\Impl\QuestionService.cs
+FN:26,SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse SpeedReaderAPI.Services.Impl.QuestionService::GetQuestion(System.Int32)
+FNDA:0,SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse SpeedReaderAPI.Services.Impl.QuestionService::GetQuestion(System.Int32)
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:33,0
+DA:35,0
+BRDA:29,25,0,0
+BRDA:29,25,1,0
+FN:36,SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse SpeedReaderAPI.Services.Impl.QuestionService::CreateQuestion(SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest)
+FNDA:0,SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse SpeedReaderAPI.Services.Impl.QuestionService::CreateQuestion(SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest)
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:55,0
+DA:56,0
+BRDA:39,30,0,0
+BRDA:39,30,1,0
+BRDA:44,126,0,0
+BRDA:44,126,1,0
+BRDA:44,175,0,0
+BRDA:44,175,1,0
+FN:58,SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse SpeedReaderAPI.Services.Impl.QuestionService::UpdateQuestion(System.Int32,SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest)
+FNDA:0,SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse SpeedReaderAPI.Services.Impl.QuestionService::UpdateQuestion(System.Int32,SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest)
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:66,0
+DA:67,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:86,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:113,0
+DA:114,0
+DA:115,0
+BRDA:61,25,0,0
+BRDA:61,25,1,0
+BRDA:67,117,0,0
+BRDA:67,117,1,0
+BRDA:69,149,0,0
+BRDA:71,161,0,0
+BRDA:71,161,1,0
+BRDA:73,214,0,0
+BRDA:73,214,1,0
+BRDA:75,301,0,0
+BRDA:75,301,1,0
+BRDA:69,149,1,0
+BRDA:80,331,0,0
+BRDA:82,357,0,0
+BRDA:82,357,1,0
+BRDA:80,331,1,0
+BRDA:89,391,0,0
+BRDA:92,439,0,0
+BRDA:92,439,1,0
+BRDA:89,391,1,0
+BRDA:100,560,0,0
+BRDA:100,560,1,0
+BRDA:104,596,0,0
+BRDA:104,596,1,0
+BRDA:108,635,0,0
+BRDA:108,635,1,0
+FN:117,System.Void SpeedReaderAPI.Services.Impl.QuestionService::DeleteQuestion(System.Int32)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.QuestionService::DeleteQuestion(System.Int32)
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:132,0
+DA:134,0
+DA:135,0
+DA:137,0
+BRDA:120,25,0,0
+BRDA:123,60,0,0
+BRDA:123,60,1,0
+BRDA:126,92,0,0
+BRDA:126,92,1,0
+BRDA:126,116,0,0
+BRDA:126,116,1,0
+BRDA:120,25,1,0
+FN:139,PageResponse`1<SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse> SpeedReaderAPI.Services.Impl.QuestionService::SearchQuestions(SpeedReaderAPI.DTOs.QueryParameters)
+FNDA:0,PageResponse`1<SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse> SpeedReaderAPI.Services.Impl.QuestionService::SearchQuestions(SpeedReaderAPI.DTOs.QueryParameters)
+DA:140,0
+DA:141,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:146,0
+BRDA:142,16,0,0
+BRDA:142,16,1,0
+FN:164,SpeedReaderAPI.Entities.Image SpeedReaderAPI.Services.Impl.QuestionService::GetImage(System.Int32)
+FNDA:0,SpeedReaderAPI.Entities.Image SpeedReaderAPI.Services.Impl.QuestionService::GetImage(System.Int32)
+DA:165,0
+DA:166,0
+DA:167,0
+DA:168,0
+DA:169,0
+DA:172,0
+DA:173,0
+DA:174,0
+DA:175,0
+DA:176,0
+DA:177,0
+DA:178,0
+DA:180,0
+DA:181,0
+DA:182,0
+DA:184,0
+BRDA:167,25,0,0
+BRDA:167,25,1,0
+BRDA:173,110,0,0
+BRDA:173,110,1,0
+BRDA:176,157,0,0
+BRDA:176,157,1,0
+FN:186,System.Void SpeedReaderAPI.Services.Impl.QuestionService::DeleteImage(System.Int32)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.QuestionService::DeleteImage(System.Int32)
+DA:187,0
+DA:188,0
+DA:189,0
+DA:190,0
+DA:191,0
+DA:193,0
+DA:194,0
+DA:196,0
+DA:197,0
+DA:198,0
+BRDA:189,25,0,0
+BRDA:189,25,1,0
+BRDA:193,101,0,0
+BRDA:193,101,1,0
+BRDA:193,126,1,0
+BRDA:193,126,0,0
+FN:200,System.Int64 SpeedReaderAPI.Services.Impl.QuestionService::GetCount()
+FNDA:0,System.Int64 SpeedReaderAPI.Services.Impl.QuestionService::GetCount()
+DA:201,0
+DA:202,0
+DA:203,0
+FN:18,System.Void SpeedReaderAPI.Services.Impl.QuestionService::.ctor(SpeedReaderAPI.Data.ApplicationContext,AutoMapper.IMapper,SpeedReaderAPI.Services.IImageService)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.QuestionService::.ctor(SpeedReaderAPI.Data.ApplicationContext,AutoMapper.IMapper,SpeedReaderAPI.Services.IImageService)
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+FN:147,System.Void SpeedReaderAPI.Services.Impl.QuestionService/<UploadImage>d__9::MoveNext()
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.QuestionService/<UploadImage>d__9::MoveNext()
+DA:148,0
+DA:149,0
+DA:150,0
+DA:151,0
+DA:152,0
+DA:154,0
+DA:155,0
+DA:156,0
+DA:158,0
+DA:159,0
+DA:161,0
+DA:162,0
+BRDA:150,73,0,0
+BRDA:150,73,1,0
+BRDA:154,162,0,0
+BRDA:154,162,1,0
+LF:141
+LH:0
+BRF:60
+BRH:0
+FNF:10
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\helpers\Sorter.cs
+FN:6,System.Collections.Generic.List`1<T> SpeedReaderAPI.helpers.Sorter::SortList(System.Collections.Generic.List`1<T>,System.Boolean)
+FNDA:0,System.Collections.Generic.List`1<T> SpeedReaderAPI.helpers.Sorter::SortList(System.Collections.Generic.List`1<T>,System.Boolean)
+DA:7,0
+DA:10,0
+DA:11,0
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+BRDA:10,4,0,0
+BRDA:12,14,0,0
+BRDA:12,14,1,0
+BRDA:10,4,1,0
+BRDA:18,61,0,0
+BRDA:18,61,1,0
+LF:14
+LH:0
+BRF:6
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\filters\ExceptionFilter.cs
+FN:8,System.Void SpeedReaderAPI.Filters.ExceptionFilter::OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)
+FNDA:0,System.Void SpeedReaderAPI.Filters.ExceptionFilter::OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)
+DA:9,0
+DA:11,0
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+BRDA:11,20,0,0
+BRDA:11,28,0,0
+BRDA:11,39,0,0
+BRDA:11,50,0,0
+BRDA:11,61,0,0
+BRDA:11,20,1,0
+BRDA:13,112,0,0
+BRDA:13,112,1,0
+BRDA:11,28,1,0
+BRDA:11,39,1,0
+BRDA:29,297,0,0
+BRDA:29,297,1,0
+BRDA:11,50,1,0
+BRDA:37,397,0,0
+BRDA:37,397,1,0
+BRDA:11,61,1,0
+BRDA:45,497,0,0
+BRDA:45,497,1,0
+BRDA:11,72,1,0
+BRDA:11,72,0,0
+LF:64
+LH:0
+BRF:20
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\filters\RequestValidationFilter.cs
+FN:9,System.Void SpeedReaderAPI.Filters.RequestValidationFilter::OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)
+FNDA:0,System.Void SpeedReaderAPI.Filters.RequestValidationFilter::OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)
+DA:10,0
+DA:11,0
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+BRDA:11,17,0,0
+BRDA:11,17,1,0
+FN:24,System.Void SpeedReaderAPI.Filters.RequestValidationFilter::OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)
+FNDA:0,System.Void SpeedReaderAPI.Filters.RequestValidationFilter::OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)
+DA:25,0
+DA:26,0
+LF:15
+LH:0
+BRF:2
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Exceptions\InvalidParagraphIdListException.cs
+FN:4,System.Void SpeedReaderAPI.Exceptions.InvalidParagraphIdListException::.ctor()
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.InvalidParagraphIdListException::.ctor()
+DA:5,0
+DA:6,0
+DA:7,0
+FN:9,System.Void SpeedReaderAPI.Exceptions.InvalidParagraphIdListException::.ctor(System.String)
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.InvalidParagraphIdListException::.ctor(System.String)
+DA:10,0
+DA:11,0
+DA:12,0
+FN:14,System.Void SpeedReaderAPI.Exceptions.InvalidParagraphIdListException::.ctor(System.String,System.Exception)
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.InvalidParagraphIdListException::.ctor(System.String,System.Exception)
+DA:15,0
+DA:16,0
+DA:17,0
+LF:9
+LH:0
+BRF:0
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Exceptions\ResourceAlreadyExistsException copy.cs
+FN:4,System.Void SpeedReaderAPI.Exceptions.ResourceAlreadyExistsException::.ctor()
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.ResourceAlreadyExistsException::.ctor()
+DA:5,0
+DA:6,0
+DA:7,0
+FN:9,System.Void SpeedReaderAPI.Exceptions.ResourceAlreadyExistsException::.ctor(System.String)
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.ResourceAlreadyExistsException::.ctor(System.String)
+DA:10,0
+DA:11,0
+DA:12,0
+FN:14,System.Void SpeedReaderAPI.Exceptions.ResourceAlreadyExistsException::.ctor(System.String,System.Exception)
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.ResourceAlreadyExistsException::.ctor(System.String,System.Exception)
+DA:15,0
+DA:16,0
+DA:17,0
+LF:9
+LH:0
+BRF:0
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Exceptions\ResourceNotFoundException.cs
+FN:4,System.Void SpeedReaderAPI.Exceptions.ResourceNotFoundException::.ctor()
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.ResourceNotFoundException::.ctor()
+DA:5,0
+DA:6,0
+DA:7,0
+FN:9,System.Void SpeedReaderAPI.Exceptions.ResourceNotFoundException::.ctor(System.String)
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.ResourceNotFoundException::.ctor(System.String)
+DA:10,0
+DA:11,0
+DA:12,0
+FN:14,System.Void SpeedReaderAPI.Exceptions.ResourceNotFoundException::.ctor(System.String,System.Exception)
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.ResourceNotFoundException::.ctor(System.String,System.Exception)
+DA:15,0
+DA:16,0
+DA:17,0
+LF:9
+LH:0
+BRF:0
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Exceptions\UnsupportedFileFormatException.cs
+FN:4,System.Void SpeedReaderAPI.Exceptions.UnsupportedFileFormatException::.ctor()
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.UnsupportedFileFormatException::.ctor()
+DA:5,0
+DA:6,0
+DA:7,0
+FN:9,System.Void SpeedReaderAPI.Exceptions.UnsupportedFileFormatException::.ctor(System.String)
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.UnsupportedFileFormatException::.ctor(System.String)
+DA:10,0
+DA:11,0
+DA:12,0
+FN:14,System.Void SpeedReaderAPI.Exceptions.UnsupportedFileFormatException::.ctor(System.String,System.Exception)
+FNDA:0,System.Void SpeedReaderAPI.Exceptions.UnsupportedFileFormatException::.ctor(System.String,System.Exception)
+DA:15,0
+DA:16,0
+DA:17,0
+LF:9
+LH:0
+BRF:0
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Entities\Article.cs
+FN:8,System.Int32 SpeedReaderAPI.Entities.Article::get_Id()
+FNDA:0,System.Int32 SpeedReaderAPI.Entities.Article::get_Id()
+DA:9,0
+FN:14,System.String SpeedReaderAPI.Entities.Article::get_Title()
+FNDA:0,System.String SpeedReaderAPI.Entities.Article::get_Title()
+DA:15,0
+FN:15,System.String SpeedReaderAPI.Entities.Article::get_CategoryTitle()
+FNDA:0,System.String SpeedReaderAPI.Entities.Article::get_CategoryTitle()
+DA:16,0
+FN:16,System.String SpeedReaderAPI.Entities.Article::get_ImageFileName()
+FNDA:0,System.String SpeedReaderAPI.Entities.Article::get_ImageFileName()
+DA:17,0
+FN:17,System.String SpeedReaderAPI.Entities.Article::get_ImageFilePath()
+FNDA:0,System.String SpeedReaderAPI.Entities.Article::get_ImageFilePath()
+DA:18,0
+FN:18,System.Nullable`1<SpeedReaderAPI.Entities.MimeType> SpeedReaderAPI.Entities.Article::get_ImageMimeType()
+FNDA:0,System.Nullable`1<SpeedReaderAPI.Entities.MimeType> SpeedReaderAPI.Entities.Article::get_ImageMimeType()
+DA:19,0
+FN:24,System.Nullable`1<SpeedReaderAPI.Entities.Image> SpeedReaderAPI.Entities.Article::get_Image()
+FNDA:0,System.Nullable`1<SpeedReaderAPI.Entities.Image> SpeedReaderAPI.Entities.Article::get_Image()
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:30,0
+DA:31,0
+BRDA:26,12,0,0
+BRDA:26,25,0,0
+BRDA:26,12,1,0
+BRDA:26,25,1,0
+BRDA:26,46,0,0
+BRDA:26,46,1,0
+FN:32,System.Void SpeedReaderAPI.Entities.Article::set_Image(System.Nullable`1<SpeedReaderAPI.Entities.Image>)
+FNDA:0,System.Void SpeedReaderAPI.Entities.Article::set_Image(System.Nullable`1<SpeedReaderAPI.Entities.Image>)
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+BRDA:34,10,0,0
+BRDA:34,10,1,0
+FN:49,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.Entities.Article::get_ParagraphIds()
+FNDA:0,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.Entities.Article::get_ParagraphIds()
+DA:50,0
+FN:50,System.Collections.Generic.ICollection`1<SpeedReaderAPI.Entities.Paragraph> SpeedReaderAPI.Entities.Article::get_Paragraphs()
+FNDA:0,System.Collections.Generic.ICollection`1<SpeedReaderAPI.Entities.Paragraph> SpeedReaderAPI.Entities.Article::get_Paragraphs()
+DA:51,0
+FN:53,System.Int32 SpeedReaderAPI.Entities.Article::CompareTo(SpeedReaderAPI.Entities.Article)
+FNDA:0,System.Int32 SpeedReaderAPI.Entities.Article::CompareTo(SpeedReaderAPI.Entities.Article)
+DA:54,0
+DA:55,0
+DA:56,0
+LF:30
+LH:0
+BRF:8
+BRH:0
+FNF:11
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Entities\Image.cs
+FN:5,System.String SpeedReaderAPI.Entities.Image::get_ImageFileName()
+FNDA:0,System.String SpeedReaderAPI.Entities.Image::get_ImageFileName()
+DA:6,0
+FN:6,System.String SpeedReaderAPI.Entities.Image::get_ImageFilePath()
+FNDA:0,System.String SpeedReaderAPI.Entities.Image::get_ImageFilePath()
+DA:7,0
+FN:7,SpeedReaderAPI.Entities.MimeType SpeedReaderAPI.Entities.Image::get_ImageMimeType()
+FNDA:0,SpeedReaderAPI.Entities.MimeType SpeedReaderAPI.Entities.Image::get_ImageMimeType()
+DA:8,0
+FN:8,System.IO.Stream SpeedReaderAPI.Entities.Image::get_FileStream()
+FNDA:0,System.IO.Stream SpeedReaderAPI.Entities.Image::get_FileStream()
+DA:9,0
+FN:25,System.String SpeedReaderAPI.Entities.MimeTypeHelpers::ToMimeString(SpeedReaderAPI.Entities.MimeType)
+FNDA:0,System.String SpeedReaderAPI.Entities.MimeTypeHelpers::ToMimeString(SpeedReaderAPI.Entities.MimeType)
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+BRDA:27,6,1,0
+BRDA:27,6,2,0
+BRDA:27,6,3,0
+BRDA:27,6,4,0
+BRDA:27,6,5,0
+BRDA:27,6,6,0
+BRDA:27,6,0,0
+FN:39,System.Nullable`1<SpeedReaderAPI.Entities.MimeType> SpeedReaderAPI.Entities.MimeTypeHelpers::GetMimeTypeFromFileName(System.String)
+FNDA:0,System.Nullable`1<SpeedReaderAPI.Entities.MimeType> SpeedReaderAPI.Entities.MimeTypeHelpers::GetMimeTypeFromFileName(System.String)
+DA:40,0
+DA:41,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+BRDA:41,8,0,0
+BRDA:41,8,1,0
+BRDA:43,37,0,0
+BRDA:43,45,0,0
+BRDA:43,58,0,0
+BRDA:43,37,1,0
+BRDA:43,84,0,0
+BRDA:43,92,0,0
+BRDA:43,84,1,0
+BRDA:43,115,0,0
+BRDA:43,102,1,0
+BRDA:43,125,1,0
+BRDA:43,58,1,0
+BRDA:43,92,1,0
+BRDA:43,45,1,0
+BRDA:43,68,1,0
+BRDA:43,115,1,0
+BRDA:43,143,1,0
+BRDA:43,161,1,0
+BRDA:43,179,1,0
+BRDA:43,194,1,0
+BRDA:43,209,1,0
+BRDA:43,224,1,0
+BRDA:43,239,1,0
+BRDA:43,68,0,0
+BRDA:43,102,0,0
+BRDA:43,125,0,0
+BRDA:43,143,0,0
+BRDA:43,161,0,0
+BRDA:43,179,0,0
+BRDA:43,194,0,0
+BRDA:43,209,0,0
+BRDA:43,224,0,0
+BRDA:43,239,0,0
+LF:29
+LH:0
+BRF:41
+BRH:0
+FNF:6
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Entities\Paragraph.cs
+FN:10,System.Int32 SpeedReaderAPI.Entities.Paragraph::get_Id()
+FNDA:0,System.Int32 SpeedReaderAPI.Entities.Paragraph::get_Id()
+DA:11,0
+FN:16,System.String SpeedReaderAPI.Entities.Paragraph::get_Title()
+FNDA:0,System.String SpeedReaderAPI.Entities.Paragraph::get_Title()
+DA:17,0
+FN:19,System.Int32 SpeedReaderAPI.Entities.Paragraph::get_ArticleId()
+FNDA:0,System.Int32 SpeedReaderAPI.Entities.Paragraph::get_ArticleId()
+DA:20,0
+FN:25,System.String SpeedReaderAPI.Entities.Paragraph::get_Text()
+FNDA:0,System.String SpeedReaderAPI.Entities.Paragraph::get_Text()
+DA:26,0
+FN:26,System.String SpeedReaderAPI.Entities.Paragraph::get_ImageFileName()
+FNDA:0,System.String SpeedReaderAPI.Entities.Paragraph::get_ImageFileName()
+DA:27,0
+FN:27,System.String SpeedReaderAPI.Entities.Paragraph::get_ImageFilePath()
+FNDA:0,System.String SpeedReaderAPI.Entities.Paragraph::get_ImageFilePath()
+DA:28,0
+FN:28,System.Nullable`1<SpeedReaderAPI.Entities.MimeType> SpeedReaderAPI.Entities.Paragraph::get_ImageMimeType()
+FNDA:0,System.Nullable`1<SpeedReaderAPI.Entities.MimeType> SpeedReaderAPI.Entities.Paragraph::get_ImageMimeType()
+DA:29,0
+FN:34,System.Nullable`1<SpeedReaderAPI.Entities.Image> SpeedReaderAPI.Entities.Paragraph::get_Image()
+FNDA:0,System.Nullable`1<SpeedReaderAPI.Entities.Image> SpeedReaderAPI.Entities.Paragraph::get_Image()
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:40,0
+DA:41,0
+BRDA:36,12,0,0
+BRDA:36,25,0,0
+BRDA:36,12,1,0
+BRDA:36,25,1,0
+BRDA:36,46,0,0
+BRDA:36,46,1,0
+FN:42,System.Void SpeedReaderAPI.Entities.Paragraph::set_Image(System.Nullable`1<SpeedReaderAPI.Entities.Image>)
+FNDA:0,System.Void SpeedReaderAPI.Entities.Paragraph::set_Image(System.Nullable`1<SpeedReaderAPI.Entities.Image>)
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+BRDA:44,10,0,0
+BRDA:44,10,1,0
+FN:57,SpeedReaderAPI.Entities.Article SpeedReaderAPI.Entities.Paragraph::get_Article()
+FNDA:0,SpeedReaderAPI.Entities.Article SpeedReaderAPI.Entities.Paragraph::get_Article()
+DA:58,0
+FN:59,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.Entities.Paragraph::get_QuestionIds()
+FNDA:0,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.Entities.Paragraph::get_QuestionIds()
+DA:60,0
+FN:60,System.Collections.Generic.List`1<SpeedReaderAPI.Entities.Question> SpeedReaderAPI.Entities.Paragraph::get_Questions()
+FNDA:0,System.Collections.Generic.List`1<SpeedReaderAPI.Entities.Question> SpeedReaderAPI.Entities.Paragraph::get_Questions()
+DA:61,0
+FN:62,System.Int32 SpeedReaderAPI.Entities.Paragraph::CompareTo(SpeedReaderAPI.Entities.Paragraph)
+FNDA:0,System.Int32 SpeedReaderAPI.Entities.Paragraph::CompareTo(SpeedReaderAPI.Entities.Paragraph)
+DA:63,0
+DA:64,0
+DA:65,0
+LF:32
+LH:0
+BRF:8
+BRH:0
+FNF:13
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Entities\Question.cs
+FN:10,System.Int32 SpeedReaderAPI.Entities.Question::get_Id()
+FNDA:0,System.Int32 SpeedReaderAPI.Entities.Question::get_Id()
+DA:11,0
+FN:13,System.Int32 SpeedReaderAPI.Entities.Question::get_ParagraphId()
+FNDA:0,System.Int32 SpeedReaderAPI.Entities.Question::get_ParagraphId()
+DA:14,0
+FN:19,System.String SpeedReaderAPI.Entities.Question::get_QuestionText()
+FNDA:0,System.String SpeedReaderAPI.Entities.Question::get_QuestionText()
+DA:20,0
+FN:22,System.String[] SpeedReaderAPI.Entities.Question::get_AnswerChoices()
+FNDA:0,System.String[] SpeedReaderAPI.Entities.Question::get_AnswerChoices()
+DA:23,0
+FN:27,System.Int32 SpeedReaderAPI.Entities.Question::get_CorrectAnswerIndex()
+FNDA:0,System.Int32 SpeedReaderAPI.Entities.Question::get_CorrectAnswerIndex()
+DA:28,0
+FN:29,System.String SpeedReaderAPI.Entities.Question::get_ImageFileName()
+FNDA:0,System.String SpeedReaderAPI.Entities.Question::get_ImageFileName()
+DA:30,0
+FN:30,System.String SpeedReaderAPI.Entities.Question::get_ImageFilePath()
+FNDA:0,System.String SpeedReaderAPI.Entities.Question::get_ImageFilePath()
+DA:31,0
+FN:31,System.Nullable`1<SpeedReaderAPI.Entities.MimeType> SpeedReaderAPI.Entities.Question::get_ImageMimeType()
+FNDA:0,System.Nullable`1<SpeedReaderAPI.Entities.MimeType> SpeedReaderAPI.Entities.Question::get_ImageMimeType()
+DA:32,0
+FN:37,System.Nullable`1<SpeedReaderAPI.Entities.Image> SpeedReaderAPI.Entities.Question::get_Image()
+FNDA:0,System.Nullable`1<SpeedReaderAPI.Entities.Image> SpeedReaderAPI.Entities.Question::get_Image()
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:43,0
+DA:44,0
+BRDA:39,12,0,0
+BRDA:39,25,0,0
+BRDA:39,12,1,0
+BRDA:39,25,1,0
+BRDA:39,46,0,0
+BRDA:39,46,1,0
+FN:45,System.Void SpeedReaderAPI.Entities.Question::set_Image(System.Nullable`1<SpeedReaderAPI.Entities.Image>)
+FNDA:0,System.Void SpeedReaderAPI.Entities.Question::set_Image(System.Nullable`1<SpeedReaderAPI.Entities.Image>)
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+BRDA:47,10,0,0
+BRDA:47,10,1,0
+FN:61,SpeedReaderAPI.Entities.Paragraph SpeedReaderAPI.Entities.Question::get_Paragraph()
+FNDA:0,SpeedReaderAPI.Entities.Paragraph SpeedReaderAPI.Entities.Question::get_Paragraph()
+DA:62,0
+FN:63,System.Int32 SpeedReaderAPI.Entities.Question::CompareTo(SpeedReaderAPI.Entities.Question)
+FNDA:0,System.Int32 SpeedReaderAPI.Entities.Question::CompareTo(SpeedReaderAPI.Entities.Question)
+DA:64,0
+DA:65,0
+DA:66,0
+LF:31
+LH:0
+BRF:8
+BRH:0
+FNF:12
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\ImageUploadRequest.cs
+FN:5,Microsoft.AspNetCore.Http.IFormFile SpeedReaderAPI.DTOs.ImageUploadRequest::get_File()
+FNDA:0,Microsoft.AspNetCore.Http.IFormFile SpeedReaderAPI.DTOs.ImageUploadRequest::get_File()
+DA:6,0
+LF:1
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\QueryParameters.cs
+FN:5,System.Int32 SpeedReaderAPI.DTOs.QueryParameters::get_PageNumber()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.QueryParameters::get_PageNumber()
+DA:6,0
+FN:9,System.Int32 SpeedReaderAPI.DTOs.QueryParameters::get_PageSize()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.QueryParameters::get_PageSize()
+DA:10,0
+FN:10,System.Void SpeedReaderAPI.DTOs.QueryParameters::set_PageSize(System.Int32)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.QueryParameters::set_PageSize(System.Int32)
+DA:11,0
+BRDA:11,5,0,0
+BRDA:11,5,1,0
+FN:14,System.String SpeedReaderAPI.DTOs.QueryParameters::get_OrderBy()
+FNDA:0,System.String SpeedReaderAPI.DTOs.QueryParameters::get_OrderBy()
+DA:15,0
+FN:15,System.Boolean SpeedReaderAPI.DTOs.QueryParameters::get_OrderAsc()
+FNDA:0,System.Boolean SpeedReaderAPI.DTOs.QueryParameters::get_OrderAsc()
+DA:16,0
+FN:16,System.String SpeedReaderAPI.DTOs.QueryParameters::get_Search()
+FNDA:0,System.String SpeedReaderAPI.DTOs.QueryParameters::get_Search()
+DA:17,0
+FN:6,System.Void SpeedReaderAPI.DTOs.QueryParameters::.ctor()
+FNDA:0,System.Void SpeedReaderAPI.DTOs.QueryParameters::.ctor()
+DA:7,0
+LF:7
+LH:0
+BRF:2
+BRH:0
+FNF:7
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Question\Responses\QuestionPageResponse.cs
+FN:1,System.Int64 SpeedReaderAPI.DTOs.Question.Responses.QuestionPageResponse::get_Count()
+FNDA:0,System.Int64 SpeedReaderAPI.DTOs.Question.Responses.QuestionPageResponse::get_Count()
+DA:2,0
+LF:1
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Question\Responses\QuestionResponse.cs
+FN:3,System.Int32 SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_ParagraphId()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_ParagraphId()
+DA:4,0
+FN:4,System.Int32 SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_Id()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_Id()
+DA:5,0
+FN:5,System.String SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_QuestionText()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_QuestionText()
+DA:6,0
+FN:6,System.String[] SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_AnswerChoices()
+FNDA:0,System.String[] SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_AnswerChoices()
+DA:7,0
+FN:7,System.Int32 SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_CorrectAnswerIndex()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_CorrectAnswerIndex()
+DA:8,0
+FN:8,System.String SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_ImageFileName()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::get_ImageFileName()
+DA:9,0
+FN:2,System.Void SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::.ctor(System.Int32,System.Int32,System.String,System.String[],System.Int32,System.String)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.Question.Responses.QuestionResponse::.ctor(System.Int32,System.Int32,System.String,System.String[],System.Int32,System.String)
+DA:3,0
+DA:10,0
+LF:8
+LH:0
+BRF:0
+BRH:0
+FNF:7
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Question\Requests\QuestionCreateRequest.cs
+FN:8,System.Int32 SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::get_ParagraphId()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::get_ParagraphId()
+DA:9,0
+FN:13,System.String SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::get_QuestionText()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::get_QuestionText()
+DA:14,0
+FN:17,System.String[] SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::get_AnswerChoices()
+FNDA:0,System.String[] SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::get_AnswerChoices()
+DA:18,0
+FN:20,System.Nullable`1<System.Int32> SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::get_CorrectAnswerIndex()
+FNDA:0,System.Nullable`1<System.Int32> SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::get_CorrectAnswerIndex()
+DA:21,0
+FN:5,System.Void SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::.ctor(System.Int32,System.String,System.String[],System.Nullable`1<System.Int32>)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest::.ctor(System.Int32,System.String,System.String[],System.Nullable`1<System.Int32>)
+DA:6,0
+DA:7,0
+DA:8,0
+DA:10,0
+DA:11,0
+DA:12,0
+DA:13,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:19,0
+DA:20,0
+DA:22,0
+LF:17
+LH:0
+BRF:0
+BRH:0
+FNF:5
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Question\Requests\QuestionUpdateRequest.cs
+FN:8,System.Nullable`1<System.Int32> SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::get_ParagraphId()
+FNDA:0,System.Nullable`1<System.Int32> SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::get_ParagraphId()
+DA:9,0
+FN:12,System.String SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::get_QuestionText()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::get_QuestionText()
+DA:13,0
+FN:14,System.String[] SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::get_AnswerChoices()
+FNDA:0,System.String[] SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::get_AnswerChoices()
+DA:15,0
+FN:15,System.Nullable`1<System.Int32> SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::get_CorrectAnswerIndex()
+FNDA:0,System.Nullable`1<System.Int32> SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::get_CorrectAnswerIndex()
+DA:16,0
+FN:5,System.Void SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::.ctor(System.Nullable`1<System.Int32>,System.String,System.String[],System.Nullable`1<System.Int32>)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest::.ctor(System.Nullable`1<System.Int32>,System.String,System.String[],System.Nullable`1<System.Int32>)
+DA:6,0
+DA:7,0
+DA:8,0
+DA:10,0
+DA:11,0
+DA:12,0
+DA:14,0
+DA:17,0
+LF:12
+LH:0
+BRF:0
+BRH:0
+FNF:5
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Paragraph\Responses\ParagraphPageResponse.cs
+FN:1,System.Int64 SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphPageResponse::get_Count()
+FNDA:0,System.Int64 SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphPageResponse::get_Count()
+DA:2,0
+LF:1
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Paragraph\Responses\ParagraphResponse.cs
+FN:3,System.String SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_Title()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_Title()
+DA:4,0
+FN:4,System.Int32 SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_ArticleId()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_ArticleId()
+DA:5,0
+FN:5,System.Int32 SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_Id()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_Id()
+DA:6,0
+FN:6,System.String SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_Text()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_Text()
+DA:7,0
+FN:7,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_QuestionIds()
+FNDA:0,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_QuestionIds()
+DA:8,0
+FN:8,System.String SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_ImageFileName()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::get_ImageFileName()
+DA:9,0
+FN:2,System.Void SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::.ctor(System.String,System.Int32,System.Int32,System.String,System.Collections.Generic.List`1<System.Int32>,System.String)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.Paragraph.Responses.ParagraphResponse::.ctor(System.String,System.Int32,System.Int32,System.String,System.Collections.Generic.List`1<System.Int32>,System.String)
+DA:3,0
+DA:10,0
+LF:8
+LH:0
+BRF:0
+BRH:0
+FNF:7
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Paragraph\Requests\ParagraphCreateRequest.cs
+FN:9,System.String SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest::get_Title()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest::get_Title()
+DA:10,0
+FN:11,System.Int32 SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest::get_ArticleId()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest::get_ArticleId()
+DA:12,0
+FN:16,System.String SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest::get_Text()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest::get_Text()
+DA:17,0
+FN:4,System.Void SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest::.ctor(System.String,System.Int32,System.String)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest::.ctor(System.String,System.Int32,System.String)
+DA:5,0
+DA:6,0
+DA:7,0
+DA:8,0
+DA:9,0
+DA:11,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:18,0
+LF:14
+LH:0
+BRF:0
+BRH:0
+FNF:4
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Paragraph\Requests\ParagraphUpdateRequest.cs
+FN:8,System.String SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::get_Title()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::get_Title()
+DA:9,0
+FN:9,System.Nullable`1<System.Int32> SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::get_ArticleId()
+FNDA:0,System.Nullable`1<System.Int32> SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::get_ArticleId()
+DA:10,0
+FN:13,System.String SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::get_Text()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::get_Text()
+DA:14,0
+FN:14,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::get_QuestionIds()
+FNDA:0,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::get_QuestionIds()
+DA:15,0
+FN:4,System.Void SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::.ctor(System.String,System.Nullable`1<System.Int32>,System.String,System.Collections.Generic.List`1<System.Int32>)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest::.ctor(System.String,System.Nullable`1<System.Int32>,System.String,System.Collections.Generic.List`1<System.Int32>)
+DA:5,0
+DA:6,0
+DA:7,0
+DA:8,0
+DA:11,0
+DA:12,0
+DA:13,0
+DA:16,0
+LF:12
+LH:0
+BRF:0
+BRH:0
+FNF:5
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Article\Responses\ArticlePageResponse.cs
+FN:2,System.Int64 SpeedReaderAPI.DTOs.Article.Responses.ArticlePageResponse::get_Count()
+FNDA:0,System.Int64 SpeedReaderAPI.DTOs.Article.Responses.ArticlePageResponse::get_Count()
+DA:3,0
+LF:1
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Article\Responses\ArticleResponse.cs
+FN:3,System.String SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_Title()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_Title()
+DA:4,0
+FN:4,System.Int32 SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_Id()
+FNDA:0,System.Int32 SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_Id()
+DA:5,0
+FN:5,System.String SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_CategoryTitle()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_CategoryTitle()
+DA:6,0
+FN:6,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_ParagraphIds()
+FNDA:0,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_ParagraphIds()
+DA:7,0
+FN:7,System.String SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_ImageFileName()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::get_ImageFileName()
+DA:8,0
+FN:2,System.Void SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::.ctor(System.String,System.Int32,System.String,System.Collections.Generic.List`1<System.Int32>,System.String)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.Article.Responses.ArticleResponse::.ctor(System.String,System.Int32,System.String,System.Collections.Generic.List`1<System.Int32>,System.String)
+DA:3,0
+DA:9,0
+LF:7
+LH:0
+BRF:0
+BRH:0
+FNF:6
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Article\Requests\ArticleCreateRequest.cs
+FN:10,System.String SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest::get_Title()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest::get_Title()
+DA:11,0
+FN:11,System.String SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest::get_CategoryTitle()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest::get_CategoryTitle()
+DA:12,0
+FN:4,System.Void SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest::.ctor(System.String,System.String)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest::.ctor(System.String,System.String)
+DA:5,0
+DA:6,0
+DA:7,0
+DA:8,0
+DA:9,0
+DA:10,0
+DA:13,0
+LF:9
+LH:0
+BRF:0
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Article\Requests\ArticleUpdateRequest.cs
+FN:10,System.String SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest::get_Title()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest::get_Title()
+DA:11,0
+FN:11,System.String SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest::get_CategoryTitle()
+FNDA:0,System.String SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest::get_CategoryTitle()
+DA:12,0
+FN:12,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest::get_ParagraphIds()
+FNDA:0,System.Collections.Generic.List`1<System.Int32> SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest::get_ParagraphIds()
+DA:13,0
+FN:4,System.Void SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest::.ctor(System.String,System.String,System.Collections.Generic.List`1<System.Int32>)
+FNDA:0,System.Void SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest::.ctor(System.String,System.String,System.Collections.Generic.List`1<System.Int32>)
+DA:5,0
+DA:6,0
+DA:7,0
+DA:8,0
+DA:9,0
+DA:10,0
+DA:14,0
+LF:10
+LH:0
+BRF:0
+BRH:0
+FNF:4
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20240924072055_ImplementArticlesParagraphsQuestions.cs
+FN:11,System.Void SpeedReaderAPI.Migrations.ImplementArticlesParagraphsQuestions::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Migrations.ImplementArticlesParagraphsQuestions::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+FN:80,System.Void SpeedReaderAPI.Migrations.ImplementArticlesParagraphsQuestions::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Migrations.ImplementArticlesParagraphsQuestions::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:81,0
+DA:82,0
+DA:83,0
+DA:85,0
+DA:86,0
+DA:88,0
+DA:89,0
+DA:90,0
+LF:70
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20240924072055_ImplementArticlesParagraphsQuestions.Designer.cs
+FN:18,System.Void SpeedReaderAPI.Migrations.ImplementArticlesParagraphsQuestions::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Migrations.ImplementArticlesParagraphsQuestions::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:19,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:132,0
+LF:104
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20240925072312_AddCategoryTitleToArticle.cs
+FN:11,System.Void SpeedReaderAPI.Migrations.AddCategoryTitleToArticle::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Migrations.AddCategoryTitleToArticle::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+FN:60,System.Void SpeedReaderAPI.Migrations.AddCategoryTitleToArticle::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Migrations.AddCategoryTitleToArticle::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:101,0
+LF:77
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20240925072312_AddCategoryTitleToArticle.Designer.cs
+FN:18,System.Void SpeedReaderAPI.Migrations.AddCategoryTitleToArticle::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Migrations.AddCategoryTitleToArticle::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:19,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:137,0
+LF:109
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20240925074224_LinkArticlesParagraphsQuestionsWithIDs.cs
+FN:11,System.Void SpeedReaderAPI.Migrations.LinkArticlesParagraphsQuestionsWithIDs::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Migrations.LinkArticlesParagraphsQuestionsWithIDs::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+FN:37,System.Void SpeedReaderAPI.Migrations.LinkArticlesParagraphsQuestionsWithIDs::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Migrations.LinkArticlesParagraphsQuestionsWithIDs::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+LF:38
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20240925074224_LinkArticlesParagraphsQuestionsWithIDs.Designer.cs
+FN:19,System.Void SpeedReaderAPI.Migrations.LinkArticlesParagraphsQuestionsWithIDs::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Migrations.LinkArticlesParagraphsQuestionsWithIDs::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:20,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:26,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:136,0
+DA:137,0
+DA:138,0
+DA:139,0
+DA:141,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:146,0
+LF:117
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\ApplicationContext.cs
+FN:12,Microsoft.EntityFrameworkCore.DbSet`1<SpeedReaderAPI.Entities.Article> SpeedReaderAPI.Data.ApplicationContext::get_Article()
+FNDA:0,Microsoft.EntityFrameworkCore.DbSet`1<SpeedReaderAPI.Entities.Article> SpeedReaderAPI.Data.ApplicationContext::get_Article()
+DA:13,0
+FN:13,Microsoft.EntityFrameworkCore.DbSet`1<SpeedReaderAPI.Entities.Paragraph> SpeedReaderAPI.Data.ApplicationContext::get_Paragraph()
+FNDA:0,Microsoft.EntityFrameworkCore.DbSet`1<SpeedReaderAPI.Entities.Paragraph> SpeedReaderAPI.Data.ApplicationContext::get_Paragraph()
+DA:14,0
+FN:14,Microsoft.EntityFrameworkCore.DbSet`1<SpeedReaderAPI.Entities.Question> SpeedReaderAPI.Data.ApplicationContext::get_Question()
+FNDA:0,Microsoft.EntityFrameworkCore.DbSet`1<SpeedReaderAPI.Entities.Question> SpeedReaderAPI.Data.ApplicationContext::get_Question()
+DA:15,0
+FN:17,System.Void SpeedReaderAPI.Data.ApplicationContext::OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.ApplicationContext::OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:18,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:30,0
+DA:31,0
+FN:7,System.Void SpeedReaderAPI.Data.ApplicationContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<SpeedReaderAPI.Data.ApplicationContext>)
+FNDA:0,System.Void SpeedReaderAPI.Data.ApplicationContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<SpeedReaderAPI.Data.ApplicationContext>)
+DA:8,0
+DA:9,0
+DA:11,0
+LF:17
+LH:0
+BRF:0
+BRH:0
+FNF:5
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241002161409_AddTitleToParagraphsQuestions.cs
+FN:11,System.Void SpeedReaderAPI.Data.Migrations.AddTitleToParagraphsQuestions::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.AddTitleToParagraphsQuestions::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+FN:45,System.Void SpeedReaderAPI.Data.Migrations.AddTitleToParagraphsQuestions::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.AddTitleToParagraphsQuestions::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+LF:54
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241002161409_AddTitleToParagraphsQuestions.Designer.cs
+FN:19,System.Void SpeedReaderAPI.Data.Migrations.AddTitleToParagraphsQuestions::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.AddTitleToParagraphsQuestions::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:20,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:26,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:137,0
+DA:138,0
+DA:139,0
+DA:140,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:147,0
+DA:148,0
+DA:149,0
+DA:150,0
+DA:152,0
+LF:123
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241008162612_Title_required.cs
+FN:11,System.Void SpeedReaderAPI.Data.Migrations.Title_required::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.Title_required::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+FN:39,System.Void SpeedReaderAPI.Data.Migrations.Title_required::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.Title_required::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+LF:44
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241008162612_Title_required.Designer.cs
+FN:19,System.Void SpeedReaderAPI.Data.Migrations.Title_required::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.Title_required::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:20,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:26,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:137,0
+DA:138,0
+DA:139,0
+DA:140,0
+DA:141,0
+DA:142,0
+DA:144,0
+DA:145,0
+DA:146,0
+DA:147,0
+DA:149,0
+DA:150,0
+DA:151,0
+DA:152,0
+DA:154,0
+LF:125
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241009163115_AddImageToEntities.cs
+FN:11,System.Void SpeedReaderAPI.Data.Migrations.AddImageToEntities::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.AddImageToEntities::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+FN:51,System.Void SpeedReaderAPI.Data.Migrations.AddImageToEntities::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.AddImageToEntities::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+LF:52
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241009163115_AddImageToEntities.Designer.cs
+FN:19,System.Void SpeedReaderAPI.Data.Migrations.AddImageToEntities::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.AddImageToEntities::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:20,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:26,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:138,0
+DA:139,0
+DA:140,0
+DA:141,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:146,0
+DA:147,0
+DA:149,0
+DA:150,0
+DA:151,0
+DA:152,0
+DA:153,0
+DA:154,0
+DA:155,0
+DA:156,0
+DA:157,0
+DA:158,0
+DA:160,0
+DA:161,0
+DA:162,0
+DA:163,0
+DA:165,0
+DA:166,0
+DA:167,0
+DA:168,0
+DA:170,0
+LF:141
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241016105020_Fix relationships.cs
+FN:11,System.Void SpeedReaderAPI.Data.Migrations.Fixrelationships::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.Fixrelationships::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+FN:35,System.Void SpeedReaderAPI.Data.Migrations.Fixrelationships::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.Fixrelationships::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+LF:36
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241016105020_Fix relationships.Designer.cs
+FN:19,System.Void SpeedReaderAPI.Data.Migrations.Fixrelationships::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.Fixrelationships::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:20,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:26,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:137,0
+DA:138,0
+DA:140,0
+DA:141,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:146,0
+DA:147,0
+DA:148,0
+DA:149,0
+DA:151,0
+DA:152,0
+DA:153,0
+DA:154,0
+DA:155,0
+DA:156,0
+DA:157,0
+DA:158,0
+DA:159,0
+DA:160,0
+DA:162,0
+DA:163,0
+DA:164,0
+DA:165,0
+DA:167,0
+DA:168,0
+DA:169,0
+DA:170,0
+DA:172,0
+LF:143
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241016144713_Remove title from question entity.cs
+FN:11,System.Void SpeedReaderAPI.Data.Migrations.Removetitlefromquestionentity::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.Removetitlefromquestionentity::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+DA:17,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+FN:33,System.Void SpeedReaderAPI.Data.Migrations.Removetitlefromquestionentity::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.Removetitlefromquestionentity::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+LF:28
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241016144713_Remove title from question entity.Designer.cs
+FN:19,System.Void SpeedReaderAPI.Data.Migrations.Removetitlefromquestionentity::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.Removetitlefromquestionentity::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:20,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:26,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:137,0
+DA:138,0
+DA:139,0
+DA:140,0
+DA:141,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:146,0
+DA:147,0
+DA:149,0
+DA:150,0
+DA:151,0
+DA:152,0
+DA:153,0
+DA:154,0
+DA:155,0
+DA:156,0
+DA:157,0
+DA:158,0
+DA:160,0
+DA:161,0
+DA:162,0
+DA:163,0
+DA:164,0
+DA:165,0
+DA:166,0
+DA:167,0
+DA:168,0
+DA:169,0
+DA:171,0
+DA:172,0
+DA:173,0
+DA:174,0
+DA:176,0
+DA:177,0
+DA:178,0
+DA:179,0
+DA:181,0
+LF:152
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241016180347_Remove nextId from paragraphs.cs
+FN:11,System.Void SpeedReaderAPI.Data.Migrations.RemovenextIdfromparagraphs::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.RemovenextIdfromparagraphs::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+FN:19,System.Void SpeedReaderAPI.Data.Migrations.RemovenextIdfromparagraphs::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.RemovenextIdfromparagraphs::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+LF:12
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241016180347_Remove nextId from paragraphs.Designer.cs
+FN:18,System.Void SpeedReaderAPI.Data.Migrations.RemovenextIdfromparagraphs::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.RemovenextIdfromparagraphs::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:19,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:137,0
+DA:138,0
+DA:139,0
+DA:140,0
+DA:141,0
+DA:142,0
+DA:143,0
+DA:145,0
+DA:146,0
+DA:147,0
+DA:148,0
+DA:149,0
+DA:150,0
+DA:151,0
+DA:152,0
+DA:153,0
+DA:154,0
+DA:156,0
+DA:157,0
+DA:158,0
+DA:159,0
+DA:160,0
+DA:161,0
+DA:162,0
+DA:163,0
+DA:164,0
+DA:165,0
+DA:167,0
+DA:168,0
+DA:169,0
+DA:170,0
+DA:172,0
+DA:173,0
+DA:174,0
+DA:175,0
+DA:177,0
+LF:149
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241017075955_RemovalOfTitleFromQuestions.cs
+FN:11,System.Void SpeedReaderAPI.Data.Migrations.RemovalOfTitleFromQuestions::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.RemovalOfTitleFromQuestions::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+FN:19,System.Void SpeedReaderAPI.Data.Migrations.RemovalOfTitleFromQuestions::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.RemovalOfTitleFromQuestions::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+LF:14
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241017075955_RemovalOfTitleFromQuestions.Designer.cs
+FN:18,System.Void SpeedReaderAPI.Data.Migrations.RemovalOfTitleFromQuestions::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.RemovalOfTitleFromQuestions::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:19,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:137,0
+DA:138,0
+DA:139,0
+DA:140,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:146,0
+DA:147,0
+DA:148,0
+DA:149,0
+DA:150,0
+DA:151,0
+DA:153,0
+DA:154,0
+DA:155,0
+DA:156,0
+DA:157,0
+DA:158,0
+DA:159,0
+DA:160,0
+DA:161,0
+DA:162,0
+DA:164,0
+DA:165,0
+DA:166,0
+DA:167,0
+DA:169,0
+DA:170,0
+DA:171,0
+DA:172,0
+DA:174,0
+LF:146
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241021093917_ChangeTitleRequired.cs
+FN:11,System.Void SpeedReaderAPI.Data.Migrations.ChangeTitleRequired::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.ChangeTitleRequired::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:12,0
+DA:14,0
+FN:17,System.Void SpeedReaderAPI.Data.Migrations.ChangeTitleRequired::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.ChangeTitleRequired::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+DA:18,0
+DA:20,0
+LF:4
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\20241021093917_ChangeTitleRequired.Designer.cs
+FN:18,System.Void SpeedReaderAPI.Data.Migrations.ChangeTitleRequired::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.ChangeTitleRequired::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:19,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:58,0
+DA:59,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:98,0
+DA:99,0
+DA:100,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:137,0
+DA:138,0
+DA:139,0
+DA:140,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:146,0
+DA:147,0
+DA:148,0
+DA:149,0
+DA:150,0
+DA:151,0
+DA:153,0
+DA:154,0
+DA:155,0
+DA:156,0
+DA:157,0
+DA:158,0
+DA:159,0
+DA:160,0
+DA:161,0
+DA:162,0
+DA:164,0
+DA:165,0
+DA:166,0
+DA:167,0
+DA:169,0
+DA:170,0
+DA:171,0
+DA:172,0
+DA:174,0
+LF:146
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Data\Migrations\ApplicationContextModelSnapshot.cs
+FN:15,System.Void SpeedReaderAPI.Data.Migrations.ApplicationContextModelSnapshot::BuildModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+FNDA:0,System.Void SpeedReaderAPI.Data.Migrations.ApplicationContextModelSnapshot::BuildModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+DA:16,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:22,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+DA:30,0
+DA:31,0
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:66,0
+DA:67,0
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:87,0
+DA:88,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:94,0
+DA:95,0
+DA:96,0
+DA:97,0
+DA:99,0
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:110,0
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:115,0
+DA:116,0
+DA:117,0
+DA:118,0
+DA:119,0
+DA:120,0
+DA:121,0
+DA:122,0
+DA:123,0
+DA:124,0
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:129,0
+DA:130,0
+DA:131,0
+DA:132,0
+DA:133,0
+DA:134,0
+DA:135,0
+DA:136,0
+DA:137,0
+DA:139,0
+DA:140,0
+DA:141,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:146,0
+DA:147,0
+DA:148,0
+DA:150,0
+DA:151,0
+DA:152,0
+DA:153,0
+DA:154,0
+DA:155,0
+DA:156,0
+DA:157,0
+DA:158,0
+DA:159,0
+DA:161,0
+DA:162,0
+DA:163,0
+DA:164,0
+DA:166,0
+DA:167,0
+DA:168,0
+DA:169,0
+DA:171,0
+LF:146
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Controllers\ArticlesController.cs
+FN:32,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::DeleteImage(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::DeleteImage(System.Int32)
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+FN:39,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::GetImage(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::GetImage(System.Int32)
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+FN:46,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::CreateArticle(SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::CreateArticle(SpeedReaderAPI.DTOs.Article.Requests.ArticleCreateRequest)
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+FN:53,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::GetAllArticles(SpeedReaderAPI.DTOs.QueryParameters)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::GetAllArticles(SpeedReaderAPI.DTOs.QueryParameters)
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+FN:60,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::GetArticleById(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::GetArticleById(System.Int32)
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+FN:67,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::SearchArticles(SpeedReaderAPI.DTOs.QueryParameters)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::SearchArticles(SpeedReaderAPI.DTOs.QueryParameters)
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+FN:74,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::UpdateArticle(System.Int32,SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::UpdateArticle(System.Int32,SpeedReaderAPI.DTOs.Article.Requests.ArticleUpdateRequest)
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+FN:82,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::DeleteArticle(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::DeleteArticle(System.Int32)
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+FN:89,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::GetArticleCount()
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ArticlesController::GetArticleCount()
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+FN:16,System.Void SpeedReaderAPI.Controllers.ArticlesController::.ctor(Microsoft.Extensions.Logging.ILogger`1<SpeedReaderAPI.Controllers.ArticlesController>,SpeedReaderAPI.Services.IArticleService)
+FNDA:0,System.Void SpeedReaderAPI.Controllers.ArticlesController::.ctor(Microsoft.Extensions.Logging.ILogger`1<SpeedReaderAPI.Controllers.ArticlesController>,SpeedReaderAPI.Services.IArticleService)
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+FN:25,System.Void SpeedReaderAPI.Controllers.ArticlesController/<UploadImage>d__3::MoveNext()
+FNDA:0,System.Void SpeedReaderAPI.Controllers.ArticlesController/<UploadImage>d__3::MoveNext()
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+LF:46
+LH:0
+BRF:0
+BRH:0
+FNF:11
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Controllers\ParagraphsController.cs
+FN:32,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::DeleteImage(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::DeleteImage(System.Int32)
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+FN:39,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::GetImage(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::GetImage(System.Int32)
+DA:40,0
+DA:41,0
+DA:42,0
+DA:43,0
+FN:46,Microsoft.AspNetCore.Mvc.ActionResult`1<System.Int32> SpeedReaderAPI.Controllers.ParagraphsController::CreateParagraph(SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest)
+FNDA:0,Microsoft.AspNetCore.Mvc.ActionResult`1<System.Int32> SpeedReaderAPI.Controllers.ParagraphsController::CreateParagraph(SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphCreateRequest)
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+FN:53,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::GetParagraph(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::GetParagraph(System.Int32)
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+FN:60,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::SearchParagraphs(SpeedReaderAPI.DTOs.QueryParameters)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::SearchParagraphs(SpeedReaderAPI.DTOs.QueryParameters)
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+FN:68,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::UpdateParagraph(System.Int32,SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::UpdateParagraph(System.Int32,SpeedReaderAPI.DTOs.Paragraph.Requests.ParagraphUpdateRequest)
+DA:69,0
+DA:70,0
+DA:71,0
+DA:72,0
+FN:75,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::DeleteParagraph(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::DeleteParagraph(System.Int32)
+DA:76,0
+DA:77,0
+DA:78,0
+DA:79,0
+FN:82,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::GetParagraphCount()
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.ParagraphsController::GetParagraphCount()
+DA:83,0
+DA:84,0
+DA:85,0
+DA:86,0
+FN:16,System.Void SpeedReaderAPI.Controllers.ParagraphsController::.ctor(Microsoft.Extensions.Logging.ILogger`1<SpeedReaderAPI.Controllers.ParagraphsController>,SpeedReaderAPI.Services.IParagraphService)
+FNDA:0,System.Void SpeedReaderAPI.Controllers.ParagraphsController::.ctor(Microsoft.Extensions.Logging.ILogger`1<SpeedReaderAPI.Controllers.ParagraphsController>,SpeedReaderAPI.Services.IParagraphService)
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+FN:25,System.Void SpeedReaderAPI.Controllers.ParagraphsController/<UploadImage>d__3::MoveNext()
+FNDA:0,System.Void SpeedReaderAPI.Controllers.ParagraphsController/<UploadImage>d__3::MoveNext()
+DA:26,0
+DA:27,0
+DA:28,0
+DA:29,0
+LF:41
+LH:0
+BRF:0
+BRH:0
+FNF:10
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Controllers\QuestionsController.cs
+FN:31,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::DeleteImage(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::DeleteImage(System.Int32)
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+FN:38,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::GetImage(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::GetImage(System.Int32)
+DA:39,0
+DA:40,0
+DA:41,0
+DA:42,0
+FN:46,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::GetQuestion(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::GetQuestion(System.Int32)
+DA:47,0
+DA:48,0
+DA:49,0
+DA:50,0
+FN:53,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::SearchQuestions(SpeedReaderAPI.DTOs.QueryParameters)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::SearchQuestions(SpeedReaderAPI.DTOs.QueryParameters)
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+FN:60,Microsoft.AspNetCore.Mvc.ActionResult`1<System.Int32> SpeedReaderAPI.Controllers.QuestionsController::CreateQuestion(SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest)
+FNDA:0,Microsoft.AspNetCore.Mvc.ActionResult`1<System.Int32> SpeedReaderAPI.Controllers.QuestionsController::CreateQuestion(SpeedReaderAPI.DTOs.Question.Requests.QuestionCreateRequest)
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+FN:67,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::UpdateQuestion(System.Int32,SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::UpdateQuestion(System.Int32,SpeedReaderAPI.DTOs.Question.Requests.QuestionUpdateRequest)
+DA:68,0
+DA:69,0
+DA:70,0
+DA:71,0
+FN:74,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::DeleteQuestion(System.Int32)
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::DeleteQuestion(System.Int32)
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+FN:81,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::GetQuestionCount()
+FNDA:0,Microsoft.AspNetCore.Mvc.IActionResult SpeedReaderAPI.Controllers.QuestionsController::GetQuestionCount()
+DA:82,0
+DA:83,0
+DA:84,0
+DA:85,0
+FN:16,System.Void SpeedReaderAPI.Controllers.QuestionsController::.ctor(Microsoft.Extensions.Logging.ILogger`1<SpeedReaderAPI.Controllers.QuestionsController>,SpeedReaderAPI.Services.IQuestionService)
+FNDA:0,System.Void SpeedReaderAPI.Controllers.QuestionsController::.ctor(Microsoft.Extensions.Logging.ILogger`1<SpeedReaderAPI.Controllers.QuestionsController>,SpeedReaderAPI.Services.IQuestionService)
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+FN:24,System.Void SpeedReaderAPI.Controllers.QuestionsController/<UploadImage>d__3::MoveNext()
+FNDA:0,System.Void SpeedReaderAPI.Controllers.QuestionsController/<UploadImage>d__3::MoveNext()
+DA:25,0
+DA:26,0
+DA:27,0
+DA:28,0
+LF:41
+LH:0
+BRF:0
+BRH:0
+FNF:10
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Attributes\AnswerChoicesValidation.cs
+FN:8,System.ComponentModel.DataAnnotations.ValidationResult SpeedReaderAPI.Attributes.AnswerChoicesValidationAttribute::IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)
+FNDA:0,System.ComponentModel.DataAnnotations.ValidationResult SpeedReaderAPI.Attributes.AnswerChoicesValidationAttribute::IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)
+DA:9,0
+DA:10,0
+DA:11,0
+DA:14,0
+DA:15,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:25,0
+DA:26,0
+BRDA:10,7,0,0
+BRDA:10,7,1,0
+BRDA:14,28,0,0
+BRDA:14,28,1,0
+BRDA:14,41,0,0
+BRDA:14,41,1,0
+BRDA:17,246,1,0
+BRDA:19,134,0,0
+BRDA:19,134,1,0
+BRDA:21,167,0,0
+BRDA:21,167,1,0
+BRDA:17,246,0,0
+LF:14
+LH:0
+BRF:12
+BRH:0
+FNF:1
+FNH:0
+end_of_record

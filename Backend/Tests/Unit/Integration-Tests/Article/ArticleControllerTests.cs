@@ -1,36 +1,29 @@
 using System.Net;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Moq;
+using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
+using SpeedReaderAPI.Entities;
 
 namespace Unit;
 
-public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
+public class ArticleControllerTests : IClassFixture<PlaygroundApplication>, IAsyncLifetime
 {
+    private readonly PlaygroundApplication _dbContextFactory;
     private readonly HttpClient _client;
-
+    private int? _articleId;
+    
     public ArticleControllerTests(PlaygroundApplication factory)
     {
+        _dbContextFactory = factory;
         _client = factory.CreateClient();
     }
 
-    public async Task<int> CreateArticle(string title = "Test Article", string categoryTitle = "Test Category") {
-        // Act
-        var request = new ArticleCreateRequest(
-            Title: title,
-            CategoryTitle: categoryTitle
-        );
-
-        var createResponse = await _client.PostAsJsonAsync("/api/articles", request);
-        var createdArticle = await createResponse.Content.ReadFromJsonAsync<ArticleResponse>();
-        Assert.NotNull(createdArticle);
-        int articleId = createdArticle.Id;  // Replace with a valid article ID for the test
-        return articleId;
-    }
 
      [Fact]
     public async Task CreateArticle_ValidData_ReturnsCreatedArticle()
@@ -71,17 +64,14 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
     [Fact]
     public async Task GetArticle_ValidId_ReturnsArticle()
     {
-        // Arrange
-        var articleId = await CreateArticle();
-        
         // Act
-        var response = await _client.GetAsync($"/api/articles/{articleId}");
+        var response = await _client.GetAsync($"/api/articles/{_articleId}");
         var article = await response.Content.ReadFromJsonAsync<ArticleResponse>();
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(article);
-        Assert.Equal(articleId, article?.Id);
+        Assert.Equal(_articleId, article?.Id);
     }
 
     [Fact]
@@ -101,7 +91,6 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
     public async Task UpdateArticle_ValidId_UpdatesAndReturnsArticle()
     {
         // Arrange
-        var articleId = await CreateArticle();
         var request = new ArticleUpdateRequest(
             Title: "Updated Title",
             CategoryTitle: "Updated Category",
@@ -109,7 +98,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
         );
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/api/articles/{articleId}", request);
+        var response = await _client.PutAsJsonAsync($"/api/articles/{_articleId}", request);
         var updatedArticle = await response.Content.ReadFromJsonAsync<ArticleResponse>();
 
         // Assert
@@ -140,11 +129,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
     [Fact]
     public async Task DeleteArticle_ValidId_ReturnsNoContent()
     {
-        // Arrange
-        int articleId = 1;  // Replace with a valid article ID for the test
-
         // Act
-        var response = await _client.DeleteAsync($"/api/articles/{articleId}");
+        var response = await _client.DeleteAsync($"/api/articles/{_articleId}");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode); //NoContent
@@ -166,10 +152,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
     [Fact]
     public async Task SearchArticles_ValidQuery_ReturnsArticles()
     {
-        // Arrange
-        await CreateArticle("Test Article 1", "Test Category");
         // Act
-        var response = await _client.GetAsync($"/api/articles/search?Search=Test");
+        var response = await _client.GetAsync($"/api/articles/search?Search=Sample");
         var articlePage = await response.Content.ReadFromJsonAsync<ArticlePageResponse>();
 
         // Assert
@@ -179,6 +163,25 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
         Assert.NotEmpty(articlePage.Articles);
 
     }
-    
-      
+
+    ValueTask IAsyncLifetime.InitializeAsync()
+    {
+        using var scope = _dbContextFactory.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+        await context.Database.EnsureDeleted();
+        await context.Database.EnsureCreated();
+        await HelperMethods.SeedInitialData(context);
+        _articleId = HelperMethods.GetFirstArticleId(context);
+        return ValueTask.CompletedTask;
+    }
+
+    public ValueTask DisposeAsync () {
+        using var scope = _dbContextFactory.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+        await context.Database.EnsureDeleted();
+        await context.Database.EnsureCreated();
+        await HelperMethods.SeedInitialData(context);
+        _articleId = HelperMethods.GetFirstArticleId(context);
+        return ValueTask.CompletedTask;
+    }
 }
