@@ -33,24 +33,10 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>, IAsy
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
-        // Call SeedInitialData and ensure it completes before proceeding
-        HelperMethods.SeedInitialData(context).Wait();
-
-        // Now retrieve the IDs only after seeding is confirmed complete
-        var initializationTask = HelperMethods.GetFirstArticleId(context)
-            .ContinueWith(articleTask =>
-            {
-                // Handle case where no articles exist after seeding
-                if (articleTask.Result == null)
-                {
-                    throw new InvalidOperationException("No articles found after seeding.");
-                }
-
-                _articleId = articleTask.Result;
-                scope.Dispose();
-            });
-
-        return new ValueTask(initializationTask);
+        HelperMethods.SeedInitialData(context);
+        _articleId = HelperMethods.GetFirstArticleId(context);
+       
+        return ValueTask.CompletedTask;
     }
 
     public ValueTask DisposeAsync()

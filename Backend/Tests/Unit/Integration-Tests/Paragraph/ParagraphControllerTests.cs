@@ -31,34 +31,11 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IA
         context.Database.EnsureCreated();
 
         // Call SeedInitialData and ensure it completes before proceeding
-        HelperMethods.SeedInitialData(context).Wait();
-
-        // Now retrieve the IDs only after seeding is confirmed complete
-        var initializationTask = HelperMethods.GetFirstArticleId(context)
-            .ContinueWith(articleTask =>
-            {
-                // Handle case where no articles exist after seeding
-                if (articleTask.Result == null)
-                {
-                    throw new InvalidOperationException("No articles found after seeding.");
-                }
-
-                _articleId = articleTask.Result;
-
-                return HelperMethods.GetFirstParagraphId(context).ContinueWith(paragraphTask =>
-                {
-                    // Handle case where no paragraphs exist after seeding
-                    if (paragraphTask.Result == null)
-                    {
-                        throw new InvalidOperationException("No paragraphs found after seeding.");
-                    }
-
-                    _paragraphId = paragraphTask.Result;
-                    scope.Dispose();
-                });
-            }).Unwrap();
-
-        return new ValueTask(initializationTask);
+        HelperMethods.SeedInitialData(context);
+        _articleId = HelperMethods.GetFirstArticleId(context);
+        _paragraphId = HelperMethods.GetFirstParagraphId(context);
+       
+        return ValueTask.CompletedTask;
     }
 
     public ValueTask DisposeAsync()
