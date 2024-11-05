@@ -12,7 +12,7 @@ using SpeedReaderAPI.Entities;
 
 namespace Unit;
 
-public class ArticleControllerTests : IClassFixture<PlaygroundApplication>, IAsyncLifetime
+public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
 {
     private readonly PlaygroundApplication _dbContextFactory;
     private readonly HttpClient _client;
@@ -22,9 +22,11 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>, IAsy
     {
         _dbContextFactory = factory;
         _client = factory.CreateClient();
+
+        ensureDatabaseIsPrepared();
     }
 
-    ValueTask IAsyncLifetime.InitializeAsync()
+    private void ensureDatabaseIsPrepared()
     {
         var scope = _dbContextFactory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
@@ -33,15 +35,9 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>, IAsy
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
+        // Call SeedInitialData and ensure it completes before proceeding
         HelperMethods.SeedInitialData(context);
         _articleId = HelperMethods.GetFirstArticleId(context);
-       
-        return ValueTask.CompletedTask;
-    }
-
-    public ValueTask DisposeAsync()
-    {
-        return ValueTask.CompletedTask;
     }
 
     [Fact]

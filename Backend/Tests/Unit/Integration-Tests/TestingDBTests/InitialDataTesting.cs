@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
 using Unit;
 
-public class InitialDataTesting : IClassFixture<PlaygroundApplication>, IAsyncLifetime 
+public class InitialDataTesting : IClassFixture<PlaygroundApplication> 
 {
     private readonly PlaygroundApplication _dbContextFactory;
     private HttpClient _client;
@@ -13,9 +13,11 @@ public class InitialDataTesting : IClassFixture<PlaygroundApplication>, IAsyncLi
     {
         _dbContextFactory = factory;
         _client = factory.CreateClient();
+
+        ensureDatabaseIsPrepared();
     }
 
-    ValueTask IAsyncLifetime.InitializeAsync()
+    private void ensureDatabaseIsPrepared()
     {
         var scope = _dbContextFactory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
@@ -28,13 +30,6 @@ public class InitialDataTesting : IClassFixture<PlaygroundApplication>, IAsyncLi
         HelperMethods.SeedInitialData(context);
         _articleId = HelperMethods.GetFirstArticleId(context);
         _paragraphId = HelperMethods.GetFirstParagraphId(context);
-       
-        return ValueTask.CompletedTask;
-    }
-
-    public ValueTask DisposeAsync()
-    {
-        return ValueTask.CompletedTask;
     }
 
     [Fact]
@@ -50,7 +45,6 @@ public class InitialDataTesting : IClassFixture<PlaygroundApplication>, IAsyncLi
         var scope = _dbContextFactory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
         var articleId = HelperMethods.GetFirstArticleId(context);
-        Assert.NotNull(articleId);
     }
 
     [Fact]
@@ -59,7 +53,6 @@ public class InitialDataTesting : IClassFixture<PlaygroundApplication>, IAsyncLi
         var scope = _dbContextFactory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
         var paragraphId = HelperMethods.GetFirstParagraphId(context);
-        Assert.NotNull(paragraphId);
     }
 
     // try to delete the DB and see if it is created again
@@ -70,8 +63,7 @@ public class InitialDataTesting : IClassFixture<PlaygroundApplication>, IAsyncLi
         var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
-        var articleId = HelperMethods.GetFirstArticleId(context);
-        Assert.Null(articleId);
+        Assert.Throws<Exception>(() => HelperMethods.GetFirstArticleId(context));
     }
 
     // delete db, create and seed
@@ -84,7 +76,6 @@ public class InitialDataTesting : IClassFixture<PlaygroundApplication>, IAsyncLi
         context.Database.EnsureCreated();
         HelperMethods.SeedInitialData(context);
         var articleId = HelperMethods.GetFirstArticleId(context);
-        Assert.NotNull(articleId);
     }
     
 }

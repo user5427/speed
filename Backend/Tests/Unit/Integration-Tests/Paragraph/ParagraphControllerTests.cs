@@ -8,20 +8,22 @@ using SpeedReaderAPI.DTOs.Paragraph.Responses;
 
 namespace Unit;
 
-public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IAsyncLifetime
+public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
 {
     private readonly PlaygroundApplication _dbContextFactory;
     private HttpClient _client;
-    private int? _articleId;
-    private int? _paragraphId;
+    private int _articleId;
+    private int _paragraphId;
 
     public ParagraphControllerTests(PlaygroundApplication factory)
     {
         _dbContextFactory = factory;
         _client = factory.CreateClient();
+
+        ensureDatabaseIsPrepared();
     }
 
-    ValueTask IAsyncLifetime.InitializeAsync()
+    private void ensureDatabaseIsPrepared()
     {
         var scope = _dbContextFactory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
@@ -34,13 +36,6 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IA
         HelperMethods.SeedInitialData(context);
         _articleId = HelperMethods.GetFirstArticleId(context);
         _paragraphId = HelperMethods.GetFirstParagraphId(context);
-       
-        return ValueTask.CompletedTask;
-    }
-
-    public ValueTask DisposeAsync()
-    {
-        return ValueTask.CompletedTask;
     }
 
     [Fact]
@@ -49,7 +44,7 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IA
         var request = new ParagraphCreateRequest(
             Title: "Test Paragraph",
             Text: "Test Content",
-            ArticleId: _articleId.Value
+            ArticleId: _articleId
         );
 
         // Act
@@ -70,7 +65,7 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IA
         var request = new ParagraphCreateRequest(
             Title: "Sh",  // Assume this is less than ValidationConstants.MinTitleLength
             Text: "Test Content",
-            ArticleId: _articleId.Value
+            ArticleId: _articleId
         );
 
         // Act
@@ -88,7 +83,7 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IA
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(paragraph);
-        Assert.Equal(_articleId.Value, paragraph?.Id);
+        Assert.Equal(_articleId, paragraph?.Id);
     }
 
     [Fact]
@@ -106,12 +101,12 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IA
         var request = new ParagraphUpdateRequest(
             Title: "Updated Title",
             Text: "Updated Content",
-            ArticleId: _articleId.Value,
+            ArticleId: _articleId,
             QuestionIds: null
         );
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/api/paragraphs/{_paragraphId.Value}", request);
+        var response = await _client.PutAsJsonAsync($"/api/paragraphs/{_paragraphId}", request);
         var updatedParagraph = await response.Content.ReadFromJsonAsync<ParagraphResponse>();
 
         // Assert
@@ -132,7 +127,7 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IA
         );
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/api/paragraphs/{_paragraphId.Value}", request);
+        var response = await _client.PutAsJsonAsync($"/api/paragraphs/{_paragraphId}", request);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 

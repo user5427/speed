@@ -27,7 +27,7 @@ public class PlaygroundApplication : WebApplicationFactory<Program>
             // Add the in-memory database context for testing
             services.AddDbContext<ApplicationContext>(options =>
             {
-                options.UseInMemoryDatabase("TestDatabase");
+                options.UseInMemoryDatabase(databaseName: "HELLLO");
             });
         });
     }
