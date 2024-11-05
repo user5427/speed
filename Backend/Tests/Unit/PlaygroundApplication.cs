@@ -29,15 +29,6 @@ public class PlaygroundApplication : WebApplicationFactory<Program>
             {
                 options.UseInMemoryDatabase("TestDatabase");
             });
-
-
-
-            // Ensure the database is created
-
-            var sp = services.BuildServiceProvider();
-            using var scope = sp.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-            dbContext.Database.EnsureCreated();
         });
     }
 

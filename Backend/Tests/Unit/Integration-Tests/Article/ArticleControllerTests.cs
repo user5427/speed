@@ -17,15 +17,48 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>, IAsy
     private readonly PlaygroundApplication _dbContextFactory;
     private readonly HttpClient _client;
     private int? _articleId;
-    
+
     public ArticleControllerTests(PlaygroundApplication factory)
     {
         _dbContextFactory = factory;
         _client = factory.CreateClient();
     }
 
+    ValueTask IAsyncLifetime.InitializeAsync()
+    {
+        var scope = _dbContextFactory.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
-     [Fact]
+        // Ensure database is prepared synchronously
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+
+        // Call SeedInitialData and ensure it completes before proceeding
+        HelperMethods.SeedInitialData(context).Wait();
+
+        // Now retrieve the IDs only after seeding is confirmed complete
+        var initializationTask = HelperMethods.GetFirstArticleId(context)
+            .ContinueWith(articleTask =>
+            {
+                // Handle case where no articles exist after seeding
+                if (articleTask.Result == null)
+                {
+                    throw new InvalidOperationException("No articles found after seeding.");
+                }
+
+                _articleId = articleTask.Result;
+                scope.Dispose();
+            });
+
+        return new ValueTask(initializationTask);
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        return ValueTask.CompletedTask;
+    }
+
+    [Fact]
     public async Task CreateArticle_ValidData_ReturnsCreatedArticle()
     {
         // Arrange
@@ -164,24 +197,5 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>, IAsy
 
     }
 
-    ValueTask IAsyncLifetime.InitializeAsync()
-    {
-        using var scope = _dbContextFactory.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-        await context.Database.EnsureDeleted();
-        await context.Database.EnsureCreated();
-        await HelperMethods.SeedInitialData(context);
-        _articleId = HelperMethods.GetFirstArticleId(context);
-        return ValueTask.CompletedTask;
-    }
 
-    public ValueTask DisposeAsync () {
-        using var scope = _dbContextFactory.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-        await context.Database.EnsureDeleted();
-        await context.Database.EnsureCreated();
-        await HelperMethods.SeedInitialData(context);
-        _articleId = HelperMethods.GetFirstArticleId(context);
-        return ValueTask.CompletedTask;
-    }
 }

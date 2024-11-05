@@ -21,6 +21,51 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IA
         _client = factory.CreateClient();
     }
 
+    ValueTask IAsyncLifetime.InitializeAsync()
+    {
+        var scope = _dbContextFactory.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+
+        // Ensure database is prepared synchronously
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+
+        // Call SeedInitialData and ensure it completes before proceeding
+        HelperMethods.SeedInitialData(context).Wait();
+
+        // Now retrieve the IDs only after seeding is confirmed complete
+        var initializationTask = HelperMethods.GetFirstArticleId(context)
+            .ContinueWith(articleTask =>
+            {
+                // Handle case where no articles exist after seeding
+                if (articleTask.Result == null)
+                {
+                    throw new InvalidOperationException("No articles found after seeding.");
+                }
+
+                _articleId = articleTask.Result;
+
+                return HelperMethods.GetFirstParagraphId(context).ContinueWith(paragraphTask =>
+                {
+                    // Handle case where no paragraphs exist after seeding
+                    if (paragraphTask.Result == null)
+                    {
+                        throw new InvalidOperationException("No paragraphs found after seeding.");
+                    }
+
+                    _paragraphId = paragraphTask.Result;
+                    scope.Dispose();
+                });
+            }).Unwrap();
+
+        return new ValueTask(initializationTask);
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        return ValueTask.CompletedTask;
+    }
+
     [Fact]
     public async Task CreateParagraph_ValidData_ReturnsCreatedParagraph()
     {
@@ -149,27 +194,5 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>, IA
         // Assert.Contains(paragraphPage.Paragraphs, p => p.Id == paragraphId);
     }
 
-    ValueTask IAsyncLifetime.InitializeAsync()
-    {
-        using var scope = _dbContextFactory.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-        await context.Database.EnsureDeletedAsync();
-        await context.Database.EnsureCreatedAsync();
-        await HelperMethods.SeedInitialData(context);
-        _articleId = HelperMethods.GetFirstArticleId(context);
-        _paragraphId = HelperMethods.GetFirstParagraphId(context);
-        return ValueTask.CompletedTask;
-    }
 
-    public ValueTask DisposeAsync()
-    {
-        using var scope = _dbContextFactory.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-        await context.Database.EnsureDeletedAsync();
-        await context.Database.EnsureCreatedAsync();
-        await HelperMethods.SeedInitialData(context);
-        _articleId = HelperMethods.GetFirstArticleId(context);
-        _paragraphId = HelperMethods.GetFirstParagraphId(context);
-        return ValueTask.CompletedTask;
-    }
 }

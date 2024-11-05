@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
 
@@ -22,13 +23,23 @@ public class HelperMethods
         await context.SaveChangesAsync();
     }
 
-    public static int GetFirstArticleId(ApplicationContext context)
+    public static async Task<int?> GetFirstArticleId(ApplicationContext context)
     {
-        return context.Article.First().Id;
+        var art = await context.Article.FirstAsync();
+        if (art == null)
+        {
+            return null;
+        }
+        return art.Id;
     }
 
-    public static int GetFirstParagraphId(ApplicationContext context)
+    public static async Task<int?> GetFirstParagraphId(ApplicationContext context)
     {
-        return context.Paragraph.First().Id;
+        var par = await context.Paragraph.FirstAsync();
+        if (par == null)
+        {
+            return null;
+        }
+        return par.Id;
     }
 }
