@@ -172,14 +172,27 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     {
         // Act
         var response = await _client.GetAsync($"/api/articles/search?Search=Sample");
-        var articlePage = await response.Content.ReadFromJsonAsync<ArticlePageResponse>();
+        var articlePage = await response.Content.ReadFromJsonAsync<PageResponse<ArticleResponse>>();
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(articlePage);
-        Assert.NotEmpty(articlePage.Articles);
+        Assert.NotEmpty(articlePage.Items);
 
     }
 
+    [Fact]
+    public async Task SearchArticles_InvalidQuery_ReturnsEmptyList()
+    {
+        // Act
+        var response = await _client.GetAsync($"/api/articles/search?Search=InvalidQuery");
+        var articlePage = await response.Content.ReadFromJsonAsync<PageResponse<ArticleResponse>>();
 
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotNull(articlePage);
+        Assert.Empty(articlePage.Items);
+    }
+
+    
 }

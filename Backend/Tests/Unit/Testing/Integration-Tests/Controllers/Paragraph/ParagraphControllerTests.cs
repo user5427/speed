@@ -157,13 +157,26 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
     {
         // Act
         var response = await _client.GetAsync($"/api/paragraphs/search?Search=Test");
-        var paragraphPage = await response.Content.ReadFromJsonAsync<ParagraphPageResponse>();
+        var paragraphPage = await response.Content.ReadFromJsonAsync<PageResponse<ParagraphResponse>>();
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(paragraphPage);
-        Assert.NotEmpty(paragraphPage.Paragraphs);
+        Assert.NotEmpty(paragraphPage.Items);
         // Assert.Contains(paragraphPage.Paragraphs, p => p.Id == paragraphId);
+    }
+
+    [Fact]
+    public async Task SearchParagraphs_InvalidQuery_ReturnsEmptyList()
+    {
+        // Act
+        var response = await _client.GetAsync($"/api/paragraphs/search?Search=Invalid");
+        var paragraphPage = await response.Content.ReadFromJsonAsync<PageResponse<ParagraphResponse>>();
+
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotNull(paragraphPage);
+        Assert.Empty(paragraphPage.Items);
     }
 
 
