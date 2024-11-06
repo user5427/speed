@@ -2,11 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
 
 public class ContextCreator {
-    public static ApplicationContext CreateContext()
+    public static ApplicationContext CreateContext(string dbName = Constants.TestDatabaseName)
     {
         // Create options for the in-memory database
         var options = new DbContextOptionsBuilder<ApplicationContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabaseService") // Name of the in-memory database
+            .UseInMemoryDatabase(databaseName: dbName) // Name of the in-memory database
             .Options;
 
         // Create the context using the options

@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
@@ -8,24 +9,24 @@ using SpeedReaderAPI.DTOs.Paragraph.Responses;
 
 namespace Unit;
 
-public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
+public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixture>
 {
-    private readonly PlaygroundApplication _dbContextFactory;
+    private readonly PlaygroundApplicationFixture _fixture;
     private HttpClient _client;
     private int _articleId;
     private int _paragraphId;
 
-    public ParagraphControllerTests(PlaygroundApplication factory)
+    public ParagraphControllerTests(PlaygroundApplicationFixture fixture)
     {
-        _dbContextFactory = factory;
-        _client = factory.CreateClient();
+        _fixture = fixture;
+        _client = fixture.CreateClient();
 
         ensureDatabaseIsPrepared();
     }
 
     private void ensureDatabaseIsPrepared()
     {
-        var scope = _dbContextFactory.Services.CreateScope();
+        var scope = _fixture.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
         // Ensure database is prepared synchronously
@@ -33,9 +34,9 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplication>
         context.Database.EnsureCreated();
 
         // Call SeedInitialData and ensure it completes before proceeding
-        HelperMethods.SeedInitialData(context);
-        _articleId = HelperMethods.GetFirstArticleId(context);
-        _paragraphId = HelperMethods.GetFirstParagraphId(context);
+        DBHelperMethods.SeedInitialData(context);
+        _articleId = DBHelperMethods.GetFirstArticleId(context);
+        _paragraphId = DBHelperMethods.GetFirstParagraphId(context);
     }
 
     [Fact]

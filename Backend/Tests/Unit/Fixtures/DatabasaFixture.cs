@@ -8,14 +8,9 @@ public class DatabaseFixture : IDisposable
     {
         // Create options for the in-memory database
         var DatabaseName = Guid.NewGuid().ToString();
-        var options = new DbContextOptionsBuilder<ApplicationContext>()
-            .UseInMemoryDatabase(databaseName: DatabaseName) // Name of the in-memory database
-            .Options;
-
-        // Create the context using the options
-        Context = new ApplicationContext(options);
+        Context = ContextCreator.CreateContext(DatabaseName);
         Context.Database.EnsureCreated(); // Ensure the database is created
-        HelperMethods.SeedInitialData(Context);
+        DBHelperMethods.SeedInitialData(Context);
     }
 
     public void Dispose()

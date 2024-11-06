@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
 
-public class HelperMethods
+public class DBHelperMethods
 {
     // Separate method to handle initial data seeding
     public static void SeedInitialData(ApplicationContext context)

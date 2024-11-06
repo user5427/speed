@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Moq;
@@ -12,23 +14,24 @@ using SpeedReaderAPI.Entities;
 
 namespace Unit;
 
-public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
+public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture>
 {
-    private readonly PlaygroundApplication _dbContextFactory;
+    private readonly PlaygroundApplicationFixture _fixture;
     private readonly HttpClient _client;
-    private int? _articleId;
+    private int _articleId;
 
-    public ArticleControllerTests(PlaygroundApplication factory)
+    public ArticleControllerTests(PlaygroundApplicationFixture fixture)
     {
-        _dbContextFactory = factory;
-        _client = factory.CreateClient();
-
+        _fixture = fixture;
+        _client = fixture.CreateClient();
+        _articleId = -1;
         ensureDatabaseIsPrepared();
+        Console.WriteLine("Database prepared Articles " + _articleId);
     }
 
     private void ensureDatabaseIsPrepared()
     {
-        var scope = _dbContextFactory.Services.CreateScope();
+        var scope = _fixture.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
         // Ensure database is prepared synchronously
@@ -36,8 +39,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplication>
         context.Database.EnsureCreated();
 
         // Call SeedInitialData and ensure it completes before proceeding
-        HelperMethods.SeedInitialData(context);
-        _articleId = HelperMethods.GetFirstArticleId(context);
+        DBHelperMethods.SeedInitialData(context);
+        _articleId = DBHelperMethods.GetFirstArticleId(context);
     }
 
     [Fact]
