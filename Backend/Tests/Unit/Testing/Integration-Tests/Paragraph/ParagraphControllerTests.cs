@@ -162,7 +162,6 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(paragraphPage);
-        Assert.NotNull(paragraphPage.Paragraphs);
         Assert.NotEmpty(paragraphPage.Paragraphs);
         // Assert.Contains(paragraphPage.Paragraphs, p => p.Id == paragraphId);
     }

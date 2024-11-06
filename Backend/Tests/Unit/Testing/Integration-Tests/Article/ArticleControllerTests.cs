@@ -177,7 +177,6 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(articlePage);
-        Assert.NotNull(articlePage.Articles);
         Assert.NotEmpty(articlePage.Articles);
 
     }
