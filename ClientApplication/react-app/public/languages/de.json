@@ -2,10 +2,10 @@
     "homepage" : {
         "home" : "Zur Hauptseite",
         "about" : "Über uns",
-        "goToCategories" : "Go to Categories",
-        "goToArticles" : "Go to Articles",
-        "goToExercise" : "Go to Exercise",
-        "flashingSentence" : "Introducing our new web page \"Speedreader.com\", designed to help users read sentences quickly without being distracted by inner thoughts, boosting focus, improving comprehension, and saving time with faster reading speeds."
+        "goToCategories" : "Zu den Kategorien",
+        "goToArticles" : "Zum Artikel",
+        "goToExercise" : "Zu den Übungen",
+        "flashingSentence" : "Es war einmal ein Mädchen, dem war die Mutter gestorben. Ihre neue Stiefmutter hatte zwei Töchter mit ins Haus gebracht und sie waren alle sehr gemein zu ihr. Sie musste den ganzen Tag schwer arbeiten, früh aufstehen, Wasser tragen, Feuer machen, kochen und waschen. Abends, wenn sie müde war, musste sie sich neben den Herd in die Asche legen. Und weil sie darum immer staubig und schmutzig war, nannten sie es Aschenputtel. Es begab sich, daß der König ein großes Fest veranstaltete, auf dem sich der Prinz eine Gemahlin aussuchen sollte. Aschenputtel bat die Stiefmutter, sie möchte ihm erlauben hinzugehen. „Aschenputtel,“ antwortete die Stiefmutter, „du bist voll Staub und Schmutz und willst zum Fest? Du darfst nicht mit, denn du hast keine prächtigen Kleider.“ Darauf eilte sie mit ihren stolzen Töchtern fort. Aschenputtel ging zum Grab ihrer Mutter und weinte bis die Tränen darauf herniederfielen. Als sie die Augen wieder öffnete, trug sie plötzlich ein prächtiges Kleid und goldene Schuhe. So ging es zum Fest und der Prinz tanzte mit ihr. Als es Abend war, wollte Aschenputtel fort, der Prinz wollte sie begleiten, aber sie entsprang ihm so geschwind, daß er nicht folgen konnte. Auf der Treppe verlor sie einen ihrer Schuhe. Der Prinz fand den Schuh und sprach: „Keine andere soll meine Gemahlin werden, als die, an deren Fuß dieser goldene Schuh paßt.“ Und er ließ im ganzen Königreich nach dem Mädchen suchen, der der Schuh passte. Als er zu ihrem Hause kam, da passte der Schuh wie angegossen. Und als Aschenputtel sich in die Höhe richtete und dem Prinzen ins Gesicht sah, da erkannte er sie. Und sie lebten glücklich alle Tage."
     },
 
     "articleManagmentPage" : {
@@ -13,7 +13,7 @@
         "createArticle" : "Artikel zumachen",
         "createParagraph" : "Absatz zumachen",
         "createQuestion" : "Frage zumachen",
-        "articleList" : "Article list"
+        "articleList" : "Artikelliste"
     },
 
     "createArticlePage" : {
@@ -21,7 +21,7 @@
     },
 
     "createParagraphPage" : {
-        "createParagraph" : "Strophen erstellen"
+        "createParagraph" : "Absatz erstellen"
     },
 
     "createQuestionPage" : {
@@ -29,75 +29,75 @@
     },
 
     "categories" : {
-        "subjects" : "Subjects",
+        "subjects" : "Themen",
         "biology" : "Biologie",
-            "bCategories" : "Plants, molecules, Tiere",
-        "astronomy" : "Astronomy",
-            "aCategories" : "Milky Way Galaxy, Closest star systems, Black holes",
+            "bCategories" : "Pflanzen, Moleküle, Tiere",
+        "astronomy" : "Astronomie",
+            "aCategories" : "Milchstraße, nächsteSternbilder, Schwarzen Loche",
         "history" : "Geschichte",
-            "hCategories" : "Ancient Egypt, Middle Ages, WW I, WW II",
-        "literature" : "Literature",
+            "hCategories" : "Altes Ä, Mittelalter, Erste Weltkrieg, Zweite Weltkrieg",
+        "literature" : "Literatur",
             "lCategories" : "William Shakespeare, Alexandre Dumas, Victor Hugo"
     },
 
     "editPages" : {
         "all" : {
-            "editAll" : "Edit All",
-            "parUnavailable" : "Paragraph editing or creating unavailable",
-            "questUnavailable" : "Question editing or creating unavailable",
-            "resetArticle" : "Reset Article",
-            "resetParagraph" : "Reset Paragraph",
-            "resetQuestion" : "Reset Question",
-            "parsUnavailable" : "Paragraphs unavailable",
-            "questionsUnavailable" : "Questions unavailable"
+            "editAll" : "Alles redigieren",
+            "parUnavailable" : "Das Bearbeiten oder Erstellen von Absätzen ist nicht möglich",
+            "questUnavailable" : "Das Bearbeiten oder Erstellen von Fragen ist nicht möglich",
+            "resetArticle" : "Artikel zurücksetzen",
+            "resetParagraph" : "Absatz zurücksetzen",
+            "resetQuestion" : "Frage zurücksetzen",
+            "parsUnavailable" : "Artikelen nicht verfügbare",
+            "questionsUnavailable" : "Fragen nicht verfügbare"
         },
         "paragraphs" : {
-            "editParAndQ" : "Edit Paragraph and Question",
-            "qEditingorCreating" : "Question editing or creating unavailable",
-            "resetQuest" : "Reset Question",
-            "questUnavailable" : "Questions unavailable"
+            "editParAndQ" : "Redigieren Absätyen und Fragen",
+            "qEditingorCreating" : "Das Bearbaiten oder Erstellen von Frage is nicht möglich",
+            "resetQuest" : "Frage zurücksetzen",
+            "questUnavailable" : "Fragen nicgt verfügbare"
         },
         "questions" : {
-            "editQuestion" : "Edit Question"
+            "editQuestion" : "Frage redigieren"
         }
     },
 
     "exercise" : {
-        "loading" : "Loading",
+        "loading" : "Lädt",
         "reading" : {
-            "endOfParagraph" : "End of Paragraph",
-            "pressStartToBeginPar" : "Press Start to begin Paragraph",
-            "start" : "Start",
+            "endOfParagraph" : "Ende des Absatzes",
+            "pressStartToBeginPar" : "Drücken Sie \"Beginnen\" um zu beginnen",
+            "start" : "Beginnen",
             "wpm" : "WPM",
             "goToQuestion" : "Zum Fragen"
         },
         "question" : {
-            "submitAnswer" : "Submit answer"
+            "submitAnswer" : "Antwort abschicken"
         },
         "message" : {
-            "nextParagraph" : "Next paragraph",
+            "nextParagraph" : "Nächsten Absatz",
             "finish" : "Enden",
             "correct" : "Richtig",
             "incorrect" : "Falsch! Das richtige antwort war"
         },
         "articleInfo" : {
-            "title" : "Title",
-            "author" : "Author",
-            "publisher" : "Publisher",
-            "link" : "Link"
+            "title" : "Der titel",
+            "author" : "Der Autor",
+            "publisher" : "Der Herausgeber",
+            "link" : "Die URL"
         },
         "results" : {
-            "exerciseCompleted" : "Exercise completed",
-            "resultsInner" : "Results",
+            "exerciseCompleted" : "Übung abgeschlossen",
+            "resultsInner" : "die Ergebnisse",
             "paragraphNr" : "Absatznummer",
             "words" : "Wörter",
             "time" : "Zeit",
             "wpm" : "WPM",
             "questions" : "Fragen",
-            "inConclusion" : "In conclusion",
-            "yourCurrentReadingSpeed" : "Your current reading speed",
-            "yourAverageReadingSpeedDuringExercise" : "Your average reading speed during exercise",
-            "goBackToCategories" : "Go back to Categories"
+            "inConclusion" : "Insgesamt ",
+            "yourCurrentReadingSpeed" : "Deine aktuelle Lesegeschwindigkeit",
+            "yourAverageReadingSpeedDuringExercise" : "Deine durchschnittliche Lesegeschwindigkeit während der Übung",
+            "goBackToCategories" : "Zurück zu den Kategorien"
         }
     },
 
@@ -105,54 +105,54 @@
     "paragraphs" : {
         "search" : {
             "searchPar" : "Absatz suchen",
-            "enterParTitle" : "Enter paragraph title",
-            "plsSelectPar" : "Please select a paragraph"
+            "enterParTitle" : "Geben Sie den Absatztitel ein",
+            "plsSelectPar" : "Geben Sie bitte den Absatztitel ein"
         },
         "createEdit" : {
-            "resetImg" : "Reset image",
-            "deleteImg" : "Delete image",
+            "resetImg" : "Bild zurücksetzen",
+            "deleteImg" : "Bild löschen",
             "articleID" : "Artikelnummer",
-            "enterArticleID" : "Tragen sie das Artikelnummer",
-            "plsEnterArticleID" : "Bitte tragen Sie das Artikelnummer ein",
-            "parTitle" : "Paragraph Title",
-            "enterParTitle" : "Enter Paragraph Title",
-            "plsEnterValidParTitle" : "Please enter a valid paragraph title (letters and spaces only)",
-            "paragraphText" : "Paragraph Text",
-            "eneterParText" : "Enter Paragraph Text",
-            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters",
-            "update" : "Update",
+            "enterArticleID" : "Geben sie das Artikelnummer ein",
+            "plsEnterArticleID" : "Geben Sie bitte das Artikelnummer ein",
+            "parTitle" : "Absatztitel",
+            "enterParTitle" : "Geben Sie bitte den Absatztitel",
+            "plsEnterValidParTitle" : "Bitte geben Sie einen gültigen Absatztitel ein (nur Buchstaben und Leerzeichen)",
+            "paragraphText" : "Absatztext",
+            "eneterParText" : "Geben Sie den Absatztext ein",
+            "plsEnterParText" : "Bitte geben Sie einen Absatztext zwischen 10 und 1500 Zeichen ein",
+            "update" : "Aktualisieren",
             "create" : "Ermachen"
         },
         "item" : {
             "select" : "Wählen",
-            "delete" : "Delete",
-            "edit" : "Edit"
+            "delete" : "Löschen",
+            "edit" : "Redigieren"
         }
     },
 
     "articles" : {
 "createEdit": {
-    "resetImg": "Reset image",
-    "deleteImg": "Delete image",
-    "articleTitle": "Article Title",
-    "enterArticleTitle": "Enter Article Title",
-    "plsEnterArticleTitle": "Please enter article title",
-    "articleCategory": "Article Category",
-    "enterArticleCategory": "Enter Article Category",
-    "plsEnterArticleCategory": "Please enter article category",
-    "articleAuthor": "Author",
-    "enterAuthor": "Enter Author Name and Surname",
-    "plsEnterAuthor": "Please enter author name and surname",
-    "articlePublisher": "Publisher",
-    "enterPublisher": "Enter Publisher Name",
-    "plsEnterPublisher": "Please enter publisher name",
-    "articleLink": "Link",
-    "enterLink": "Enter Article Link",
-    "plsEnterLink": "Please enter a valid link",
-    "articleLanguage": "Article Language",
-    "selectArticleLanguage": "Select Article Language",
-    "plsSelectArticleLanguage": "Please select an article language",
-    "update": "Update",
+    "resetImg": "Bild zurücksetzen",
+    "deleteImg": "Bild löschen",
+    "articleTitle": "Artikeltitel",
+    "enterArticleTitle": "Geben Sie den Artikeltitel ein",
+    "plsEnterArticleTitle": "Geben Sie bitte den Artikeltitel ein",
+    "articleCategory": "Artikelkategorie",
+    "enterArticleCategory": "Geben Sie die Artikelkategorie ein",
+    "plsEnterArticleCategory": "Geben Sie bitte die Artikelkategorie ein",
+    "articleAuthor": "Autor",
+    "enterAuthor": "Geben Sie den Vor- und Nachnamen des Autors ein",
+    "plsEnterAuthor": "Geben Sie bitte den Vor- und Nachnamen des Autors ein",
+    "articlePublisher": "Herausgeber",
+    "enterPublisher": "Geben Sie den Herausgeber ein",
+    "plsEnterPublisher": "Geben Sie bitte den Herausgeber ein",
+    "articleLink": "URL",
+    "enterLink": "Geben Sie die URL des Artikels ein",
+    "plsEnterLink": "Geben Sie bitte eine gültige URL ein",
+    "articleLanguage": "Sprache des Artikels",
+    "selectArticleLanguage": "Wählen Sie die Sprache des Artikels",
+    "plsSelectArticleLanguage": "Wählen Sie bitte die Sprache des Artikels",
+    "update": "Aktualisieren",
     "create": "Erstellen"
 },
 
@@ -160,43 +160,43 @@
             "main" : "Zurück"
         },
         "search" : {
-            "enterArticleTitle" : "Enter Article Title",
-            "searchArticles" : "Search Articles",
-            "plsSelectArticle" : "Please select an article"
+            "enterArticleTitle" : "Geben Sie den Artikeltitel",
+            "searchArticles" : "Artikel suchen",
+            "plsSelectArticle" : "Wählen Sie bitte den Artikel"
         },
         "item" : {
-            "select" : "Select",
-            "delete" : "Delete",
-            "edit" : "Edit",
+            "select" : "Wählen",
+            "delete" : "Löschen",
+            "edit" : "Redigieren"
             "read" : "Lesen"
         }
     },
 
     "questions" : {
         "createEdit" : {
-            "resetImg" : "Reset image",
-            "deleteImg" : "Delete image",
+            "resetImg" : "Bild zurücksetzen",
+            "deleteImg" : "Bild löschen",
             "paragraphID" : "Absatznummer",
-            "enterParagraphID" : "Enter paragraph ID",
-            "plsEnterParagraphID" : "Please enter paragraph ID",
-            "questionText" : "Question Text",
-            "eneterQuestionText" : "Enter Question Text",
-            "plsEnterQuestionText" : "Please enter question text",
-            "addAnswer" : "Add answer",
-            "update" : "Update",
+             "enterArticleID" : "Geben sie das Artikelnummer ein",
+            "plsEnterArticleID" : "Geben Sie bitte das Artikelnummer ein",
+            "questionText" : "Fragentext",
+            "eneterQuestionText" : "Geben Sie den Fragentext ein",
+            "plsEnterQuestionText" : "Geben Sie bitte den Fragentext ein",
+            "addAnswer" : "Antwort hinzufügen",
+            "update": "Aktualisieren",
             "create" : "Erstellen"
         },
         "answerItem" : {
             "answer" : "Antwort",
-            "enterAnswer" : "Enter answer",
-            "plsEnterAnswer" : "Please enter an answer",
+            "enterAnswer" : "Geben Sie die Antwort",
+            "plsEnterAnswer" : "Geben Sie bitte die Antwort",
             "correct" : "Richtig",
-            "delete" : "Delete"
+            "delete" : "Löschen"
         },
         "search" : {
-            "searchQuestions" : "Search Questions",
-            "enterQuestionsTitle" : "Enter question title",
-            "plsSelectQuestion" : "Please select a question"
+            "searchQuestions" : "Suchen Fragen",
+            "enterQuestionsTitle" : "Geben Sie den Fragentext",
+            "plsSelectQuestion" : "Wählen Sie bitte eine Frage"
         }
     }
 }
