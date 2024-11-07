@@ -23,8 +23,7 @@ public class ArticleServiceTests
     public ArticleServiceTests()
     {
         // Create the context creator
-        _contextCreator = new ContextCreator();
-        var context = ContextCreator.CreateContext();
+        var context = ContextCreator.CreateIsolatedContext();
 
          // Set up AutoMapper with the actual mappings
         var mapperConfig = new MapperConfiguration(cfg =>

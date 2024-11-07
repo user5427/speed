@@ -29,24 +29,8 @@ public class QuestionServiceTests
 
     public QuestionServiceTests()
     {
-        // _mockMapper = new Mock<IMapper>();
-        // _mockMapper.Setup(m => m.Map<Question>(It.IsAny<QuestionCreateRequest>()))
-        //     .Returns((QuestionCreateRequest source) =>
-        //     {
-        //         return new Question
-        //         {
-        //             Id = 1,
-        //             ParagraphId = source.ParagraphId,
-        //             QuestionText = source.QuestionText,
-        //             Answers = source.Answers,
-        //             CorrectAnswer = source.CorrectAnswer
-        //         };
-        //     });
-
-
         // Create the context creator
-        _contextCreator = new ContextCreator();
-        var context = ContextCreator.CreateContext();
+        var context = ContextCreator.CreateIsolatedContext();
 
          // Set up AutoMapper with the actual mappings
         var mapperConfig = new MapperConfiguration(cfg =>

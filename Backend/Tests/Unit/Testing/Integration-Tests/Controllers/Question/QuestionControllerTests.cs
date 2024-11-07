@@ -180,7 +180,7 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
     public async Task SearchQuestions_InvalidQuery_ReturnsEmptyList()
     {
         // Act
-        var response = await _client.GetAsync("/api/questions/search?query=InvalidQuery");
+        var response = await _client.GetAsync("/api/questions/search?Search=InvalidQuery");
         var questions = await response.Content.ReadFromJsonAsync<PageResponse<QuestionResponse>>();
 
         // Assert

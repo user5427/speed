@@ -14,7 +14,7 @@ public class ImageFixture : IDisposable
 
         if (!File.Exists(assetsPath))
         {
-            throw new FileNotFoundException("Test image file not found", assetsPath);
+            InfoMessagePrinter.TestImageNotFound(assetsPath);
         }
 
         using (FileStream fs = new FileStream(assetsPath, FileMode.Open, FileAccess.Read, FileShare.Read))

@@ -14,4 +14,20 @@ public class ContextCreator {
         context.Database.EnsureCreated(); // Ensure the database is created
         return context;
     }
+
+    public static ApplicationContext CreateIsolatedContext()
+    {
+        var databaseName =Guid.NewGuid().ToString();
+
+        // Create options for the in-memory database
+        var options = new DbContextOptionsBuilder<ApplicationContext>()
+            .UseInMemoryDatabase(databaseName: databaseName) // Name of the in-memory database
+            .Options;
+
+        // Create the context using the options
+        var context = new ApplicationContext(options);
+        context.Database.EnsureCreated(); // Ensure the database is created
+
+        return context;
+    }
 }
