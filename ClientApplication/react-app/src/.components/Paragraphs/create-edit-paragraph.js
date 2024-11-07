@@ -440,7 +440,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
             </Form>
             </Col>
 
-        <Form>
+        <Form validated={validated} onSubmit={handleSave}>
         <Button className='subjectButtons' type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor: '#739900', borderColor: '#4d6600' }}>
             {update ? t('paragraphs.createEdit.update') : t('paragraphs.createEdit.create')}
           </Button>

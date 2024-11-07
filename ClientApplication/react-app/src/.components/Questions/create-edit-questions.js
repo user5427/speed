@@ -501,7 +501,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
 <Row>
 <Form validated={validated} onSubmit={handleSave}>
 <div>
-<Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 3, marginBottom: '15px' }}></Divider>
+<Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 3, marginTop:'10px', marginBottom: '15px' }}></Divider>
 
                     <Row style={{ marginBottom: '15px'}} >
                         <Col xs={12} md={10} >

@@ -121,7 +121,7 @@ body {
   right: 0;
   width: 3px;
   height: 100%;
-  background-color: #333333 ; /* Adjust color as needed */
+  background-color: #404040 ; /* Adjust color as needed */
 }
 
 .last-column::before {
