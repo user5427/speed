@@ -15,7 +15,7 @@ const CreateParagraph = () => {
             <ReturnToArticlesButton />
 
             <div className="create-article-page">
-                <h2>{t('createParagraphPage.createParagraph')}</h2>
+                <h2>{t('articleManagment.createParagraph')}</h2>
             </div>
 
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>

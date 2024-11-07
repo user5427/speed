@@ -111,7 +111,7 @@ const ReadingExerciseComponent = ({
               disabled={started}
               style={{ marginLeft: '5px', width: '100px' }}
             />
-            <span style={{ marginLeft: '10px' }}>{t('exercise.reading.wpm')}</span>
+            <span style={{ marginLeft: '10px' }}>{t('commonUIelements.wpm')}</span>
           </div>
         </Col>
 

@@ -8,24 +8,12 @@
         "flashingSentence" : "Introducing our new web page \"Speedreader.com\", designed to help users read sentences quickly without being distracted by inner thoughts, boosting focus, improving comprehension, and saving time with faster reading speeds."
     },
 
-    "articleManagmentPage" : {
+    "articleManagment" : {
         "articleHomePage" : "Article Home Page",
         "createArticle" : "Create Article",
         "createParagraph" : "Create Paragraph",
         "createQuestion" : "Create Question",
         "articleList" : "Article list"
-    },
-
-    "createArticlePage" : {
-        "createArticle" : "Create Article"
-    },
-
-    "createParagraphPage" : {
-        "createParagraph" : "Create Paragraph"
-    },
-
-    "createQuestionPage" : {
-        "createQuestion" : "Create Question"
     },
 
     "categories" : {
@@ -68,7 +56,6 @@
             "endOfParagraph" : "End of Paragraph",
             "pressStartToBeginPar" : "Press Start to begin Paragraph",
             "start" : "Start",
-            "wpm" : "WPM",
             "goToQuestion" : "Go to question"
         },
         "question" : {
@@ -92,7 +79,6 @@
             "paragraphNr" : "Paragraph nr",
             "words" : "Words",
             "time" : "Time",
-            "wpm" : "WPM",
             "questions" : "Questions",
             "inConclusion" : "In conclusion",
             "yourCurrentReadingSpeed" : "Your current reading speed",
@@ -109,8 +95,6 @@
             "plsSelectPar" : "Please select a paragraph"
         },
         "createEdit" : {
-            "resetImg" : "Reset image",
-            "deleteImg" : "Delete image",
             "articleID" : "Article ID",
             "enterArticleID" : "Enter article ID",
             "plsEnterArticleID" : "Please enter article ID",
@@ -119,21 +103,12 @@
             "plsEnterValidParTitle" : "Please enter a valid paragraph title (letters and spaces only)",
             "paragraphText" : "Paragraph Text",
             "eneterParText" : "Enter Paragraph Text",
-            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters",
-            "update" : "Update",
-            "create" : "Create"
-        },
-        "item" : {
-            "select" : "Select",
-            "delete" : "Delete",
-            "edit" : "Edit"
+            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters"
         }
     },
 
 "articles": {
 "createEdit": {
-    "resetImg": "Reset image",
-    "deleteImg": "Delete image",
     "articleTitle": "Article Title",
     "enterArticleTitle": "Enter Article Title",
     "plsEnterArticleTitle": "Please enter article title",
@@ -151,9 +126,7 @@
     "plsEnterLink": "Please enter a valid link",
     "articleLanguage": "Article Language",
     "selectArticleLanguage": "Select Article Language",
-    "plsSelectArticleLanguage": "Please select an article language",
-    "update": "Update",
-    "create": "Create"
+    "plsSelectArticleLanguage": "Please select an article language"
 },
 
         "returnToArticlesBtn": {
@@ -165,26 +138,19 @@
             "plsSelectArticle": "Please select an article"
         },
         "item": {
-            "select": "Select",
-            "delete": "Delete",
-            "edit": "Edit",
             "read": "Read"
         }
     },
 
     "questions" : {
         "createEdit" : {
-            "resetImg" : "Reset image",
-            "deleteImg" : "Delete image",
             "paragraphID" : "Paragraph ID",
             "enterParagraphID" : "Enter paragraph ID",
             "plsEnterParagraphID" : "Please enter paragraph ID",
             "questionText" : "Question Text",
             "eneterQuestionText" : "Enter Question Text",
             "plsEnterQuestionText" : "Please enter question text",
-            "addAnswer" : "Add answer",
-            "update" : "Update",
-            "create" : "Create"
+            "addAnswer" : "Add answer"
         },
         "answerItem" : {
             "answer" : "Answer",
@@ -198,6 +164,17 @@
             "enterQuestionsTitle" : "Enter question title",
             "plsSelectQuestion" : "Please select a question"
         }
+    },
+
+    "commonUIelements" : {
+        "update" : "Update",
+        "create" : "Create",
+        "resetImg" : "Reset image",
+        "deleteImg" : "Delete image",
+        "wpm" : "WPM",
+        "select" : "Select",
+        "delete" : "Delete",
+        "edit" : "Edit"
     }
 
 }

@@ -25,7 +25,7 @@ const ArticleItem = (props) => {
                     {settings && settings.showSelectButton && (
                         <div className='editButtons'> {/* Flex for each button container */}
                             <Button onClick={selectThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>
-                                {t('articles.item.select')}
+                                {t('commonUIelements.select')}
                             </Button>
                         </div>
                     )}
@@ -33,7 +33,7 @@ const ArticleItem = (props) => {
                     {settings && settings.showDeleteButton && (
                         <div>
                             <Button onClick={deleteThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>
-                                {t('articles.item.delete')}
+                                {t('commonUIelements.delete')}
                             </Button>
                         </div>
                     )}
@@ -41,7 +41,7 @@ const ArticleItem = (props) => {
                     {settings && settings.showEditButton && (
                         <div>
                             <Button onClick={editThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>
-                                <MdModeEdit className="icons" /> {t('articles.item.edit')}
+                                <MdModeEdit className="icons" /> {t('commonUIelements.edit')}
                             </Button>
                         </div>
                     )}

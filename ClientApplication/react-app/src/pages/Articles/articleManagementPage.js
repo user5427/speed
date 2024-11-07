@@ -47,13 +47,13 @@ const ArticleHomePage = () => {
                 <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                     <Row className='row'>
                         <Col xs={12} md={4}>
-                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateArticle}><FaPlusSquare className="icons"/> {t('articleManagmentPage.createArticle')}</Button>
+                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateArticle}><FaPlusSquare className="icons"/> {t('articleManagment.createArticle')}</Button>
                         </Col>
                         <Col xs={12} md={4}>
-                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateParagraph}><FaPlusSquare className="icons"/> {t('articleManagmentPage.createParagraph')}</Button>
+                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateParagraph}><FaPlusSquare className="icons"/> {t('articleManagment.createParagraph')}</Button>
                         </Col>
                         <Col xs={12} md={4}>
-                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateQuestion}><FaPlusSquare className="icons"/> {t('articleManagmentPage.createQuestion')}</Button>
+                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateQuestion}><FaPlusSquare className="icons"/> {t('articleManagment.createQuestion')}</Button>
                         </Col>
                     </Row>
                 </div>

@@ -16,18 +16,6 @@
         "articleList" : "Artikelliste"
     },
 
-    "createArticlePage" : {
-        "createArticle" : "Artikel erstellen"
-    },
-
-    "createParagraphPage" : {
-        "createParagraph" : "Absatz erstellen"
-    },
-
-    "createQuestionPage" : {
-        "createQuestion" : "Frage erstellen"
-    },
-
     "categories" : {
         "subjects" : "Themen",
         "biology" : "Biologie",
@@ -68,7 +56,6 @@
             "endOfParagraph" : "Ende des Absatzes",
             "pressStartToBeginPar" : "Drücken Sie \"Beginnen\" um zu beginnen",
             "start" : "Beginnen",
-            "wpm" : "WPM",
             "goToQuestion" : "Zum Fragen"
         },
         "question" : {
@@ -92,7 +79,6 @@
             "paragraphNr" : "Absatznummer",
             "words" : "Wörter",
             "time" : "Zeit",
-            "wpm" : "WPM",
             "questions" : "Fragen",
             "inConclusion" : "Insgesamt ",
             "yourCurrentReadingSpeed" : "Deine aktuelle Lesegeschwindigkeit",
@@ -109,8 +95,6 @@
             "plsSelectPar" : "Geben Sie bitte den Absatztitel ein"
         },
         "createEdit" : {
-            "resetImg" : "Bild zurücksetzen",
-            "deleteImg" : "Bild löschen",
             "articleID" : "Artikelnummer",
             "enterArticleID" : "Geben sie das Artikelnummer ein",
             "plsEnterArticleID" : "Geben Sie bitte das Artikelnummer ein",
@@ -119,21 +103,12 @@
             "plsEnterValidParTitle" : "Bitte geben Sie einen gültigen Absatztitel ein (nur Buchstaben und Leerzeichen)",
             "paragraphText" : "Absatztext",
             "eneterParText" : "Geben Sie den Absatztext ein",
-            "plsEnterParText" : "Bitte geben Sie einen Absatztext zwischen 10 und 1500 Zeichen ein",
-            "update" : "Aktualisieren",
-            "create" : "Ermachen"
-        },
-        "item" : {
-            "select" : "Wählen",
-            "delete" : "Löschen",
-            "edit" : "Redigieren"
+            "plsEnterParText" : "Bitte geben Sie einen Absatztext zwischen 10 und 1500 Zeichen ein"
         }
     },
 
     "articles" : {
 "createEdit": {
-    "resetImg": "Bild zurücksetzen",
-    "deleteImg": "Bild löschen",
     "articleTitle": "Artikeltitel",
     "enterArticleTitle": "Geben Sie den Artikeltitel ein",
     "plsEnterArticleTitle": "Geben Sie bitte den Artikeltitel ein",
@@ -151,9 +126,7 @@
     "plsEnterLink": "Geben Sie bitte eine gültige URL ein",
     "articleLanguage": "Sprache des Artikels",
     "selectArticleLanguage": "Wählen Sie die Sprache des Artikels",
-    "plsSelectArticleLanguage": "Wählen Sie bitte die Sprache des Artikels",
-    "update": "Aktualisieren",
-    "create": "Erstellen"
+    "plsSelectArticleLanguage": "Wählen Sie bitte die Sprache des Artikels"
 },
 
         "returnToArticlesBtn" : {
@@ -165,26 +138,19 @@
             "plsSelectArticle" : "Wählen Sie bitte den Artikel"
         },
         "item" : {
-            "select" : "Wählen",
-            "delete" : "Löschen",
-            "edit" : "Redigieren",
             "read" : "Lesen"
         }
     },
 
     "questions" : {
         "createEdit" : {
-            "resetImg" : "Bild zurücksetzen",
-            "deleteImg" : "Bild löschen",
             "paragraphID" : "Absatznummer",
              "enterArticleID" : "Geben sie das Artikelnummer ein",
             "plsEnterArticleID" : "Geben Sie bitte das Artikelnummer ein",
             "questionText" : "Fragentext",
             "eneterQuestionText" : "Geben Sie den Fragentext ein",
             "plsEnterQuestionText" : "Geben Sie bitte den Fragentext ein",
-            "addAnswer" : "Antwort hinzufügen",
-            "update": "Aktualisieren",
-            "create" : "Erstellen"
+            "addAnswer" : "Antwort hinzufügen"
         },
         "answerItem" : {
             "answer" : "Antwort",
@@ -198,5 +164,16 @@
             "enterQuestionsTitle" : "Geben Sie den Fragentext",
             "plsSelectQuestion" : "Wählen Sie bitte eine Frage"
         }
+    },
+
+    "commonUIelements" : {
+        "update": "Aktualisieren",
+        "create": "Erstellen",
+        "resetImg" : "Bild zurücksetzen",
+        "deleteImg" : "Bild löschen",
+        "wpm" : "WPM",
+        "select" : "Wählen",
+        "delete" : "Löschen",
+        "edit" : "Redigieren"
     }
 }

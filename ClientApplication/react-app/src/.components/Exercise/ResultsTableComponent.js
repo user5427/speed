@@ -36,7 +36,7 @@ const ResultsTable = ({
                 <th>{t('exercise.results.paragraphNr')}{'.'}</th>
                 <th>{t('exercise.results.words')}</th>
                 <th>{t('exercise.results.time')}</th>
-                <th style={{ color: '#ce99ff' }}>{t('exercise.results.wpm')}</th>
+                <th style={{ color: '#ce99ff' }}>{t('commonUIelements.wpm')}</th>
                 <th style={{ color: '#ce99ff' }}>{t('exercise.results.questions')}</th>
               </tr>
             </thead>
@@ -89,7 +89,7 @@ const ResultsTable = ({
               <tr>
                 <td>{t('exercise.results.yourCurrentReadingSpeed')}{": "}</td>
                 <td>
-                  <span style={{ color: '#ce99ff' }}>{usersWPM}</span> {t('exercise.results.wpm')}
+                  <span style={{ color: '#ce99ff' }}>{usersWPM}</span> {t('commonUIelements.wpm')}
                 </td>
                 <td>{t('exercise.results.yourAverageReadingSpeedDuringExercise')}{':'}</td>
                 <td>
@@ -100,11 +100,11 @@ const ResultsTable = ({
                       ) : (
                         <span style={{ color: '#ff3300' }}>{averageWPM.toFixed(0)}</span>
                       )}{' '}
-                      {t('exercise.results.wpm')}
+                      {t('commonUIelements.wpm')}
                     </>
                   ) : (
                     <>
-                      <TiMinus /> {t('exercise.results.wpm')}
+                      <TiMinus /> {t('commonUIelements.wpm')}
                     </>
                   )}
                 </td>

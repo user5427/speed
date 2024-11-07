@@ -377,14 +377,14 @@ const EditArticle = ({
                   className="mb-2"
                   style={{ fontSize: '1rem', width: '100%' }}
                 >
-                  <GrRevert /> {t('articles.createEdit.resetImg')}
+                  <GrRevert /> {t('commonUIelements.resetImg')}
                 </Button>
                 <Button
                   variant="danger"
                   onClick={deleteArticleImage}
                   style={{ fontSize: '1rem', width: '100%' }}
                 >
-                  <MdDelete /> {t('articles.createEdit.deleteImg')}
+                  <MdDelete /> {t('commonUIelements.deleteImg')}
                 </Button>
               </>
             )}
@@ -397,7 +397,7 @@ const EditArticle = ({
           style={{  }}
         >
           <Button className='subjectButtons' type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor: '#739900', borderColor: '#4d6600' }}>
-            {update ? t('articles.createEdit.update') : t('articles.createEdit.create')}
+            {update ? t('commonUIelements.update') : t('commonUIelements.create')}
           </Button>
         </Form>
       </Row>

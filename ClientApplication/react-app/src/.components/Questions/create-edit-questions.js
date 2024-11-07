@@ -483,14 +483,14 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                     {question.imageFileName && (
                         <Col>
 
-                            <Button onClick={getQuestionImage}><GrRevert /> {t('questions.createEdit.resetImg')}</Button>
+                            <Button onClick={getQuestionImage}><GrRevert /> {t('commonUIelements.resetImg')}</Button>
                         </Col>
                     )}
 
                     {question.imageFileName && (
                         <Col>
 
-                            <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> {t('questions.createEdit.deleteImg')}</Button>
+                            <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> {t('commonUIelements.deleteImg')}</Button>
                         </Col>
                     )}
 
@@ -530,7 +530,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
 
 
                 <Button className='subjectButtons' variant="success" type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor: '#739900', borderColor: '#4d6600' }}>
-                    {update ? t('questions.createEdit.update') : t('questions.createEdit.create')}
+                    {update ? t('commonUIelements.update') : t('commonUIelements.create')}
                 </Button>
                 </Form>
 </Row>

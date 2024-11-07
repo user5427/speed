@@ -13,7 +13,7 @@ const CreateArticle = () => {
             <ReturnToArticlesButton />
 
             <div className="create-article-page">
-                <h2>{t('createArticlePage.createArticle')}</h2>
+                <h2>{t('articleManagment.createArticle')}</h2>
             </div>
 
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>

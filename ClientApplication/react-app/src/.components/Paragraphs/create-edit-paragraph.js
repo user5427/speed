@@ -427,14 +427,14 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                 {paragraph.imageFileName && (
                         <Col>
 
-                            <Button onClick={getParagraphImage}><GrRevert className="icons" /> {t('paragraphs.createEdit.resetImg')}</Button>
+                            <Button onClick={getParagraphImage}><GrRevert className="icons" /> {t('commonUIelements.resetImg')}</Button>
                         </Col>
                     )}
 
                     {paragraph.imageFileName && (
                         <Col>
 
-                            <Button variant="danger" onClick={deleteParagraphImage}><MdDelete className="icons" /> {t('paragraphs.createEdit.deleteImg')}</Button>
+                            <Button variant="danger" onClick={deleteParagraphImage}><MdDelete className="icons" /> {t('commonUIelements.deleteImg')}</Button>
                         </Col>
                     )}
             </Form>
@@ -442,7 +442,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
 
         <Form validated={validated} onSubmit={handleSave}>
         <Button className='subjectButtons' type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor: '#739900', borderColor: '#4d6600' }}>
-            {update ? t('paragraphs.createEdit.update') : t('paragraphs.createEdit.create')}
+            {update ? t('commonUIelements.update') : t('commonUIelements.create')}
           </Button>
           </Form>
 
