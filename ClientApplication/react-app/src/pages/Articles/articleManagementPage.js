@@ -43,7 +43,7 @@ const ArticleHomePage = () => {
     return (
         <>
             <div className="article-home-page">
-                <h2>{t('articleManagmentPage.articleHomePage')}</h2>
+                <h2>{t('articleManagment.articleHomePage')}</h2>
                 <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                     <Row className='row'>
                         <Col xs={12} md={4}>
@@ -57,7 +57,7 @@ const ArticleHomePage = () => {
                         </Col>
                     </Row>
                 </div>
-                <h2>{t('articleManagmentPage.articleList')}</h2>
+                <h2>{t('articleManagment.articleList')}</h2>
             </div>
 
             <ArticleList 

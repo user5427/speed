@@ -467,7 +467,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
         <Col>
         
         <Form>
-                <Form.Group className="d-flex justify-content-center">
+                <Form.Group className="d-flex justify-content-center"  style={{marginBottom: '20px'}} >
                     <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
                 </Form.Group>
                 <Form.Group className="d-flex justify-content-center" >

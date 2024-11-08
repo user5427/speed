@@ -321,7 +321,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     outsideArticle ? "" :
                         (
                             <Form.Group controlId="formtestTitle" className="input">
-                                <Form.Label>{t('paragraphs.createEdit.deleteImg')}</Form.Label>
+                                <Form.Label>{t('paragraphs.createEdit.articleID')}</Form.Label>
                                 <Form.Control
                                     name={Paragraph.varArticleIdName()}
                                     value={paragraph.articleId}
