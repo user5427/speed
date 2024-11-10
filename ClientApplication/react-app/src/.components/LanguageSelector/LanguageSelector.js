@@ -4,7 +4,7 @@ import { Dropdown } from 'react-bootstrap';
 import { LanguagesConstants } from '../../.constants/MainConstants';
 import "../../styles/languageSelector.css";
 
-const LanguageSelector = () => {
+const LanguageSelector = (props) => {
   const { i18n } = useTranslation();
   const toggleRef = useRef(null);
   const [menuWidth, setMenuWidth] = useState(null);
@@ -20,7 +20,7 @@ const LanguageSelector = () => {
   }, []);
 
   return (
-    <Dropdown className="language-selector">
+    <Dropdown className="language-selector" {...props}>
       <Dropdown.Toggle 
         variant="dark" 
         id="dropdown-basic" 
