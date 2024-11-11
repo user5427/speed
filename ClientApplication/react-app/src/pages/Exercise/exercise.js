@@ -30,6 +30,8 @@ const Exercise = () => {
   const [paragraphs, setParagraphs] = useState([]);
   const [questionsPerParagraph, setQuestionsPerParagraph] = useState([]);
   const [paragraphImageUrl, setParagraphImageUrl] = useState(NoImage);
+  const [questionImageUrl, setQuestionImageUrl] = useState(NoImage);
+
 
 
   const [inputValue, setInputValue] = useState(238); // Track WPM value
@@ -130,6 +132,43 @@ const totalParagraphs = paragraphs.length;
       fetchQuestions();
     }
   }, [paragraphs]);
+  
+  useEffect(() => {
+    let isMounted = true;
+  
+    const fetchQuestionImage = async () => {
+      try {
+        if (currentQuestions.length === 0) {
+          setQuestionImageUrl(NoImage);
+          return;
+        }
+  
+        const question = currentQuestions[0]; // Assuming one question per paragraph
+        const imageURL = await QuestionController.GetImage(question.id);
+  
+        if (isMounted) {
+          if (imageURL) {
+            setQuestionImageUrl(imageURL);
+          } else {
+            setQuestionImageUrl(NoImage); // Or NoImage if you have a placeholder
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching question image:', error);
+        if (isMounted) {
+          setQuestionImageUrl(NoImage); // Or NoImage if you have a placeholder
+        }
+      }
+    };
+  
+    if (showQuestion) {
+      fetchQuestionImage();
+    }
+  
+    return () => {
+      isMounted = false;
+    };
+  }, [showQuestion, currentQuestions]);
   
 
 
@@ -385,6 +424,7 @@ useEffect(() => {
     <QuestionComponent
       question={currentQuestions[0].text}
       options={currentQuestions[0].answerChoices}
+      questionImageUrl={questionImageUrl}
       onSubmit={handleQuestionSubmit}
       currentParagraphIndex={currentParagraphIndex}
     />

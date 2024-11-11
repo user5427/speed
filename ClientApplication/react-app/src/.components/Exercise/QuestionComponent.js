@@ -23,6 +23,7 @@ const shuffleArray = (array) => {
 const QuestionComponent = ({
   question,
   options = [],
+  questionImageUrl,
   onSubmit,
   currentParagraphIndex,
 }) => {
@@ -58,86 +59,101 @@ const QuestionComponent = ({
 
   const { t } = useTranslation();
 
+  
   return (
-    <div className="questionContainer">
-      <Row>
-        <Col>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div className="yellowCircle">{currentParagraphIndex + 1}</div>
-            <h3 style={{ margin: 0 }}>{question}</h3>
+    <div>
+      <Row className="align-items-stretch">
+        <Col xs={12} md={8} className="d-flex flex-column">
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="yellowCircle">{currentParagraphIndex + 1}</div>
+              <h3 style={{ margin: 0 }}>{question}</h3>
+            </div>
+            <Divider
+              variant="middle"
+              style={{
+                margin: '13px 0',
+                backgroundColor: '#666',
+                borderBottomWidth: 3,
+              }}
+            />
+          </div>
+          <div className="flex-grow-1 d-flex flex-column justify-content-center">
+            <Box
+              sx={{
+                width: '100%',
+                bgcolor: '#0e0e13',
+                color: 'white',
+                borderRadius: '8px',
+                padding: '20px',
+                marginBottom: '5px',
+              }}
+            >
+              <Grid container spacing={2}>
+                {shuffledOptions.map(({ optionText, originalIndex }, idx) => (
+                  <Grid item xs={12} sm={6} key={idx}>
+                    <ListItemButton
+                      onClick={() => handleListItemClick(optionText, originalIndex)}
+                      disabled={submitted}
+                      sx={{
+                        bgcolor:
+                          selectedAnswer === optionText
+                            ? '#4d0039 !important'
+                            : '#1f1f2d',
+                        '&:hover': {
+                          bgcolor: '#3f3f5a',
+                        },
+                        color: 'white',
+                        borderRadius: '4px',
+                        width: '100%',
+                      }}
+                    >
+                      <ListItemIcon>
+                        {selectedAnswer === optionText ? (
+                          <RadioButtonCheckedIcon sx={{ color: '#ffccff' }} />
+                        ) : (
+                          <RadioButtonUncheckedIcon sx={{ color: 'white' }} />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={optionText}
+                        primaryTypographyProps={{
+                          style: {
+                            fontFamily: 'Fredoka, sans-serif',
+                            color: 'white',
+                            fontSize: '18px',
+                          },
+                        }}
+                      />
+                    </ListItemButton>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </div>
+          <div>
+            <Button
+              className="buttons purple"
+              size="lg"
+              style={{
+                marginTop: '10px',
+              }}
+              onClick={handleSubmit}
+              disabled={submitted || !selectedAnswer}
+            >
+              {t('exercise.question.submitAnswer')}
+            </Button>
           </div>
         </Col>
+        <Col xs={12} md={4} className="d-flex">
+          <img
+            src={questionImageUrl}
+            alt="Question Illustration"
+            className="img-fluid w-100 h-100"
+            style={{ objectFit: 'cover', borderRadius: '15px' }}
+          />
+        </Col>
       </Row>
-      <Divider
-        variant="middle"
-        style={{
-          margin: '13px 0',
-          backgroundColor: '#666',
-          borderBottomWidth: 3,
-        }}
-      />
-      <Box
-        sx={{
-          width: '100%',
-          bgcolor: '#0e0e13',
-          color: 'white',
-          borderRadius: '8px',
-          padding: '20px',
-          marginBottom: '5px',
-        }}
-      >
-        <Grid container spacing={2}>
-          {shuffledOptions.map(({ optionText, originalIndex }, idx) => (
-            <Grid item xs={12} sm={6} key={idx}>
-              <ListItemButton
-                onClick={() => handleListItemClick(optionText, originalIndex)}
-                disabled={submitted}
-                sx={{
-                  bgcolor:
-                    selectedAnswer === optionText
-                      ? '#4d0039 !important'
-                      : '#1f1f2d',
-                  '&:hover': {
-                    bgcolor: '#3f3f5a',
-                  },
-                  color: 'white',
-                  borderRadius: '4px',
-                  width: '100%',
-                }}
-              >
-                <ListItemIcon>
-                  {selectedAnswer === optionText ? (
-                    <RadioButtonCheckedIcon sx={{ color: '#ffccff' }} />
-                  ) : (
-                    <RadioButtonUncheckedIcon sx={{ color: 'white' }} />
-                  )}
-                </ListItemIcon>
-                <ListItemText
-                  primary={optionText}
-                  primaryTypographyProps={{
-                    style: {
-                      fontFamily: 'Fredoka, sans-serif',
-                      color: 'white',
-                      fontSize: '18px',
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-      <Button
-        className="buttons purple"
-        size="lg"
-        style={{
-          marginTop: '10px',
-        }}
-        onClick={handleSubmit}
-        disabled={submitted || !selectedAnswer}
-      >
-        {t('exercise.question.submitAnswer')}
-      </Button>
     </div>
   );
 };

@@ -31,3 +31,7 @@
     font-size: 1.5rem; /* Make the number larger */
     margin-right: 10px;
 }
+
+.questionContainer{
+    height: 100% !important;
+}
