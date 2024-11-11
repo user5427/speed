@@ -505,10 +505,9 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
 
                     <Row style={{ marginBottom: '15px'}} >
                         <Col xs={12} md={10} >
-                            <Button onClick={() => addEmptyAnswer()}><MdOutlineAdd className='icon'/> {t('questions.createEdit.addAnswer')}</Button>
+                            <Button className="buttons cyan" style={{width:"auto"}}  onClick={() => addEmptyAnswer()}><MdOutlineAdd className='icon'/> {t('questions.createEdit.addAnswer')}</Button>
                         </Col>
                     </Row>
-
                     <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 3}}></Divider>
 
                     {answers.map((answer, index) => (
@@ -529,7 +528,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                 </div>
 
 
-                <Button className='subjectButtons' variant="success" type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor: '#739900', borderColor: '#4d6600' }}>
+                <Button className='buttons teal' type="submit" style={{ marginTop: '10px', width: '100%'}}>
                     {update ? t('commonUIelements.update') : t('commonUIelements.create')}
                 </Button>
                 </Form>

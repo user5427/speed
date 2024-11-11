@@ -441,7 +441,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
             </Col>
 
         <Form validated={validated} onSubmit={handleSave}>
-        <Button className='subjectButtons' type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor: '#739900', borderColor: '#4d6600' }}>
+        <Button className='buttons orange' type="submit" style={{ marginTop: '10px', width: '100%'}}>
             {update ? t('commonUIelements.update') : t('commonUIelements.create')}
           </Button>
           </Form>

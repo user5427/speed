@@ -95,7 +95,7 @@ const EditArticleParagraphQuestion = () => {
                 <h2>{t('editPages.all.editAll')}</h2>
             </div>
 
-            <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
+            <div className='mainContainer' style={{ backgroundColor: "red !important", borderStyle:"dashed", borderWidth:"thick", borderColor:"var(--color-cyan-dark)"}}>
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={4}  className="column-with-divider">
                         {
@@ -164,27 +164,27 @@ const EditArticleParagraphQuestion = () => {
                     <Col xs={12} md={4}>
                         {
                             articleId ? (
-                                <Button onClick={resetArticleId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('editPages.all.resetArticle')}</Button>
+                                <Button onClick={resetArticleId} className="buttons lightBlue" style={{width:"auto"}}>{t('editPages.all.resetArticle')}</Button>
                             ) : (
-                                <Button onClick={resetArticleId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>{t('editPages.all.resetArticle')}</Button>
+                                <Button onClick={resetArticleId} className="buttons lightBlue" style={{width:"auto"}} disabled>{t('editPages.all.resetArticle')}</Button>
                             )
                         }
                     </Col>
                     <Col xs={12} md={4}>
                         {
                             paragraphId ? (
-                                <Button onClick={resetParagraphId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('editPages.all.resetParagraph')}</Button>
+                                <Button onClick={resetParagraphId} className="buttons lightBlue" style={{width:"auto"}}>{t('editPages.all.resetParagraph')}</Button>
                             ) : (
-                                <Button onClick={resetParagraphId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>{t('editPages.all.resetParagraph')}</Button>
+                                <Button onClick={resetParagraphId} className="buttons lightBlue" style={{width:"auto"}} disabled>{t('editPages.all.resetParagraph')}</Button>
                             )
                         }
                     </Col>
                     <Col xs={12} md={4}>
                         {
                             questionId ? (
-                                <Button onClick={resetQuestionId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('editPages.all.resetQuestion')}</Button>
+                                <Button onClick={resetQuestionId} className="buttons lightBlue" style={{width:"auto"}}>{t('editPages.all.resetQuestion')}</Button>
                             ) : (
-                                <Button onClick={resetQuestionId} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>{t('editPages.all.resetQuestion')}</Button>
+                                <Button onClick={resetQuestionId} className="buttons lightBlue" style={{width:"auto"}} disabled>{t('editPages.all.resetQuestion')}</Button>
                             )
                         }
                     </Col>

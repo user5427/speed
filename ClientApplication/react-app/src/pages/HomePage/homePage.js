@@ -32,13 +32,13 @@ const Landing = () => {
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                 <Row className='row'>
                     <Col xs={12} md={3}>
-                        <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#9229A4', borderColor: '#9229A4' }} onClick={redirectToCategories}><BiSolidCategory className='icon'/> {t('homepage.goToCategories')}</Button>
+                        <Button className='buttons purple' size="lg" onClick={redirectToCategories}><BiSolidCategory className='icon'/> {t('homepage.goToCategories')}</Button>
                     </Col>
                     <Col xs={12} md={3}>
-                        <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#6E29A4', borderColor: '#6E29A4' }} onClick={redirectToArticles}><MdArticle className='icon'/> {t('homepage.goToArticles')}</Button>
+                        <Button className='buttons deepPurple' size="lg" onClick={redirectToArticles}><MdArticle className='icon'/> {t('homepage.goToArticles')}</Button>
                     </Col>
                     <Col xs={12} md={3}>
-                        <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#0086b3', borderColor: '#006080' }} onClick={redirectToExercise}><FaBookReader className='icon'/> {t('homepage.goToExercise')}</Button>
+                        <Button className='buttons lightBlue' size="lg" onClick={redirectToExercise}><FaBookReader className='icon'/> {t('homepage.goToExercise')}</Button>
                     </Col>
                 </Row>
             </div>

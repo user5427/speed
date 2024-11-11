@@ -16,10 +16,10 @@ const CreateArticle = () => {
                 <h2>{t('articleManagment.createArticle')}</h2>
             </div>
 
-            <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
+            <div className='mainContainer' style={{ backgroundColor: "red !important", borderStyle:"dashed", borderWidth:"thick", borderColor:"var(--color-deepPurple-dark)"}}>
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={6}>
-                        <CreateEditArticle />
+                        <CreateEditArticle/>
                     </Col>
                 </Row>
             </div>

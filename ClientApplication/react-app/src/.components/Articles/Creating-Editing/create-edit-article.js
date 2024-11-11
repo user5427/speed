@@ -233,6 +233,7 @@ const EditArticle = ({
 
   return (
     <>
+    <div style={{borderColor:"red", borderWidth:"10px"}}>
       <Row>
         <Col>
           <Form validated={validated} onSubmit={handleSave}>
@@ -396,12 +397,14 @@ const EditArticle = ({
           onSubmit={handleSave}
           style={{  }}
         >
-          <Button className='subjectButtons' type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor: '#739900', borderColor: '#4d6600' }}>
+          <Button className='buttons deepPurple' type="submit" style={{ marginTop: '10px', width: '100%'}}>
             {update ? t('commonUIelements.update') : t('commonUIelements.create')}
           </Button>
         </Form>
       </Row>
+      </div>
     </>
+    
   );
 };
 

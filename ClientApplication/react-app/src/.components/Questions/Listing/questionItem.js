@@ -10,7 +10,7 @@ const QuestionItem = (props) => {
         <>
             <div className="article-item"> {/* Apply the article-item class */}
                 <Row className="row">
-                    <Col xs={12} md={10} className="col col-12 col-md-10">
+                    <Col xs={12} md={10} className="col col-12 col-md-10" style={{marginBottom:"15px"}}>
                         <p className="wrap-text">{props.data.text}</p> {/* Apply heading and bold */}
                     </Col>
                     {/* <Col xs={12} md={2} className="col col-12 col-md-2"> */}
@@ -23,7 +23,7 @@ const QuestionItem = (props) => {
                     {settings && settings.showSelectButton && (
                         <Row className="row">
                             <Col xs={12} md={2} className="col col-12 col-md-2">
-                                <Button onClick={selectThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Select</Button> {/* Apply a button class */}
+                                <Button onClick={selectThis} className='buttons amber' style={{wordWrap:"normal", width:"auto"}}>Select</Button> {/* Apply a button class */}
                             </Col>
                         </Row>
                     )}

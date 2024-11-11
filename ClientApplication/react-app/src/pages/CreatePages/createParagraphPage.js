@@ -18,7 +18,7 @@ const CreateParagraph = () => {
                 <h2>{t('articleManagment.createParagraph')}</h2>
             </div>
 
-            <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
+            <div className='mainContainer' style={{ backgroundColor: "red !important", borderStyle:"dashed", borderWidth:"thick", borderColor:"var(--color-orange-dark)"}}>
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={6}>
                         <CreateEditParagraph />

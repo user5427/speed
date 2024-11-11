@@ -13,13 +13,11 @@
     text-align: center;
 }
 
-
-
 .highlight {
     /* background: linear-gradient(90deg, #20cafd, #ed24f8);
     -webkit-background-clip: text; */
     /* color: transparent; */
-    color:#ff69e1;
+    color:var(--color-purple-light);
     font-size: 30px;
     margin-bottom: 20px;
     text-align: center;

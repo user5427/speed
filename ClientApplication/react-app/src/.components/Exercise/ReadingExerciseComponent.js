@@ -75,9 +75,8 @@ const ReadingExerciseComponent = ({
       <Row style={{ marginTop: '18px', marginBottom: '0px' }}>
         <Col xs={12} md={2}>
           <Button
-            className="subjectButtons"
+            className="buttons lime"
             size="lg"
-            style={{ backgroundColor: '#739900', borderColor: '#608000' }}
             onClick={handleStart}
             disabled={started}
           >
@@ -117,9 +116,8 @@ const ReadingExerciseComponent = ({
 
         <Col>
           <Button
-            className="subjectButtons"
+            className="buttons orange"
             size="lg"
-            style={{ backgroundColor: '#e67300', borderColor: '#994d00' }}
             onClick={handleShowQuestion}
             disabled={!finished || questionButtonClicked}
           >

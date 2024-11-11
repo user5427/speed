@@ -128,12 +128,10 @@ const QuestionComponent = ({
         </Grid>
       </Box>
       <Button
-        className="subjectButtons"
+        className="buttons purple"
         size="lg"
         style={{
           marginTop: '10px',
-          backgroundColor: '#862d86',
-          borderColor: '#602060',
         }}
         onClick={handleSubmit}
         disabled={submitted || !selectedAnswer}

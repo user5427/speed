@@ -22,9 +22,10 @@ const ArticleItem = (props) => {
                 </Row>
 
                 <div style={{ display: 'flex', gap: '10px' }}> {/* Add gap between buttons */}
+
                     {settings && settings.showSelectButton && (
-                        <div className='editButtons'> {/* Flex for each button container */}
-                            <Button onClick={selectThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>
+                        <div> {/* Flex for each button container */}
+                            <Button onClick={selectThis} className='buttons amber'>
                                 {t('commonUIelements.select')}
                             </Button>
                         </div>
@@ -32,7 +33,7 @@ const ArticleItem = (props) => {
 
                     {settings && settings.showDeleteButton && (
                         <div>
-                            <Button onClick={deleteThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>
+                            <Button onClick={deleteThis} className='buttons red'>
                                 {t('commonUIelements.delete')}
                             </Button>
                         </div>
@@ -40,7 +41,7 @@ const ArticleItem = (props) => {
 
                     {settings && settings.showEditButton && (
                         <div>
-                            <Button onClick={editThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>
+                            <Button onClick={editThis} className='buttons lightBlue'>
                                 <MdModeEdit className="icons" /> {t('commonUIelements.edit')}
                             </Button>
                         </div>
@@ -48,7 +49,7 @@ const ArticleItem = (props) => {
 
                     {settings && settings.showPlayButton && (
                         <div>
-                            <Button onClick={playThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>
+                            <Button onClick={playThis} className='buttons yellow'>
                                 <FaBookOpenReader className="icons" /> {t('articles.item.read')}
                             </Button>
                         </div>

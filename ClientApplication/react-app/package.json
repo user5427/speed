@@ -3,11 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
     "@fontsource/fredoka": "^5.1.0",
     "@mui/icons-material": "^6.1.5",
-    "@mui/material": "^6.1.5",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.3",
     "country-flag-icons": "^1.5.13",
@@ -30,10 +27,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage",
     "eject": "react-scripts eject"
   },
-
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
