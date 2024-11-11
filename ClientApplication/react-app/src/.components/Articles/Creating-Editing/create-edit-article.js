@@ -375,13 +375,13 @@ const EditArticle = ({
               <>
                 <Button
                   onClick={getArticleImage}
-                  className="mb-2"
-                  style={{ fontSize: '1rem', width: '100%' }}
+                  className='buttons blue'
+                  style={{ fontSize: '1rem', width: '100%', marginBottom: '10px' }}
                 >
                   <GrRevert /> {t('commonUIelements.resetImg')}
                 </Button>
                 <Button
-                  variant="danger"
+                  className='buttons pink'
                   onClick={deleteArticleImage}
                   style={{ fontSize: '1rem', width: '100%' }}
                 >

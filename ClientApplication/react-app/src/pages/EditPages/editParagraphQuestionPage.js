@@ -116,9 +116,9 @@ const EditParagraphQuestion = () => {
                     <Col xs={12} md={4}>
                         {
                             questionId ? (
-                                <Button onClick={handleResetQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('editPages.paragraphs.resetQuest')}</Button>
+                                <Button onClick={handleResetQuestion} className='buttons blue'>{t('editPages.paragraphs.resetQuest')}</Button>
                             ) : (
-                                <Button onClick={handleResetQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>{t('editPages.paragraphs.resetQuest')}</Button>
+                                <Button onClick={handleResetQuestion} className='buttons blue' disabled>{t('editPages.paragraphs.resetQuest')}</Button>
                             )
                         }
                     </Col>

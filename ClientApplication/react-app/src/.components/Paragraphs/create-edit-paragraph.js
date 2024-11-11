@@ -427,14 +427,14 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                 {paragraph.imageFileName && (
                         <Col>
 
-                            <Button onClick={getParagraphImage}><GrRevert className="icons" /> {t('commonUIelements.resetImg')}</Button>
+                            <Button onClick={getParagraphImage} className='buttons blue' style={{marginBottom:'10px'}}><GrRevert className="icons" /> {t('commonUIelements.resetImg')}</Button>
                         </Col>
                     )}
 
                     {paragraph.imageFileName && (
                         <Col>
 
-                            <Button variant="danger" onClick={deleteParagraphImage}><MdDelete className="icons" /> {t('commonUIelements.deleteImg')}</Button>
+                            <Button className='buttons pink' onClick={deleteParagraphImage}><MdDelete className="icons" /> {t('commonUIelements.deleteImg')}</Button>
                         </Col>
                     )}
             </Form>

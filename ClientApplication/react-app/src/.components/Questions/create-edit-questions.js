@@ -483,14 +483,14 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                     {question.imageFileName && (
                         <Col>
 
-                            <Button onClick={getQuestionImage}><GrRevert /> {t('commonUIelements.resetImg')}</Button>
+                            <Button className="buttons blue" onClick={getQuestionImage} style={{marginBottom:'10px'}}><GrRevert className='icons'/> {t('commonUIelements.resetImg')}</Button>
                         </Col>
                     )}
 
                     {question.imageFileName && (
                         <Col>
 
-                            <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> {t('commonUIelements.deleteImg')}</Button>
+                            <Button className="buttons pink" onClick={deleteQuestionImage}><MdDelete className='icons'/> {t('commonUIelements.deleteImg')}</Button>
                         </Col>
                     )}
 
