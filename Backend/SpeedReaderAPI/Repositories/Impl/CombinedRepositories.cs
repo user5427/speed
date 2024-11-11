@@ -7,7 +7,8 @@ public class CombinedRepositories : ICombinedRepository {
     public readonly IDefaultRepository<Article> Article;
     public readonly IDefaultRepository<Paragraph> Paragraph;
     public readonly IDefaultRepository<Question> Question;
-    
+    public readonly IDefaultRepository<Category> Category;
+
     public CombinedRepositories(ApplicationContext context)
     {
         _context = context;

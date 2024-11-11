@@ -8,6 +8,4 @@ public record CategoryCreateRequest
         MinimumLength = ValidationConstants.MinTitleLength,
         ErrorMessage = "Title must be between {2} and {1} characters.")]
     string Title
-
-    
 );
