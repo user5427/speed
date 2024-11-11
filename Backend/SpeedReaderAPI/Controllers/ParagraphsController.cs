@@ -81,7 +81,7 @@ public class ParagraphsController : ControllerBase
     [HttpGet("count/")]
     public IActionResult GetParagraphCount()
     {
-        int count = _paragraphService.GetCount();
+        long count = _paragraphService.GetCount();
         return Ok(count);
     }
 }

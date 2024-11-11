@@ -80,7 +80,7 @@ public class QuestionsController : ControllerBase
     [HttpGet("count/")]
     public IActionResult GetQuestionCount()
     {
-        int count = _questionService.GetCount();
+        long count = _questionService.GetCount();
         return Ok(count);
     }
 }
