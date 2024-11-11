@@ -10,7 +10,7 @@ public class DbQuestionRepository : IDefaultRepository<Question>
         _context = context;
     }
 
-    public Question? FindById(int id) => _context.Question.FirstOrDefault(q => q.Id == id);
+    public Question? FindById(int? id) => _context.Question.FirstOrDefault(q => q.Id == id);
 
     public void Add(Question question) => _context.Question.Add(question);
 

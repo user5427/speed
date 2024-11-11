@@ -11,7 +11,7 @@ public class DbArticleRepository : IDefaultRepository<Article>
     }
     public long Count() => _context.Article.Count();
 
-    public Article? FindById(int id) => _context.Article.FirstOrDefault(a => a.Id == id);
+    public Article? FindById(int? id) => _context.Article.FirstOrDefault(a => a.Id == id);
 
 
     public void Add(Article article) => _context.Article.Add(article);

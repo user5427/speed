@@ -6,7 +6,7 @@ using SpeedReaderAPI.Constants;
 public record QuestionCreateRequest
 (
     [Required(ErrorMessage = "Paragraph id is required.")]
-    int ParagraphId,
+    int? ParagraphId,
     [Required(ErrorMessage = "Question is required.")]
     [StringLength(ValidationConstants.MaxQuestionTextLength,
                 MinimumLength = ValidationConstants.MinQuestionTextLength,
