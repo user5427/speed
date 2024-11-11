@@ -119,6 +119,8 @@ public class CategoryService : ICategoryService
         {
             categoryFound.Title = request.Title;
         }
+        throw new NotImplementedException();
+
     }
 
     public Task<CategoryResponse> UploadImage(int id, ImageUploadRequest request)
