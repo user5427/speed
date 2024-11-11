@@ -11,7 +11,7 @@ public class DbParagraphRepository : IDefaultRepository<Paragraph>
     }
     public long Count() => _context.Paragraph.Count();
 
-    public Paragraph? FindById(int id) => _context.Paragraph.FirstOrDefault(p => p.Id == id);
+    public Paragraph? FindById(int? id) => _context.Paragraph.FirstOrDefault(p => p.Id == id);
 
     public void Add(Paragraph paragraph) => _context.Paragraph.Add(paragraph);
 

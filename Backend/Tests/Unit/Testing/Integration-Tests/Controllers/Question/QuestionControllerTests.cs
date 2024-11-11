@@ -189,5 +189,22 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
         Assert.Empty(questions.Items);
     }
 
+    [Fact]
+    public async Task CreateQuestionNullParagraph_InavlidData_ReturnsBadRequest()
+    {
+        var request = new QuestionCreateRequest(
+            QuestionText: "Test Content",
+            ParagraphId: null,
+            AnswerChoices: new string[] { "help", "C# struggle", "haskell pain" },
+            CorrectAnswerIndex: 1
+        );
+
+        // Act
+        var response = await _client.PostAsJsonAsync("/api/questions", request);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode); // Bad Request
+    }
+
     
 }

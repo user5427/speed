@@ -179,5 +179,19 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
         Assert.Empty(paragraphPage.Items);
     }
 
+    [Fact]
+    public async Task CreateParagraphNullArticle_InavlidData_ReturnsBadRequest()
+    {
+        var request = new ParagraphCreateRequest(
+            Title: "Test Paragraph",
+            Text: "Test Content",
+            ArticleId: null
+        );
+
+        // Act
+        var response = await _client.PostAsJsonAsync("/api/paragraphs", request);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
 
 }
