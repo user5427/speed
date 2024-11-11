@@ -1,3 +1,69 @@
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Category\Requests\CategoryCreateRequest.cs
+FN:9,System.String CategoryCreateRequest::get_Title()
+FNDA:0,System.String CategoryCreateRequest::get_Title()
+DA:10,0
+FN:3,System.Void CategoryCreateRequest::.ctor(System.String)
+FNDA:0,System.Void CategoryCreateRequest::.ctor(System.String)
+DA:4,0
+DA:5,0
+DA:6,0
+DA:7,0
+DA:8,0
+DA:9,0
+DA:11,0
+DA:12,0
+DA:13,0
+LF:10
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Category\Requests\CategoryUpdateRequest.cs
+FN:8,System.String CategoryUpdateRequest::get_Title()
+FNDA:0,System.String CategoryUpdateRequest::get_Title()
+DA:9,0
+FN:3,System.Void CategoryUpdateRequest::.ctor(System.String)
+FNDA:0,System.Void CategoryUpdateRequest::.ctor(System.String)
+DA:4,0
+DA:5,0
+DA:6,0
+DA:7,0
+DA:8,0
+DA:10,0
+LF:7
+LH:0
+BRF:0
+BRH:0
+FNF:2
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\Category\Responses\CategoryResponse.cs
+FN:2,System.Int32 CategoryResponse::get_Id()
+FNDA:0,System.Int32 CategoryResponse::get_Id()
+DA:3,0
+FN:3,System.String CategoryResponse::get_Title()
+FNDA:0,System.String CategoryResponse::get_Title()
+DA:4,0
+FN:4,System.Collections.Generic.List`1<System.Int32> CategoryResponse::get_ArticleIds()
+FNDA:0,System.Collections.Generic.List`1<System.Int32> CategoryResponse::get_ArticleIds()
+DA:5,0
+FN:5,System.String CategoryResponse::get_ImageFileName()
+FNDA:0,System.String CategoryResponse::get_ImageFileName()
+DA:6,0
+FN:0,System.Void CategoryResponse::.ctor(System.Int32,System.String,System.Collections.Generic.List`1<System.Int32>,System.String)
+FNDA:0,System.Void CategoryResponse::.ctor(System.Int32,System.String,System.Collections.Generic.List`1<System.Int32>,System.String)
+DA:1,0
+DA:2,0
+DA:7,0
+LF:7
+LH:0
+BRF:0
+BRH:0
+FNF:5
+FNH:0
+end_of_record
 SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\DTOs\PageResponse.cs
 FN:0,System.Int64 PageResponse`1::get_Count()
 FNDA:0,System.Int64 PageResponse`1::get_Count()
@@ -372,6 +438,50 @@ LH:0
 BRF:38
 BRH:0
 FNF:11
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Services\Impl\CategoryService.cs
+FN:8,CategoryResponse SpeedReaderAPI.Services.Impl.CategoryService::CreateCategory(CategoryCreateRequest)
+FNDA:0,CategoryResponse SpeedReaderAPI.Services.Impl.CategoryService::CreateCategory(CategoryCreateRequest)
+DA:9,0
+DA:10,0
+FN:13,System.Void SpeedReaderAPI.Services.Impl.CategoryService::DeleteCategory(System.Int32)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.CategoryService::DeleteCategory(System.Int32)
+DA:14,0
+DA:15,0
+FN:18,System.Void SpeedReaderAPI.Services.Impl.CategoryService::DeleteImage(System.Int32)
+FNDA:0,System.Void SpeedReaderAPI.Services.Impl.CategoryService::DeleteImage(System.Int32)
+DA:19,0
+DA:20,0
+FN:23,CategoryResponse SpeedReaderAPI.Services.Impl.CategoryService::GetCategory(System.Int32)
+FNDA:0,CategoryResponse SpeedReaderAPI.Services.Impl.CategoryService::GetCategory(System.Int32)
+DA:24,0
+DA:25,0
+FN:28,System.Int64 SpeedReaderAPI.Services.Impl.CategoryService::GetCount()
+FNDA:0,System.Int64 SpeedReaderAPI.Services.Impl.CategoryService::GetCount()
+DA:29,0
+DA:30,0
+FN:33,SpeedReaderAPI.Entities.Image SpeedReaderAPI.Services.Impl.CategoryService::GetImage(System.Int32)
+FNDA:0,SpeedReaderAPI.Entities.Image SpeedReaderAPI.Services.Impl.CategoryService::GetImage(System.Int32)
+DA:34,0
+DA:35,0
+FN:38,PageResponse`1<CategoryResponse> SpeedReaderAPI.Services.Impl.CategoryService::SearchCategories(SpeedReaderAPI.DTOs.QueryParameters)
+FNDA:0,PageResponse`1<CategoryResponse> SpeedReaderAPI.Services.Impl.CategoryService::SearchCategories(SpeedReaderAPI.DTOs.QueryParameters)
+DA:39,0
+DA:40,0
+FN:43,CategoryResponse SpeedReaderAPI.Services.Impl.CategoryService::UpdateCategory(System.Int32,CategoryUpdateRequest)
+FNDA:0,CategoryResponse SpeedReaderAPI.Services.Impl.CategoryService::UpdateCategory(System.Int32,CategoryUpdateRequest)
+DA:44,0
+DA:45,0
+FN:48,System.Threading.Tasks.Task`1<CategoryResponse> SpeedReaderAPI.Services.Impl.CategoryService::UploadImage(System.Int32,SpeedReaderAPI.DTOs.ImageUploadRequest)
+FNDA:0,System.Threading.Tasks.Task`1<CategoryResponse> SpeedReaderAPI.Services.Impl.CategoryService::UploadImage(System.Int32,SpeedReaderAPI.DTOs.ImageUploadRequest)
+DA:49,0
+DA:50,0
+LF:18
+LH:0
+BRF:0
+BRH:0
+FNF:9
 FNH:0
 end_of_record
 SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Services\Impl\ImageService.cs
@@ -4143,6 +4253,21 @@ LH:0
 BRF:0
 BRH:0
 FNF:11
+FNH:0
+end_of_record
+SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Controllers\CategoryController.cs
+FN:11,System.Void SpeedReaderAPI.Controllers.CategoryController::.ctor(Microsoft.Extensions.Logging.ILogger`1<SpeedReaderAPI.Controllers.CategoryController>,SpeedReaderAPI.ICategoryService)
+FNDA:0,System.Void SpeedReaderAPI.Controllers.CategoryController::.ctor(Microsoft.Extensions.Logging.ILogger`1<SpeedReaderAPI.Controllers.CategoryController>,SpeedReaderAPI.ICategoryService)
+DA:12,0
+DA:13,0
+DA:14,0
+DA:15,0
+DA:16,0
+LF:5
+LH:0
+BRF:0
+BRH:0
+FNF:1
 FNH:0
 end_of_record
 SF:c:\Users\topto\OneDrive - Vilnius University\Documents\Studijos\3 semestras\Software engineering\speed\Backend\SpeedReaderAPI\Controllers\ParagraphsController.cs
