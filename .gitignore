@@ -488,3 +488,6 @@ $RECYCLE.BIN/
 /Backend/SpeedReaderAPI/appsettings.Development.json
 /Backend/SpeedReaderAPI/uploaded
 Backend/SpeedReaderAPI/dbCons.txt
+
+# Code coverage
+lcov.info
