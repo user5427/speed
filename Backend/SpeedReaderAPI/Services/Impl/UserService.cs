@@ -11,7 +11,7 @@ using System.Security.Claims;
 public class UserService : IUserService
 {
     
-    private readonly ApplicationContext _context;
+    private readonly CombinedRepositories _context;
     private readonly ITokenService _tokenService;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IMapper _mapper;
@@ -20,13 +20,13 @@ public class UserService : IUserService
         IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
-        _context = context;
+        _context = new CombinedRepositories(context);
         _mapper = mapper;
         _tokenService = tokenService;
     }
     public LoginResponse Login(LoginRequest request)
     {
-        var user = _context.User.Where(x => request.Email == x.Email).FirstOrDefault();
+        var user = _context.User.FindByEmail(request.Email);
 
         if (user == null)
         {
@@ -49,7 +49,7 @@ public class UserService : IUserService
     {
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-        if (_context.User.Where(u => u.Email == request.Email).FirstOrDefault() != null) {
+        if (_context.User.FindByEmail(request.Email) != null) {
             throw new DuplicateEmailException();
         }
 
@@ -83,7 +83,7 @@ public class UserService : IUserService
             throw new InvalidOperationException("User ID claim is not a valid long.");
         }
         
-        User? user = _context.User.Where(u => u.Id == userId).FirstOrDefault();
+        User? user = _context.User.FindById(userId);
         return user;
     }
 }

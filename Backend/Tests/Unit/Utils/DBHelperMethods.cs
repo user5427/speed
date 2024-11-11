@@ -12,6 +12,28 @@ public class DBHelperMethods
         AddQuestion(context, context.Paragraph.Last().Id);
     }
 
+    public static void SeedUserData(ApplicationContext context)
+    {
+        AddUser(context);
+    }
+
+    public static void AddUser(ApplicationContext context, string username = "TestUser", string email = "email@email.com", string Password = "123456", Role role = Role.ADMIN)
+    {
+        context.User.Add(new User { Username = username, Email = email, Password = Password, Role = role });
+        context.SaveChanges();
+    }
+
+    public static User getUser(ApplicationContext context)
+    {
+        var usr = context.User.FirstOrDefault();
+        if (usr == null)
+        {
+            throw new Exception("User is null. FAILED SEEDING DATA");
+        }
+        return usr;
+    }
+
+
     public static void AddArticle(ApplicationContext context, string title = "Sample Article", string categoryTitle = "Sample Category")
     {
         context.Article.Add(new Article { Title = title, CategoryTitle = categoryTitle });
