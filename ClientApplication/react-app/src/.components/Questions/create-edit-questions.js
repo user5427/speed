@@ -15,6 +15,9 @@ import { GrRevert } from "react-icons/gr";
 
 import { useTranslation } from 'react-i18next'; 
 
+
+import { MdOutlineAdd } from "react-icons/md";
+
 const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId = undefined, sendCreatedId = undefined, redirect = true, sendUpdate = undefined }) => {
     
     const { t } = useTranslation();
@@ -380,36 +383,9 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
 
     return (
         <>
-            <Form>
-                <Form.Group className="d-flex justify-content-center">
-                    <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
-                </Form.Group>
-                <Form.Group className="d-flex justify-content-center">
-                    <div>
-                        <input
-                            className="form-control darkInput"
-                            type="file"
-                            onChange={handleFileUpload}
-                        />
-                    </div>
-                </Form.Group>
-                <Row>
-                    {question.imageFileName && (
-                        <Col>
-
-                            <Button onClick={getQuestionImage}><GrRevert /> {t('questions.createEdit.resetImg')}</Button>
-                        </Col>
-                    )}
-
-                    {question.imageFileName && (
-                        <Col>
-
-                            <Button variant="danger" onClick={deleteQuestionImage}><MdDelete /> {t('questions.createEdit.deleteImg')}</Button>
-                        </Col>
-                    )}
-
-                </Row>
-            </Form>
+<Row>
+    <Col>
+            <Form validated={validated} onSubmit={handleSave}>
 
             {outsideParagraph ? "" :
                 (
@@ -419,11 +395,10 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                     />
                 )}
 
-            <Form validated={validated} onSubmit={handleSave}>
                 {
                     outsideParagraph ? "" :
                         (
-                            <Form.Group controlId="formtestTitle">
+                            <Form.Group controlId="formtestTitle" className="input">
                                 <Form.Label>{t('questions.createEdit.paragraphID')}</Form.Label>
                                 <Form.Control
                                     name={Question.varParagraphIdName()}
@@ -442,7 +417,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                         )
                 }
 
-                <Form.Group controlId="formtestTitle">
+                <Form.Group controlId="formtestTitle" className="input">
                     <Form.Label>{t('questions.createEdit.questionText')}</Form.Label>
                     <Form.Control
                         name={Question.varTextName()}
@@ -464,37 +439,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                 </Form.Group>
 
 
-                <div>
-                    <Row style={{ marginBottom: '10px', marginTop: '20px' }} >
-                        <Col xs={12} md={10} >
-                            <Button onClick={() => addEmptyAnswer()}>{t('questions.createEdit.addAnswer')}</Button>
-                        </Col>
-                    </Row>
 
-                    <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 2 }}></Divider>
-
-                    {answers.map((answer, index) => (
-                        <div key={answer.index}>
-                            <AnswerItem
-                                index={index}
-                                articleText={answer.text}
-                                sendBackText={sendBackText}
-                                deleteAnswer={deleteAnswer}
-                                setCorrect={setCorrect}
-                                correctAnswerIndex={correctAnswerIndex}
-                            />
-                            <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 2 }}></Divider>
-
-                        </div>
-                    ))}
-                    <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 2, marginBottom: '20px' }}></Divider>
-
-                </div>
-
-
-                <div>
-                    <Button variant="success" type="submit" >{update ? t('questions.createEdit.update') : t('questions.createEdit.create')}</Button>
-                </div>
             </Form>
 
             {/* Error Popup */}
@@ -517,6 +462,77 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                 onClose={closeDeleteModal}
                 onDelete={deleteConfirmed}
             />
+        </Col>
+
+        <Col>
+        
+        <Form>
+                <Form.Group className="d-flex justify-content-center"  style={{marginBottom: '20px'}} >
+                    <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
+                </Form.Group>
+                <Form.Group className="d-flex justify-content-center" >
+                    <div>
+                        <input
+                            className="form-control darkInput"
+                            type="file"
+                            onChange={handleFileUpload}
+                        />
+                    </div>
+                </Form.Group>
+                <Row>
+                    {question.imageFileName && (
+                        <Col>
+
+                            <Button className="buttons blue" onClick={getQuestionImage} style={{marginBottom:'10px'}}><GrRevert className='icons'/> {t('commonUIelements.resetImg')}</Button>
+                        </Col>
+                    )}
+
+                    {question.imageFileName && (
+                        <Col>
+
+                            <Button className="buttons pink" onClick={deleteQuestionImage}><MdDelete className='icons'/> {t('commonUIelements.deleteImg')}</Button>
+                        </Col>
+                    )}
+
+                </Row>
+            </Form>
+        </Col>
+</Row>
+<Row>
+<Form validated={validated} onSubmit={handleSave}>
+<div>
+<Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 3, marginTop:'10px', marginBottom: '15px' }}></Divider>
+
+                    <Row style={{ marginBottom: '15px'}} >
+                        <Col xs={12} md={10} >
+                            <Button className="buttons cyan" style={{width:"auto"}}  onClick={() => addEmptyAnswer()}><MdOutlineAdd className='icon'/> {t('questions.createEdit.addAnswer')}</Button>
+                        </Col>
+                    </Row>
+                    <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 3}}></Divider>
+
+                    {answers.map((answer, index) => (
+                        <div key={answer.index}>
+                            <AnswerItem
+                                index={index}
+                                articleText={answer.text}
+                                sendBackText={sendBackText}
+                                deleteAnswer={deleteAnswer}
+                                setCorrect={setCorrect}
+                                correctAnswerIndex={correctAnswerIndex}
+                            />
+                            <Divider style={{ backgroundColor: '#ccc', borderBottomWidth: 3 }}></Divider>
+
+                        </div>
+                    ))}
+                    <Divider style={{marginBottom: '5px', borderBottomWidth: 3}}></Divider>
+                </div>
+
+
+                <Button className='buttons teal' type="submit" style={{ marginTop: '10px', width: '100%'}}>
+                    {update ? t('commonUIelements.update') : t('commonUIelements.create')}
+                </Button>
+                </Form>
+</Row>
         </>
     )
 }

@@ -52,7 +52,7 @@ const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
     return (
         <>
             <Form NoValidate>
-                <Form.Group controlId="searchBar">
+                <Form.Group controlId="searchBar" className="input">
                     <Form.Label>{t('paragraphs.search.searchPar')}</Form.Label>
                     <Form.Control
                         value={paragraphFromOutside && paragraphFromOutside.title || searchValue}

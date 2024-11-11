@@ -299,33 +299,11 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
 
     return (
         <>
-            <Form>
-                <Form.Group className="d-flex justify-content-center">
-                    <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
-                </Form.Group>
-                <Form.Group className="d-flex justify-content-center">
-                    <div>
-                        <input
-                            className="form-control darkInput"
-                            type="file"
-                            onChange={handleFileUpload}
-                        />
-                    </div>
-                </Form.Group>
-                {paragraph.imageFileName && (
-                        <Col>
+        <Row>
 
-                            <Button onClick={getParagraphImage}><GrRevert /> {t('paragraphs.createEdit.resetImg')}</Button>
-                        </Col>
-                    )}
 
-                    {paragraph.imageFileName && (
-                        <Col>
 
-                            <Button variant="danger" onClick={deleteParagraphImage}><MdDelete /> {t('paragraphs.createEdit.deleteImg')}</Button>
-                        </Col>
-                    )}
-            </Form>
+            <Col>
 
             {
                 outsideArticle ? "" :
@@ -338,13 +316,12 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
             }
 
 
-
             <Form validated={validated} onSubmit={handleSave}>
                 {
                     outsideArticle ? "" :
                         (
-                            <Form.Group controlId="formtestTitle">
-                                <Form.Label>{t('paragraphs.createEdit.deleteImg')}</Form.Label>
+                            <Form.Group controlId="formtestTitle" className="input">
+                                <Form.Label>{t('paragraphs.createEdit.articleID')}</Form.Label>
                                 <Form.Control
                                     name={Paragraph.varArticleIdName()}
                                     value={paragraph.articleId}
@@ -363,7 +340,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                 }
 
 
-                <Form.Group controlId="formtestTitle">
+                <Form.Group controlId="formtestTitle" className="input">
                     <Form.Label>{t('paragraphs.createEdit.parTitle')}</Form.Label>
                     <Form.Control
                         name={Paragraph.varTitleName()}
@@ -382,7 +359,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group controlId="formtestText">
+                <Form.Group controlId="formtestText" className="input">
                     <Form.Label>{t('paragraphs.createEdit.paragraphText')}</Form.Label>
                     <Form.Control
                         name={Paragraph.varTextName()}
@@ -403,10 +380,6 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant="success" type="submit">{update ? t('paragraphs.createEdit.update') : t('paragraphs.createEdit.create')}</Button>
-                {/* {update ?
-                    <Button onClick={resetUpdating}>Reset</Button> : ""
-                } */}
             </Form>
 
             {/* Error Popup */}
@@ -429,6 +402,51 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
                 onClose={closeDeleteModal}
                 onDelete={deleteConfirmed}
             />
+
+        </Col>
+
+        <Col>
+            <Form>
+            <Form.Group
+              className="d-flex justify-content-center"
+              style={{ marginBottom: '20px' }}
+            >
+              <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
+            </Form.Group>
+            <Form.Group
+              className="d-flex justify-content-center"
+              style={{ marginBottom: '20px' }}
+            >
+              <input
+                className="form-control darkInput"
+                type="file"
+                onChange={handleFileUpload}
+              />
+            </Form.Group>
+
+                {paragraph.imageFileName && (
+                        <Col>
+
+                            <Button onClick={getParagraphImage} className='buttons blue' style={{marginBottom:'10px'}}><GrRevert className="icons" /> {t('commonUIelements.resetImg')}</Button>
+                        </Col>
+                    )}
+
+                    {paragraph.imageFileName && (
+                        <Col>
+
+                            <Button className='buttons pink' onClick={deleteParagraphImage}><MdDelete className="icons" /> {t('commonUIelements.deleteImg')}</Button>
+                        </Col>
+                    )}
+            </Form>
+            </Col>
+
+        <Form validated={validated} onSubmit={handleSave}>
+        <Button className='buttons orange' type="submit" style={{ marginTop: '10px', width: '100%'}}>
+            {update ? t('commonUIelements.update') : t('commonUIelements.create')}
+          </Button>
+          </Form>
+
+        </Row>
         </>
     )
 }

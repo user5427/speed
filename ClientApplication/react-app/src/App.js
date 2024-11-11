@@ -31,7 +31,6 @@ function App() {
 
   return (
     <Container>
-      <BrowserRouter>
         <Navbar bg="dark" variant="dark" style={{ borderRadius: '15px', fontSize: '20px' }} className='navBar'>
           <Navbar.Brand as={Link} to="/" className='siteLogo'>
             <img src={logo} alt="logo" style={{ width: '60px', height: '60px' }}/>
@@ -43,10 +42,10 @@ function App() {
 
           </Nav>
           <Nav>
-            <Nav.Link as={Link} to="/" style={{ marginRight: '5px' }}>Jonas Jonaitis <CgProfile size={30}/></Nav.Link>
+            <Nav.Link as={Link} to="/" style={{ marginRight: '5px' }}>Jonas Jonaitis <CgProfile data-testid="profile-icon" size={30}/></Nav.Link>
           </Nav>
           <Nav style={{ marginRight: '10px' }}>
-          <LanguageSelector/> 
+          <LanguageSelector data-testid="language-selector"/> 
           </Nav>
         </Navbar>
         <Routes>
@@ -61,7 +60,6 @@ function App() {
           <Route exact path="/edit-paragraph-question" Component={() => <EditParagraphQuestion/>} />
           <Route exact path="/edit-question" Component={() => <EditQuestion/>} />
         </Routes>
-      </BrowserRouter>
     </Container>
   );
 }

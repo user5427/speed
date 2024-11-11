@@ -23,7 +23,7 @@ const ParagraphItem = (props) => {
                     {settings && settings.showSelectButton && (
                         <Row className="row">
                             <Col xs={12} md={2} className="col col-12 col-md-2">
-                                <Button onClick={selectThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('paragraphs.item.select')}</Button> {/* Apply a button class */}
+                                <Button onClick={selectThis} className='buttons amber' style={{wordWrap:"normal", width:"auto"}}>{t('commonUIelements.select')}</Button> {/* Apply a button class */}
                             </Col>
                         </Row>
                     )}
@@ -31,7 +31,7 @@ const ParagraphItem = (props) => {
                     {settings && settings.showDeleteButton && (
                         <Row className="row">
                             <Col xs={12} md={2} className="col col-12 col-md-2">
-                                <Button onClick={deleteThis} className="editButton" variant="delete" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('paragraphs.item.delete')}</Button> {/* Apply a button class */}
+                                <Button onClick={deleteThis} className="editButton" variant="delete" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('commonUIelements.delete')}</Button> {/* Apply a button class */}
                             </Col>
                         </Row>
                     )}
@@ -39,7 +39,7 @@ const ParagraphItem = (props) => {
                     {settings && settings.showEditButton && (
                         <Row className="row">
                             <Col xs={12} md={2} className="col col-12 col-md-2">
-                                <Button onClick={editThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}><MdModeEdit /> {t('paragraphs.item.edit')}</Button> {/* Apply a button class */}
+                                <Button onClick={editThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}><MdModeEdit className="icons" /> {t('commonUIelements.edit')}</Button> {/* Apply a button class */}
                             </Col>
                         </Row>
                     )}

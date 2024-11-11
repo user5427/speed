@@ -3,14 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
     "@fontsource/fredoka": "^5.1.0",
     "@mui/icons-material": "^6.1.5",
-    "@mui/material": "^6.1.5",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "country-flag-icons": "^1.5.13",
     "i18next-http-backend": "^2.6.2",
@@ -32,8 +28,23 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/index.js",
+      "!src/setupTests.js",
+      "!src/serviceWorker.js",
+      "!src/**/*.test.{js,jsx}",
+      "!src/.components/**",
+      "!src/.constants/**",
+      "!src/.controllers/**",
+      "!src/.helpers/**",
+      "!src/.entities/**",
+      "!src/pages/Exercise/**"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -54,6 +65,10 @@
     ]
   },
   "devDependencies": {
-    "@types/react-i18next": "^7.8.3"
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@types/react-i18next": "^7.8.3",
+    "i18next-fs-backend": "^2.3.2",
+    "jest": "^27.5.1"
   }
 }

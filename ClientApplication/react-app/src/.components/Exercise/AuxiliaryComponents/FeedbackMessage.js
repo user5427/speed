@@ -12,7 +12,7 @@ const FeedbackMessage = ({ feedbackMessage, currentParagraphIndex, paragraphs, h
   return (
     <div
       className="mainContainer"
-      style={{ color: feedbackMessage.includes('Correct') ? '#a6ff4d' : '#ff6666' }}
+      style={{ color: feedbackMessage.includes('Correct') ? 'var(--color-lime)' : 'var(--color-pink)' }}
     >
       <Row style={{ alignItems: 'center', height: '100%' }}>
         <Col>
@@ -21,23 +21,21 @@ const FeedbackMessage = ({ feedbackMessage, currentParagraphIndex, paragraphs, h
           </h4>
         </Col>
         <Button
-          className="subjectButtons"
+          className="buttons lightBlue"
           size="lg"
           style={{
             marginRight: '12px',
-            backgroundColor: '#008fb3',
-            borderColor: '#006680',
             width: '200px',
           }}
           onClick={handleNextParagraphOrQuestion}
         >
           {currentParagraphIndex < paragraphs.length - 1 ? (
             <>
-              {t('exercise.message.nextParagrah')} <GrFormNextLink />
+              {t('exercise.message.nextParagraph')} <GrFormNextLink className="icons"/>
             </>
           ) : (
             <>
-              {t('exercise.message.finish')} <GiFinishLine />
+              {t('exercise.message.finish')} <GiFinishLine className="icons"/>
             </>
           )}
         </Button>

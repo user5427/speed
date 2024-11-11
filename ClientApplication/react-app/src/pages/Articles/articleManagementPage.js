@@ -43,21 +43,21 @@ const ArticleHomePage = () => {
     return (
         <>
             <div className="article-home-page">
-                <h2>{t('articleManagmentPage.articleHomePage')}</h2>
+                <h2>{t('articleManagment.articleHomePage')}</h2>
                 <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                     <Row className='row'>
                         <Col xs={12} md={4}>
-                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateArticle}><FaPlusSquare /> {t('articleManagmentPage.createArticle')}</Button>
+                            <Button size="lg" className='buttons deepPurple' onClick={redirectToCreateArticle}><FaPlusSquare className="icons"/> {t('articleManagment.createArticle')}</Button>
                         </Col>
                         <Col xs={12} md={4}>
-                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateParagraph}><FaPlusSquare /> {t('articleManagmentPage.createParagraph')}</Button>
+                            <Button size="lg" className='buttons orange' onClick={redirectToCreateParagraph}><FaPlusSquare className="icons"/> {t('articleManagment.createParagraph')}</Button>
                         </Col>
                         <Col xs={12} md={4}>
-                            <Button className='subjectButtons' size="lg" style={{ backgroundColor: '#2992a4', borderColor: '#2992a4' }} onClick={redirectToCreateQuestion}><FaPlusSquare /> {t('articleManagmentPage.createQuestion')}</Button>
+                            <Button size="lg" className='buttons teal' onClick={redirectToCreateQuestion}><FaPlusSquare className="icons"/> {t('articleManagment.createQuestion')}</Button>
                         </Col>
                     </Row>
                 </div>
-                <h2>{t('articleManagmentPage.articleList')}</h2>
+                <h2>{t('articleManagment.articleList')}</h2>
             </div>
 
             <ArticleList 

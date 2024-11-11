@@ -25,8 +25,8 @@ const ResultsTable = ({
       <div className="mainContainer" style={{ textAlign: 'left', position: 'relative' }}>
         <div style={{ textAlign: 'center' }}>
           <h1 style={{ marginBottom: '10px' }}>
-            <MdOutlineCelebration color="#ffd633" style={{ marginTop: '-7px' }} /> {t('exercise.results.exerciseCompleted')}{"! "}
-            <MdOutlineCelebration color="#ffd633" style={{ marginTop: '-7px' }} />
+            <MdOutlineCelebration color="var(--color-yellow)" style={{ marginTop: '-7px' }} /> {t('exercise.results.exerciseCompleted')}{"! "}
+            <MdOutlineCelebration color="var(--color-yellow)" style={{ marginTop: '-7px' }} />
           </h1>
           <Divider style={{ backgroundColor: '#a6a6a6', borderBottomWidth: 3 }}></Divider>
           <h4 style={{ textAlign: 'left', marginTop: '10px' }}>{t('exercise.results.resultsInner')}{':'}</h4>
@@ -36,7 +36,7 @@ const ResultsTable = ({
                 <th>{t('exercise.results.paragraphNr')}{'.'}</th>
                 <th>{t('exercise.results.words')}</th>
                 <th>{t('exercise.results.time')}</th>
-                <th style={{ color: '#ce99ff' }}>{t('exercise.results.wpm')}</th>
+                <th style={{ color: '#ce99ff' }}>{t('commonUIelements.wpm')}</th>
                 <th style={{ color: '#ce99ff' }}>{t('exercise.results.questions')}</th>
               </tr>
             </thead>
@@ -55,9 +55,9 @@ const ResultsTable = ({
                         <>
                           {wpm}{' '}
                           {isAboveUsersWPM ? (
-                            <span style={{ color: '#99ff33' }}>↑</span>
+                            <span style={{ color: 'var(--color-lime)' }}>↑</span>
                           ) : (
-                            <span style={{ color: '#ff3300' }}>↓</span>
+                            <span style={{ color: 'var(--color-pink)' }}>↓</span>
                           )}
                         </>
                       ) : (
@@ -66,9 +66,9 @@ const ResultsTable = ({
                     </td>
                     <td>
                       {answersCorrectness[index] ? (
-                        <FaCheck style={{ color: '#99ff33' }} />
+                        <FaCheck style={{ color: 'var(--color-lime)' }} />
                       ) : (
-                        <FaXmark style={{ color: '#ff3300' }} />
+                        <FaXmark style={{ color: 'var(--color-pink)' }} />
                       )}
                     </td>
                   </tr>
@@ -89,22 +89,22 @@ const ResultsTable = ({
               <tr>
                 <td>{t('exercise.results.yourCurrentReadingSpeed')}{": "}</td>
                 <td>
-                  <span style={{ color: '#ce99ff' }}>{usersWPM}</span> {t('exercise.results.wpm')}
+                  <span style={{ color: '#ce99ff' }}>{usersWPM}</span> {t('commonUIelements.wpm')}
                 </td>
                 <td>{t('exercise.results.yourAverageReadingSpeedDuringExercise')}{':'}</td>
                 <td>
                   {averageWPM ? (
                     <>
                       {usersWPM < averageWPM.toFixed(0) ? (
-                        <span style={{ color: '#99ff33' }}>{averageWPM.toFixed(0)}</span>
+                        <span style={{ color: 'var(--color-lime)' }}>{averageWPM.toFixed(0)}</span>
                       ) : (
-                        <span style={{ color: '#ff3300' }}>{averageWPM.toFixed(0)}</span>
+                        <span style={{ color: 'var(--color-pink)' }}>{averageWPM.toFixed(0)}</span>
                       )}{' '}
-                      {t('exercise.results.wpm')}
+                      {t('commonUIelements.wpm')}
                     </>
                   ) : (
                     <>
-                      <TiMinus /> {t('exercise.results.wpm')}
+                      <TiMinus /> {t('commonUIelements.wpm')}
                     </>
                   )}
                 </td>
@@ -114,11 +114,11 @@ const ResultsTable = ({
         </div>
 
         <Button
-          className="subjectButtons"
-          style={{ backgroundColor: '#8400ff', borderColor: '#6900cc', marginTop: '5px', fontSize: '18px'}}
+          className="buttons purple"
+          style={{marginTop: '5px', fontSize: '18px'}}
           onClick={redirectToCategories}
         >
-          <IoReturnUpBackSharp style={{ marginTop: '-4px' }} /> {t('exercise.results.goBackToCategories')}
+          <IoReturnUpBackSharp className="icons" /> {t('exercise.results.goBackToCategories')}
         </Button>
       </div>
     </>

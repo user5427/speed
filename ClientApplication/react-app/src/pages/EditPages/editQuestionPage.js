@@ -5,7 +5,12 @@ import { Row, Col } from 'react-bootstrap';
 import { React, useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
+import { useTranslation } from 'react-i18next';
+
 const EditQuestion = () => {
+
+    const { t } = useTranslation();
+
     // Get search params from the URL
     const [searchParams] = useSearchParams();
     const [questionId, setQuestionId] = useState(null);
@@ -28,7 +33,7 @@ const EditQuestion = () => {
             <ReturnToArticlesButton />
 
             <div className="create-article-page">
-                <h2>Edit Question</h2>
+                <h2>{t('editPages.questions.editQuestion')}</h2>
             </div>
 
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>

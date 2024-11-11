@@ -8,24 +8,12 @@
         "flashingSentence" : "Introducing our new web page \"Speedreader.com\", designed to help users read sentences quickly without being distracted by inner thoughts, boosting focus, improving comprehension, and saving time with faster reading speeds."
     },
 
-    "articleManagmentPage" : {
+    "articleManagment" : {
         "articleHomePage" : "Article Home Page",
         "createArticle" : "Create Article",
         "createParagraph" : "Create Paragraph",
         "createQuestion" : "Create Question",
         "articleList" : "Article list"
-    },
-
-    "createArticlePage" : {
-        "createArticle" : "Create Article"
-    },
-
-    "createParagraphPage" : {
-        "createParagraph" : "Create Paragraph"
-    },
-
-    "createQuestionPage" : {
-        "createQuestion" : "Create Question"
     },
 
     "categories" : {
@@ -40,23 +28,44 @@
             "lCategories" : "William Shakespeare, Alexandre Dumas, Victor Hugo"
     },
 
+    "editPages" : {
+        "all" : {
+            "editAll" : "Edit All",
+            "parUnavailable" : "Paragraph editing or creating unavailable",
+            "questUnavailable" : "Question editing or creating unavailable",
+            "resetArticle" : "Reset Article",
+            "resetParagraph" : "Reset Paragraph",
+            "resetQuestion" : "Reset Question",
+            "parsUnavailable" : "Paragraphs unavailable",
+            "questionsUnavailable" : "Questions unavailable"
+        },
+        "paragraphs" : {
+            "editParAndQ" : "Edit Paragraph and Question",
+            "qEditingorCreating" : "Question editing or creating unavailable",
+            "resetQuest" : "Reset Question",
+            "questUnavailable" : "Questions unavailable"
+        },
+        "questions" : {
+            "editQuestion" : "Edit Question"
+        }
+    },
+
     "exercise" : {
         "loading" : "Loading",
         "reading" : {
             "endOfParagraph" : "End of Paragraph",
             "pressStartToBeginPar" : "Press Start to begin Paragraph",
             "start" : "Start",
-            "wpm" : "WPM",
             "goToQuestion" : "Go to question"
         },
         "question" : {
             "submitAnswer" : "Submit answer"
         },
         "message" : {
-            "nextParagrah" : "Next paragraph",
+            "nextParagraph" : "Next paragraph",
             "finish" : "Finish",
             "correct" : "Correct",
-            "incorrect" : "Incorrect! The correct answer was "
+            "incorrect" : "Incorrect! The correct answer was"
         },
         "articleInfo" : {
             "title" : "Title",
@@ -70,7 +79,6 @@
             "paragraphNr" : "Paragraph nr",
             "words" : "Words",
             "time" : "Time",
-            "wpm" : "WPM",
             "questions" : "Questions",
             "inConclusion" : "In conclusion",
             "yourCurrentReadingSpeed" : "Your current reading speed",
@@ -87,8 +95,6 @@
             "plsSelectPar" : "Please select a paragraph"
         },
         "createEdit" : {
-            "resetImg" : "Reset image",
-            "deleteImg" : "Delete image",
             "articleID" : "Article ID",
             "enterArticleID" : "Enter article ID",
             "plsEnterArticleID" : "Please enter article ID",
@@ -97,59 +103,54 @@
             "plsEnterValidParTitle" : "Please enter a valid paragraph title (letters and spaces only)",
             "paragraphText" : "Paragraph Text",
             "eneterParText" : "Enter Paragraph Text",
-            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters",
-            "update" : "Update",
-            "create" : "Create"
-        },
-        "item" : {
-            "select" : "Select",
-            "delete" : "Delete",
-            "edit" : "Edit"
+            "plsEnterParText" : "Please enter paragraph text between 10 and 1500 characters"
         }
     },
 
-    "articles" : {
-        "createEdit" : {
-            "resetImg" : "Reset image",
-            "deleteImg" : "Delete image",
-            "articleTitle" : "Article Title",
-            "enterArticleTitle" : "Enter Article Title",
-            "enterArticleCategory" : "Enter Article Category",
-            "plsEnterArticleTitle" : "Please enter article title",
-            "articleCategory" : "Article Category",
-            "plsEnterArticleCategory" : "Please enter article category",
-            "update" : "Update",
-            "create" : "Create"
+"articles": {
+"createEdit": {
+    "articleTitle": "Article Title",
+    "enterArticleTitle": "Enter Article Title",
+    "plsEnterArticleTitle": "Please enter article title",
+    "articleCategory": "Article Category",
+    "enterArticleCategory": "Enter Article Category",
+    "plsEnterArticleCategory": "Please enter article category",
+    "articleAuthor": "Author",
+    "enterAuthor": "Enter Author Name and Surname",
+    "plsEnterAuthor": "Please enter author name and surname",
+    "articlePublisher": "Publisher",
+    "enterPublisher": "Enter Publisher Name",
+    "plsEnterPublisher": "Please enter publisher name",
+    "articleLink": "Link",
+    "enterLink": "Enter Article Link",
+    "plsEnterLink": "Please enter a valid link",
+    "articleLanguage": "Article Language",
+    "selectArticleLanguage": "Select Article Language",
+    "plsSelectArticleLanguage": "Please select an article language"
+},
+
+        "returnToArticlesBtn": {
+            "main": "Main"
         },
-        "returnToArticlesBtn" : {
-            "main" : "Main"
+        "search": {
+            "enterArticleTitle": "Enter Article Title",
+            "searchArticles": "Search Articles",
+            "plsSelectArticle": "Please select an article"
         },
-        "search" : {
-            "enterArticleTitle" : "Enter Article Title",
-            "searchArticles" : "Search Articles",
-            "plsSelectArticle" : "Please select an article"
-        },
-        "item" : {
-            "select" : "Select",
-            "delete" : "Delete",
-            "edit" : "Edit",
-            "play" : "Play"
+        "item": {
+            "read": "Read"
         }
     },
 
     "questions" : {
         "createEdit" : {
-            "resetImg" : "Reset image",
-            "deleteImg" : "Delete image",
             "paragraphID" : "Paragraph ID",
             "enterParagraphID" : "Enter paragraph ID",
             "plsEnterParagraphID" : "Please enter paragraph ID",
             "questionText" : "Question Text",
             "eneterQuestionText" : "Enter Question Text",
             "plsEnterQuestionText" : "Please enter question text",
-            "addAnswer" : "Add answer",
-            "update" : "Update",
-            "create" : "Create"
+            "addAnswer" : "Add answer"
         },
         "answerItem" : {
             "answer" : "Answer",
@@ -163,6 +164,18 @@
             "enterQuestionsTitle" : "Enter question title",
             "plsSelectQuestion" : "Please select a question"
         }
+    },
+
+    "commonUIelements" : {
+        "update" : "Update",
+        "create" : "Create",
+        "resetImg" : "Reset image",
+        "deleteImg" : "Delete image",
+        "wpm" : "WPM",
+        "select" : "Select",
+        "delete" : "Delete",
+        "edit" : "Edit"
     }
+
 }
 

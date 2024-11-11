@@ -1,42 +1,41 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Dropdown } from 'react-bootstrap';
 import { LanguagesConstants } from '../../.constants/MainConstants';
+import { useTranslation } from 'react-i18next';
 import "../../styles/languageSelector.css";
 
-const LanguageSelector = (props) => {
-  const { i18n } = useTranslation();
+const LanguageSelectInput = ({ selectedLanguage, onSelectLanguage }) => {
   const toggleRef = useRef(null);
   const [menuWidth, setMenuWidth] = useState(null);
 
-  const handleLanguageChange = (code) => {
-    i18n.changeLanguage(code);
-  };
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (toggleRef.current) {
       setMenuWidth(toggleRef.current.offsetWidth);
     }
-  }, []);
+  }, [toggleRef]);
+
+  const currentLanguage = LanguagesConstants.find(lang => lang.code === selectedLanguage);
 
   return (
-    <Dropdown className="language-selector" {...props}>
-      <Dropdown.Toggle 
-        variant="dark" 
-        id="dropdown-basic" 
-        className="d-flex align-items-center" 
+    <Dropdown className="language-selector">
+      <Dropdown.Toggle
+        variant="dark"
+        id="dropdown-basic"
+        className="d-flex align-items-center"
         ref={toggleRef}
       >
         <span className="flag-label">
-          {LanguagesConstants.find(lang => lang.code === i18n.language)?.flag}
-          {LanguagesConstants.find(lang => lang.code === i18n.language)?.label}
+          {currentLanguage?.flag}
+          {currentLanguage ? currentLanguage.label : t('articles.createEdit.selectArticleLanguage')}
         </span>
       </Dropdown.Toggle>
 
       <Dropdown.Menu style={{ width: menuWidth || 'auto' }}>
         {LanguagesConstants.map(({ code, label, flag }) => (
-          <Dropdown.Item key={code} onClick={() => handleLanguageChange(code)}>
-            <div style={{ display: 'flex', alignItems: 'center'}}>
+          <Dropdown.Item key={code} onClick={() => onSelectLanguage(code)}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {flag}
               {label}
             </div>
@@ -47,4 +46,6 @@ const LanguageSelector = (props) => {
   );
 };
 
-export default LanguageSelector;
+export default LanguageSelectInput;
+
+

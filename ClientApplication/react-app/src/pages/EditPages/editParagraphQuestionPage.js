@@ -5,7 +5,13 @@ import '../../styles/Articles/createArticleStyle.css';
 import { CreateEditParagraph, ReturnToArticlesButton, CreateEditQuestion } from '../../.components/.MainComponentsExport';
 import { Row, Col } from 'react-bootstrap';
 import { QuestionList } from '../../.components/.MainComponentsExport';
+
+import { useTranslation } from 'react-i18next';
+
 const EditParagraphQuestion = () => {
+
+    const { t } = useTranslation();
+
     // Get search params from the URL
     const [searchParams] = useSearchParams();
     const [paragraphId, setParagraphId] = useState(null);
@@ -57,7 +63,7 @@ const EditParagraphQuestion = () => {
             <ReturnToArticlesButton />
 
             <div className="create-article-page">
-                <h2>Edit Paragraph and Question</h2>
+                <h2>{t('editPages.paragraphs.editParAndQ')}</h2>
             </div>
 
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
@@ -95,7 +101,7 @@ const EditParagraphQuestion = () => {
                                     sendUpdate={triggerUpdateQuestionList}
                                 />
                             ) : (
-                                <p>Question editing or creating unavailable</p>
+                                <p>{t('editPages.paragraphs.qEditingorCreating')}</p>
                             )
                         }
                     </Col>
@@ -110,9 +116,9 @@ const EditParagraphQuestion = () => {
                     <Col xs={12} md={4}>
                         {
                             questionId ? (
-                                <Button onClick={handleResetQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>Reset Question</Button>
+                                <Button onClick={handleResetQuestion} className='buttons blue'>{t('editPages.paragraphs.resetQuest')}</Button>
                             ) : (
-                                <Button onClick={handleResetQuestion} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }} disabled>Reset Question</Button>
+                                <Button onClick={handleResetQuestion} className='buttons blue' disabled>{t('editPages.paragraphs.resetQuest')}</Button>
                             )
                         }
                     </Col>
@@ -131,7 +137,7 @@ const EditParagraphQuestion = () => {
                                     update={updateQuestionList}
                                 />
                             ) : (
-                                <p>Questions unavailable</p>
+                                <p>{t('editPages.paragraphs.questUnavailable')}</p>
                             )
                         }
                     </Col>

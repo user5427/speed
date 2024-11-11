@@ -51,7 +51,7 @@ const ArticleSearch = ({ onArticleSelected, articleFromOutside}) => {
     return (
         <>
             <Form NoValidate>
-                <Form.Group controlId="searchBar">
+                <Form.Group controlId="searchBar" className="input">
                     <Form.Label>{t('articles.search.searchArticles')}</Form.Label>
                     <Form.Control
                         value={articleFromOutside && articleFromOutside.title || searchValue}
