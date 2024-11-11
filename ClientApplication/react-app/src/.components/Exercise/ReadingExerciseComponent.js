@@ -1,4 +1,3 @@
-// ReadingExercise.js
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import Slider from '@mui/material/Slider';
@@ -12,6 +11,7 @@ const ReadingExerciseComponent = ({
   title,
   currentParagraphIndex,
   paragraphs,
+  paragraphImageUrl,
   words,
   started,
   finished,
@@ -45,32 +45,45 @@ const ReadingExerciseComponent = ({
         </Col>
       </Row>
 
-      <div className="exerciseWindow">
-        <p className="singleWord">
-          {started ? (
-            <>
-              {words[currentWordIndex]}
-              {finished && (
-                <>
-                  {' '}
-                  <span>{t('exercise.reading.endOfParagraph')}</span>
-                  {' '}
-                  <div className="yellowCircle" style={{ marginLeft: '3px' }}>
-                    {currentParagraphIndex + 1}
-                  </div>
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              {t('exercise.reading.pressStartToBeginPar')}{' '}
-              <div className="yellowCircle">
-                {currentParagraphIndex + 1}
-              </div>
-            </>
-          )}
-        </p>
-      </div>
+      <Row>
+  <Col xs={12} md={8}>
+    <div className="exerciseWindow">
+      <p className="singleWord">
+        {started ? (
+          <>
+            {words[currentWordIndex]}
+            {finished && (
+              <>
+                {' '}
+                <span>{t('exercise.reading.endOfParagraph')}</span>{' '}
+                <div className="yellowCircle" style={{ marginLeft: '3px' }}>
+                  {currentParagraphIndex + 1}
+                </div>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            {t('exercise.reading.pressStartToBeginPar')}{' '}
+            <div className="yellowCircle">
+              {currentParagraphIndex + 1}
+            </div>
+          </>
+        )}
+      </p>
+    </div>
+  </Col>
+
+<Col xs={12} md={4}>
+<img
+      src={paragraphImageUrl}
+      alt="Paragraph Illustration"
+      style={{ width: '100%', height: 'auto', borderRadius:'15px'}}
+    />
+</Col>
+
+</Row>
+
 
       <Row style={{ marginTop: '18px', marginBottom: '0px' }}>
         <Col xs={12} md={2}>

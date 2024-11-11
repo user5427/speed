@@ -4,6 +4,7 @@ import { QuestionComponent } from '../../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
 import { ArticleInfo, FeedbackMessage, ConfettiEffect, ResultsTableComponent, ReadingExerciseComponent} from '../../.components/Exercise/.MainExerciseExport';
 import { exerciseInfo } from './articleData';
+import NoImage from '../../no-image.png'
 
 import { ArticleController, ParagraphController, QuestionController} from '../../.controllers/.MainControllersExport';
 import { useSearchParams } from 'react-router-dom';  // Import hook for query params
@@ -28,6 +29,7 @@ const Exercise = () => {
   const [articleData, setArticleData] = useState(null);
   const [paragraphs, setParagraphs] = useState([]);
   const [questionsPerParagraph, setQuestionsPerParagraph] = useState([]);
+  const [paragraphImageUrl, setParagraphImageUrl] = useState(NoImage);
 
 
   const [inputValue, setInputValue] = useState(238); // Track WPM value
@@ -130,6 +132,40 @@ const totalParagraphs = paragraphs.length;
   }, [paragraphs]);
   
 
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchImage = async () => {
+      try {
+        const currentParagraph = paragraphs[currentParagraphIndex];
+        if (!currentParagraph) return;
+
+        const imageURL = await ParagraphController.GetImage(currentParagraph.id);
+
+        if (isMounted) {
+          if (imageURL) {
+            setParagraphImageUrl(imageURL);
+          } else {
+            setParagraphImageUrl(NoImage); // Set to NoImage when no image is available
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching image:', error);
+        if (isMounted) {
+          setParagraphImageUrl(NoImage); // Set to NoImage on error
+        }
+      }
+    };
+
+    if (paragraphs.length > 0) {
+      fetchImage();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [currentParagraphIndex, paragraphs]);
 
 
 // Word reveal loop for each paragraph
@@ -324,6 +360,7 @@ useEffect(() => {
           title={title}
           currentParagraphIndex={currentParagraphIndex}
           paragraphs={paragraphs}
+          paragraphImageUrl={paragraphImageUrl}
           words={words}
           started={started}
           finished={finished}
