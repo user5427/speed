@@ -1,0 +1,26 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "Unit-tests" ] # Change this to your branch name
+  pull_request:
+    branches: [ "Unit-tests" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Change to project directory
+      run: cd Backend/Tests/Unit
+    - name: Restore dependencies
+      run: dotnet restore Backend/Tests/Unit/Unit.csproj # Replace with your actual .csproj path
+    - name: Build
+      run: dotnet build Backend/Tests/Unit/Unit.csproj --no-restore
+    - name: Test
+      run: dotnet test Backend/Tests/Unit/Unit.csproj --no-build --verbosity normal

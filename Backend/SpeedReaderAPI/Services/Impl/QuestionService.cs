@@ -13,19 +13,19 @@ namespace SpeedReaderAPI.Services.Impl;
 public class QuestionService : IQuestionService
 {
 
-    private readonly ApplicationContext _context;
+    private readonly CombinedRepositories _context;
     private readonly IMapper _mapper;
     private readonly IImageService _imageService;
     public QuestionService(ApplicationContext context, IMapper mapper, IImageService imageService)
     {
-        _context = context;
+        _context = new CombinedRepositories(context);
         _mapper = mapper;
         _imageService = imageService;
     }
 
     public QuestionResponse GetQuestion(int id)
     {
-        Question? question = _context.Question.FirstOrDefault(a => a.Id == id);
+        Question? question = _context.Question.FindById(id);
         if (question == null)
         {
             throw new ResourceNotFoundException($"Question with ID {id} not found.");
@@ -35,7 +35,7 @@ public class QuestionService : IQuestionService
     }
     public QuestionResponse CreateQuestion(QuestionCreateRequest request)
     {
-        Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == request.ParagraphId).FirstOrDefault();
+        Paragraph? paragraphFound = _context.Paragraph.FindById(request.ParagraphId);
         if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
@@ -57,13 +57,13 @@ public class QuestionService : IQuestionService
 
     public QuestionResponse UpdateQuestion(int id, QuestionUpdateRequest request)
     {
-        Question? questionFound = _context.Question.Where(x => x.Id == id).FirstOrDefault();
+        Question? questionFound = _context.Question.FindById(id);
         if (questionFound == null)
         {
             throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
 
-        Paragraph? oldParagraphFound = _context.Paragraph.Where(a => a.Id == questionFound.ParagraphId).FirstOrDefault();
+        Paragraph? oldParagraphFound = _context.Paragraph.FindById(questionFound.ParagraphId);
         if (oldParagraphFound == null) throw new Exception("Illegal state, paragraph of question must exist");
 
         if (request.CorrectAnswerIndex != null)
@@ -88,7 +88,7 @@ public class QuestionService : IQuestionService
         // Update if set in request
         if (request.ParagraphId != null)
         {
-            Paragraph? newParagrahFound = _context.Paragraph.Where(a => a.Id == request.ParagraphId).FirstOrDefault();
+            Paragraph? newParagrahFound = _context.Paragraph.FindById(request.ParagraphId.Value);
             if (newParagrahFound == null)
             {
                 throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
@@ -116,10 +116,10 @@ public class QuestionService : IQuestionService
 
     public void DeleteQuestion(int id)
     {
-        Question? questionFound = _context.Question.Where(x => x.Id == id).FirstOrDefault();
+        Question? questionFound = _context.Question.FindById(id);
         if (questionFound != null)
         {
-            Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == questionFound.ParagraphId).FirstOrDefault();
+            Paragraph? paragraphFound = _context.Paragraph.FindById(questionFound.ParagraphId);
             if (paragraphFound == null) throw new Exception("Illegal state, paragraph  of question must exist");
             paragraphFound.QuestionIds.Remove(id);
 
@@ -139,18 +139,14 @@ public class QuestionService : IQuestionService
     public PageResponse<QuestionResponse> SearchQuestions(QueryParameters queryParameters)
     {
         long questionCount = _context.Question.Count();
-        List<Question> questions = _context.Question
-                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search))
-                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
-                                        .Take(queryParameters.PageSize)
-                                        .ToList();
+        List<Question> questions = _context.Question.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize).Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search)).ToList();
         var sortedList = Sorter.SortList(questions, asc: false);
         List<QuestionResponse> questionResponseList = _mapper.Map<List<QuestionResponse>>(sortedList);
         return new PageResponse<QuestionResponse>(questionCount, questionResponseList);
     }
     public async Task<QuestionResponse> UploadImage(int id, ImageUploadRequest request)
     {
-        Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
+        Question? questionFound = _context.Question.FindById(id);
         if (questionFound == null)
         {
             throw new ResourceNotFoundException($"Question with ID {id} not found.");
@@ -167,7 +163,7 @@ public class QuestionService : IQuestionService
 
     public Image GetImage(int id)
     {
-        Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
+        Question? questionFound = _context.Question.FindById(id);
         if (questionFound == null)
         {
             throw new ResourceNotFoundException($"Question with ID {id} not found.");
@@ -189,7 +185,7 @@ public class QuestionService : IQuestionService
 
     public void DeleteImage(int id)
     {
-        Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
+        Question? questionFound = _context.Question.FindById(id);
         if (questionFound == null)
         {
             throw new ResourceNotFoundException($"Question with ID {id} not found.");
@@ -201,7 +197,7 @@ public class QuestionService : IQuestionService
         _context.SaveChanges();
     }
 
-    public int GetCount()
+    public long GetCount()
     {
         return _context.Question.Count();
     }

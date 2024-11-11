@@ -12,15 +12,16 @@ namespace SpeedReaderAPI.Services.Impl;
 
 public class ArticleService : IArticleService
 {
-    private readonly ApplicationContext _context;
+    private readonly CombinedRepositories _context;
     private readonly IImageService _imageService;
     private readonly IParagraphService _paragraphService;
     private readonly IMapper _mapper;
 
+    // Production constructor
     public ArticleService(ApplicationContext context, IMapper mapper,
         IImageService imageService, IParagraphService paragraphService)
     {
-        _context = context;
+        _context = new CombinedRepositories(context);
         _mapper = mapper;
         _imageService = imageService;
         _paragraphService = paragraphService;
@@ -29,17 +30,14 @@ public class ArticleService : IArticleService
     public ArticlePageResponse GetArticles(QueryParameters queryParameters)
     {
         long articleCount = _context.Article.Count();
-        List<Article> articles = _context.Article
-                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
-                                        .Take(queryParameters.PageSize)
-                                        .ToList();
+        List<Article> articles = _context.Article.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize);
         List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
         return new ArticlePageResponse(articleCount, articleResponseList);
     }
 
     public ArticleResponse GetArticleById(int id)
     {
-        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
@@ -58,7 +56,7 @@ public class ArticleService : IArticleService
 
     public ArticleResponse UpdateArticle(int id, ArticleUpdateRequest request)
     {
-        Article? articleFound = _context.Article.Where(x => x.Id == id).FirstOrDefault();
+        Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
@@ -88,7 +86,7 @@ public class ArticleService : IArticleService
 
     public void DeleteArticle(int articleId)
     {
-        Article? articleFound = _context.Article.Where(x => x.Id == articleId).FirstOrDefault();
+        Article? articleFound = _context.Article.FindById(articleId);
         if (articleFound != null)
         {
             if (articleFound.Image != null && articleFound.Image.HasValue)
@@ -109,11 +107,9 @@ public class ArticleService : IArticleService
     public PageResponse<ArticleResponse> SearchArticles(QueryParameters queryParameters)
     {
         long articleCount = _context.Article.Count();
-        List<Article> articles = _context.Article
-                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
-                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
-                                        .Take(queryParameters.PageSize)
-                                        .ToList();
+        List<Article> articles = _context.Article.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize)
+                                                    .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
+                                                    .ToList();
         var sortedArticles = Sorter.SortList(articles);                                
         List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(sortedArticles);
         return new PageResponse<ArticleResponse>(articleCount, articleResponseList);
@@ -121,7 +117,7 @@ public class ArticleService : IArticleService
 
     public async Task<ArticleResponse> UploadImage(int id, ImageUploadRequest request)
     {
-        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
@@ -138,7 +134,7 @@ public class ArticleService : IArticleService
 
     public Image GetImage(int id)
     {
-        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
@@ -160,7 +156,7 @@ public class ArticleService : IArticleService
 
     public void DeleteImage(int id)
     {
-        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
@@ -172,8 +168,8 @@ public class ArticleService : IArticleService
         _context.SaveChanges();
     }
 
-    public int GetCount()
+    public long GetCount()
     {
-        return _context.Article.Count();
+        return _context.Article.Count(); 
     }
 }

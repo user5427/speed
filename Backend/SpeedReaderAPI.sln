@@ -5,6 +5,10 @@ VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedReaderAPI", "SpeedReaderAPI\SpeedReaderAPI.csproj", "{FA1430BD-9A8E-4222-ABBD-14254E02F709}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7B8CAFDB-A4C4-4BA5-90E2-F1E9E942FDBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit", "Tests\Unit\Unit.csproj", "{DBCA011C-B827-437D-87DE-DF70909B304C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,11 +19,18 @@ Global
 		{FA1430BD-9A8E-4222-ABBD-14254E02F709}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA1430BD-9A8E-4222-ABBD-14254E02F709}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA1430BD-9A8E-4222-ABBD-14254E02F709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBCA011C-B827-437D-87DE-DF70909B304C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBCA011C-B827-437D-87DE-DF70909B304C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBCA011C-B827-437D-87DE-DF70909B304C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBCA011C-B827-437D-87DE-DF70909B304C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D0D09D9-0A2F-4E29-A694-3940AA3FF377}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DBCA011C-B827-437D-87DE-DF70909B304C} = {7B8CAFDB-A4C4-4BA5-90E2-F1E9E942FDBF}
 	EndGlobalSection
 EndGlobal
