@@ -15,6 +15,7 @@ public class CombinedRepositories : ICombinedRepository {
         Article = new DbArticleRepository(context);
         Paragraph = new DbParagraphRepository(context);
         Question = new DbQuestionRepository(context);
+        Category = new DbCategoryRepository(context);
     }
 
     public void SaveChanges() {
