@@ -99,7 +99,7 @@ class Paragraph {
             this._id = null;
         }
         if (paragraph.imageFileName) {
-            this._imageFileName = question.imageFileName
+            this._imageFileName = paragraph.imageFileName
         } else {
             this._imageFileName = null;
         }
