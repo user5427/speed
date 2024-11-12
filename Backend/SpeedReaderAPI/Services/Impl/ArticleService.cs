@@ -49,6 +49,10 @@ public class ArticleService : IArticleService
     {
         Article createdArticle = _mapper.Map<Article>(request);
         _context.Article.Add(createdArticle);
+        if (request.CategoryIds != null)
+        {
+            UpdateArticleCategories(createdArticle, Enumerable.Empty<int>(), createdArticle.CategoryIds);
+        }
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(createdArticle);
     }
@@ -79,10 +83,39 @@ public class ArticleService : IArticleService
             }
             articleFound.ParagraphIds = request.ParagraphIds;
         }
+        if (request.CategoryIds != null)
+        {
+            var removedCategoryIds = articleFound.CategoryIds.Except(request.CategoryIds);
+            var addedCategoryIds = request.CategoryIds.Except(articleFound.CategoryIds);
+            UpdateArticleCategories(articleFound, removedCategoryIds, addedCategoryIds);
+        }
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(articleFound);
     }
 
+    private void UpdateArticleCategories(Article? articleFound, IEnumerable<int> removedCategoryIds, IEnumerable<int> addedCategoryIds)
+    {
+        foreach (int removedCategoryId in removedCategoryIds)
+        {
+            Category? categoryFound = _context.Category.FindById(removedCategoryId);
+            if (categoryFound == null)
+            {
+                throw new ResourceNotFoundException($"Category with ID {removedCategoryId} not found.");
+            }
+            articleFound.CategoryIds.Remove(removedCategoryId);
+            categoryFound.ArticleIds.Remove(articleFound.Id);
+        }
+        foreach (int addedCategoryId in addedCategoryIds)
+        {
+            Category? categoryFound = _context.Category.FindById(addedCategoryId);
+            if (categoryFound == null)
+            {
+                throw new ResourceNotFoundException($"Category with ID {addedCategoryId} not found.");
+            }
+            articleFound.CategoryIds.Add(addedCategoryId);
+            categoryFound.ArticleIds.Add(articleFound.Id);
+        }
+    }
 
     public void DeleteArticle(int articleId)
     {

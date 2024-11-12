@@ -119,12 +119,30 @@ public class CategoryService : ICategoryService
         {
             categoryFound.Title = request.Title;
         }
-        throw new NotImplementedException();
+        if (request.Text != null)
+        {
+            categoryFound.Text = request.Text;
+        }
+
+        _context.SaveChanges();
+        return _mapper.Map<CategoryResponse>(categoryFound);
 
     }
 
-    public Task<CategoryResponse> UploadImage(int id, ImageUploadRequest request)
+    public async Task<CategoryResponse> UploadImage(int id, ImageUploadRequest request)
     {
-        throw new NotImplementedException();
+        Category? categoryFound = _context.Category.FindById(id);
+        if (categoryFound == null)
+        {
+            throw new ResourceNotFoundException($"Category with ID {id} not found.");
+        }
+        if (categoryFound.Image.HasValue)
+        {
+            throw new ResourceAlreadyExistsException($"Category with ID {id} has an image.");
+        }
+        categoryFound.Image = await _imageService.Create(request);
+        await _context.SaveChangesAsync();
+        
+        return _mapper.Map<CategoryResponse>(categoryFound);
     }
 }

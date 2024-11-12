@@ -14,6 +14,7 @@ public class Category
             MinimumLength = ValidationConstants.MinTitleLength,
             ErrorMessage = "Title must be between {2} and {1} characters.")]
     public required string Title { get; set; }
+    public required string Text { get; set; }
     public string? ImageFileName { get; set; }
     public string? ImageFilePath { get; set; }
     public MimeType? ImageMimeType { get; set; }
@@ -45,6 +46,6 @@ public class Category
             }
         }
     }
-    public List<Article> ArticleIds { get; set; } = [];
+    public List<int> ArticleIds { get; set; } = [];
     public virtual List<Article> Articles { get; set; } = [];
 }
