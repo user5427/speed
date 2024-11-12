@@ -11,12 +11,11 @@ public class DbCategoryRepository : IDefaultRepository<Category>
     }
     public long Count() => _context.Category.Count();
 
-    public Category? FindById(int id) => _context.Category.FirstOrDefault(p => p.Id == id);
+    public Category? FindById(int? id) => _context.Category.FirstOrDefault(p => p.Id == id);
 
     public void Add(Category category) => _context.Category.Add(category);
 
     public void Remove(Category category) => _context.Category.Remove(category);
 
     public List<Category> GetPaged(int skip, int take) => _context.Category.Skip(skip).Take(take).ToList();
-
 }

@@ -95,6 +95,10 @@ public class ArticleService : IArticleService
 
     private void UpdateArticleCategories(Article? articleFound, IEnumerable<int> removedCategoryIds, IEnumerable<int> addedCategoryIds)
     {
+        if (articleFound == null)
+        {
+            throw new ResourceNotFoundException("Article not found.");
+        }
         foreach (int removedCategoryId in removedCategoryIds)
         {
             Category? categoryFound = _context.Category.FindById(removedCategoryId);
