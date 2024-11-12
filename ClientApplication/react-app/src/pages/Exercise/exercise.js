@@ -68,7 +68,7 @@ const Exercise = () => {
       try {
         let MyArticleId = articleId;
         if (MyArticleId === null) {
-          MyArticleId = 111; // DEFAULT ARTICLE ID
+          MyArticleId = 155; // DEFAULT ARTICLE ID
         }
         const article = await ArticleController.Get(MyArticleId);
         setArticleData(article);
