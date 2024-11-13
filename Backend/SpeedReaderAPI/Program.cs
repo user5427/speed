@@ -3,6 +3,7 @@ using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Services;
 using SpeedReaderAPI.Services.Impl;
 using SpeedReaderAPI.Filters;
+using SpeedReaderAPI;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +18,7 @@ builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IParagraphService, ParagraphService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IValidationSettingsService, ValidationSettingsService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -2,9 +2,9 @@ name: .NET
 
 on:
   push:
-    branches: [ "Unit-tests" ] # Change this to your branch name
+    branches: [ "main" ] # Change this to your branch name
   pull_request:
-    branches: [ "Unit-tests" ]
+    branches: [ "main" ]
 
 jobs:
   build:

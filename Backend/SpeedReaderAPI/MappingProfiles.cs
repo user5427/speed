@@ -17,9 +17,9 @@ namespace SpeedReaderAPI
     {
         public MappingProfiles()
         {
-            CreateMap<Article, ArticleResponse>();
             CreateMap<ArticleCreateRequest, Article>();
             CreateMap<ArticleUpdateRequest, Article>();
+            CreateMap<Article, ArticleResponse>();
 
             CreateMap<QuestionCreateRequest, Question>();
             CreateMap<QuestionUpdateRequest, Question>();
@@ -31,6 +31,10 @@ namespace SpeedReaderAPI
 
             CreateMap<ValidationSettings, ValidationSettingsResponce>();
             CreateMap<ValidationSettingsUpdateRequest, ValidationSettings>();
+            
+            CreateMap<CategoryCreateRequest, Category>();
+            CreateMap<CategoryUpdateRequest, Category>();
+            CreateMap<Category, CategoryResponse>();
         }
     }
 }

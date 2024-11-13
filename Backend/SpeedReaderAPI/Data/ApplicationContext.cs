@@ -15,6 +15,7 @@ namespace SpeedReaderAPI.Data
         public DbSet<Paragraph> Paragraph { get; set; }
         public DbSet<Question> Question { get; set; }
         public DbSet<ValidationSettings> ValidationSettings { get; set; }
+        public DbSet<Category> Category { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
