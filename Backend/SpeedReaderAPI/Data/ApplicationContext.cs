@@ -33,6 +33,7 @@ namespace SpeedReaderAPI.Data
             modelBuilder.Entity<ValidationSettings>().HasData(
                 new ValidationSettings
                 {
+                    Id = 1,  // Set a non-zero Id value for seeding
                     MaxTitleLength = ValidationConstants.MaxTitleLength,
                     MinTitleLength = ValidationConstants.MinTitleLength,
                     MaxQuestionTextLength = ValidationConstants.MaxQuestionTextLength,

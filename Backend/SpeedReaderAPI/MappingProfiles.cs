@@ -30,7 +30,8 @@ namespace SpeedReaderAPI
             CreateMap<Paragraph, ParagraphResponse>();
 
             CreateMap<ValidationSettings, ValidationSettingsResponce>();
-            CreateMap<ValidationSettingsUpdateRequest, ValidationSettings>();
+            CreateMap<ValidationSettingsUpdateRequest, ValidationSettings>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));;
             
             CreateMap<CategoryCreateRequest, Category>();
             CreateMap<CategoryUpdateRequest, Category>();
