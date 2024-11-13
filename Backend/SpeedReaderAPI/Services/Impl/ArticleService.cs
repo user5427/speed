@@ -49,9 +49,11 @@ public class ArticleService : IArticleService
     {
         Article createdArticle = _mapper.Map<Article>(request);
         _context.Article.Add(createdArticle);
+        _context.SaveChanges();
         if (request.CategoryIds != null)
         {
-            UpdateArticleCategories(createdArticle, Enumerable.Empty<int>(), createdArticle.CategoryIds);
+            var addedCategoryIdsList = request.CategoryIds.ToList();
+            AttachCategoriesToArticle(createdArticle, addedCategoryIdsList);
         }
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(createdArticle);
@@ -85,39 +87,39 @@ public class ArticleService : IArticleService
         }
         if (request.CategoryIds != null)
         {
-            var removedCategoryIds = articleFound.CategoryIds.Except(request.CategoryIds);
-            var addedCategoryIds = request.CategoryIds.Except(articleFound.CategoryIds);
-            UpdateArticleCategories(articleFound, removedCategoryIds, addedCategoryIds);
+            var removedCategoryIdsList = articleFound.CategoryIds.Except(request.CategoryIds).ToList();
+            var addedCategoryIdsList = request.CategoryIds.Except(articleFound.CategoryIds).ToList();
+            DetachCategoriesFromArticle(articleFound, removedCategoryIdsList);
+            AttachCategoriesToArticle(articleFound, addedCategoryIdsList);
+            articleFound.CategoryIds = request.CategoryIds;
         }
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(articleFound);
     }
 
-    private void UpdateArticleCategories(Article? articleFound, IEnumerable<int> removedCategoryIds, IEnumerable<int> addedCategoryIds)
+    private void AttachCategoriesToArticle(Article? articleFound, List<int> addedCategoryIdsList)
     {
-        if (articleFound == null)
-        {
-            throw new ResourceNotFoundException("Article not found.");
-        }
-        foreach (int removedCategoryId in removedCategoryIds)
-        {
-            Category? categoryFound = _context.Category.FindById(removedCategoryId);
-            if (categoryFound == null)
-            {
-                throw new ResourceNotFoundException($"Category with ID {removedCategoryId} not found.");
-            }
-            articleFound.CategoryIds.Remove(removedCategoryId);
-            categoryFound.ArticleIds.Remove(articleFound.Id);
-        }
-        foreach (int addedCategoryId in addedCategoryIds)
+        foreach (int addedCategoryId in addedCategoryIdsList)
         {
             Category? categoryFound = _context.Category.FindById(addedCategoryId);
             if (categoryFound == null)
             {
                 throw new ResourceNotFoundException($"Category with ID {addedCategoryId} not found.");
             }
-            articleFound.CategoryIds.Add(addedCategoryId);
             categoryFound.ArticleIds.Add(articleFound.Id);
+        }
+    }
+
+    private void DetachCategoriesFromArticle(Article? articleFound, List<int> removedCategoryIdsList)
+    {
+        foreach (int removedCategoryId in removedCategoryIdsList)
+        {
+            Category? categoryFound = _context.Category.FindById(removedCategoryId);
+            if (categoryFound == null)
+            {
+                throw new ResourceNotFoundException($"Category with ID {removedCategoryId} not found.");
+            }
+            categoryFound.ArticleIds.Remove(articleFound.Id);
         }
     }
 
@@ -132,6 +134,8 @@ public class ArticleService : IArticleService
             }
             var copyOfParaphIds = articleFound.ParagraphIds.ToList();
             copyOfParaphIds.ForEach(_paragraphService.DeleteParagraph);
+            var removedCategoryIdsList = articleFound.CategoryIds.ToList();
+            DetachCategoriesFromArticle(articleFound, removedCategoryIdsList);
             _context.Article.Remove(articleFound);
             _context.SaveChanges();
         }

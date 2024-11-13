@@ -10,15 +10,13 @@ public class CategoryService : ICategoryService
 {
     private readonly CombinedRepositories _context;
     private readonly IImageService _imageService;
-    private readonly ICategoryService _categoryService;
     private readonly IMapper _mapper;
 
-    public CategoryService(ApplicationContext context, IMapper mapper, IImageService imageService, ICategoryService categoryService)
+    public CategoryService(ApplicationContext context, IMapper mapper, IImageService imageService)
     {
         _context = new CombinedRepositories(context);
         _mapper = mapper;
         _imageService = imageService;
-        _categoryService = categoryService;
     }
 
     public CategoryResponse CreateCategory(CategoryCreateRequest request)
