@@ -4,43 +4,97 @@ using SpeedReaderAPI.Services;
 using SpeedReaderAPI.Services.Impl;
 using SpeedReaderAPI.Filters;
 using SpeedReaderAPI;
-var builder = WebApplication.CreateBuilder(args);
+using Serilog;
+using Serilog.Events;
 
-// Add services to the container.
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
+    .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
+    .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-builder.Services.AddControllers(options =>
-    {
-        options.Filters.Add<RequestValidationFilter>();
-        options.Filters.Add<ExceptionFilter>();
-    });
-builder.Services.AddScoped<IImageService, ImageService>();
-builder.Services.AddScoped<IArticleService, ArticleService>();
-builder.Services.AddScoped<IParagraphService, ParagraphService>();
-builder.Services.AddScoped<IQuestionService, QuestionService>();
-builder.Services.AddScoped<IValidationSettingsService, ValidationSettingsService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    Log.Information("Starting web application");
+
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Services.AddSerilog((services, lc) => lc
+    .ReadFrom.Configuration(builder.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext()
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day));
+
+    // Add services to the container.
+
+    builder.Services.AddControllers(options =>
+        {
+            options.Filters.Add<RequestValidationFilter>();
+            options.Filters.Add<ExceptionFilter>();
+        });
+    builder.Services.AddScoped<IImageService, ImageService>();
+    builder.Services.AddScoped<IArticleService, ArticleService>();
+    builder.Services.AddScoped<IParagraphService, ParagraphService>();
+    builder.Services.AddScoped<IQuestionService, QuestionService>();
+    builder.Services.AddScoped<IValidationSettingsService, ValidationSettingsService>();
+    builder.Services.AddScoped<ICategoryService, CategoryService>();
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+    builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+
+    var app = builder.Build();
+
+    app.UseSerilogRequestLogging(options =>
+    {
+        // Customize the message template
+        options.MessageTemplate = "Handled {RequestPath}";
+        
+        // Emit debug-level events instead of the defaults
+        options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Debug;
+        
+        // Attach additional properties to the request completion event
+        options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+        {
+            diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+            diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+        };
+    });
+
+    app.Use(async (context, next) =>
+    {
+        Log.Information("Handling request: {Method} {Path}", context.Request.Method, context.Request.Path);
+        
+        await next.Invoke();
+        
+        Log.Information("Finished handling request. Response Status: {StatusCode}", context.Response.StatusCode);
+    });
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+    app.UseCors("AllowAll");
+    app.MapControllers();
+
+    app.Run();
+
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-app.UseCors("AllowAll");
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
 
 public partial class Program { }
