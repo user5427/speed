@@ -6,6 +6,7 @@ using SpeedReaderAPI.Filters;
 using SpeedReaderAPI;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.Elasticsearch;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
@@ -16,14 +17,32 @@ Log.Logger = new LoggerConfiguration()
 
 try
 {
-    Log.Information("Starting web application");
+    // Build configuration to access appsettings.json
+    var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .Build();
+    bool useElasticsearch = configuration.GetValue<bool>("UseElasticsearch");
+    // Log.Information("Starting web application");
 
     var builder = WebApplication.CreateBuilder(args);
-    builder.Services.AddSerilog((services, lc) => lc
-    .ReadFrom.Configuration(builder.Configuration)
-    .ReadFrom.Services(services)
-    .Enrich.FromLogContext()
-    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day));
+    builder.Host.UseSerilog((context, services, loggerConfig) =>
+    {
+        loggerConfig
+            .ReadFrom.Configuration(context.Configuration)
+            .ReadFrom.Services(services)
+            .Enrich.FromLogContext()
+            .WriteTo.File("logs/log.txt");
+
+        // Conditionally add Elasticsearch sink
+        if (useElasticsearch)
+        {
+            loggerConfig.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
+            {
+                AutoRegisterTemplate = true,
+                IndexFormat = "logstash-{0:yyyy.MM.dd}"
+            });
+        }
+    });
 
     // Add services to the container.
 
