@@ -25,7 +25,7 @@ public class AuthControllerTests : IClassFixture<PlaygroundApplicationFixture>
 
     private void ensureDatabaseIsPrepared()
     {
-         var scope = _fixture.Services.CreateScope();
+        var scope = _fixture.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
         // Ensure database is prepared synchronously
@@ -61,7 +61,7 @@ public class AuthControllerTests : IClassFixture<PlaygroundApplicationFixture>
         var request = new LoginRequest
         {
             Email = _user.Email,
-            Password = _user.Password
+            Password = "password"
         };
 
         var response = await _client.PostAsJsonAsync("/api/auth/login", request);

@@ -17,7 +17,7 @@ public class DBHelperMethods
         AddUser(context);
     }
 
-    public static void AddUser(ApplicationContext context, string username = "TestUser", string email = "email@email.com", string Password = "123456", Role role = Role.ADMIN)
+    public static void AddUser(ApplicationContext context, string username = "TestUser", string email = "email@email.com", string Password = "$2a$11$tImiPnCT57boieMc8i2Jle627H1hUwZ7FlMqcqBScbzPDbORjLAr." /*password*/, Role role = Role.ADMIN)
     {
         context.User.Add(new User { Username = username, Email = email, Password = Password, Role = role });
         context.SaveChanges();
