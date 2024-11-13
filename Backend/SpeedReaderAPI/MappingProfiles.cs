@@ -28,6 +28,9 @@ namespace SpeedReaderAPI
             CreateMap<ParagraphCreateRequest, Paragraph>();
             CreateMap<ParagraphUpdateRequest, Paragraph>();
             CreateMap<Paragraph, ParagraphResponse>();
+
+            CreateMap<ValidationSettings, ValidationSettingsResponce>();
+            CreateMap<ValidationSettingsUpdateRequest, ValidationSettings>();
         }
     }
 }
