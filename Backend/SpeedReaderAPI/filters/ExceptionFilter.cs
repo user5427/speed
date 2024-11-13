@@ -58,6 +58,20 @@ public class ExceptionFilter : IExceptionFilter
                 Instance = context.HttpContext.Request.Path
             }
                 ),
+            InvalidCredentialsException => new BadRequestObjectResult(new ProblemDetails
+            {
+                Title = "Invalid Credentials",
+                Detail = "The email or password you provided is incorrect.",
+                Status = StatusCodes.Status400BadRequest,
+                Instance = context.HttpContext.Request.Path
+            }),
+            DuplicateEmailException => new BadRequestObjectResult(new ProblemDetails
+            {
+                Title = "Email Already Registered",
+                Detail = "The email address you entered is already in use.",
+                Status = StatusCodes.Status400BadRequest,
+                Instance = context.HttpContext.Request.Path
+            }),
             _ => new ObjectResult(new ProblemDetails
             {
                 Title = "Internal Server Error",
