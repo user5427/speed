@@ -3,7 +3,7 @@ namespace SpeedReaderAPI.DTOs.ArticleSession.Responses;
 using SpeedReaderAPI.DTOs.ParagraphSession;
 
 public record ArticleSessionResponse(
-    int Id,
+    long Id,
     DateTime Time,
     ParagraphSessionDto[] Paragraphs
 );

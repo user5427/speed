@@ -2,7 +2,7 @@ namespace SpeedReaderAPI.DTOs.ParagraphSession;
 
 public record ParagraphSessionDto
 (
-    int Id,
+    long Id,
     int ParagraphId,
     int Wpm,
     int CorrectCount,

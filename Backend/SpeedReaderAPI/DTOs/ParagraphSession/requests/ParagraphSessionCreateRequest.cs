@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations;
 public record ParagraphSessionCreateRequest
 (
     [Required(ErrorMessage = "Paragraph id is required.")]
-    int? paragraphId,
+    int? ParagraphId,
     
     [Required(ErrorMessage = "Duration is required.")]
-    int? duration,
+    int? Duration,
 
     [Required(ErrorMessage = "Wpm is required.")]
-    int? wpm,
+    int? Wpm,
 
     [Required(ErrorMessage = "Correct question count is required.")]
-    int? CorrectCount,
+    int? CorrectCount
 );
