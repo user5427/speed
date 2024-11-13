@@ -1,5 +1,6 @@
 namespace SpeedReaderAPI.DTOs.ArticleSession.Requests;
 using System.ComponentModel.DataAnnotations;
+using SpeedReaderAPI.DTOs.ParagraphSession.Requests;
 
 public record ArticleSessionCreateRequest
 (
@@ -7,5 +8,5 @@ public record ArticleSessionCreateRequest
     int? ArticleId,
 
     [Required(ErrorMessage = "Paragraph sessions are required.")]
-    ParagraphSessionCreateRequest[]? paragraphSessions;
+    ParagraphSessionCreateRequest[]? ParagraphSessions
 );
