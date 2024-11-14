@@ -6,14 +6,21 @@ using SpeedReaderAPI.Filters;
 using SpeedReaderAPI;
 using Serilog;
 using Serilog.Events;
-using Serilog.Sinks.Elasticsearch;
+using Elastic.CommonSchema.Serilog;
+using Serilog.Sinks.Async;
+using Elastic.Serilog.Sinks;
+using Elastic.Ingest.Elasticsearch.DataStreams;
+using Elastic.Ingest.Elasticsearch;
+using Elastic.Channels;
+using Elastic.Transport;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
-    .WriteTo.Console()
+    .WriteTo.Console(new EcsTextFormatter())
     .CreateBootstrapLogger();
+
 
 try
 {
@@ -21,31 +28,52 @@ try
     var configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
         .Build();
-    bool useElasticsearch = configuration.GetValue<bool>("UseElasticsearch");
-    // Log.Information("Starting web application");
 
     var builder = WebApplication.CreateBuilder(args);
+    builder.Services.AddHttpContextAccessor();
     builder.Host.UseSerilog((context, services, loggerConfig) =>
     {
+        bool useElasticsearch = configuration.GetValue<bool>("UseElasticsearch");
+        var elasticsearchUrl = context.Configuration["Elasticsearch:Url"];
+        var elasticUsername = context.Configuration["Elasticsearch:Username"];
+        var elasticPassword = context.Configuration["Elasticsearch:Password"];
+
         loggerConfig
             .ReadFrom.Configuration(context.Configuration)
             .ReadFrom.Services(services)
+            .MinimumLevel.Debug()
             .Enrich.FromLogContext()
-            .WriteTo.File("logs/log.txt");
+            .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+            .WriteTo.Async(a => a.Console(new EcsTextFormatter()));
 
-        // Conditionally add Elasticsearch sink
         if (useElasticsearch)
         {
-            loggerConfig.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
+            // Setup Elasticsearch sink with basic options and error handling
+            try
             {
-                AutoRegisterTemplate = true,
-                IndexFormat = "logstash-{0:yyyy.MM.dd}"
-            });
+                var httpAccessor = services.GetRequiredService<IHttpContextAccessor>(); // Add HttpContextAccessor
+                loggerConfig.Enrich.WithEcsHttpContext(httpAccessor);
+                loggerConfig.WriteTo.Elasticsearch(
+                    new[] { new Uri(elasticsearchUrl) },
+                    opts =>
+                    {
+                        opts.BootstrapMethod = BootstrapMethod.Failure; // Continue on failure
+                    },
+                    transport =>
+                    {
+                        // Configure basic authentication
+                        transport.Authentication(new BasicAuthentication(elasticUsername, elasticPassword));
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Elasticsearch sink failed to initialize. Logging to console and file only.");
+            }
         }
     });
 
-    // Add services to the container.
-
+    // Service and Middleware setup
     builder.Services.AddControllers(options =>
         {
             options.Filters.Add<RequestValidationFilter>();
@@ -66,29 +94,19 @@ try
 
     var app = builder.Build();
 
-    app.UseSerilogRequestLogging(options =>
-    {
-        // Customize the message template
-        options.MessageTemplate = "Handled {RequestPath}";
-        
-        // Emit debug-level events instead of the defaults
-        options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Debug;
-        
-        // Attach additional properties to the request completion event
-        options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
-        {
-            diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
-            diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
-        };
-    });
+    app.UseSerilogRequestLogging();
 
     app.Use(async (context, next) =>
     {
-        Log.Information("Handling request: {Method} {Path}", context.Request.Method, context.Request.Path);
-        
-        await next.Invoke();
-        
-        Log.Information("Finished handling request. Response Status: {StatusCode}", context.Response.StatusCode);
+        try
+        {
+            await next();
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Unhandled exception occurred while processing request.");
+            throw;
+        }
     });
 
     // Configure the HTTP request pipeline.
