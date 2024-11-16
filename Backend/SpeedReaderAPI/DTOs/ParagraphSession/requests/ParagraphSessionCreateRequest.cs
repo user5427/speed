@@ -7,11 +7,14 @@ public record ParagraphSessionCreateRequest
     int? ParagraphId,
 
     [Required(ErrorMessage = "Duration is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Duration must be a positive number.")]
     int? Duration,
 
     [Required(ErrorMessage = "Wpm is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Duration must be a positive number.")]
     int? Wpm,
 
     [Required(ErrorMessage = "Correct question count is required.")]
+    [Range(0, int.MaxValue, ErrorMessage = "Duration must >= 0.")]
     int? CorrectQuestionCount
 );

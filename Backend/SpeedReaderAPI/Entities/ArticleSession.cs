@@ -16,6 +16,10 @@ public class ArticleSession
 
     public DateTime Time { get; set; }
 
+    public int Wpm { get; set; } = 0;
+    public int CorrectQuestionCount { get; set; } = 0;
+    public int TotalQuestionCount { get; set; } = 0;
+
     public User? User { get; set; }
     public Article? Article { get; set; }
 }

@@ -5,6 +5,10 @@ using SpeedReaderAPI.DTOs.ParagraphSession;
 public record ArticleSessionResponse(
     long Id,
     int ArticleId,
+    int Wpm,
+    int CorrectQuestionCount,
+    int TotalQuestionCount,
     DateTime Time,
     ParagraphSessionDto[] Paragraphs
+
 );
