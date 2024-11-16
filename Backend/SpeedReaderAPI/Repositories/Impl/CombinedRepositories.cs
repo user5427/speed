@@ -9,6 +9,7 @@ public class CombinedRepositories : ICombinedRepository {
     public readonly IDefaultRepository<Question> Question;
     public readonly IValidationSettingsRepository ValidationSettings;
     public readonly IDefaultRepository<Category> Category;
+    public readonly IDbUserRepository User;
 
     public CombinedRepositories(ApplicationContext context)
     {
@@ -18,6 +19,7 @@ public class CombinedRepositories : ICombinedRepository {
         Question = new DbQuestionRepository(context);
         ValidationSettings = new DbValidationSettingsRepository(context);
         Category = new DbCategoryRepository(context);
+        User = new DbUserRepository(context);
     }
 
     public void SaveChanges() {
