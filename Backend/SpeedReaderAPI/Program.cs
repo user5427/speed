@@ -13,6 +13,7 @@ using Elastic.Ingest.Elasticsearch.DataStreams;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Channels;
 using Elastic.Transport;
+using Prometheus;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
@@ -108,6 +109,27 @@ try
             throw;
         }
     });
+
+
+    bool usePrometheus = configuration.GetValue<bool>("UsePrometheus");
+
+    app.UseRouting();
+
+    if (usePrometheus)
+    {
+        app.UseHttpMetrics(options=>
+        {
+            options.AddCustomLabel("host", context => context.Request.Host.Host);
+        });
+        
+    }
+    
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+        endpoints.MapMetrics();
+    });
+    
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
