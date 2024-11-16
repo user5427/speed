@@ -13,9 +13,9 @@ public class ArticleSession
 
     [ForeignKey(nameof(Article))]
     public int ArticleId { get; set; }
-    
+
     public DateTime Time { get; set; }
 
-    public required User User { get; set; }
-    public required Article Article { get; set; }
+    public User? User { get; set; }
+    public Article? Article { get; set; }
 }

@@ -8,7 +8,7 @@ using SpeedReaderAPI.DTOs.ArticleSession.Responses;
 using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/article-sessions")]
 public class ArticleSessionsController : ControllerBase
 {
     private readonly IArticleSessionService _articleSessionService;
@@ -22,7 +22,7 @@ public class ArticleSessionsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize("USER,ADMIN")]
+    [Authorize(Roles = "USER,ADMIN")]
     public async Task<IActionResult> Create(ArticleSessionCreateRequest request)
     {
         ArticleSessionResponse result = await _articleSessionService.CreateArticleSession(request);

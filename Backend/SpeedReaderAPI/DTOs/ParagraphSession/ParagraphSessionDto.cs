@@ -5,6 +5,6 @@ public record ParagraphSessionDto
     long Id,
     int ParagraphId,
     int Wpm,
-    int CorrectCount,
-    int TotalCount
+    int CorrectQuestionCount,
+    int TotalQuestionCount
 );

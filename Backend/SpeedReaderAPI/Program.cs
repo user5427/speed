@@ -23,6 +23,8 @@ builder.Services.AddScoped<IParagraphService, ParagraphService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IArticleSessionService, ArticleSessionService>();
+builder.Services.AddScoped<IParagraphSessionService, ParagraphSessionService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

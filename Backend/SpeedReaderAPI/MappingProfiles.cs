@@ -5,11 +5,13 @@ using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
-using SpeedReaderAPI.DTOs.Paragraph;
 using SpeedReaderAPI.DTOs.Question.Requests;
-using SpeedReaderAPI.DTOs.Question;
 using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.DTOs.ArticleSession.Requests;
+using SpeedReaderAPI.DTOs.ParagraphSession.Requests;
+using SpeedReaderAPI.DTOs.ArticleSession.Responses;
+using SpeedReaderAPI.DTOs.ParagraphSession;
 
 namespace SpeedReaderAPI
 {
@@ -28,6 +30,12 @@ namespace SpeedReaderAPI
             CreateMap<ParagraphCreateRequest, Paragraph>();
             CreateMap<ParagraphUpdateRequest, Paragraph>();
             CreateMap<Paragraph, ParagraphResponse>();
+
+            CreateMap<ArticleSessionCreateRequest, ArticleSession>();
+            CreateMap<ArticleSession, ArticleSessionResponse>();
+
+            CreateMap<ParagraphSessionCreateRequest, ParagraphSession>();
+            CreateMap<ParagraphSession, ParagraphSessionDto>();
         }
     }
 }

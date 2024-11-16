@@ -5,7 +5,7 @@ public record ParagraphSessionCreateRequest
 (
     [Required(ErrorMessage = "Paragraph id is required.")]
     int? ParagraphId,
-    
+
     [Required(ErrorMessage = "Duration is required.")]
     int? Duration,
 
@@ -13,5 +13,5 @@ public record ParagraphSessionCreateRequest
     int? Wpm,
 
     [Required(ErrorMessage = "Correct question count is required.")]
-    int? CorrectCount
+    int? CorrectQuestionCount
 );
