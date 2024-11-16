@@ -1,7 +1,7 @@
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
 
-public class DbParagraphSessionRepository : IDefaultRepository<ParagraphSession>
+public class DbParagraphSessionRepository : IDbParagraphSessionRepository
 {
     private readonly ApplicationContext _context;
 
@@ -15,6 +15,8 @@ public class DbParagraphSessionRepository : IDefaultRepository<ParagraphSession>
     public long Count() => _context.ParagraphSession.Count();
 
     public ParagraphSession? FindById(int? id) => _context.ParagraphSession.FirstOrDefault(a => a.Id == id);
+
+    public List<ParagraphSession> GetAllByArticleSession(long articleSessionId) => _context.ParagraphSession.Where(e => e.ArticleSessionId == articleSessionId).ToList();
 
     public List<ParagraphSession> GetPaged(int skip, int take) => _context.ParagraphSession.Skip(skip).Take(take).ToList();
 

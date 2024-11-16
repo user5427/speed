@@ -9,8 +9,8 @@ public class CombinedRepositories : ICombinedRepository
     public readonly IDefaultRepository<Paragraph> Paragraph;
     public readonly IDefaultRepository<Question> Question;
     public readonly IDbUserRepository User;
-    public readonly IDefaultRepository<ArticleSession> ArticleSession;
-    public readonly IDefaultRepository<ParagraphSession> ParagraphSession;
+    public readonly IDbArticleSessionRepository ArticleSession;
+    public readonly IDbParagraphSessionRepository ParagraphSession;
 
 
     public CombinedRepositories(ApplicationContext context)

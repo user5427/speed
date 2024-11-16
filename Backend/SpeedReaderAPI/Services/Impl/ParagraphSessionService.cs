@@ -19,6 +19,7 @@ public class ParagraphSessionService : IParagraphSessionService
         _mapper = mapper;
     }
 
+    // TODO: fix
     private async Task<ParagraphSessionDto> CreateParagraphSession(Article article, ArticleSession articleSession, ParagraphSessionCreateRequest request)
     {
         Paragraph? paragraphFound = _context.Paragraph.FindById(request.ParagraphId);
@@ -55,5 +56,12 @@ public class ParagraphSessionService : IParagraphSessionService
         await _context.SaveChangesAsync();
 
         return concurrentCollection.ToArray();
+    }
+
+    public List<ParagraphSessionDto> GetAllByArticleSession(ArticleSession articleSession)
+    {
+        return _context.ParagraphSession.GetAllByArticleSession(articleSession.Id)
+        .Select(_mapper.Map<ParagraphSessionDto>)
+        .ToList();
     }
 }

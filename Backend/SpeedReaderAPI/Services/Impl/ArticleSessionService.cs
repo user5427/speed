@@ -1,7 +1,9 @@
 namespace SpeedReaderAPI.Services.Impl;
 
 using AutoMapper;
+using Azure;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.ArticleSession.Requests;
 using SpeedReaderAPI.DTOs.ArticleSession.Responses;
 using SpeedReaderAPI.DTOs.ParagraphSession;
@@ -55,5 +57,26 @@ public class ArticleSessionService : IArticleSessionService
                 paragraphSessionDtos
             );
         });
+    }
+
+    public PageResponse<ArticleSessionResponse> GetAllByAuthenticatedUser(QueryParameters queryParameters)
+    {
+        User? user = _userService.GetAuthenticatedUser();
+        if (user == null)
+            throw new UnauthorizedAccessException("User is not authenticated.");
+
+        long sessionCount = _context.ArticleSession.CountByUserAndArticle(user.Id, null);
+        List<ArticleSession> sessions = _context.ArticleSession.GetPagedByUserAndArticle((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize, user.Id, null);
+        List<ArticleSessionResponse> sessionResponses = sessions.Select(s =>
+        {
+            var paragraphSessionDtos = _paragraphSessionService.GetAllByArticleSession(s).ToArray();
+            return new ArticleSessionResponse(
+                s.Id,
+                s.ArticleId,
+                s.Time,
+                paragraphSessionDtos
+            );
+        }).ToList();
+        return new PageResponse<ArticleSessionResponse>(sessionCount, sessionResponses);
     }
 }
