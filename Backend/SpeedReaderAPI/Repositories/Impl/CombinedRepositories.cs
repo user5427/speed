@@ -8,6 +8,7 @@ public class CombinedRepositories : ICombinedRepository {
     public readonly IDefaultRepository<Paragraph> Paragraph;
     public readonly IDefaultRepository<Question> Question;
     public readonly IDefaultRepository<Category> Category;
+    public readonly IDbUserRepository User;
 
     public CombinedRepositories(ApplicationContext context)
     {
@@ -16,6 +17,7 @@ public class CombinedRepositories : ICombinedRepository {
         Paragraph = new DbParagraphRepository(context);
         Question = new DbQuestionRepository(context);
         Category = new DbCategoryRepository(context);
+        User = new DbUserRepository(context);
     }
 
     public void SaveChanges() {
