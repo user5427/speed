@@ -15,13 +15,13 @@ using SpeedReaderAPI.Exceptions;
 public class ArticleSessionService : IArticleSessionService
 {
     private readonly CombinedRepositories _context;
-    private readonly IUserService _userService;
+    private readonly IAuthService _userService;
     private readonly IParagraphSessionService _paragraphSessionService;
     private readonly IMapper _mapper;
     private const double SECONDS_PER_MIN = 60D;
 
     // Production constructor
-    public ArticleSessionService(ApplicationContext context, IUserService userService, IParagraphSessionService paragraphSessionService, IMapper mapper)
+    public ArticleSessionService(ApplicationContext context, IAuthService userService, IParagraphSessionService paragraphSessionService, IMapper mapper)
     {
         _context = new CombinedRepositories(context);
         _mapper = mapper;
@@ -53,33 +53,30 @@ public class ArticleSessionService : IArticleSessionService
             await _context.SaveChangesAsync();
 
             ParagraphSessionDto[] paragraphSessionDtos = await _paragraphSessionService.CreateParagraphSessions(articleFound, session, request.ParagraphSessions!);
+
+            // Calculate article session stats
             int sessionQuestionCount = CalculateQuestionCount(request.ParagraphSessions!);
             int sessionCorrectQuestionCount = CalculateCorrectQuestionCount(request.ParagraphSessions!);
-            int sessionWpm = CalculateWpm(request.ParagraphSessions!);
+            var paragraphSessions = request.ParagraphSessions!;
+            double totalWords = (double)paragraphSessions.Sum(s => s.Wpm! * s.Duration! / SECONDS_PER_MIN)!;
+            int totalDurationInSeconds = paragraphSessions.Sum(s => s.Duration ?? 0);
+            int sessionWpm = (int)Math.Round(totalWords / (totalDurationInSeconds / SECONDS_PER_MIN));
+
+            // Set article session stats
             session.CorrectQuestionCount = sessionCorrectQuestionCount;
             session.TotalQuestionCount = sessionQuestionCount;
             session.Wpm = sessionWpm;
+
+            // Update user stats
+            user.WordsRead += (long)Math.Round(totalWords);
+            user.SecondsRead += totalDurationInSeconds;
+            user.CorrectQuestions += sessionCorrectQuestionCount;
+            user.TotalQuestions += sessionQuestionCount;
+            user.ArticlesCountRead++;
+
             await _context.SaveChangesAsync();
-
-            return createArticleSessionResponse(session, paragraphSessionDtos);
+            return CreateArticleSessionResponse(session, paragraphSessionDtos);
         });
-    }
-    private int CalculateWpm(ParagraphSessionCreateRequest[] paragraphSessions)
-    {
-        double totalWords = (double)paragraphSessions.Sum(s => s.Wpm! * s.Duration! / SECONDS_PER_MIN)!;
-        int totalDurationInSeconds = paragraphSessions.Sum(s => s.Duration ?? 0);
-        int wpm = (int)Math.Round(totalWords / totalDurationInSeconds * SECONDS_PER_MIN);
-        return wpm;
-    }
-
-    private int CalculateCorrectQuestionCount(ParagraphSessionCreateRequest[] paragraphSessions)
-    {
-        return paragraphSessions.Sum(s => s.CorrectQuestionCount ?? 0);
-    }
-
-    private int CalculateQuestionCount(ParagraphSessionCreateRequest[] paragraphSessions)
-    {
-        return paragraphSessions.Sum(s => _context.Paragraph.FindById(s.ParagraphId)!.QuestionIds.Count);
     }
 
     public PageResponse<ArticleSessionResponse> GetAllByAuthenticatedUser(QueryParameters queryParameters)
@@ -93,12 +90,22 @@ public class ArticleSessionService : IArticleSessionService
         List<ArticleSessionResponse> sessionResponses = sessions.Select(s =>
         {
             var paragraphSessionDtos = _paragraphSessionService.GetAllByArticleSession(s).ToArray();
-            return createArticleSessionResponse(s, paragraphSessionDtos);
+            return CreateArticleSessionResponse(s, paragraphSessionDtos);
         }).ToList();
         return new PageResponse<ArticleSessionResponse>(sessionCount, sessionResponses);
     }
 
-    private ArticleSessionResponse createArticleSessionResponse(ArticleSession session, ParagraphSessionDto[] paragraphSessions)
+    private int CalculateCorrectQuestionCount(ParagraphSessionCreateRequest[] paragraphSessions)
+    {
+        return paragraphSessions.Sum(s => s.CorrectQuestionCount ?? 0);
+    }
+
+    private int CalculateQuestionCount(ParagraphSessionCreateRequest[] paragraphSessions)
+    {
+        return paragraphSessions.Sum(s => _context.Paragraph.FindById(s.ParagraphId)!.QuestionIds.Count);
+    }
+
+    private ArticleSessionResponse CreateArticleSessionResponse(ArticleSession session, ParagraphSessionDto[] paragraphSessions)
     {
         return new ArticleSessionResponse(session.Id,
                 session.ArticleId,

@@ -7,7 +7,7 @@ public class ExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
-
+        Console.WriteLine(context.Exception);
         context.Result = context.Exception switch
         {
             IndexOutOfRangeException => new BadRequestObjectResult(new ProblemDetails

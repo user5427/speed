@@ -1,11 +1,8 @@
 namespace SpeedReaderAPI.Services;
 
-using SpeedReaderAPI.DTOs.Auth.Requests;
-using SpeedReaderAPI.DTOs.Auth.Responses;
-using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.DTOs.Question.Responses;
 
-public interface IUserService {
-    void Register(RegisterRequest registerRequest);
-    LoginResponse Login(LoginRequest loginRequest);
-    User? GetAuthenticatedUser();
+public interface IUserService
+{
+    UserInfoResponse GetMyInfo();
 }

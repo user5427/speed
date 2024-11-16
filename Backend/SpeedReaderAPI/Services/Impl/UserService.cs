@@ -1,89 +1,37 @@
 using AutoMapper;
 using SpeedReaderAPI.Data;
-using SpeedReaderAPI.DTOs.Auth.Requests;
-using SpeedReaderAPI.DTOs.Auth.Responses;
 using SpeedReaderAPI.Entities;
-using SpeedReaderAPI.Exceptions;
 namespace SpeedReaderAPI.Services.Impl;
-using System.Security.Claims;
-
+using SpeedReaderAPI.DTOs.Question.Responses;
 
 public class UserService : IUserService
 {
-    
-    private readonly CombinedRepositories _context;
-    private readonly ITokenService _tokenService;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IMapper _mapper;
+    private readonly IAuthService _authService;
     public UserService(ApplicationContext context, IMapper mapper,
-        ITokenService tokenService,
-        IHttpContextAccessor httpContextAccessor)
+        IAuthService authService)
     {
-        _httpContextAccessor = httpContextAccessor;
-        _context = new CombinedRepositories(context);
+        _authService = authService;
         _mapper = mapper;
-        _tokenService = tokenService;
     }
-    public LoginResponse Login(LoginRequest request)
-    {
-        var user = _context.User.FindByEmail(request.Email);
 
+    public UserInfoResponse GetMyInfo()
+    {
+        User? user = _authService.GetAuthenticatedUser();
         if (user == null)
-        {
-            throw new InvalidCredentialsException(); 
-        }
-        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password)) {
-            throw new InvalidCredentialsException();
-        }
-        var token = _tokenService.CreateToken(user);
-        
-        return new LoginResponse {
-            Id = user.Id,
-            Username = user.Username,
-            Role = user.Role,
-            Token = token
-        };
-    }
+            throw new UnauthorizedAccessException("User is not authenticated.");
 
-    public void Register(RegisterRequest request)
-    {
-        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
+        double averageWpm = user.SecondsRead > 0 ? Math.Round(user.WordsRead / (user.SecondsRead / 60D)) : 0;
 
-        if (_context.User.FindByEmail(request.Email) != null) {
-            throw new DuplicateEmailException();
-        }
-
-        var createdUser = new User
-        {
-            Username = request.Username,
-            Email = request.Email,
-            Password = hashedPassword,
-            Role = Role.USER
-        };
-
-        _context.User.Add(createdUser);
-        _context.SaveChanges();
-    }
-
-    public User? GetAuthenticatedUser() {
-        string? userIdClaim = _httpContextAccessor
-            .HttpContext
-            ?.User
-            .Claims
-            .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
-            ?.Value;
-        
-        if(userIdClaim == null)
-        {
-            return null;
-        }
-
-        if (!long.TryParse(userIdClaim, out long userId))
-        {
-            throw new InvalidOperationException("User ID claim is not a valid long.");
-        }
-        
-        User? user = _context.User.FindById(userId);
-        return user;
+        return new UserInfoResponse(
+           user.Id,
+           user.Username,
+           averageWpm,
+           user.WordsRead,
+           user.SecondsRead / 60D,
+           user.CorrectQuestions,
+           user.TotalQuestions,
+           user.ArticlesCountRead
+        );
     }
 }
