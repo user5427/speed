@@ -17,4 +17,4 @@ scrape_configs:
     # replace the IP with your local IP for development
     # localhost is not it, as that is w/in the container :)
     - targets:
-        - host.docker.internal:8084
+        - host.docker.internal:8082

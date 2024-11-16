@@ -114,22 +114,19 @@ try
     bool usePrometheus = configuration.GetValue<bool>("UsePrometheus");
 
     app.UseRouting();
+	app.UseAuthorization();
 
-    if (usePrometheus)
+	if (usePrometheus)
     {
-        app.UseHttpMetrics(options=>
-        {
-            options.AddCustomLabel("host", context => context.Request.Host.Host);
-        });
-        
-    }
+		app.UseMetricServer();
+		app.UseHttpMetrics();
+	}
     
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
         endpoints.MapMetrics();
     });
-    
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
@@ -140,7 +137,6 @@ try
 
     app.UseHttpsRedirection();
 
-    app.UseAuthorization();
     app.UseCors("AllowAll");
     app.MapControllers();
 
