@@ -10,28 +10,13 @@ public class DbArticleSessionRepository : IDefaultRepository<ArticleSession>
         _context = context;
     }
 
-    public void Add(ArticleSession entity)
-    {
-        throw new NotImplementedException();
-    }
+    public void Add(ArticleSession entity) => _context.ArticleSession.Add(entity);
 
-    public long Count()
-    {
-        throw new NotImplementedException();
-    }
+    public long Count() => _context.ArticleSession.Count();
 
-    public ArticleSession? FindById(int? id)
-    {
-        throw new NotImplementedException();
-    }
+    public ArticleSession? FindById(int? id) => _context.ArticleSession.FirstOrDefault(a => a.Id == id);
 
-    public List<ArticleSession> GetPaged(int skip, int take)
-    {
-        throw new NotImplementedException();
-    }
+    public List<ArticleSession> GetPaged(int skip, int take) => _context.ArticleSession.Skip(skip).Take(take).ToList();
 
-    public void Remove(ArticleSession entity)
-    {
-        throw new NotImplementedException();
-    }
+    public void Remove(ArticleSession entity) => _context.ArticleSession.Remove(entity);
 }
