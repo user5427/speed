@@ -77,4 +77,11 @@ public class CategoryController : ControllerBase
         long count = _categoryService.GetCount();
         return Ok(count);
     }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteCategory(int id)
+    {
+        _categoryService.DeleteCategory(id);
+        return Ok("Deleted");
+    }
 }
