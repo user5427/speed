@@ -1,5 +1,6 @@
 namespace SpeedReaderAPI.Services.Impl;
 
+using System.Collections.Concurrent;
 using AutoMapper;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs.ParagraphSession;
@@ -35,22 +36,24 @@ public class ParagraphSessionService : IParagraphSessionService
         session.TotalQuestionCount = paragraphFound.QuestionIds.Count;
 
         _context.ParagraphSession.Add(session);
-        await _context.SaveChangesAsync();
 
         return _mapper.Map<ParagraphSessionDto>(session);
     }
 
-
     public async Task<ParagraphSessionDto[]> CreateParagraphSessions(Article article, ArticleSession articleSession, ParagraphSessionCreateRequest[] requests)
     {
-        List<ParagraphSessionDto> paragraphSessionDtos = [];
-        foreach (var paragraphRequest in requests)
+        var concurrentCollection = new ConcurrentBag<ParagraphSessionDto>();
+
+        var tasks = requests.Select(async (paragraphRequest) =>
         {
-            var paragraphSessionCreated = await CreateParagraphSession(
-                article, articleSession, paragraphRequest
-            );
-            paragraphSessionDtos.Add(paragraphSessionCreated);
-        }
-        return paragraphSessionDtos.ToArray();
+            var paragraphSessionCreated = await CreateParagraphSession(article, articleSession, paragraphRequest);
+            concurrentCollection.Add(paragraphSessionCreated);
+        }).ToList();
+
+        await Task.WhenAll(tasks);
+
+        await _context.SaveChangesAsync();
+
+        return concurrentCollection.ToArray();
     }
 }
