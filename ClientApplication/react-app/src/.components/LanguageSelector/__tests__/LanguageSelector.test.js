@@ -13,24 +13,31 @@ jest.mock('country-flag-icons/react/3x2', () => ({
 }));
 
 describe('LanguageSelector Component', () => {
-  test('Language changing within LanguageSelector component', async () => {
+  const setup = () => {
     render(
       <I18nextProvider i18n={testI18n}>
         <LanguageSelector />
       </I18nextProvider>
     );
+  };
 
-    // Test initial language is English
+  test('renders with English as the initial language', () => {
+    setup();
+
     const initialButton = screen.getByRole('button', { name: /Select language\. Current language is English/i });
     expect(initialButton).toBeInTheDocument();
     expect(initialButton).toHaveTextContent('🇬🇧English');
+    expect(testI18n.language).toBe('en');
+  });
 
-    // Open the dropdown
+  test('changes language to Lithuanian', async () => {
+    setup();
+
+    const initialButton = screen.getByRole('button', { name: /Select language\. Current language is English/i });
     await act(async () => {
       await userEvent.click(initialButton);
     });
 
-    // Change to LT
     const lithuanianOption = screen.getByRole('button', { name: /Change language to Lithuanian/i });
     expect(lithuanianOption).toBeInTheDocument();
 
@@ -38,15 +45,22 @@ describe('LanguageSelector Component', () => {
       await userEvent.click(lithuanianOption);
     });
 
-    // Test the selected language is updated in the button
     await waitFor(() => {
       const updatedButton = screen.getByRole('button', { name: /Select language\. Current language is Lietuvių/i });
       expect(updatedButton).toBeInTheDocument();
       expect(updatedButton).toHaveTextContent('🇱🇹Lietuvių');
     });
     expect(testI18n.language).toBe('lt');
+  });
 
-    // Change to DE
+  test('changes language to German', async () => {
+    setup();
+
+    const initialButton = screen.getByRole('button', { name: /Select language\. Current language is Lietuvių/i });
+    await act(async () => {
+      await userEvent.click(initialButton);
+    });
+
     const germanOption = screen.getByRole('button', { name: /Change language to Vokiečių/i });
     expect(germanOption).toBeInTheDocument();
 
@@ -54,13 +68,11 @@ describe('LanguageSelector Component', () => {
       await userEvent.click(germanOption);
     });
 
-    // Test the selected language is updated in the button
     await waitFor(() => {
       const updatedButton = screen.getByRole('button', { name: /Select language\. Current language is Deutsch/i });
       expect(updatedButton).toBeInTheDocument();
       expect(updatedButton).toHaveTextContent('🇩🇪Deutsch');
     });
-
     expect(testI18n.language).toBe('de');
   });
 });
