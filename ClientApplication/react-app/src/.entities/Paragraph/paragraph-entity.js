@@ -34,8 +34,8 @@ class Paragraph {
 
         // Validate text
         if (typeof text !== "string" ||
-            text.length < ValidationConstants.MinTextLength ||
-            text.length > ValidationConstants.MaxTextLength) {
+            text.length < ValidationConstants.MinParagraphLength ||
+            text.length > ValidationConstants.MaxParagraphLength) {
             throw new Error(`Text must be between ${ValidationConstants.MinTextLength} and ${ValidationConstants.MaxTextLength} characters.`);
         }
 

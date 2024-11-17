@@ -57,6 +57,7 @@ class User {
         this._email = email;
         this._id = id;
         this._role = role;
+        this._token = null;
     }
 
     #createEmptyUser() {
@@ -65,6 +66,7 @@ class User {
         this._email = "";
         this._id = null;
         this._role = 0;
+        this._token = null;
     }
 
     #copyUser(user) {
@@ -133,7 +135,26 @@ class User {
     static varEmail() {
         return "email";
     }
-    
+
+    get id() {
+        return this._id;
+    }
+
+    get role() {
+        return this._role;
+    }
+    static varRole() {
+        return "role";
+    }
+
+    get token() {
+        return this._token;
+    }
+    static varToken() {
+        return this._token;
+    }
+
+
 }
 
 export default User;

@@ -8,4 +8,6 @@ export const ValidationConstants = {
     MaxParagraphLength: 1500,
     MinParagraphLength: 10,
     MinAnswerChoicesCount: 2,
+    MaxCategoryLength: 255,
+    MinCategoryLength: 5, // TODO BACKEND IMPLEMENTATION
 };
