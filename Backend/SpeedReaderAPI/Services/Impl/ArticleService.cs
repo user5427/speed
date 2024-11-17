@@ -1,26 +1,27 @@
 using AutoMapper;
-using SpeedReaderAPI.Constants;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Exceptions;
-
+using SpeedReaderAPI.helpers;
 namespace SpeedReaderAPI.Services.Impl;
 
 
 
 public class ArticleService : IArticleService
-{    private readonly ApplicationContext _context;
+{
+    private readonly CombinedRepositories _context;
     private readonly IImageService _imageService;
     private readonly IParagraphService _paragraphService;
     private readonly IMapper _mapper;
 
+    // Production constructor
     public ArticleService(ApplicationContext context, IMapper mapper,
         IImageService imageService, IParagraphService paragraphService)
     {
-        _context = context;
+        _context = new CombinedRepositories(context);
         _mapper = mapper;
         _imageService = imageService;
         _paragraphService = paragraphService;
@@ -29,20 +30,17 @@ public class ArticleService : IArticleService
     public ArticlePageResponse GetArticles(QueryParameters queryParameters)
     {
         long articleCount = _context.Article.Count();
-        List<Article> articles = _context.Article
-                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
-                                        .Take(queryParameters.PageSize)
-                                        .ToList();
+        List<Article> articles = _context.Article.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize);
         List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
         return new ArticlePageResponse(articleCount, articleResponseList);
     }
 
     public ArticleResponse GetArticleById(int id)
     {
-        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
+        Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
         return _mapper.Map<ArticleResponse>(articleFound);
     }
@@ -52,16 +50,22 @@ public class ArticleService : IArticleService
         Article createdArticle = _mapper.Map<Article>(request);
         _context.Article.Add(createdArticle);
         _context.SaveChanges();
+        if (request.CategoryIds != null)
+        {
+            var addedCategoryIdsList = request.CategoryIds.ToList();
+            AttachCategoriesToArticle(createdArticle, addedCategoryIdsList);
+        }
+        _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(createdArticle);
     }
 
 
     public ArticleResponse UpdateArticle(int id, ArticleUpdateRequest request)
     {
-        Article? articleFound = _context.Article.Where(x => x.Id == id).FirstOrDefault();
+        Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
 
         if (request.Title != null)
@@ -75,53 +79,91 @@ public class ArticleService : IArticleService
         if (request.ParagraphIds != null)
         {
             var difference = articleFound.ParagraphIds.Except(request.ParagraphIds);
-            if (difference.Any() || articleFound.ParagraphIds.Count != request.ParagraphIds.Count) {
+            if (difference.Any() || articleFound.ParagraphIds.Count != request.ParagraphIds.Count)
+            {
                 throw new InvalidParagraphIdListException();
             }
             articleFound.ParagraphIds = request.ParagraphIds;
+        }
+        if (request.CategoryIds != null)
+        {
+            var removedCategoryIdsList = articleFound.CategoryIds.Except(request.CategoryIds).ToList();
+            var addedCategoryIdsList = request.CategoryIds.Except(articleFound.CategoryIds).ToList();
+            DetachCategoriesFromArticle(articleFound, removedCategoryIdsList);
+            AttachCategoriesToArticle(articleFound, addedCategoryIdsList);
+            articleFound.CategoryIds = request.CategoryIds;
         }
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(articleFound);
     }
 
+    private void AttachCategoriesToArticle(Article? articleFound, List<int> addedCategoryIdsList)
+    {
+        foreach (int addedCategoryId in addedCategoryIdsList)
+        {
+            Category? categoryFound = _context.Category.FindById(addedCategoryId);
+            if (categoryFound == null)
+            {
+                throw new ResourceNotFoundException($"Category with ID {addedCategoryId} not found.");
+            }
+            categoryFound.ArticleIds.Add(articleFound.Id);
+        }
+    }
+
+    private void DetachCategoriesFromArticle(Article? articleFound, List<int> removedCategoryIdsList)
+    {
+        foreach (int removedCategoryId in removedCategoryIdsList)
+        {
+            Category? categoryFound = _context.Category.FindById(removedCategoryId);
+            if (categoryFound == null)
+            {
+                throw new ResourceNotFoundException($"Category with ID {removedCategoryId} not found.");
+            }
+            categoryFound.ArticleIds.Remove(articleFound.Id);
+        }
+    }
 
     public void DeleteArticle(int articleId)
     {
-        Article? articleFound = _context.Article.Where(x => x.Id == articleId).FirstOrDefault();
+        Article? articleFound = _context.Article.FindById(articleId);
         if (articleFound != null)
         {
-            if (articleFound.Image != null && articleFound.Image.HasValue) 
+            if (articleFound.Image != null && articleFound.Image.HasValue)
             {
                 _imageService.Delete((Image)articleFound.Image);
             }
             var copyOfParaphIds = articleFound.ParagraphIds.ToList();
             copyOfParaphIds.ForEach(_paragraphService.DeleteParagraph);
+            var removedCategoryIdsList = articleFound.CategoryIds.ToList();
+            DetachCategoriesFromArticle(articleFound, removedCategoryIdsList);
             _context.Article.Remove(articleFound);
             _context.SaveChanges();
-        }else{
-            throw new KeyNotFoundException($"Question with ID {articleId} not found.");
+        }
+        else
+        {
+            throw new ResourceNotFoundException($"Article with ID {articleId} not found.");
         }
     }
 
-    public PageResponse<ArticleResponse> SearchArticles(QueryParameters queryParameters) {
+    public PageResponse<ArticleResponse> SearchArticles(QueryParameters queryParameters)
+    {
         long articleCount = _context.Article.Count();
-        List<Article> articles = _context.Article
-                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
-                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
-                                        .Take(queryParameters.PageSize)
-                                        .ToList();
-        List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(articles);
+        List<Article> articles = _context.Article.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize)
+                                                    .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
+                                                    .ToList();
+        var sortedArticles = Sorter.SortList(articles);                                
+        List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(sortedArticles);
         return new PageResponse<ArticleResponse>(articleCount, articleResponseList);
     }
-    
+
     public async Task<ArticleResponse> UploadImage(int id, ImageUploadRequest request)
     {
-        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
-        if (articleFound == null) 
+        Article? articleFound = _context.Article.FindById(id);
+        if (articleFound == null)
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
-        if (articleFound.Image.HasValue) 
+        if (articleFound.Image.HasValue)
         {
             throw new ResourceAlreadyExistsException($"Article with ID {id} has an image.");
         }
@@ -131,33 +173,44 @@ public class ArticleService : IArticleService
         return _mapper.Map<ArticleResponse>(articleFound);
     }
 
-    public Image? GetImage(int id)
+    public Image GetImage(int id)
     {
-        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
-        if (articleFound == null) 
+        Article? articleFound = _context.Article.FindById(id);
+        if (articleFound == null)
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
-        if (!articleFound.Image.HasValue) return null;
-        Image img = articleFound.Image.Value;
-        Stream? stream = _imageService.Get(img);
-        if (stream == null) return null;
-        img.FileStream = stream;
-        
-        return img;
+        try
+        {
+            if (!articleFound.Image.HasValue) throw new Exception();
+            Image img = articleFound.Image.Value;
+            Stream? stream = _imageService.Get(img);
+            if (stream == null) throw new Exception();
+            img.FileStream = stream;
+            return img;
+        }
+        catch (Exception)
+        {
+            throw new ResourceNotFoundException($"Article with ID {id} doesn't have an image.");
+        }
     }
 
     public void DeleteImage(int id)
     {
-        Article? articleFound = _context.Article.Where(a => a.Id == id).FirstOrDefault();
-        if (articleFound == null) 
+        Article? articleFound = _context.Article.FindById(id);
+        if (articleFound == null)
         {
-            throw new KeyNotFoundException($"Article with ID {id} not found.");
+            throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
         if (articleFound.Image == null || !articleFound.Image.HasValue) return;
         _imageService.Delete((Image)articleFound.Image);
-        
+
         articleFound.Image = null;
         _context.SaveChanges();
+    }
+
+    public long GetCount()
+    {
+        return _context.Article.Count(); 
     }
 }

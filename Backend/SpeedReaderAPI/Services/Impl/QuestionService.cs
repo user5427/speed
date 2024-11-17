@@ -1,3 +1,4 @@
+using System.Data;
 using AutoMapper;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
@@ -5,38 +6,39 @@ using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Exceptions;
+using SpeedReaderAPI.helpers;
 namespace SpeedReaderAPI.Services.Impl;
 
 
 public class QuestionService : IQuestionService
 {
 
-    private readonly ApplicationContext _context;
+    private readonly CombinedRepositories _context;
     private readonly IMapper _mapper;
     private readonly IImageService _imageService;
     public QuestionService(ApplicationContext context, IMapper mapper, IImageService imageService)
     {
-        _context = context;
+        _context = new CombinedRepositories(context);
         _mapper = mapper;
         _imageService = imageService;
     }
 
     public QuestionResponse GetQuestion(int id)
     {
-        Question? question = _context.Question.FirstOrDefault(a => a.Id == id);
+        Question? question = _context.Question.FindById(id);
         if (question == null)
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
         return _mapper.Map<QuestionResponse>(question);
 
     }
     public QuestionResponse CreateQuestion(QuestionCreateRequest request)
     {
-        Paragraph? paragraphFound = _context.Paragraph.Where(x => x.Id == request.ParagraphId).FirstOrDefault();
+        Paragraph? paragraphFound = _context.Paragraph.FindById(request.ParagraphId);
         if (paragraphFound == null)
         {
-            throw new KeyNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
+            throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
         }
 
         if (request.CorrectAnswerIndex < 0 || request.CorrectAnswerIndex >= request.AnswerChoices.Length)
@@ -50,20 +52,20 @@ public class QuestionService : IQuestionService
         paragraphFound.QuestionIds.Add(createdQuestion.Id);
         _context.SaveChanges();
 
-		return _mapper.Map<QuestionResponse>(createdQuestion);
+        return _mapper.Map<QuestionResponse>(createdQuestion);
     }
 
     public QuestionResponse UpdateQuestion(int id, QuestionUpdateRequest request)
     {
-        Question? questionFound = _context.Question.Where(x => x.Id == id).FirstOrDefault();
+        Question? questionFound = _context.Question.FindById(id);
         if (questionFound == null)
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
 
-		Paragraph? oldParagraphFound = _context.Paragraph.Where(a => a.Id == questionFound.ParagraphId).FirstOrDefault();
+        Paragraph? oldParagraphFound = _context.Paragraph.FindById(questionFound.ParagraphId);
         if (oldParagraphFound == null) throw new Exception("Illegal state, paragraph of question must exist");
-		
+
         if (request.CorrectAnswerIndex != null)
         {
             bool isIndexOutOfRequestBounds = request.AnswerChoices != null &&
@@ -75,27 +77,27 @@ public class QuestionService : IQuestionService
                 throw new IndexOutOfRangeException("Correct answer index is out of bounds.");
             }
         }
-       else if (request.AnswerChoices != null) 
-       {
+        else if (request.AnswerChoices != null)
+        {
             if (questionFound.CorrectAnswerIndex >= request.AnswerChoices.Length)
             {
                 throw new IndexOutOfRangeException("Correct answer index is out of bounds.");
             }
-       }
+        }
 
         // Update if set in request
-		if (request.ParagraphId != null)
+        if (request.ParagraphId != null)
         {
-            Paragraph? newParagrahFound =  _context.Paragraph.Where(a => a.Id == request.ParagraphId).FirstOrDefault();
+            Paragraph? newParagrahFound = _context.Paragraph.FindById(request.ParagraphId.Value);
             if (newParagrahFound == null)
             {
-			    throw new KeyNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
+                throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
             }
             oldParagraphFound.QuestionIds.Remove(id);
             newParagrahFound.QuestionIds.Add(id);
             questionFound.ParagraphId = newParagrahFound.Id;
-		}
-		if (request.AnswerChoices != null)
+        }
+        if (request.AnswerChoices != null)
         {
             questionFound.AnswerChoices = request.AnswerChoices;
         }
@@ -114,45 +116,42 @@ public class QuestionService : IQuestionService
 
     public void DeleteQuestion(int id)
     {
-        Question? questionFound = _context.Question.Where(x => x.Id == id).FirstOrDefault();
+        Question? questionFound = _context.Question.FindById(id);
         if (questionFound != null)
         {
-			Paragraph? paragraphFound = _context.Paragraph.Where(a => a.Id == questionFound.ParagraphId).FirstOrDefault();
-			if (paragraphFound == null) throw new Exception("Illegal state, paragraph  of question must exist");
-			paragraphFound.QuestionIds.Remove(id);
-            
-            if (questionFound.ImageFileName != null && questionFound.Image.HasValue) 
+            Paragraph? paragraphFound = _context.Paragraph.FindById(questionFound.ParagraphId);
+            if (paragraphFound == null) throw new Exception("Illegal state, paragraph  of question must exist");
+            paragraphFound.QuestionIds.Remove(id);
+
+            if (questionFound.ImageFileName != null && questionFound.Image.HasValue)
             {
                 _imageService.Delete((Image)questionFound.Image);
             }
-			_context.Question.Remove(questionFound);
+            _context.Question.Remove(questionFound);
             _context.SaveChanges();
         }
         else
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
     }
 
     public PageResponse<QuestionResponse> SearchQuestions(QueryParameters queryParameters)
     {
         long questionCount = _context.Question.Count();
-        List<Question> questions = _context.Question
-                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search))
-                                        .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
-                                        .Take(queryParameters.PageSize)
-                                        .ToList();
-        List<QuestionResponse> questionResponseList = _mapper.Map<List<QuestionResponse>>(questions);
+        List<Question> questions = _context.Question.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize).Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search)).ToList();
+        var sortedList = Sorter.SortList(questions, asc: false);
+        List<QuestionResponse> questionResponseList = _mapper.Map<List<QuestionResponse>>(sortedList);
         return new PageResponse<QuestionResponse>(questionCount, questionResponseList);
     }
     public async Task<QuestionResponse> UploadImage(int id, ImageUploadRequest request)
     {
-        Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
-        if (questionFound == null) 
+        Question? questionFound = _context.Question.FindById(id);
+        if (questionFound == null)
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
-        if (questionFound.Image.HasValue) 
+        if (questionFound.Image.HasValue)
         {
             throw new ResourceAlreadyExistsException($"Paragraph with ID {id} has an image.");
         }
@@ -162,33 +161,44 @@ public class QuestionService : IQuestionService
         return _mapper.Map<QuestionResponse>(questionFound);
     }
 
-    public Image? GetImage(int id)
+    public Image GetImage(int id)
     {
-        Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
-        if (questionFound == null) 
+        Question? questionFound = _context.Question.FindById(id);
+        if (questionFound == null)
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
-        if (!questionFound.Image.HasValue) return null;
-        Image img = questionFound.Image.Value;
-        Stream? stream = _imageService.Get(img);
-        if (stream == null) return null;
-        img.FileStream = stream;
-        
-        return img;
+        try
+        {
+            if (!questionFound.Image.HasValue) throw new Exception();
+            Image img = questionFound.Image.Value;
+            Stream? stream = _imageService.Get(img);
+            if (stream == null) throw new Exception();
+            img.FileStream = stream;
+            return img;
+        }
+        catch (Exception)
+        {
+            throw new ResourceNotFoundException($"Question with ID {id} doesn't have an image.");
+        }
     }
 
     public void DeleteImage(int id)
     {
-        Question? questionFound = _context.Question.Where(a => a.Id == id).FirstOrDefault();
-        if (questionFound == null) 
+        Question? questionFound = _context.Question.FindById(id);
+        if (questionFound == null)
         {
-            throw new KeyNotFoundException($"Question with ID {id} not found.");
+            throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
         if (questionFound.Image == null || !questionFound.Image.HasValue) return;
         _imageService.Delete((Image)questionFound.Image);
-        
+
         questionFound.Image = null;
         _context.SaveChanges();
+    }
+
+    public long GetCount()
+    {
+        return _context.Question.Count();
     }
 }

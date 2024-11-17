@@ -1,7 +1,7 @@
 ﻿namespace SpeedReaderAPI.DTOs.Question.Responses;
 
 public record QuestionResponse(
-	int ParagraphId,
+    int ParagraphId,
     int Id,
     string QuestionText,
     string[] AnswerChoices,

@@ -1,7 +1,6 @@
 namespace SpeedReaderAPI.Services;
 
 using SpeedReaderAPI.DTOs;
-using SpeedReaderAPI.DTOs.Paragraph;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
 
@@ -12,5 +11,6 @@ public interface IParagraphService : IServiceWithImage<ParagraphResponse>
     public PageResponse<ParagraphResponse> SearchParagraphs(QueryParameters queryParameters);
     ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request);
     void DeleteParagraph(int paragraphId);
+    long GetCount();
 
 }
