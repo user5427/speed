@@ -1,4 +1,10 @@
 {
+    "languages": {
+        "en": "Englisch",
+        "lt": "Litauisch",
+        "de": "Deutsch"
+    },
+    
     "homepage" : {
         "home" : "Zur Hauptseite",
         "about" : "Über uns",
