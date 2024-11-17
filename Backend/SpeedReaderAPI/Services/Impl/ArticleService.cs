@@ -93,6 +93,22 @@ public class ArticleService : IArticleService
             AttachCategoriesToArticle(articleFound, addedCategoryIdsList);
             articleFound.CategoryIds = request.CategoryIds;
         }
+        if (request.Author != null)
+        {
+            articleFound.Author = request.Author;
+        }
+        if (request.Publisher != null)
+        {
+            articleFound.Publisher = request.Publisher;
+        }
+        if (request.Url != null)
+        {
+            articleFound.Url = request.Url;
+        }
+        if (request.Language != null)
+        {
+            articleFound.Language = request.Language;
+        }
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(articleFound);
     }
