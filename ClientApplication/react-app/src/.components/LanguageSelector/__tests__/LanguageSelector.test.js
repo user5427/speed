@@ -6,12 +6,6 @@ import testI18n from '../../../test-i18n';
 import LanguageSelector from '../LanguageSelector'; 
 import { act } from 'react';
 
-jest.mock('country-flag-icons/react/3x2', () => ({
-  GB: () => <span data-testid="flag-gb">🇬🇧</span>,
-  LT: () => <span data-testid="flag-lt">🇱🇹</span>,
-  DE: () => <span data-testid="flag-de">🇩🇪</span>,
-}));
-
 describe('LanguageSelector Component', () => {
   const setup = () => {
     render(
@@ -26,7 +20,7 @@ describe('LanguageSelector Component', () => {
 
     const initialButton = screen.getByRole('button', { name: /Select language\. Current language is English/i });
     expect(initialButton).toBeInTheDocument();
-    expect(initialButton).toHaveTextContent('🇬🇧English');
+    expect(initialButton).toHaveTextContent('English');
     expect(testI18n.language).toBe('en');
   });
 
@@ -48,7 +42,7 @@ describe('LanguageSelector Component', () => {
     await waitFor(() => {
       const updatedButton = screen.getByRole('button', { name: /Select language\. Current language is Lietuvių/i });
       expect(updatedButton).toBeInTheDocument();
-      expect(updatedButton).toHaveTextContent('🇱🇹Lietuvių');
+      expect(updatedButton).toHaveTextContent('Lietuvių');
     });
     expect(testI18n.language).toBe('lt');
   });
@@ -71,7 +65,7 @@ describe('LanguageSelector Component', () => {
     await waitFor(() => {
       const updatedButton = screen.getByRole('button', { name: /Select language\. Current language is Deutsch/i });
       expect(updatedButton).toBeInTheDocument();
-      expect(updatedButton).toHaveTextContent('🇩🇪Deutsch');
+      expect(updatedButton).toHaveTextContent('Deutsch');
     });
     expect(testI18n.language).toBe('de');
   });
