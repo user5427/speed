@@ -4,7 +4,11 @@ const ArticleJson = {
     categoryTitle: "categoryTitle",
     id: "id",
     paragraphIds: "paragraphIds",
-    imageFileName: "imageFileName"
+    imageFileName: "imageFileName",
+    author: "author",
+    publisher: "publisher",
+    url: "url",
+    language: "language",
 };
 
 const ArticlePageJson = {

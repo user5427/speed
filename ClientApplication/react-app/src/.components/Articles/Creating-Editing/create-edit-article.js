@@ -65,10 +65,15 @@ const EditArticle = ({
   }, [article.id]);
 
   const handleLanguageSelect = (code) => {
-    setArticle((prevArticle) => ({
-      ...prevArticle,
-      language: code,
-    }));
+
+    setArticle((prevArticle) => {
+      const newArticle = Article.createArticleFromCopy(prevArticle);
+
+      // Use the hasField method to check if the field exists
+      newArticle.language = code;
+
+      return newArticle;
+    });
   };
 
   // Handle file upload
@@ -277,11 +282,12 @@ const EditArticle = ({
             <Form.Group controlId="formArticleAuthor" className="input">
               <Form.Label>{t('articles.createEdit.articleAuthor')}</Form.Label>
               <Form.Control
-                name="author"
+                name={Article.varAuthorName()}
                 value={article.author || ''}
                 type="text"
                 placeholder={t('articles.createEdit.enterAuthor')}
                 className="form-control darkInput"
+                onChange={handleFieldChange}
               />
               <Form.Control.Feedback type="invalid">
                 {t('articles.createEdit.plsEnterAuthor')}
@@ -291,11 +297,12 @@ const EditArticle = ({
             <Form.Group controlId="formArticlePublisher" className="input">
               <Form.Label>{t('articles.createEdit.articlePublisher')}</Form.Label>
               <Form.Control
-                name="publisher"
+                name={Article.varPublisherName()}
                 value={article.publisher || ''}
                 type="text"
                 placeholder={t('articles.createEdit.enterPublisher')}
                 className="form-control darkInput"
+                onChange={handleFieldChange}
               />
               <Form.Control.Feedback type="invalid">
                 {t('articles.createEdit.plsEnterPublisher')}
@@ -305,11 +312,12 @@ const EditArticle = ({
             <Form.Group controlId="formArticleLink" className="input">
               <Form.Label>{t('articles.createEdit.articleLink')}</Form.Label>
               <Form.Control
-                name="link"
-                value={article.link || ''}
+                name={Article.varUrlName()}
+                value={article.url || ''}
                 type="url"
                 placeholder={t('articles.createEdit.enterLink')}
                 className="form-control darkInput"
+                onChange={handleFieldChange}
               />
               <Form.Control.Feedback type="invalid">
                 {t('articles.createEdit.plsEnterLink')}

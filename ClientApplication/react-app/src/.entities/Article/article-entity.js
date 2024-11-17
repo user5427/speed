@@ -5,9 +5,9 @@ class Article {
         this.#createEmptyArticle();
     }
 
-    static createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null) {
+    static createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null, author = null, publisher = null, url = null, language = null) {
         const article = new Article();
-        article.#createArticleFromParams(title, categoryTitle, paragraphIDs, id, imageFileName);
+        article.#createArticleFromParams(title, categoryTitle, paragraphIDs, id, imageFileName, author, publisher, url, language);
         return article;
     }
 
@@ -21,7 +21,7 @@ class Article {
         return newArticle;
     }
 
-    #createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null) {
+    #createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null, author = null, publisher = null, url = null, language = null) {
         // Validate title
         if (typeof title !== "string" ||
             title.length < ValidationConstants.MinTitleLength ||
@@ -54,6 +54,10 @@ class Article {
         this._paragraphIDs = paragraphIDs; // Initialize paragraphIDs as an empty array
         this._id = id;
         this._imageFileName = imageFileName;
+        this._author = author;
+        this._publisher = publisher;
+        this._url = url;
+        this._language = language;
     }
 
     #createEmptyArticle() {
@@ -62,6 +66,10 @@ class Article {
         this._paragraphIDs = [];
         this._id = null;
         this._imageFileName = null;
+        this._author = null;
+        this._publisher = null;
+        this._url = null;
+        this._language = null;
     }
 
     #copyArticle(article) {
@@ -75,6 +83,10 @@ class Article {
 
         this._title = article.title;
         this._categoryTitle = article.categoryTitle;
+        this._author = article.author;
+        this._publisher = article.publisher;
+        this._url = article.url;
+        this._language = article.language;
         if (article.paragraphIDs) {
             this._paragraphIDs = article.paragraphIDs;
         } else {
@@ -152,6 +164,46 @@ class Article {
 
     resetImageFileName(){
         this._imageFileName = null;
+    }
+
+    get author() {
+        return this._author;
+    }
+    set author(value) {
+        this._author = value;
+    }
+    static varAuthorName() {
+        return "author"
+    }
+
+    get publisher() {
+        return this._publisher;
+    }
+    set publisher(value) {
+        this._publisher = value;
+    }
+    static varPublisherName() {
+        return "publisher"
+    }
+
+    get url() {
+        return this._url;
+    }
+    set url(value) {
+        this._url = value;
+    }
+    static varUrlName() {
+        return "url"
+    }
+
+    get language() {
+        return this._language;
+    }
+    set language(value) {
+        this._language = value;
+    }
+    static varLanguageName() {
+        return "language"
     }
 
 

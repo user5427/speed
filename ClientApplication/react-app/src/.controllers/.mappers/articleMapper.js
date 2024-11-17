@@ -7,7 +7,11 @@ class ArticleMapper {
             data[ArticleJson.categoryTitle], 
             data[ArticleJson.paragraphIds]  || [],
             data[ArticleJson.id],
-            data[ArticleJson.imageFileName]
+            data[ArticleJson.imageFileName],
+            data[ArticleJson.author],
+            data[ArticleJson.publisher],
+            data[ArticleJson.url],
+            data[ArticleJson.language]
         );
     }
 
@@ -25,6 +29,28 @@ class ArticleMapper {
         if (article._id) {
             json[ArticleJson.id] = article._id;
         }
+
+        // if (article._paragraphIDs) {
+            // json[ArticleJson.paragraphIds] = article._paragraphIDs;
+        // }
+
+        if (article._author) {
+            json[ArticleJson.author] = article._author;
+        }
+
+        if (article._publisher) {
+            json[ArticleJson.publisher] = article._publisher;
+        }
+
+        if (article._url) {
+            json[ArticleJson.url] = article._url;
+        }
+
+        if (article._language) {
+            json[ArticleJson.language] = article._language;
+        }
+
+
 
         return json;
     }
