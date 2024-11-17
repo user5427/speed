@@ -1,3 +1,4 @@
+// src/.components/LanguageSelector/LanguageSelector.jsx
 import React, { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown } from 'react-bootstrap';
@@ -5,7 +6,7 @@ import { LanguagesConstants } from '../../.constants/MainConstants';
 import "../../styles/languageSelector.css";
 
 const LanguageSelector = (props) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const toggleRef = useRef(null);
   const [menuWidth, setMenuWidth] = useState(null);
 
@@ -19,6 +20,9 @@ const LanguageSelector = (props) => {
     }
   }, []);
 
+  const currentLanguage = LanguagesConstants.find(lang => lang.code === i18n.language) || LanguagesConstants[0];
+  const currentLabel = t(`languages.${currentLanguage.code}`);
+
   return (
     <Dropdown className="language-selector" {...props}>
       <Dropdown.Toggle 
@@ -26,22 +30,31 @@ const LanguageSelector = (props) => {
         id="dropdown-basic" 
         className="d-flex align-items-center" 
         ref={toggleRef}
+        aria-label={`Select language. Current language is ${currentLabel}`}
       >
         <span className="flag-label">
-          {LanguagesConstants.find(lang => lang.code === i18n.language)?.flag}
-          {LanguagesConstants.find(lang => lang.code === i18n.language)?.label}
+          {currentLanguage.flag}
+          {currentLabel}
         </span>
       </Dropdown.Toggle>
 
       <Dropdown.Menu style={{ width: menuWidth || 'auto' }}>
-        {LanguagesConstants.map(({ code, label, flag }) => (
-          <Dropdown.Item key={code} onClick={() => handleLanguageChange(code)}>
-            <div style={{ display: 'flex', alignItems: 'center'}}>
-              {flag}
-              {label}
-            </div>
-          </Dropdown.Item>
-        ))}
+        {LanguagesConstants.map(({ code, flag }) => {
+          const label = t(`languages.${code}`);
+          return (
+            <Dropdown.Item 
+              as="button"
+              key={code} 
+              onClick={() => handleLanguageChange(code)}
+              aria-label={`Change language to ${label}`}
+            >
+              <div style={{ display: 'flex', alignItems: 'center'}}>
+                {flag}
+                {label}
+              </div>
+            </Dropdown.Item>
+          );
+        })}
       </Dropdown.Menu>
     </Dropdown>
   );

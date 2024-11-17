@@ -86,7 +86,7 @@ useEffect(() => {
       const paragraphsData = await Promise.all(
         articleData.paragraphIDs.map((id) => ParagraphController.Get(id))
       );
-
+/*
       // Sort the paragraphsData based on the numbers in the titles
       //TO RECONSIDER
       paragraphsData.sort((a, b) => {
@@ -94,8 +94,8 @@ useEffect(() => {
         const bNumber = parseInt(b.title.split('.')[0]);
         return aNumber - bNumber;
       });
-
-      setParagraphs(paragraphsData);
+*/
+    setParagraphs(paragraphsData);
     } catch (error) {
       console.error('Error fetching paragraphs:', error);
     }

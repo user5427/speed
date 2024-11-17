@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "jest": {
@@ -38,13 +38,20 @@
       "!src/setupTests.js",
       "!src/serviceWorker.js",
       "!src/**/*.test.{js,jsx}",
-      "!src/.components/**",
       "!src/.constants/**",
       "!src/.controllers/**",
       "!src/.helpers/**",
       "!src/.entities/**",
       "!src/pages/Exercise/**"
-    ]
+    ],
+    "coverageThreshold" : {
+      "global" : {
+        "branches" : 50,
+        "functions" : 50,
+        "lines" : 50,
+        "statments" : -10
+      }
+    }
   },
   "eslintConfig": {
     "extends": [

@@ -28,16 +28,16 @@ const LanguageSelectInput = ({ selectedLanguage, onSelectLanguage }) => {
       >
         <span className="flag-label">
           {currentLanguage?.flag}
-          {currentLanguage ? currentLanguage.label : t('articles.createEdit.selectArticleLanguage')}
+          {currentLanguage ? currentLanguage.code.toUpperCase() : t('articles.createEdit.selectArticleLanguage')}
         </span>
       </Dropdown.Toggle>
 
       <Dropdown.Menu style={{ width: menuWidth || 'auto' }}>
-        {LanguagesConstants.map(({ code, label, flag }) => (
+        {LanguagesConstants.map(({ code, flag }) => (
           <Dropdown.Item key={code} onClick={() => onSelectLanguage(code)}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {flag}
-              {label}
+              {code.toUpperCase()}
             </div>
           </Dropdown.Item>
         ))}

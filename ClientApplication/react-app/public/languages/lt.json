@@ -1,4 +1,10 @@
 {
+    "languages": {
+        "en": "Anglų",
+        "lt": "Lietuvių",
+        "de": "Vokiečių"
+    },
+
     "homepage": {
         "home": "Namai",
         "about": "Apie mus",
