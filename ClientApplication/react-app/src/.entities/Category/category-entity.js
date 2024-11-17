@@ -5,9 +5,9 @@ class Category {
         this.#createEmptyCategory();
     }
 
-    static createCategoryFromParams(title, text, id = null, imageFileName = null) {
+    static createCategoryFromParams(title, text, id = null, imageFileName = null, articleIds = []) {
         const category = new Category();
-        category.#createCategoryFromParams(title, text, id, imageFileName);
+        category.#createCategoryFromParams(title, text, id, imageFileName, articleIds);
         return category;
     }
 
@@ -21,7 +21,7 @@ class Category {
         return newCategory;
     }
 
-    #createCategoryFromParams(title, text, id = null, imageFileName = null) {
+    #createCategoryFromParams(title, text, id = null, imageFileName = null, articleIds = []) {
         // Validate title
         if (typeof title !== "string" ||
             title.length < ValidationConstants.MinTitleLength ||
@@ -49,6 +49,7 @@ class Category {
         this._text = text;
         this._id = id;
         this._imageFileName = imageFileName;
+        this._articleIds = articleIds;
 
     }
 
@@ -57,6 +58,7 @@ class Category {
         this._text = "";
         this._id = null;
         this._imageFileName = null;
+        this._articleIds = [];
     }
 
     #copyCategory(category) {
@@ -79,6 +81,11 @@ class Category {
             this._imageFileName = category.imageFileName;
         } else {
             this._imageFileName = null;
+        }
+        if (category.articleIds) {
+            this._articleIds = category.articleIds;
+        } else {
+            this._articleIds = [];
         }
     }
 
@@ -135,7 +142,12 @@ class Category {
         return "imageFileName";
     }
 
-
+    get articleIds() {
+        return this._articleIds;
+    }
+    static varArticleIds() {
+        return "articleIds";
+    }
 
 }
 

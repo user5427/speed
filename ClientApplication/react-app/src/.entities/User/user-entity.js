@@ -3,9 +3,9 @@ class User {
         this.#createEmptyUser();
     }
 
-    static createUserFromParams(username, password, email, id = null, role = 0) {
+    static createUserFromParams(username, password, email, id = null, role = 0, token = null) {
         const user = new User();
-        user.#createUserFromParams(username, password, email, id, role);
+        user.#createUserFromParams(username, password, email, id, role, token);
         return user;
     }
 
@@ -19,7 +19,7 @@ class User {
         return newUser;
     }
 
-    #createUserFromParams(username, password, email, id = null, role = 0) {
+    #createUserFromParams(username, password, email, id = null, role = 0, token = null) {
         // Validate username
         if (typeof username !== "string") {
             throw new Error(`Username is needed.`);
@@ -57,7 +57,7 @@ class User {
         this._email = email;
         this._id = id;
         this._role = role;
-        this._token = null;
+        this._token = token;
     }
 
     #createEmptyUser() {
