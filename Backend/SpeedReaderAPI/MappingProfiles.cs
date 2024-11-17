@@ -17,9 +17,9 @@ namespace SpeedReaderAPI
     {
         public MappingProfiles()
         {
-            CreateMap<Article, ArticleResponse>();
             CreateMap<ArticleCreateRequest, Article>();
             CreateMap<ArticleUpdateRequest, Article>();
+            CreateMap<Article, ArticleResponse>();
 
             CreateMap<QuestionCreateRequest, Question>();
             CreateMap<QuestionUpdateRequest, Question>();
@@ -28,6 +28,14 @@ namespace SpeedReaderAPI
             CreateMap<ParagraphCreateRequest, Paragraph>();
             CreateMap<ParagraphUpdateRequest, Paragraph>();
             CreateMap<Paragraph, ParagraphResponse>();
+
+            CreateMap<ValidationSettings, ValidationSettingsResponce>();
+            CreateMap<ValidationSettingsUpdateRequest, ValidationSettings>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));;
+            
+            CreateMap<CategoryCreateRequest, Category>();
+            CreateMap<CategoryUpdateRequest, Category>();
+            CreateMap<Category, CategoryResponse>();
         }
     }
 }
