@@ -7,7 +7,7 @@ import ErrorPopup from '../.common-components/ErrorPopup';
 import SuccessPopup from '../.common-components/SuccessPopup';
 import DeletePopup from '../.common-components/DeletePopup';
 import { useTranslation } from 'react-i18next'; 
-
+import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 
 const EditCategory = () => {
 

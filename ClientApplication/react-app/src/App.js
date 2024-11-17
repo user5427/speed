@@ -24,6 +24,7 @@ import CreateQuestion from './pages/CreatePages/createQuestionPage';
 import EditArticleParagraphQuestion from './pages/EditPages/editAll';
 import EditParagraphQuestion from './pages/EditPages/editParagraphQuestionPage';
 import EditQuestion from './pages/EditPages/editQuestionPage';
+import CreateCategory from './pages/Categories/createCategoryPage';
 
 function App() {
 
@@ -59,6 +60,7 @@ function App() {
           <Route exact path="/edit-all" Component={() => <EditArticleParagraphQuestion/>} />
           <Route exact path="/edit-paragraph-question" Component={() => <EditParagraphQuestion/>} />
           <Route exact path="/edit-question" Component={() => <EditQuestion/>} />
+          <Route exact path="/create-category" Component={() => <CreateCategory/>} />
         </Routes>
     </Container>
   );
