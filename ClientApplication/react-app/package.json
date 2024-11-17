@@ -38,11 +38,15 @@
       "!src/setupTests.js",
       "!src/serviceWorker.js",
       "!src/**/*.test.{js,jsx}",
+      "!src/test-i18n.js",
+      "!src/reportWebVitals.js",
+      "!src/.components/.common-components/**",
       "!src/.constants/**",
       "!src/.controllers/**",
       "!src/.helpers/**",
       "!src/.entities/**",
-      "!src/pages/Exercise/**"
+      "!src/pages/Exercise/articleData.js"
+
     ],
     "coverageThreshold" : {
       "global" : {
