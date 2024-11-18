@@ -195,12 +195,12 @@ const EditCategory = () => {
             <Col>
             <Form validated={validated} onSubmit={handleSave}>
                 <Form.Group controlId="formtestTitle" className="input">
-                    {/* <Form.Label>{t('paragraphs.createEdit.parTitle')}</Form.Label> */}
+                    <Form.Label>{t('categories.categoryName')}</Form.Label>
                     <Form.Control
                         name={Category.varTitleName()}
                         value={category.title}
                         autoComplete='off'
-                        // placeholder={t('paragraphs.createEdit.enterParTitle')}
+                        placeholder={t('categories.enterCategoryName')}
                         className="form-control darkInput"
                         onChange={handleFieldChange}
                         required type="text"
@@ -209,12 +209,12 @@ const EditCategory = () => {
                         pattern={ValidationPatternConstants.TitlePattern.source}
                     />
                     <Form.Control.Feedback type="invalid">
-                        {/* {t('paragraphs.createEdit.plsEnterValidParTitle')}{'.'} */}
+                        {t('categories.plsEnterCategoryName')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="formtestText" className="input">
-                    {/* <Form.Label>{t('paragraphs.createEdit.paragraphText')}</Form.Label> */}
+                    <Form.Label>{t('categories.categoryContent')}</Form.Label>
                     <Form.Control
                         name={Category.varTextName()}
                         value={category.text}
@@ -223,14 +223,14 @@ const EditCategory = () => {
                         className="form-control darkInput"
                         required type="text"
                         autoComplete='off'
-                        // placeholder={t('paragraphs.createEdit.eneterParText')}
+                        placeholder={t('categories.enterCategoryContent')}
                         onChange={handleFieldChange}
                         minLength={ValidationConstants.MinParagraphLength} // FIXME: Change to category
                         maxLength={ValidationConstants.MaxParagraphLength} // FIXME: Change to category
                         pattern={ValidationPatternConstants.ParagraphPattern.source} // FIXME: Change to category
                     />
                     <Form.Control.Feedback type="invalid">
-                        {/* {t('paragraphs.createEdit.plsEnterParText')}{'.'} */}
+                        {t('categories.plsEnterCategoryContent')}{'.'}
                     </Form.Control.Feedback>
                 </Form.Group>
 
@@ -295,7 +295,7 @@ const EditCategory = () => {
             </Col>
 
         <Form validated={validated} onSubmit={handleSave}>
-        <Button className='buttons orange' type="submit" style={{ marginTop: '10px', width: '100%'}}>
+        <Button className='buttons cyan' type="submit" style={{ marginTop: '10px', width: '100%'}}>
             {update ? t('commonUIelements.update') : t('commonUIelements.create')}
           </Button>
           </Form>

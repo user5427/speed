@@ -12,11 +12,11 @@ const CreateCategory = () => {
         <>
             <ReturnToCategoriesButton />
 
-            <div className="create-article-page">
-                {/* <h2>{t('articleManagment.createArticle')}</h2> */}
+            <div className="category-home-page">
+                <h2>{t('categories.createCategory')}</h2> 
             </div>
 
-            <div className='mainContainer' style={{ backgroundColor: "red !important", borderStyle:"dashed", borderWidth:"thick", borderColor:"var(--color-deepPurple-dark)"}}>
+            <div className='mainContainer' style={{ backgroundColor: "red !important", borderStyle:"dashed", borderWidth:"thick", borderColor:"var(--color-cyan-dark)"}}>
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={6}>
                         <CreateEditCategory/>

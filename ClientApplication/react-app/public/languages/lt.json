@@ -23,6 +23,8 @@
     },
 
     "categories" : {
+        "returnToCategories" : "Atgal į kategorijas",
+        "createCategory" : "Sukuri kategoriją",
         "subjects" : "Dalykai",
         "biology" : "Biologija",
             "bCategories" : "Augalai, molekulės, gyvūnai",
@@ -31,7 +33,14 @@
         "history" : "Istorija",
             "hCategories" : "Senovės Egiptas, Viduramžiai, PK I, PK II",
         "literature" : "Literatūra",
-            "lCategories" : "Viljemas Šekspyras, Aleksandras Diuma, Viktoras Hugo"
+            "lCategories" : "Viljemas Šekspyras, Aleksandras Diuma, Viktoras Hugo",
+        
+        "categoryName" : "Kategorijos pavadinimas",
+        "enterCategoryName" : "Įveskite kategorijos pavadinimą",
+        "plsEnterCategoryName" : "Prašome įvesti kategorijos pavadinimą",
+        "categoryContent" : "Kategorijos turinys",
+        "enterCategoryContent" : "Įveskite kategorijos turinį",
+        "plsEnterCategoryContent" : "Prašome įvesti kategorijos turinį"
     },
 
     "editPages" : {

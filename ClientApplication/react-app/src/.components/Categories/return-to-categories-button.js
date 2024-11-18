@@ -20,7 +20,7 @@ const ReturnToCategoriesButton = () => {
         <div className='create-article-page'>
             <Row className='row'>
                 <Col xs={4} md={3}>
-                    <Button className='buttons purple' size="lg" onClick={redirectToCategoriesPage}><IoReturnUpBack className="icons" /> {/*t('articles.returnToArticlesBtn.main')*/}</Button>
+                    <Button className='buttons purple' size="lg" onClick={redirectToCategoriesPage}><IoReturnUpBack className="icons" /> {t('categories.returnToCategories')}</Button>
                 </Col>
             </Row>
         </div>
