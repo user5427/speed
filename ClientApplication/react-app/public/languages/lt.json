@@ -246,8 +246,9 @@
         "successMessage": "Sėkmingai prisijungėte!",
     
         "dontHaveAnAccount": "Dar neturite paskyros",
-        "signUp": "Registruotis",
     
-        "errorOccurred": "Įvyko klaida. Prašome dar kartą bandyti prisjungti"
-      }
+        "errorOccurred": "Įvyko klaida. Prašome dar kartą bandyti prisjungti",
+    
+        "signUp": "Registruotis"
+    }
 }

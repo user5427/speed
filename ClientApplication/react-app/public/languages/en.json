@@ -223,12 +223,12 @@
     "plsFillAllFields": "Please fill all required fields",
     "errorOccurred": "An error occurred. Please try again.",
 
-    "alreadyHaveAnAccount" : "Already have an account",
-    "logIn" : "Log in"
+    "alreadyHaveAnAccount" : "Already have an account"
   
 },
 
 "login": {
+    "logIn": "Log in",
     "email": "Email",
     "enterEmail": "Enter Email",
     "plsEnterValidEmail": "Please enter a valid email address",
@@ -237,11 +237,9 @@
     "enterPassword": "Enter Password",
     "plsEnterPassword": "Please enter your Password",
 
-    "logIn": "Log In",
     "successMessage": "You have successfully logged in!",
 
     "dontHaveAnAccount": "Don't have an account",
-    "signUp": "Sign Up",
 
     "errorOccurred": "An error occurred. Please try again."
   }
