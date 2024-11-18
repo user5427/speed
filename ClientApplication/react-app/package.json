@@ -46,14 +46,13 @@
       "!src/.helpers/**",
       "!src/.entities/**",
       "!src/pages/Exercise/articleData.js"
-
     ],
-    "coverageThreshold" : {
-      "global" : {
-        "branches" : 50,
-        "functions" : 50,
-        "lines" : 50,
-        "statments" : -10
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statments": -10
       }
     }
   },
