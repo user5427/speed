@@ -110,7 +110,7 @@ export const getImage = async (apiUrl) => {
         });
 
         if (!response.ok) {
-            throw new Error(`Failed to ${type} entity. Status code: ${res.status}. Error message: ${errorData.title || errorData.detail || "Unknown error"}`);
+            throw new Error(`Failed to ${type} entity. Status code: ${res.status}. Error message: ${res.title || res.detail || "Unknown error"}`);
         }
 
         // Get the image data as a Blob (binary large object)
