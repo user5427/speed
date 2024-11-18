@@ -116,4 +116,4 @@ class CategoryController {
 
 }
 
-export { CategoryController };
+export { CategoryController }

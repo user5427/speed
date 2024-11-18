@@ -24,6 +24,10 @@ import CreateQuestion from './pages/CreatePages/createQuestionPage';
 import EditArticleParagraphQuestion from './pages/EditPages/editAll';
 import EditParagraphQuestion from './pages/EditPages/editParagraphQuestionPage';
 import EditQuestion from './pages/EditPages/editQuestionPage';
+import CreateCategory from './pages/Categories/createCategoryPage';
+import SignUpPage from './pages/UserPages/signUpPage';
+import LogInPage from './pages/UserPages/logInPage';
+
 
 function App() {
 
@@ -39,6 +43,8 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">{t('homepage.home')}</Nav.Link> 
             <Nav.Link as={Link} to="/about">{t('homepage.about')}</Nav.Link>
+            <Nav.Link as={Link} to="/sign-up">Sign up</Nav.Link>
+            <Nav.Link as={Link} to="/log-in">Log in</Nav.Link>
 
           </Nav>
           <Nav>
@@ -59,6 +65,9 @@ function App() {
           <Route exact path="/edit-all" Component={() => <EditArticleParagraphQuestion/>} />
           <Route exact path="/edit-paragraph-question" Component={() => <EditParagraphQuestion/>} />
           <Route exact path="/edit-question" Component={() => <EditQuestion/>} />
+          <Route exact path="/create-category" Component={() => <CreateCategory/>} />
+          <Route exact path="/sign-up" Component={() => <SignUpPage/>} />
+          <Route exact path="/log-in" Component={() => <LogInPage/>} />
         </Routes>
     </Container>
   );

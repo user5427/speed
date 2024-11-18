@@ -23,6 +23,8 @@
     },
 
     "categories" : {
+        "returnToCategories" : "Back to Categories",
+        "createCategory" : "Create Category",
         "subjects" : "Subjects",
         "biology" : "Biology",
             "bCategories" : "Plants, molecules, animals",
@@ -31,7 +33,14 @@
         "history" : "History",
             "hCategories" : "Ancient Egypt, Middle Ages, WW I, WW II",
         "literature" : "Literature",
-            "lCategories" : "William Shakespeare, Alexandre Dumas, Victor Hugo"
+            "lCategories" : "William Shakespeare, Alexandre Dumas, Victor Hugo",
+        
+        "categoryName" : "Category Name",
+        "enterCategoryName" : "Enter Category Name",
+        "plsEnterCategoryName" : "Please enter Category Name",
+        "categoryContent" : "Category Content",
+        "enterCategoryContent" : "Enter Category Content",
+        "plsEnterCategoryContent" : "Please enter Category Content"
     },
 
     "editPages" : {
