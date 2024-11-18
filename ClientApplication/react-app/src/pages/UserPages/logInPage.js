@@ -12,7 +12,7 @@ const Register = () => {
     return (
         <>
             <div className="category-home-page">
-                <h2>Log in</h2> 
+                <h2>{t('login.logIn')}</h2> 
             </div>
 
             <div className='mainContainer' style={{ backgroundColor: "red !important", borderStyle:"dashed", borderWidth:"thick", borderColor:"var(--color-orange-dark)"}}>

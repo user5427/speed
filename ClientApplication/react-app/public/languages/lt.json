@@ -23,6 +23,7 @@
     },
 
     "categories" : {
+        "categories" : "Kategorijos",
         "returnToCategories" : "Atgal į kategorijas",
         "createCategory" : "Sukuri kategoriją",
         "subjects" : "Dalykai",
@@ -195,5 +196,59 @@
         "select" : "Pasirinkti",
         "delete" : "Panaikinti",
         "edit" : "Redaguoti"
+    },
+
+    "signup": {
+        "signUp": "Registracija",
+    
+        "username": "Vartotojo vardas",
+        "enterUsername": "Įveskite vartotojo vardą",
+        "plsEnterUsername": "Prašome įvesti vartotojo vardą",
+        
+        "email": "Paštas",
+        "enterEmail": "Įveskite paštą",
+        "plsEnterValidEmail": "Prašome įvesti galiojantį pašto adresą",
+        
+        "password": "Slaptažodis",
+        "enterPassword": "Įveskite slaptažodį",
+        "plsEnterPassword": "Prašome įvesti slaptažodį",
+        
+        "passwordRepeat": "Slaptažodžio pakartojimas",
+        "repeatPassword": "Pakartokite slaptažodį",
+        "plsRepeatPassword": "Prašome pakartoti slaptažodį",
+        
+        "passwordsDoNotMatch": "Slaptažodžiai nesutampa",
+        
+        "profilePicture": "Profilio nuotrauka",
+        "optional" : "neprivaloma",
+    
+        "successMessage": "Jūs sėkmingai užsiregistravote!",
+        
+        "plsFillAllFields": "Prašome užpildyti visus privalomus laukelius",
+        "errorOccurred": "Įvyko klaida. Prašome dar kartą bandyti užsiregistruoti",
+    
+        "alreadyHaveAnAccount" : "Jau turite paskyrą",
+        "logIn" : "Prisijungti"
+      
+    },
+    
+    "login": {
+        "logIn": "Prisijungimas",
+
+        "email": "Paštas",
+        "enterEmail": "Įveskite paštą",
+        "plsEnterValidEmail": "Prašome įvesti galiojantį pašto adresą",
+    
+        "password": "Slaptažodis",
+        "enterPassword": "Įveskite slaptažodį",
+        "plsEnterPassword": "Prašome įvesti slaptažodį",
+    
+        "successMessage": "Sėkmingai prisijungėte!",
+    
+        "dontHaveAnAccount": "Dar neturite paskyros",
+    
+        "errorOccurred": "Įvyko klaida. Prašome dar kartą bandyti prisjungti",
+    
+        "signUp": "Registruotis"
     }
 }
