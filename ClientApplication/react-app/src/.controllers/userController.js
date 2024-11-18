@@ -15,7 +15,7 @@ class UserController {
             throw error;
         }
     }
-
+ 
     static async Login(User) {
         try {
             let jsonData = UserMapper.toJsonLogin(User);
