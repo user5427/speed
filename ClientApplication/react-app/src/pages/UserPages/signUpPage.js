@@ -12,7 +12,7 @@ const SignUpPage = () => {
     return (
         <>
             <div className="category-home-page">
-                <h2>Sign up</h2> 
+                <h2>{t('signup.signUp')}</h2> 
             </div>
 
             <div className='mainContainer' style={{ backgroundColor: "red !important", borderStyle:"dashed", borderWidth:"thick", borderColor:"var(--color-pink-dark)"}}>

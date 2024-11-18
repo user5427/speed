@@ -23,6 +23,7 @@
     },
 
     "categories" : {
+        "categories" : "Categories",
         "returnToCategories" : "Back to Categories",
         "createCategory" : "Create Category",
         "subjects" : "Subjects",
@@ -215,7 +216,7 @@
     "passwordsDoNotMatch": "Passwords do not match",
     
     "profilePicture": "Profile Picture",
-    "optional" : "Optional",
+    "optional" : "optional",
 
     "successMessage": "You have successfully signed up!",
     
@@ -225,7 +226,25 @@
     "alreadyHaveAnAccount" : "Already have an account",
     "logIn" : "Log in"
   
-}
+},
+
+"login": {
+    "email": "Email",
+    "enterEmail": "Enter Email",
+    "plsEnterValidEmail": "Please enter a valid email address",
+
+    "password": "Password",
+    "enterPassword": "Enter Password",
+    "plsEnterPassword": "Please enter your Password",
+
+    "logIn": "Log In",
+    "successMessage": "You have successfully logged in!",
+
+    "dontHaveAnAccount": "Don't have an account",
+    "signUp": "Sign Up",
+
+    "errorOccurred": "An error occurred. Please try again."
+  }
     
 }
 

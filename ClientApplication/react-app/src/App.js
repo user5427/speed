@@ -43,8 +43,8 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">{t('homepage.home')}</Nav.Link> 
             <Nav.Link as={Link} to="/about">{t('homepage.about')}</Nav.Link>
-            <Nav.Link as={Link} to="/sign-up">Sign up</Nav.Link>
-            <Nav.Link as={Link} to="/log-in">Log in</Nav.Link>
+            <Nav.Link as={Link} to="/sign-up">{t('signup.signUp')}</Nav.Link>
+            <Nav.Link as={Link} to="/log-in">{t('login.logIn')}</Nav.Link>
 
           </Nav>
           <Nav>

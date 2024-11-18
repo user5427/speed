@@ -25,7 +25,7 @@ const Categories = () => {
     return (
         <>
             <div className="category-home-page">
-                <h2>Categories</h2>
+                <h2>{t('categories.categories')}</h2>
             </div>
             <div>
                 <div className='mainContainer' style={{ backgroundColor: "red !important" }}>

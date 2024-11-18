@@ -5,6 +5,7 @@ import ErrorPopup from '../.common-components/ErrorPopup';
 import SuccessPopup from '../.common-components/SuccessPopup';
 import { useTranslation } from 'react-i18next';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
+import { Link } from 'react-router-dom';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -199,11 +200,13 @@ const SignUp = () => {
           {t('signup.signUp')}
         </Button>
 
-        <Row style={{marginTop:'25px'}}>
-          <Col style={{textAlign:'center', color:"grey"}}>
-            {t('signup.alreadyHaveAnAccount')}{'? '} 
-            <span style={{color:'var(--color-blue-light)'}}>{t('signup.logIn')}</span>
-          </Col>
+        <Row style={{ marginTop: '25px' }}>
+         <Col style={{ textAlign: 'center', color: 'grey' }}>
+          {t('signup.alreadyHaveAnAccount')}?{' '}
+          <Link to="/log-in" style={{ color: 'var(--color-blue-light)', textDecoration: 'none' }}>
+            {t('signup.logIn')}
+          </Link>
+         </Col>
         </Row>
       </Form>
 
