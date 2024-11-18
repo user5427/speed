@@ -4,6 +4,8 @@ import { CreateEditQuestion, listOfQuestions } from  "./Questions/.MainQuestions
 import { QuestionComponent } from  "./Exercise/.MainExerciseExport";
 import { FlashingText } from  "./HomePage/.MainHomePageExport";
 import { CreateEditCategory, ReturnToCategoriesButton } from "./Categories/.MainCategoryExport";
+import { SignUp, LogIn } from "./User/.MainUserExport";
+
 
 // Export components/functions individually
 export { CreateEditArticle, ArticleList, ReturnToArticlesButton };
@@ -14,6 +16,7 @@ export { FlashingText };
 export { listOfParagraphs as ParagraphList };
 export { listOfQuestions as QuestionList };
 export { CreateEditCategory, ReturnToCategoriesButton };
+export {SignUp, LogIn}
 
 // Export as grouped objects (optional, if you need them grouped)
 export const MainArticles = {
