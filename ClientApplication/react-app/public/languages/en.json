@@ -190,7 +190,42 @@
         "select" : "Select",
         "delete" : "Delete",
         "edit" : "Edit"
-    }
+    },
 
+
+  "signup": {
+    "signUp": "Sign up",
+
+    "username": "Username",
+    "enterUsername": "Enter Username",
+    "plsEnterUsername": "Please enter Username",
+    
+    "email": "Email",
+    "enterEmail": "Enter Email",
+    "plsEnterValidEmail": "Please enter a valid Email address",
+    
+    "password": "Password",
+    "enterPassword": "Enter Password",
+    "plsEnterPassword": "Please enter Password",
+    
+    "passwordRepeat": "Password repeat",
+    "repeatPassword": "Repeat Password",
+    "plsRepeatPassword": "Please repeat your Password",
+    
+    "passwordsDoNotMatch": "Passwords do not match",
+    
+    "profilePicture": "Profile Picture",
+    "optional" : "Optional",
+
+    "successMessage": "You have successfully signed up!",
+    
+    "plsFillAllFields": "Please fill all required fields",
+    "errorOccurred": "An error occurred. Please try again.",
+
+    "alreadyHaveAnAccount" : "Already have an account",
+    "logIn" : "Log in"
+  
+}
+    
 }
 
