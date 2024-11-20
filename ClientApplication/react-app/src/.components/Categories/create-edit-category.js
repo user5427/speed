@@ -140,13 +140,9 @@ const EditCategory = () => {
                 let newCategory;
                 if (update) {
                     newCategory = await CategoryController.Put(category);
-                    setRedirect(false);
                     setSuccessMessage("Updated category successfully.");
                     setShowSuccessModal(true);
                     updateCategoryImage();
-                    if (sendUpdate) {
-                        sendUpdate();
-                    }
                 } else {
                     newCategory = await CategoryController.Post(category);
                     setSuccessMessage("Created category successfully.");
