@@ -25,7 +25,11 @@ const Categories = () => {
     }
 
     const settings = {
+        showSelectButton: true,
+    }
 
+    const selectedCategory = (id) => {
+        navigate(`/category?id=${id}`);
     }
 
     return (
@@ -45,7 +49,7 @@ const Categories = () => {
 
             <CategoryList
                 settings={settings}
-                getSelected={() => { }}
+                getSelected={selectedCategory}
                 getEditing={() => { }}
                 update={false}
             />

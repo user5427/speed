@@ -27,7 +27,7 @@ import EditQuestion from './pages/EditPages/editQuestionPage';
 import CreateCategory from './pages/Categories/createCategoryPage';
 import SignUpPage from './pages/UserPages/signUpPage';
 import LogInPage from './pages/UserPages/logInPage';
-
+import ArticleListFromCategory from './pages/Categories/ArticleListFromCategories';
 
 function App() {
 
@@ -68,6 +68,7 @@ function App() {
           <Route exact path="/create-category" Component={() => <CreateCategory/>} />
           <Route exact path="/sign-up" Component={() => <SignUpPage/>} />
           <Route exact path="/log-in" Component={() => <LogInPage/>} />
+          <Route exact path="/category" Component={() => <ArticleListFromCategory/>} />
         </Routes>
     </Container>
   );

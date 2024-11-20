@@ -26,12 +26,12 @@ const ArticleHomePage = () => {
     }
 
     const getSelectedArticle = (articleId) => {
-        window.location.href = `/edit-all?articleId=${articleId}`;
+        navigate(`/edit-all?articleId=${articleId}`);
 
     }
 
     const getPlayArticle = (articleId) => {
-        window.location.href = `/exercise?articleId=${articleId}`;
+        navigate(`/exercise?articleId=${articleId}`);
     }
     
     

@@ -8,7 +8,7 @@ import "../../../styles/stylesPaginator.css"; // stylesheet
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
 
-const ArticleList = ({ settings, getSelected, update, getEditing, getPlay }) => {
+const ArticleListFromArray = ({ settings, getSelected, update, getEditing, getPlay, articleIds }) => {
     const [articles, setArticles] = useState<any[]>([]);
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
@@ -18,15 +18,23 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay }) => 
 
     useEffect(() => {
         getArticles();
-    }, [update, page]) // [] if empty, will load for only the first and only first time
+    }, [update, page, articleIds]) // [] if empty, will load for only the first and only first time
 
     const getArticles = async () => {
         try {
-            let articlePage = await ArticleController.GetPage(page + 1);
-            setArticles(articlePage.articles || [])
+            // get only process.env.REACT_APP_PAGING_SIZE articles starting from page
+            setArticles([]);
+            for (let i = page *  Number(process.env.REACT_APP_PAGING_SIZE); i < articleIds.length; i++) {
+                let article = await ArticleController.Get(articleIds[i]);
+                setArticles((prev) => [...prev, article]);
+                if (articles.length >= Number(process.env.REACT_APP_PAGING_SIZE)) {
+                    break;
+                }
+            }
+
             setPageSize(() => {
                 const pagingSize = Number(process.env.REACT_APP_PAGING_SIZE) || 1;
-                return Math.ceil((articlePage.count ?? 0) / pagingSize);
+                return Math.ceil((articles.length ?? 0) / pagingSize);
             })
         } catch (error) {
             setErrorMessage(error.message); // Set error message
@@ -97,4 +105,4 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay }) => 
     )
 }
 
-export default ArticleList;
+export default ArticleListFromArray;
