@@ -185,7 +185,7 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
         var request = new ParagraphCreateRequest(
             Title: "Test Paragraph",
             Text: "Test Content",
-            ArticleId: null
+            ArticleId: 0
         );
 
         // Act

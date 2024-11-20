@@ -194,7 +194,7 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
     {
         var request = new QuestionCreateRequest(
             QuestionText: "Test Content",
-            ParagraphId: null,
+            ParagraphId: 0,
             AnswerChoices: new string[] { "help", "C# struggle", "haskell pain" },
             CorrectAnswerIndex: 1
         );

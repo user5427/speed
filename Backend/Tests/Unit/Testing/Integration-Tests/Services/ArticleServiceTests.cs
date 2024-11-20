@@ -50,7 +50,7 @@ public class ArticleServiceTests
     public void CreateArticle ()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category");
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null);
         
         // Act
         var result = _articleService.CreateArticle(request);
@@ -64,7 +64,7 @@ public class ArticleServiceTests
     public void GettingArticle ()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category"); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
         var created = _articleService.CreateArticle(request);
         
         // Act
@@ -78,9 +78,9 @@ public class ArticleServiceTests
     public void UpdateArticle ()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category"); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
         var created = _articleService.CreateArticle(request);
-        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", null);
+        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", null, null);
         
         // Act
         var result = _articleService.UpdateArticle(created.Id, updateRequest);
@@ -94,7 +94,7 @@ public class ArticleServiceTests
     public void DeleteArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category"); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
         var created = _articleService.CreateArticle(request);
         
         // Act
@@ -110,10 +110,10 @@ public class ArticleServiceTests
     public void SearchArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category"); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
         var created = _articleService.CreateArticle(request);
         
-        var sideRequest = new ArticleCreateRequest("Test Articly", "Test Category"); 
+        var sideRequest = new ArticleCreateRequest("Test Articly", "Test Category",null); 
         var sideCreated = _articleService.CreateArticle(request);
 
         // Act
@@ -142,10 +142,10 @@ public class ArticleServiceTests
     public void SearchArticleMulti()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test999 Article", "Test Category"); 
+        var request = new ArticleCreateRequest("Test999 Article", "Test Category", null); 
         var created = _articleService.CreateArticle(request);
         
-        var sideRequest = new ArticleCreateRequest("Test999 Articly", "Test Category"); 
+        var sideRequest = new ArticleCreateRequest("Test999 Articly", "Test Category", null); 
         var sideCreated = _articleService.CreateArticle(sideRequest);
 
         // Act
