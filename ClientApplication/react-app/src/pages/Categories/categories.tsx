@@ -12,6 +12,8 @@ import { FaPlusSquare } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
 import '../../styles/Categories/categories.css';
 
+import { CategoryList } from '../../.components/.MainComponentsExport';
+
 const Categories = () => {
 
     const { t } = useTranslation();
@@ -20,6 +22,10 @@ const Categories = () => {
 
     const redirectToCreateCategory = () => {
         navigate('/create-category');
+    }
+
+    const settings = {
+
     }
 
     return (
@@ -37,7 +43,16 @@ const Categories = () => {
                 </div>
             </div>
 
-            <div className='mainContainer'>
+            <CategoryList
+                settings={settings}
+                getSelected={() => { }}
+                getEditing={() => { }}
+                update={false}
+            />
+
+
+
+            {/* <div className='mainContainer'>
                 <Row className='rowCategories'>
                     <Col xs={12} md={2}>
                         <Button size="lg" className='buttons lime' onClick={() => { }}><GiMicroscope className="icons" />  {t('categories.biology')}</Button>
@@ -67,7 +82,7 @@ const Categories = () => {
                     <Col className='categories'>{t('categories.lCategories')}{'...'}</Col>
                 </Row>
 
-            </div>
+            </div> */}
         </>
 
     )

@@ -54,11 +54,11 @@ class CategoryController {
         }
     }
 
-    static async GetPage(page) {
+    static async Search(search) {
         try {
-            const response = await CategoryService.getCategories(page);
+            const response = await CategoryService.getCategoriesByTitle(search);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(`${CategoryPageErrors.GetError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+                throw new Error(`${CategoryPageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return CategoryPageMapper.fromJson(response);
         } catch (error) {
@@ -66,11 +66,11 @@ class CategoryController {
         }
     }
 
-    static async Search(search) {
+    static async GetPage(page) {
         try {
-            const response = await CategoryService.getCategoriesByTitle(search);
+            const response = await CategoryService.getCategoriesByPage(page);
             if (!response || StatusHelper.isError(response)) {
-                throw new Error(`${CategoryPageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+                throw new Error(`${CategoryPageErrors.GetPageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return CategoryPageMapper.fromJson(response);
         } catch (error) {

@@ -14,3 +14,14 @@ add error\validation handling
 
 add default query object. maybe not needed....
 
+
+
+## git tracking
+
+conda install conda-forge::labours
+pip install tensorflow=1.1.5
+pip install matplotlib==3.2.2
+pip install "seriate>=1.1.2,<2.0"
+
+https://github.com/bblfsh/bblfshd
+https://github.com/src-d/hercules

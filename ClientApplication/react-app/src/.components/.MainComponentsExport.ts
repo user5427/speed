@@ -3,7 +3,7 @@ import { CreateEditParagraph, listOfParagraphs } from  "./Paragraphs/.MainParagr
 import { CreateEditQuestion, listOfQuestions } from  "./Questions/.MainQuestionsExport";
 import { QuestionComponent } from  "./Exercise/.MainExerciseExport";
 import { FlashingText } from  "./HomePage/.MainHomePageExport";
-import { CreateEditCategory, ReturnToCategoriesButton } from "./Categories/.MainCategoryExport";
+import { CreateEditCategory, ReturnToCategoriesButton, CategoryList } from "./Categories/.MainCategoryExport";
 import { SignUp, LogIn } from "./User/.MainUserExport";
 
 
@@ -15,8 +15,8 @@ export { QuestionComponent };
 export { FlashingText };
 export { listOfParagraphs as ParagraphList };
 export { listOfQuestions as QuestionList };
-export { CreateEditCategory, ReturnToCategoriesButton };
-export {SignUp, LogIn}
+export { CreateEditCategory, ReturnToCategoriesButton, CategoryList };
+export { SignUp, LogIn }
 
 // Export as grouped objects (optional, if you need them grouped)
 export const MainArticles = {

@@ -26,6 +26,12 @@ const CategoryService = {
         return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
     },
 
+    getCategoriesByPage: async function (page) {
+        const requestOptions = FetchHelper.generateRequestOptions("GET");
+        const apiUrl = process.env.REACT_APP_API_URL + `Category/search?PageNumber=${page}&PageSize=${process.env.REACT_APP_PAGING_SIZE}`;
+        return FetchHelper.fetchEntity(apiUrl, requestOptions).then(res => {return res});
+    },
+
     deleteCategory: async function (id) {
         const requestOptions = FetchHelper.generateRequestOptions("DELETE");
         const apiUrl = process.env.REACT_APP_API_URL + `Category/${id}`;

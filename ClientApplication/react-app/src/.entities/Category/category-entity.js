@@ -23,21 +23,21 @@ class Category {
 
     #createCategoryFromParams(title, text, id = null, imageFileName = null, articleIds = []) {
         // Validate title
-        if (typeof title !== "string" ||
-            title.length < ValidationConstants.MinTitleLength ||
-            title.length > ValidationConstants.MaxTitleLength) {
-            throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
-        }
-        if (!ValidationPatternConstants.TitlePattern.test(title)) {
-            throw new Error("Title does not match the required pattern.");
-        }
+        // if (typeof title !== "string" ||
+        //     title.length < ValidationConstants.MinTitleLength ||
+        //     title.length > ValidationConstants.MaxTitleLength) {
+        //     throw new Error(`Title must be a string between ${ValidationConstants.MinTitleLength} and ${ValidationConstants.MaxTitleLength} characters.`);
+        // }
+        // if (!ValidationPatternConstants.TitlePattern.test(title)) {
+        //     throw new Error("Title does not match the required pattern.");
+        // }
 
         // Validate text
-        if (typeof text !== "string" ||
-            text.length < ValidationConstants.MinCategoryLength ||
-            text.length > ValidationConstants.MaxCategoryLength) {
-            throw new Error(`Text must be between ${ValidationConstants.MinTextLength} and ${ValidationConstants.MaxTextLength} characters.`);
-        }
+        // if (typeof text !== "string" ||
+        //     text.length < ValidationConstants.MinCategoryLength ||
+        //     text.length > ValidationConstants.MaxCategoryLength) {
+        //     throw new Error(`Text must be between ${ValidationConstants.MinTextLength} and ${ValidationConstants.MaxTextLength} characters.`);
+        // }
 
         // Validate ID (if provided) id must be a number
         if (id !== null && typeof id !== "number") {
