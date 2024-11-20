@@ -19,6 +19,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     private readonly PlaygroundApplicationFixture _fixture;
     private readonly HttpClient _client;
     private int _articleId;
+    private int _paragraphId;
+    private int _categoryId;
 
     public ArticleControllerTests(PlaygroundApplicationFixture fixture)
     {
@@ -41,6 +43,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
         _articleId = DBHelperMethods.GetFirstArticleId(context);
+        _paragraphId = DBHelperMethods.GetFirstParagraphId(context);
+        _categoryId = DBHelperMethods.GetFirstCategoryId(context);
     }
 
     [Fact]
@@ -54,7 +58,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         );
 
         // Act
-        var response = await _client.PostAsJsonAsync("/api/categories", request);
+        var response = await _client.PostAsJsonAsync("/api/articles", request);
         var createdArticle = await response.Content.ReadFromJsonAsync<ArticleResponse>();
 
         // Assert
@@ -115,7 +119,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
             Title: "Updated Title",
             CategoryTitle: "Updated Category",
             ParagraphIds: null,
-            null
+            CategoryIds: null
+            
         );
 
         // Act
@@ -137,8 +142,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         var request = new ArticleUpdateRequest(
             Title: "New Title",
             CategoryTitle: "New Category",
-            ParagraphIds: null,
-            null
+            ParagraphIds: new List<int>{_paragraphId},
+            new List<int>{_categoryId}
         );
 
         // Act
@@ -185,6 +190,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
 
     }
 
+    
+
     [Fact]
     public async Task SearchArticles_InvalidQuery_ReturnsEmptyList()
     {
@@ -196,6 +203,12 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(articlePage);
         Assert.Empty(articlePage.Items);
+    }
+
+    [Fact]
+    public async Task Count(){
+        var resp = await _client.GetAsync($"/api/articles/count");
+        Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
     }
 
     

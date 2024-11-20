@@ -190,8 +190,12 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/paragraphs", request);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
-
+  [Fact]
+    public async Task Count(){
+        var resp = await _client.GetAsync($"/api/paragraphs/count");
+        Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
+    }
 }

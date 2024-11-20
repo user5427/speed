@@ -182,4 +182,9 @@ public class QuestionServiceTests
         Assert.NotEmpty(result.Items);
         Assert.Equal(2, result.Items.Count);
     }
+    [Fact(DisplayName = "Category count")]
+    public void CategoryCount(){
+        long count = _questionService.GetCount();
+        Assert.Equal(0, count);
+    }
 }

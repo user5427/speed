@@ -114,7 +114,7 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
         );
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/api/articles/{_categoryId}", request);
+        var response = await _client.PutAsJsonAsync($"/api/category/{_categoryId}", request);
         var updatedArticle = await response.Content.ReadFromJsonAsync<CategoryResponse>();
 
         // Assert
@@ -178,6 +178,7 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
 
     }
 
+
     [Fact]
     public async Task SearchCategory_InvalidQuery_ReturnsEmptyList()
     {
@@ -190,6 +191,10 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
         Assert.NotNull(articlePage);
         Assert.Empty(articlePage.Items);
     }
-
+      [Fact]
+    public async Task Count(){
+        var resp = await _client.GetAsync($"/api/category/count");
+        Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
+    }
     
 }

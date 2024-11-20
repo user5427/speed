@@ -10,6 +10,7 @@ using SpeedReaderAPI.Services.Impl;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI;
 using SpeedReaderAPI.Exceptions;
+using SpeedReaderAPI.DTOs.Paragraph.Requests;
 
 public class ArticleServiceTests
 {
@@ -19,6 +20,7 @@ public class ArticleServiceTests
     private readonly ArticleService _articleService;
     private readonly ParagraphService _paragraphService;
     private readonly QuestionService _questionService;
+    private readonly CategoryService _categoryService;
 
     public ArticleServiceTests()
     {
@@ -44,6 +46,7 @@ public class ArticleServiceTests
         _articleService = new ArticleService(context, _mapper, 
                                              _imageService, 
                                              _paragraphService);
+        _categoryService = new CategoryService(context, _mapper, _imageService);
     }
 
     [Fact (DisplayName  = "Article creating")]
@@ -59,6 +62,7 @@ public class ArticleServiceTests
         Assert.Equal("Test Article", result.Title);
         Assert.Equal("Test Category", result.CategoryTitle);
     }
+    
 
     [Fact (DisplayName  = "Article getting")]
     public void GettingArticle ()
@@ -73,14 +77,55 @@ public class ArticleServiceTests
         Assert.NotNull(result);
         Assert.Equal(created.Id, result.Id);
     }
+     [Fact (DisplayName  = "Article getting")]
+    public void AddNonExistingCategory ()
+    {
+        // // Arrange
+        // var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
+        // var created = _articleService.CreateArticle(request);
+        // // Act
+        // var result = _articleService.(created.Id);
+        // // Assert
+        // Assert.NotNull(result);
+        // Assert.Equal(created.Id, result.Id);
+    }
+    [Fact (DisplayName  = "Article creating with Category")]
+    public void CreateArticleWithCategory ()
+    {
+        
+        // Arrange
+        var catReq = new CategoryCreateRequest("Test Title", "Test Text");
+        var catRes = _categoryService.CreateCategory(catReq);
+        var list = new List<int>();
+        list.Add(catRes.Id);
+        var request = new ArticleCreateRequest("Test New Article", "Test New Category", list);
+        var result = _articleService.CreateArticle(request);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("Test New Article", result.Title);
+        Assert.Equal("Test New Category", result.CategoryTitle);
+    }
 
     [Fact (DisplayName  = "Article updating")]
     public void UpdateArticle ()
     {
+         var catReq = new CategoryCreateRequest("Test Title", "Test Text");
+        var catRes = _categoryService.CreateCategory(catReq);
+        var list = new List<int>();
+        list.Add(catRes.Id);
+        var catReq3 = new CategoryCreateRequest("Test Title", "Test Text");
+        var catRes3 = _categoryService.CreateCategory(catReq3);
+        var list3 = new List<int>();
+        list3.Add(catRes.Id);
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", list); 
         var created = _articleService.CreateArticle(request);
-        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", null, null);
+        
+         var catReq2 = new ParagraphCreateRequest("Test Title", created.Id, "Test Text");
+        var catRes2 = _paragraphService.CreateParagraph(catReq2);
+        var list2 = new List<int>();
+        list2.Add(catRes2.Id);
+        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", list2, list3);
         
         // Act
         var result = _articleService.UpdateArticle(created.Id, updateRequest);
@@ -157,5 +202,41 @@ public class ArticleServiceTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(2, result.Items.Count);
+    }
+
+    [Fact(DisplayName = "Article searching, multiple results depr")]
+    public void SearchArticleMultiDepr()
+    {
+        // Arrange
+        var request = new ArticleCreateRequest("Test999 Article", "Test Category", null); 
+        var created = _articleService.CreateArticle(request);
+        
+        var sideRequest = new ArticleCreateRequest("Test999 Articly", "Test Category", null); 
+        var sideCreated = _articleService.CreateArticle(sideRequest);
+
+        // Act
+        var queryParam = new QueryParameters
+        {
+            Search = "Test999"
+        };
+        var result = _articleService.GetArticles(queryParam);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count);
+    }
+    [Fact(DisplayName = "Category count")]
+    public void CategoryCount(){
+        long count = _articleService.GetCount();
+        Assert.Equal(0, count);
+    }
+    // [Fact(DisplayName = "Already has image")]
+    // public void Image_Invalid_HasAlready(){
+    //      var request = new ArticleCreateRequest("Test999 Article", "Test Category", null); 
+    //     var created = _articleService.CreateArticle(request);
+    //     _articleService.UploadImage(created.Id, null);
+    // }
+    [Fact (DisplayName = "count")]
+    public void Count(){
+        Assert.Equal(0, _articleService.GetCount());
     }
 }

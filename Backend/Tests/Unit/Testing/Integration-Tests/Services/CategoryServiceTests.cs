@@ -151,4 +151,12 @@ public class CategoryServiceTests
         Assert.NotNull(result);
         Assert.Equal(2, result.Items.Count);
     }
+
+    
+    [Fact(DisplayName = "Category count")]
+    public void CategoryCount(){
+        long count = _categoryService.GetCount();
+        Assert.Equal(0, count);
+    }
+    
 }

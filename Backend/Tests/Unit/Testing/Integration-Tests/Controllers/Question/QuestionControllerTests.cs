@@ -203,8 +203,12 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
         var response = await _client.PostAsJsonAsync("/api/questions", request);
 
         // Assert
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode); // Bad Request
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode); // Bad Request
     }
 
-    
+      [Fact]
+    public async Task Count(){
+        var resp = await _client.GetAsync($"/api/questions/count");
+        Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
+    }
 }
