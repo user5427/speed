@@ -93,6 +93,7 @@ const QuestionComponent = ({
                 {shuffledOptions.map(({ optionText, originalIndex }, idx) => (
                   <Grid item xs={12} sm={6} key={idx}>
                     <ListItemButton
+                      data-testid={`option-${originalIndex}`}
                       onClick={() => handleListItemClick(optionText, originalIndex)}
                       disabled={submitted}
                       sx={{
