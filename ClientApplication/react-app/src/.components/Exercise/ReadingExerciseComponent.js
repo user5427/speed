@@ -56,18 +56,18 @@ const ReadingExerciseComponent = ({
               <>
                 {' '}
                 <span>{t('exercise.reading.endOfParagraph')}</span>{' '}
-                <div className="yellowCircle" style={{ marginLeft: '3px' }}>
+                <span className="yellowCircle" style={{ marginLeft: '3px' }}>
                   {currentParagraphIndex + 1}
-                </div>
+                </span>
               </>
             )}
           </>
         ) : (
           <>
             {t('exercise.reading.pressStartToBeginPar')}{' '}
-            <div className="yellowCircle">
+            <span className="yellowCircle">
               {currentParagraphIndex + 1}
-            </div>
+            </span>
           </>
         )}
       </p>
