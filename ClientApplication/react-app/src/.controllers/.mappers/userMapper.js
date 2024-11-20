@@ -4,8 +4,6 @@ class UserMapper {
     static fromJson(data) {
         return User.createUserFromParams(
             data[UserJson.username],
-            data[UserJson.password],
-            data[UserJson.email],
             data[UserJson.id],
             data[UserJson.role],
             data[UserJson.token]

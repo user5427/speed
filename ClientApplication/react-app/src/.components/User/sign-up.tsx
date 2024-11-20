@@ -6,6 +6,8 @@ import SuccessPopup from '../.common-components/SuccessPopup';
 import { useTranslation } from 'react-i18next';
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 import { Link } from 'react-router-dom';
+import { UserController } from '../../.controllers/userController';
+import { User } from '../../.entities/.MainEntitiesExport';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -72,9 +74,20 @@ const SignUp = () => {
       return;
     }
 
-    // Simulate successful sign up
-    setSuccessMessage(t('signup.successMessage'));
-    setShowSuccessModal(true);
+    try {
+      console.log(user);
+      let myUser = new User();
+      myUser.username = user.username;
+      myUser.email = user.email;
+      myUser.password = user.password;
+      UserController.Post(myUser);
+
+      setSuccessMessage(t('signup.successMessage'));
+      setShowSuccessModal(true);
+    } catch (error) {
+      setErrorMessage(error.message);
+      setShowErrorModal(true);
+    }
   };
 
   // Function to close the error modal

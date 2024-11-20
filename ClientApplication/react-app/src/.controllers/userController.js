@@ -10,7 +10,7 @@ class UserController {
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${UserErrors.PostError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
-            return UserMapper.fromJson(response);
+            return;
         } catch (error) {
             throw error;
         }

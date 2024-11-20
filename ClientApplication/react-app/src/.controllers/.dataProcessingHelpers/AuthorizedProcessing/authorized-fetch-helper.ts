@@ -2,7 +2,7 @@ import { sendError, sendOk } from "../status-helper";
 import API from './API'; // Your configured axios instance with interceptors
 import { sendAPIError } from "./auth-status-helper";
 
-export const fetchEntity = async (apiUrl: string, requestOptions) => {
+export const fetchEntityAxios = async (apiUrl: string, requestOptions) => {
     let type = "get";
 
     if (requestOptions) {
@@ -43,7 +43,7 @@ export const fetchEntity = async (apiUrl: string, requestOptions) => {
  * @param apiUrl 
  * @returns 
  */
-export const getImage = async (apiUrl: string) => {
+export const getImageAxios = async (apiUrl: string) => {
     try {
         const headers = {
             'Accept': 'image/*'  // Accept any image format
@@ -73,7 +73,7 @@ interface RequestOptions {
     body?: any;
 };
 
-export const generateImageRequestOptions = (body: FormData): RequestOptions => {
+export const generateImageRequestOptionsAxios = (body: FormData): RequestOptions => {
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'multipart/form-data',
@@ -86,7 +86,7 @@ export const generateImageRequestOptions = (body: FormData): RequestOptions => {
     };
 };
 
-export const generateRequestOptions = (method: string, body?: any): RequestOptions => {
+export const generateRequestOptionsAxios = (method: string, body?: any): RequestOptions => {
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

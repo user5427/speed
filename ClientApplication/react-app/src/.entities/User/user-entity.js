@@ -3,9 +3,9 @@ class User {
         this.#createEmptyUser();
     }
 
-    static createUserFromParams(username, password, email, id = null, role = 0, token = null) {
+    static createUserFromParams(username, id = null, role = 0, token = null) {
         const user = new User();
-        user.#createUserFromParams(username, password, email, id, role, token);
+        user.#createUserFromParams(username, id, role, token);
         return user;
     }
 
@@ -19,7 +19,7 @@ class User {
         return newUser;
     }
 
-    #createUserFromParams(username, password, email, id = null, role = 0, token = null) {
+    #createUserFromParams(username, id = null, role = 0, token = null) {
         // Validate username
         if (typeof username !== "string") {
             throw new Error(`Username is needed.`);
@@ -29,14 +29,14 @@ class User {
         // }
 
         // Validate password
-        if (typeof password !== "string") {
-            throw new Error(`Password is needed.`);
-        }
+        // if (typeof password !== "string") {
+            // throw new Error(`Password is needed.`);
+        // }
 
         // Validate email
-        if (typeof email !== "string") {
-            throw new Error(`Email is needed.`);
-        }
+        // if (typeof email !== "string") {
+        //     throw new Error(`Email is needed.`);
+        // }
         // if (!ValidationPatternConstants.EmailPattern.test(email)) {
             // throw new Error("Email does not match the required pattern.");
         // }
@@ -53,8 +53,8 @@ class User {
 
         // Assign properties
         this._username = username;
-        this._password = password;
-        this._email = email;
+        this._password = "";
+        this._email = "";
         this._id = id;
         this._role = role;
         this._token = token;
