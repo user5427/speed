@@ -143,20 +143,20 @@ const totalParagraphs = paragraphs.length;
           return;
         }
   
-        const question = currentQuestions[0]; // Assuming one question per paragraph
+        const question = currentQuestions[0]; // Assuming one question per paragraph TO RECHECK
         const imageURL = await QuestionController.GetImage(question.id);
   
         if (isMounted) {
           if (imageURL) {
             setQuestionImageUrl(imageURL);
           } else {
-            setQuestionImageUrl(NoImage); // Or NoImage if you have a placeholder
+            setQuestionImageUrl(NoImage);
           }
         }
       } catch (error) {
         console.error('Error fetching question image:', error);
         if (isMounted) {
-          setQuestionImageUrl(NoImage); // Or NoImage if you have a placeholder
+          setQuestionImageUrl(NoImage);
         }
       }
     };
