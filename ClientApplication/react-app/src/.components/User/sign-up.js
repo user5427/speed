@@ -204,7 +204,7 @@ const SignUp = () => {
          <Col style={{ textAlign: 'center', color: 'grey' }}>
           {t('signup.alreadyHaveAnAccount')}?{' '}
           <Link to="/log-in" style={{ color: 'var(--color-blue-light)', textDecoration: 'none' }}>
-            {t('signup.logIn')}
+            {t('login.logIn')}
           </Link>
          </Col>
         </Row>
