@@ -23,6 +23,10 @@ class CategoryMapper {
             json[CategoryJson.text] = category._text;
         }
 
+        if (category._id) {
+            json[CategoryJson.id] = category._id;
+        }
+
         return json;
     }
 }

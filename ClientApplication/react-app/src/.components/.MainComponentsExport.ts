@@ -1,21 +1,21 @@
-import { CreateEditArticle, ArticleList, ReturnToArticlesButton } from "./Articles/.MainArticlesExport";
+import { CreateEditArticle, ArticleList, ReturnToArticlesButton, ArticleListFromArray } from "./Articles/.MainArticlesExport";
 import { CreateEditParagraph, listOfParagraphs } from  "./Paragraphs/.MainParagraphsExport";
 import { CreateEditQuestion, listOfQuestions } from  "./Questions/.MainQuestionsExport";
 import { QuestionComponent } from  "./Exercise/.MainExerciseExport";
 import { FlashingText } from  "./HomePage/.MainHomePageExport";
-import { CreateEditCategory, ReturnToCategoriesButton, CategoryList } from "./Categories/.MainCategoryExport";
+import { CreateEditCategory, ReturnToCategoriesButton, CategoryList, ShowCategory } from "./Categories/.MainCategoryExport";
 import { SignUp, LogIn } from "./User/.MainUserExport";
 
 
 // Export components/functions individually
-export { CreateEditArticle, ArticleList, ReturnToArticlesButton };
+export { CreateEditArticle, ArticleList, ReturnToArticlesButton, ArticleListFromArray };
 export { CreateEditParagraph };
 export { CreateEditQuestion };
 export { QuestionComponent };
 export { FlashingText };
 export { listOfParagraphs as ParagraphList };
 export { listOfQuestions as QuestionList };
-export { CreateEditCategory, ReturnToCategoriesButton, CategoryList };
+export { CreateEditCategory, ReturnToCategoriesButton, CategoryList, ShowCategory };
 export { SignUp, LogIn }
 
 // Export as grouped objects (optional, if you need them grouped)

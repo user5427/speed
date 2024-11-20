@@ -32,6 +32,7 @@ class CategoryController {
     static async Put(Category) {
         try {
             let jsonData = CategoryMapper.toJson(Category);
+            console.log(Category);
             const response = await CategoryService.putCategory(jsonData);
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${CategoryErrors.PutError()}. Details ${StatusHelper.getErrorMessage(response)}`);
