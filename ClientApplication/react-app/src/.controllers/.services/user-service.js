@@ -1,5 +1,4 @@
 import { FetchHelper } from "../.dataProcessingHelpers/DataProccessingHelpersExport";
-import { FetchHelperAxios } from "../.dataProcessingHelpers/DataProccessingHelpersExport";
 
 const UserService = {
     postUser: async function (user) {

@@ -16,15 +16,15 @@ const FetchHelper = {
     fetchEntityNoReturn
 }
 
-import { fetchEntityAxios, generateImageRequestOptionsAxios, generateRequestOptionsAxios, getImageAxios } from "./AuthorizedProcessing/authorized-fetch-helper";
+// import { fetchEntityAxios, generateImageRequestOptionsAxios, generateRequestOptionsAxios, getImageAxios } from "./AuthorizedProcessing/authorized-fetch-helper";
 
-const FetchHelperAxios = {
-    fetchEntityAxios,
-    generateRequestOptionsAxios,
-    generateImageRequestOptionsAxios,
-    getImageAxios
-}
+// const FetchHelperAxios = {
+//     fetchEntityAxios,
+//     generateRequestOptionsAxios,
+//     generateImageRequestOptionsAxios,
+//     getImageAxios
+// }
 
-export { FetchHelperAxios };
+// export { FetchHelperAxios };
 
 export { FetchHelper, StatusHelper };
