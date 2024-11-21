@@ -2,9 +2,9 @@ name: .NET
 
 on:
   push:
-    branches: [ "main" ] # Change this to your branch name
+    branches: [ "category-controller" ] # Change this to your branch name
   pull_request:
-    branches: [ "main" ]
+    branches: [ "category-controller" ]
 
 jobs:
   build:
