@@ -6,5 +6,4 @@ using SpeedReaderAPI.Entities;
 public interface IParagraphSessionService
 {
     Task<ParagraphSessionDto[]> CreateParagraphSessions(Article article, ArticleSession articleSession, ParagraphSessionCreateRequest[] requests);
-    List<ParagraphSessionDto> GetAllByArticleSession(ArticleSession articleSession);
 }

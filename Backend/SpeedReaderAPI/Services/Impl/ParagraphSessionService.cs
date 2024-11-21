@@ -18,30 +18,18 @@ public class ParagraphSessionService : IParagraphSessionService
         _context = new CombinedRepositories(context);
         _mapper = mapper;
     }
-
-    // TODO: fix
     private async Task<ParagraphSessionDto> CreateParagraphSession(Article article, ArticleSession articleSession, ParagraphSessionCreateRequest request)
     {
-        Paragraph? paragraphFound = _context.Paragraph.FindById(request.ParagraphId);
-        if (paragraphFound == null)
-        {
-            throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
-        }
-        if (paragraphFound.ArticleId != article.Id)
-        {
-            throw new Exception("Illegal state: article mismatch");
-        }
-
+        Paragraph? paragraphFound = _context.Paragraph.FindById(request.ParagraphId) ?? throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
+        if (paragraphFound.ArticleId != article.Id) throw new Exception("Illegal state: article mismatch");
         ParagraphSession session = _mapper.Map<ParagraphSession>(request);
         session.ArticleSessionId = articleSession.Id;
         session.TotalQuestionCount = paragraphFound.QuestionIds.Count;
-
         _context.ParagraphSession.Add(session);
-
         return _mapper.Map<ParagraphSessionDto>(session);
     }
 
-    public async Task<ParagraphSessionDto[]> CreateParagraphSessions(Article article, 
+    public async Task<ParagraphSessionDto[]> CreateParagraphSessions(Article article,
         ArticleSession articleSession,
         ParagraphSessionCreateRequest[] requests)
     {
@@ -58,12 +46,5 @@ public class ParagraphSessionService : IParagraphSessionService
         await _context.SaveChangesAsync();
 
         return concurrentCollection.ToArray();
-    }
-
-    public List<ParagraphSessionDto> GetAllByArticleSession(ArticleSession articleSession)
-    {
-        return _context.ParagraphSession.GetAllByArticleSession(articleSession.Id)
-        .Select(_mapper.Map<ParagraphSessionDto>)
-        .ToList();
     }
 }
