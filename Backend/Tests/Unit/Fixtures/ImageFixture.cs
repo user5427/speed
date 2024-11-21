@@ -24,7 +24,11 @@ public class ImageFixture : IDisposable
         }
 
         // Set up the path to the uploaded files directory
-        _uploadedDirectory = Path.Combine(AppContext.BaseDirectory, "uploaded" + Guid.NewGuid().ToString());
+        _uploadedDirectory = Path.Combine(AppContext.BaseDirectory, "uploaded");
+        if (!Directory.Exists(_uploadedDirectory))
+        {
+            Directory.CreateDirectory(_uploadedDirectory);
+        }
     }
 
     public void Dispose()
