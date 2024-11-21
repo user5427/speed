@@ -1,10 +1,15 @@
 name: .NET
 
+env:
+  ACTIONS_RUNNER_DEBUG: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+
 on:
   push:
-    branches: [ "category-controller" ] # Change this to your branch name
+    branches: [ "main" ] # Change this to your branch name
   pull_request:
-    branches: [ "category-controller" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -24,3 +29,12 @@ jobs:
       run: dotnet build Backend/Tests/Unit/Unit.csproj --no-restore
     - name: Test
       run: dotnet test Backend/Tests/Unit/Unit.csproj --no-build --verbosity normal
+    - name: Dump Test Results
+      run: cat TestResults/*.trx
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: TestResults
+        path: TestResults
+    
+
