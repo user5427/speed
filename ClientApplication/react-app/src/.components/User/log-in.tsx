@@ -34,7 +34,7 @@ const LogIn = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
 
@@ -49,7 +49,7 @@ const LogIn = () => {
       let myUser = new User();
       myUser.email = user.email;
       myUser.password = user.password;
-      UserController.Login(myUser);
+      await UserController.Login(myUser);
       setSuccessMessage(t('login.successMessage'));
       setShowSuccessModal(true);
     } catch (error) {

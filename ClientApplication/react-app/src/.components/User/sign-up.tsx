@@ -57,7 +57,7 @@ const SignUp = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
 
@@ -80,7 +80,7 @@ const SignUp = () => {
       myUser.username = user.username;
       myUser.email = user.email;
       myUser.password = user.password;
-      UserController.Post(myUser);
+      await UserController.Post(myUser);
 
       setSuccessMessage(t('signup.successMessage'));
       setShowSuccessModal(true);
