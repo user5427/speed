@@ -53,7 +53,7 @@ public class QuestionServiceTests
                                              _paragraphService);
 
         // Initialize ArticleService with mock data
-        var request = new ArticleCreateRequest("Test Article", "Test Category");
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null);
         createdArticle = _articleService.CreateArticle(request);
 
         // Initialize ParagraphService with mock data
@@ -181,5 +181,10 @@ public class QuestionServiceTests
         Assert.NotNull(result);
         Assert.NotEmpty(result.Items);
         Assert.Equal(2, result.Items.Count);
+    }
+    [Fact(DisplayName = "Category count")]
+    public void CategoryCount(){
+        long count = _questionService.GetCount();
+        Assert.Equal(0, count);
     }
 }
