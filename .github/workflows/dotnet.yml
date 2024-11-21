@@ -19,8 +19,8 @@ jobs:
     - name: Change to project directory
       run: cd Backend/Tests/Unit
     - name: Restore dependencies
-      run: dotnet restore # Replace with your actual .csproj path
+      run: dotnet restore Backend/Tests/Unit/Unit.csproj # Replace with your actual .csproj path
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build Backend/Tests/Unit/Unit.csproj --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test Backend/Tests/Unit/Unit.csproj --no-build --verbosity normal
