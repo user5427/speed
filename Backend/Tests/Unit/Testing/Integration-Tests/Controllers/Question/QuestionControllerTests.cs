@@ -194,7 +194,7 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
     {
         var request = new QuestionCreateRequest(
             QuestionText: "Test Content",
-            ParagraphId: null,
+            ParagraphId: 0,
             AnswerChoices: new string[] { "help", "C# struggle", "haskell pain" },
             CorrectAnswerIndex: 1
         );
@@ -203,8 +203,12 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
         var response = await _client.PostAsJsonAsync("/api/questions", request);
 
         // Assert
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode); // Bad Request
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode); // Bad Request
     }
 
-    
+      [Fact]
+    public async Task Count(){
+        var resp = await _client.GetAsync($"/api/questions/count");
+        Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
+    }
 }

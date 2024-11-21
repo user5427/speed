@@ -11,25 +11,16 @@ public class ImageService : IImageService
     public ImageService()
     {
         string directoryPath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName);
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
+        
     }
 
     public async Task<Image> Create(ImageUploadRequest request)
     {
         IFormFile file = request.File;
-        if (file == null)
-        {
-            throw new ArgumentNullException("File was not uploaded.");
-        }
+       
 
         MimeType? mimeType = MimeTypeHelpers.GetMimeTypeFromFileName(file.FileName);
-        if (mimeType == null)
-        {
-            throw new UnsupportedFileFormatException(file.FileName);
-        }
+        
         string randomName = Path.GetRandomFileName();
         string filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName, randomName);
 
@@ -42,10 +33,6 @@ public class ImageService : IImageService
     public Stream? Get(Image img)
     {
         string filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConstants.uploadedDirName, img.ImageFilePath);
-        if (!File.Exists(filePath))
-        {
-            return null;
-        }
         return new FileStream(filePath, FileMode.Open, FileAccess.Read);
     }
     public void Delete(Image image)

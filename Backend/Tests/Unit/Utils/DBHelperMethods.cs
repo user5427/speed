@@ -10,6 +10,7 @@ public class DBHelperMethods
         AddArticle(context);
         AddParagraph(context, context.Article.Last().Id);
         AddQuestion(context, context.Paragraph.Last().Id);
+        AddCategory(context);
     }
 
     public static void SeedUserData(ApplicationContext context)
@@ -39,7 +40,11 @@ public class DBHelperMethods
         context.Article.Add(new Article { Title = title, CategoryTitle = categoryTitle });
         context.SaveChanges();
     }
-
+    public static void AddCategory(ApplicationContext context, string title = "Sample title", string text = "Sample text")
+    {
+        context.Category.Add(new Category { Title = title, Text = text });
+        context.SaveChanges();
+    }
     public static void AddParagraph(ApplicationContext context, int articleId, string title = "Test Paragraph", string text = "Test Content")
     {
         context.Paragraph.Add(new Paragraph { Title = title, Text = text, ArticleId = articleId });
@@ -81,5 +86,15 @@ public class DBHelperMethods
             throw new Exception("QuestionId is null. FAILED SEEDING DATA");
         }
         return question.Id;
+    }
+
+    internal static int GetFirstCategoryId(ApplicationContext context)
+    {
+        var cat = context.Category.FirstOrDefault();
+        if (cat == null)
+        {
+            throw new Exception("QuestionId is null. FAILED SEEDING DATA");
+        }
+        return cat.Id;
     }
 }
