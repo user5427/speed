@@ -53,7 +53,7 @@ public class QuestionServiceTests
                                              _paragraphService);
 
         // Initialize ArticleService with mock data
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null, null);
         createdArticle = _articleService.CreateArticle(request);
 
         // Initialize ParagraphService with mock data
