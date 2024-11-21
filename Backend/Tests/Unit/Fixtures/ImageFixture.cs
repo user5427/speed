@@ -2,6 +2,7 @@ public class ImageFixture : IDisposable
 {
     private readonly MemoryStream _fileMemoryStream;
     private readonly string _uploadedDirectory;
+
     public MemoryStream Image {
         get => new MemoryStream(_fileMemoryStream.ToArray());
     }
@@ -42,22 +43,22 @@ public class ImageFixture : IDisposable
         if (Directory.Exists(_uploadedDirectory))
         {
             // Get all files in the uploaded directory
-            var files = Directory.GetFiles(_uploadedDirectory);
-            foreach (var file in files)
-            {
-                try
-                {
-                    File.Delete(file); // Delete each file
-                }
-                catch (Exception ex)
-                {
-                    InfoMessagePrinter.FailedToDeleteFile(file, ex.Message);
-                }
-            }
+            // var files = Directory.GetFiles(_uploadedDirectory);
+            // foreach (var file in files)
+            // {
+            //     try
+            //     {
+            //         File.Delete(file); // Delete each file
+            //     }
+            //     catch (Exception ex)
+            //     {
+            //         InfoMessagePrinter.FailedToDeleteFile(file, ex.Message);
+            //     }
+            // }
 
             try
             {
-                Directory.Delete(_uploadedDirectory, true); // Deletes the folder and all contents
+                // Directory.Delete(_uploadedDirectory, true); // Deletes the folder and all contents
             }
             catch (Exception ex)
             {
