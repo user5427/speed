@@ -20,8 +20,7 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
-    .WriteTo.Console(new EcsTextFormatter())
-    .CreateBootstrapLogger();
+    .CreateLogger();
 
 try
 {
@@ -171,13 +170,14 @@ try
     {
 		app.UseMetricServer();
 		app.UseHttpMetrics();
+    
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapMetrics();
+        });
 	}
     
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-        endpoints.MapMetrics();
-    });
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
