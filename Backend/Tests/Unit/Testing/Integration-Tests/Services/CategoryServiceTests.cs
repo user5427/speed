@@ -12,6 +12,8 @@ using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI;
 using SpeedReaderAPI.Exceptions;
 
+namespace Unit;
+
 public class CategoryServiceTests
 {
     private readonly ContextCreator _contextCreator;

@@ -12,6 +12,8 @@ using SpeedReaderAPI;
 using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 
+namespace Unit;
+
 public class ArticleServiceTests
 {
     private readonly ContextCreator _contextCreator;

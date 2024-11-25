@@ -14,6 +14,8 @@ using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.DTOs.Question.Requests;
 
+namespace Unit;
+
 public class ParagraphServiceTests
 {
     private readonly ContextCreator _contextCreator;

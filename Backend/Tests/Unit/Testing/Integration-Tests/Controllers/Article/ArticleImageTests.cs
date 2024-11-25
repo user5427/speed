@@ -1,7 +1,8 @@
 using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
-using Unit;
+
+namespace Unit;
 
 public class ArticleImageTests : IClassFixture<PlaygroundApplicationFixture>, IClassFixture<ImageFixture>
 {
