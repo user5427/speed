@@ -13,7 +13,6 @@ public class PlaygroundApplicationFixture : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("Testing");
         builder.ConfigureServices(services =>
         {
             ServiceSetuper.SetupServices(services);
