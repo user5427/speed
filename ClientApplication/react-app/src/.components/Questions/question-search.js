@@ -1,4 +1,3 @@
-import { QuestionService } from "../../.services/MainServices";
 import { Form } from 'react-bootstrap';
 import { React } from 'react';
 import { handleSelection } from '../../.helpers/MainHelpers';
@@ -51,7 +50,7 @@ const QuestionSearch = ({ onQuestionSelected, questionFromOutside }) => {
 
     return (
         <>
-            <Form NoValidate>
+            <Form noValidate>
                 <Form.Group controlId="searchBar" className="input">
                     <Form.Label>{t('questions.search.searchQuestions')}</Form.Label>
                     <Form.Control
