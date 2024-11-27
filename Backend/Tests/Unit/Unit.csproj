@@ -11,6 +11,14 @@
 </Target>
 
 
+<Target Name="CleanUploadedDirectory" AfterTargets="VSTest">
+  <Message Text="Cleaning uploaded directory at: $(OutputPath)\uploaded" Importance="high" />
+  <RemoveDir Directories="$(OutputPath)\uploaded" />
+  <Message Text="Uploaded directory cleaned." Importance="high" />
+</Target>
+
+
+
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
