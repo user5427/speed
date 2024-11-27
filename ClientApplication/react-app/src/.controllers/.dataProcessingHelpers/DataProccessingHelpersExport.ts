@@ -1,5 +1,5 @@
-import { fetchEntity, fetchEntityNoReturn, generateRequestOptions, generateImageRequestOptions, downloadImage, getImage } from "./fetch-helper";
-import { isOK, isError, getErrorMessage } from "./status-helper";
+import { fetchEntity, fetchEntityNoReturn, generateRequestOptions, generateImageRequestOptions, downloadImage, getImage } from "./UnauthorizedProcessing/fetch-helper";
+import { isOK, isError, getErrorMessage } from "./UnauthorizedProcessing/status-helper";
 
 const StatusHelper = {
     isOK,
@@ -16,15 +16,15 @@ const FetchHelper = {
     fetchEntityNoReturn
 }
 
-// import { fetchEntityAxios, generateImageRequestOptionsAxios, generateRequestOptionsAxios, getImageAxios } from "./AuthorizedProcessing/authorized-fetch-helper";
+import { fetchEntityAxios, generateImageRequestOptionsAxios, generateRequestOptionsAxios, getImageAxios } from "./AuthorizedProcessing/authorized-fetch-helper";
 
-// const FetchHelperAxios = {
-//     fetchEntityAxios,
-//     generateRequestOptionsAxios,
-//     generateImageRequestOptionsAxios,
-//     getImageAxios
-// }
+const FetchHelperAxios = {
+    fetchEntityAxios,
+    generateRequestOptionsAxios,
+    generateImageRequestOptionsAxios,
+    getImageAxios
+}
 
-// export { FetchHelperAxios };
+export { FetchHelperAxios };
 
 export { FetchHelper, StatusHelper };

@@ -1,8 +1,18 @@
-import { sendError, sendOk } from "../status-helper";
+import { sendError, sendOk } from "../UnauthorizedProcessing/status-helper";
 import API from './API'; // Your configured axios instance with interceptors
 import { sendAPIError } from "./auth-status-helper";
 
-export const fetchEntityAxios = async (apiUrl: string, requestOptions) => {
+interface AxiosRequestOptions {
+    method?: string;
+    headers?: Record<string, string>;
+    body?: any;
+}
+
+interface FetchEntityResponse {
+    [key: string]: any;
+}
+
+export const fetchEntityAxios = async (apiUrl: string, requestOptions?: AxiosRequestOptions): Promise<FetchEntityResponse> => {
     let type = "get";
 
     if (requestOptions) {
@@ -67,13 +77,12 @@ export const getImageAxios = async (apiUrl: string) => {
     }
 };
 
-interface RequestOptions {
-    method: string;
-    headers: Record<string, string>;
-    body?: any;
-};
-
-export const generateImageRequestOptionsAxios = (body: FormData): RequestOptions => {
+/**
+ * Generates the request options for an image upload
+ * @param body 
+ * @returns 
+ */
+export const generateImageRequestOptionsAxios = (body: FormData): AxiosRequestOptions => {
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'multipart/form-data',
@@ -86,7 +95,13 @@ export const generateImageRequestOptionsAxios = (body: FormData): RequestOptions
     };
 };
 
-export const generateRequestOptionsAxios = (method: string, body?: any): RequestOptions => {
+/**
+ * Generates the request options for a fetch request
+ * @param method 
+ * @param body 
+ * @returns 
+ */
+export const generateRequestOptionsAxios = (method: string, body?: any): AxiosRequestOptions => {
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

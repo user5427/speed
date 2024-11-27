@@ -22,11 +22,11 @@ const ArticleErrors = {
     },
 
     DeleteImageError(){
-        return `Could not post image for ${this.type}`
+        return `Could not delete image for ${this.type}`
     },
 
     GetImageError(){
-        return `Could not post image for ${this.type}`
+        return `Could not get image for ${this.type}`
     }
 }
 
