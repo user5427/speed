@@ -7,7 +7,9 @@ public class CombinedRepositories : ICombinedRepository {
     public readonly IDefaultRepository<Article> Article;
     public readonly IDefaultRepository<Paragraph> Paragraph;
     public readonly IDefaultRepository<Question> Question;
+
     public readonly IValidationSettingsRepository ValidationSettings;
+
     public readonly IDefaultRepository<Category> Category;
     public readonly IDbUserRepository User;
 
@@ -18,6 +20,7 @@ public class CombinedRepositories : ICombinedRepository {
         Paragraph = new DbParagraphRepository(context);
         Question = new DbQuestionRepository(context);
         ValidationSettings = new DbValidationSettingsRepository(context);
+
         Category = new DbCategoryRepository(context);
         User = new DbUserRepository(context);
     }

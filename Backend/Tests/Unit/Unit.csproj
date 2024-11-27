@@ -4,11 +4,13 @@
       <Copy SourceFiles="..\..\SpeedReaderAPI\bin\Debug\net8.0\SpeedReaderAPI.deps.json" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
   </Target>
 
+
 <Target Name="CleanUploadedDirectory" AfterTargets="VSTest">
   <Message Text="Cleaning uploaded directory at: $(OutputPath)\uploaded" Importance="high" />
   <RemoveDir Directories="$(OutputPath)\uploaded" />
   <Message Text="Uploaded directory cleaned." Importance="high" />
 </Target>
+
 
 
   <PropertyGroup>
