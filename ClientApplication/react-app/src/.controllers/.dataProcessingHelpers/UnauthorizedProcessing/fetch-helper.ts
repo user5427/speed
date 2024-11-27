@@ -86,6 +86,7 @@ export const downloadImage = async (imageUrl, fileName) => {
         });
 
         if (!response.ok) {
+            let errorData = await response.json(); // Get the error details
             throw new Error(`Failed to download image. Status code: ${response.status}. Error message: ${errorData.title || errorData.detail || "Unknown error"}`);
         }
 
@@ -143,7 +144,8 @@ export const getImage = async (apiUrl) => {
         });
 
         if (!response.ok) {
-            throw new Error(`Failed to ${type} entity. Status code: ${res.status}. Error message: ${res.title || res.detail || "Unknown error"}`);
+            let errorData = await response.json(); // Get the error details
+            throw new Error(`Failed to get image. Status code: ${response.status}. Error message: ${errorData.title || errorData.detail || "Unknown error"}`);
         }
 
         // Get the image data as a Blob (binary large object)
@@ -153,7 +155,7 @@ export const getImage = async (apiUrl) => {
         const url = window.URL.createObjectURL(blob);
         return url;
     } catch (error) {
-        return sendError(err);
+        return sendError(error);
     }
 };
 
@@ -174,8 +176,17 @@ export const generateImageRequestOptions = (body) => {
     };
 }
 
-export const generateRequestOptions = (method, body) => {
-    if (body){
+interface RequestOptions {
+    method: string;
+    headers: {
+        'Accept': string;
+        'Content-Type'?: string;
+    };
+    body?: string;
+}
+
+export const generateRequestOptions = (method: string, body?: any): RequestOptions => {
+    if (body) {
         return {
             method: method,
             headers: {
@@ -193,5 +204,4 @@ export const generateRequestOptions = (method, body) => {
             }
         };
     }
-    
 }
