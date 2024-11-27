@@ -7,6 +7,7 @@ import CreateArticle from '../../pages/CreatePages/createArticlePage';
 import { MemoryRouter } from 'react-router-dom';
 
 
+
 describe('createArticlePage.js tests', () => {
   const setup = () => {
     render(

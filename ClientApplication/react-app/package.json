@@ -83,6 +83,12 @@
     "@types/jest": "^29.5.14",
     "@types/react-i18next": "^7.8.3",
     "i18next-fs-backend": "^2.3.2",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "msw": "^2.6.6"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
