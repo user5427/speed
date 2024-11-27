@@ -14,6 +14,8 @@ using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.DTOs.Question.Requests;
 
+namespace Unit;
+
 public class ParagraphServiceTests
 {
     private readonly ContextCreator _contextCreator;
@@ -49,7 +51,7 @@ public class ParagraphServiceTests
                                              _paragraphService);
 
         // Initialize ArticleService with mock data
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null, null); 
         createdArticle = _articleService.CreateArticle(request);
     }
 
@@ -70,7 +72,7 @@ public class ParagraphServiceTests
     {
         
         // Arrange
-        var catReq = new ArticleCreateRequest("Test Title", "Test Text", null);
+        var catReq = new ArticleCreateRequest("Test Title", "Test Text", null, null, null, null, null);
         var catRes = _articleService.CreateArticle(catReq);
         var list = new List<int>();
         list.Add(catRes.Id);

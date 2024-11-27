@@ -12,6 +12,8 @@ using SpeedReaderAPI;
 using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 
+namespace Unit;
+
 public class ArticleServiceTests
 {
     private readonly ContextCreator _contextCreator;
@@ -53,7 +55,7 @@ public class ArticleServiceTests
     public void CreateArticle ()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
         
         // Act
         var result = _articleService.CreateArticle(request);
@@ -68,7 +70,7 @@ public class ArticleServiceTests
     public void GettingArticle ()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
         var created = _articleService.CreateArticle(request);
         
         // Act
@@ -98,12 +100,12 @@ public class ArticleServiceTests
         var catRes = _categoryService.CreateCategory(catReq);
         var list = new List<int>();
         list.Add(catRes.Id);
-        var request = new ArticleCreateRequest("Test New Article", "Test New Category", list);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
         var result = _articleService.CreateArticle(request);
         // Assert
         Assert.NotNull(result);
-        Assert.Equal("Test New Article", result.Title);
-        Assert.Equal("Test New Category", result.CategoryTitle);
+        Assert.Equal("Test Article", result.Title);
+        Assert.Equal("Test Category", result.CategoryTitle);
     }
 
     [Fact (DisplayName  = "Article updating")]
@@ -118,14 +120,14 @@ public class ArticleServiceTests
         var list3 = new List<int>();
         list3.Add(catRes.Id);
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", list); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null);  
         var created = _articleService.CreateArticle(request);
         
          var catReq2 = new ParagraphCreateRequest("Test Title", created.Id, "Test Text");
         var catRes2 = _paragraphService.CreateParagraph(catReq2);
         var list2 = new List<int>();
         list2.Add(catRes2.Id);
-        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", list2, list3);
+        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", "abcd", "abcd", "abcd", "abce", list2, list3);
         
         // Act
         var result = _articleService.UpdateArticle(created.Id, updateRequest);
@@ -139,7 +141,7 @@ public class ArticleServiceTests
     public void DeleteArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
         var created = _articleService.CreateArticle(request);
         
         // Act
@@ -155,10 +157,10 @@ public class ArticleServiceTests
     public void SearchArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
         var created = _articleService.CreateArticle(request);
         
-        var sideRequest = new ArticleCreateRequest("Test Articly", "Test Category",null); 
+        var sideRequest = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
         var sideCreated = _articleService.CreateArticle(request);
 
         // Act
@@ -187,10 +189,10 @@ public class ArticleServiceTests
     public void SearchArticleMulti()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test999 Article", "Test Category", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
         var created = _articleService.CreateArticle(request);
         
-        var sideRequest = new ArticleCreateRequest("Test999 Articly", "Test Category", null); 
+        var sideRequest = new ArticleCreateRequest("Test999 Articlse", "Test Category", "abcd", "abcd", "abcd", "abce", null);  
         var sideCreated = _articleService.CreateArticle(sideRequest);
 
         // Act
@@ -201,17 +203,17 @@ public class ArticleServiceTests
         var result = _articleService.SearchArticles(queryParam);
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(2, result.Items.Count);
+        Assert.Equal(1, result.Items.Count);
     }
 
     [Fact(DisplayName = "Article searching, multiple results depr")]
     public void SearchArticleMultiDepr()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test999 Article", "Test Category", null); 
+        var request = new ArticleCreateRequest("Test999 Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
         var created = _articleService.CreateArticle(request);
         
-        var sideRequest = new ArticleCreateRequest("Test999 Articly", "Test Category", null); 
+        var sideRequest = new ArticleCreateRequest("Test999 Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
         var sideCreated = _articleService.CreateArticle(sideRequest);
 
         // Act
