@@ -22,6 +22,9 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IParagraphService, ParagraphService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
+
+builder.Services.AddScoped<IValidationSettingsService, ValidationSettingsService>();
+
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
