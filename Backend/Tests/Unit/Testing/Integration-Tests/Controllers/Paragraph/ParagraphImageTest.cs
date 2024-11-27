@@ -2,7 +2,8 @@
 using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
-using Unit;
+
+namespace Unit;
 
 public class ParagraphImageTests : IClassFixture<PlaygroundApplicationFixture>, IClassFixture<ImageFixture>
 {

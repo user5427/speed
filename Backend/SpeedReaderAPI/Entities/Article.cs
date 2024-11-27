@@ -1,4 +1,4 @@
-﻿namespace SpeedReaderAPI.Entities;
+namespace SpeedReaderAPI.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,6 +27,10 @@ public class Article : IComparable<Article>
     /// This property is deprecated. Use <see cref="NewCategoryTitle"/> instead.
     /// </deprecated>
     public string? CategoryTitle { get; set; }
+    public string? Author { get; set; }
+    public string? Publisher { get; set; }
+    public string? Url { get; set; }
+    public string? Language { get; set; }
     public string? ImageFileName { get; set; }
     public string? ImageFilePath { get; set; }
     public MimeType? ImageMimeType { get; set; }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.Entities;
 
@@ -10,11 +11,15 @@ public class CategoryController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
     private readonly ILogger<CategoryController> _logger;
+    private readonly IDiagnosticContext _diagnosticContext;
 
-    public CategoryController(ILogger<CategoryController> logger, ICategoryService categoryService)
+    public CategoryController(ILogger<CategoryController> logger, ICategoryService categoryService, IDiagnosticContext diagnosticContext)
     {
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _diagnosticContext = diagnosticContext ?? throw new ArgumentNullException(nameof(diagnosticContext));
         _categoryService = categoryService;
+
+        _diagnosticContext.Set("Controller", nameof(CategoryController));
     }
 
     [HttpPost("{id}/img")]

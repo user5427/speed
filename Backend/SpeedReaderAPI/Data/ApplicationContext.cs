@@ -14,11 +14,11 @@ namespace SpeedReaderAPI.Data
         public DbSet<Article> Article { get; set; }
         public DbSet<Paragraph> Paragraph { get; set; }
         public DbSet<Question> Question { get; set; }
-
         public DbSet<ValidationSettings> ValidationSettings { get; set; }
-
         public DbSet<Category> Category { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<ArticleSession> ArticleSession { get; set; }
+        public DbSet<ParagraphSession> ParagraphSession { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +47,30 @@ namespace SpeedReaderAPI.Data
                     MinParagraphLength = ValidationConstants.MinParagraphLength
                 }
             );
+
+            modelBuilder.Entity<ArticleSession>()
+            .HasOne(a => a.User)
+            .WithMany() 
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ArticleSession>()
+            .HasOne(a => a.Article)
+            .WithMany()
+            .HasForeignKey(a => a.ArticleId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ParagraphSession>()
+            .HasOne(p => p.ArticleSession)
+            .WithMany()
+            .HasForeignKey(p => p.ArticleSessionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ParagraphSession>()
+            .HasOne(p => p.Paragraph)
+            .WithMany()
+            .HasForeignKey(p => p.ParagraphId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }

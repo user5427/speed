@@ -3,7 +3,9 @@ using System.Net.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
-using Unit;
+
+
+namespace Unit;
 
 public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, IClassFixture<ImageFixture>
 {
@@ -44,7 +46,7 @@ public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
 
         // Act
-        var response = await _client.PostAsync($"/api/articles/{_categoryId}/img", form);
+        var response = await _client.PostAsync($"/api/category/{_categoryId}/img", form);
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode); //NoContent

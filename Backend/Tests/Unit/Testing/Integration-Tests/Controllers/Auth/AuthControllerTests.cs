@@ -7,7 +7,9 @@ using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs.Auth.Requests;
 using SpeedReaderAPI.DTOs.Auth.Responses;
 using SpeedReaderAPI.Entities;
-using Unit;
+
+
+namespace Unit;
 
 public class AuthControllerTests : IClassFixture<PlaygroundApplicationFixture>
 {
