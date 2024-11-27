@@ -7,14 +7,16 @@ public class CombinedRepositories : ICombinedRepository {
     public readonly IDefaultRepository<Article> Article;
     public readonly IDefaultRepository<Paragraph> Paragraph;
     public readonly IDefaultRepository<Question> Question;
+    public readonly IDefaultRepository<Category> Category;
     public readonly IDbUserRepository User;
-    
+
     public CombinedRepositories(ApplicationContext context)
     {
         _context = context;
         Article = new DbArticleRepository(context);
         Paragraph = new DbParagraphRepository(context);
         Question = new DbQuestionRepository(context);
+        Category = new DbCategoryRepository(context);
         User = new DbUserRepository(context);
     }
 

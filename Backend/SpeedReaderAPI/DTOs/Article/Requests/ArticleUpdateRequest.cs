@@ -10,5 +10,7 @@ public record ArticleUpdateRequest
 
     string? Title,
     string? CategoryTitle,
-    List<int>? ParagraphIds
+    List<int>? ParagraphIds,
+    List<int>? CategoryIds
+
 );
