@@ -5,8 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 
 public class ExceptionFilter : IExceptionFilter
 {
+    private readonly ILogger<ExceptionFilter> _logger;
+
+     public ExceptionFilter(ILogger<ExceptionFilter> logger)
+    {
+        _logger = logger;
+    }
+
     public void OnException(ExceptionContext context)
     {
+        var exception = context.Exception;
+        var requestPath = context.HttpContext.Request.Path;
+        var clientIp = context.HttpContext.Connection.RemoteIpAddress;
+
+        _logger.LogError(exception, "An exception occurred during request processing. Path: {RequestPath} | Client IP: {ClientIp}", requestPath, clientIp);
 
         context.Result = context.Exception switch
         {

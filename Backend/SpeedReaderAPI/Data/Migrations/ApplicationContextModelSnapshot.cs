@@ -190,7 +190,6 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.ToTable("Question");
                 });
 
-
             modelBuilder.Entity("ValidationSettings", b =>
                 {
                     b.Property<int>("Id")
@@ -241,7 +240,6 @@ namespace SpeedReaderAPI.Data.Migrations
                             MinTitleLength = 3
                         });
                 });
-
 
             modelBuilder.Entity("ArticleCategory", b =>
                 {

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
@@ -13,11 +14,14 @@ public class QuestionsController : ControllerBase
 {
     private readonly IQuestionService _questionService;
     private readonly ILogger<QuestionsController> _logger;
-
-    public QuestionsController(ILogger<QuestionsController> logger, IQuestionService questionService)
+    private readonly IDiagnosticContext _diagnosticContext;
+    public QuestionsController(ILogger<QuestionsController> logger, IQuestionService questionService, IDiagnosticContext diagnosticContext)
     {
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _diagnosticContext = diagnosticContext ?? throw new ArgumentNullException(nameof(diagnosticContext));
         _questionService = questionService;
+
+        _diagnosticContext.Set("Controller", nameof(QuestionsController));
     }
 
     [HttpPost("{id}/img")]
