@@ -20,6 +20,7 @@ public class ExceptionFilter : IExceptionFilter
 
         _logger.LogError(exception, "An exception occurred during request processing. Path: {RequestPath} | Client IP: {ClientIp}", requestPath, clientIp);
 
+        // Console.WriteLine(context.Exception);
         context.Result = context.Exception switch
         {
             IndexOutOfRangeException => new BadRequestObjectResult(new ProblemDetails

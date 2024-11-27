@@ -20,8 +20,7 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
-    .WriteTo.Console(new EcsTextFormatter())
-    .CreateBootstrapLogger();
+    .CreateLogger();
 
 try
 {
@@ -86,12 +85,14 @@ try
     builder.Services.AddScoped<IQuestionService, QuestionService>();
     builder.Services.AddScoped<IValidationSettingsService, ValidationSettingsService>();
     builder.Services.AddScoped<ICategoryService, CategoryService>();
-    builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
+    builder.Services.AddScoped<IArticleSessionService, ArticleSessionService>();
+    builder.Services.AddScoped<IParagraphSessionService, ParagraphSessionService>();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(c =>
-        {
+    {
         c.SwaggerDoc("v1", new() { Title = "Pappa´s API", Version = "v1" });
 
         // Define the OAuth2.0 scheme that's in use (i.e., Implicit Flow)
@@ -170,13 +171,14 @@ try
     {
 		app.UseMetricServer();
 		app.UseHttpMetrics();
+    
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapMetrics();
+        });
 	}
     
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-        endpoints.MapMetrics();
-    });
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())

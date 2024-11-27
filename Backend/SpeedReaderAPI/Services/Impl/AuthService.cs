@@ -8,14 +8,14 @@ namespace SpeedReaderAPI.Services.Impl;
 using System.Security.Claims;
 
 
-public class UserService : IUserService
+public class AuthService : IAuthService
 {
-    
+
     private readonly CombinedRepositories _context;
     private readonly ITokenService _tokenService;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IMapper _mapper;
-    public UserService(ApplicationContext context, IMapper mapper,
+    public AuthService(ApplicationContext context, IMapper mapper,
         ITokenService tokenService,
         IHttpContextAccessor httpContextAccessor)
     {
@@ -30,14 +30,16 @@ public class UserService : IUserService
 
         if (user == null)
         {
-            throw new InvalidCredentialsException(); 
+            throw new InvalidCredentialsException();
         }
-        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password)) {
+        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
+        {
             throw new InvalidCredentialsException();
         }
         var token = _tokenService.CreateToken(user);
-        
-        return new LoginResponse {
+
+        return new LoginResponse
+        {
             Id = user.Id,
             Username = user.Username,
             Role = user.Role,
@@ -49,7 +51,8 @@ public class UserService : IUserService
     {
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-        if (_context.User.FindByEmail(request.Email) != null) {
+        if (_context.User.FindByEmail(request.Email) != null)
+        {
             throw new DuplicateEmailException();
         }
 
@@ -65,15 +68,16 @@ public class UserService : IUserService
         _context.SaveChanges();
     }
 
-    public User? GetAuthenticatedUser() {
+    public User? GetAuthenticatedUser()
+    {
         string? userIdClaim = _httpContextAccessor
             .HttpContext
             ?.User
             .Claims
             .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
             ?.Value;
-        
-        if(userIdClaim == null)
+
+        if (userIdClaim == null)
         {
             return null;
         }
@@ -82,7 +86,7 @@ public class UserService : IUserService
         {
             throw new InvalidOperationException("User ID claim is not a valid long.");
         }
-        
+
         User? user = _context.User.FindById(userId);
         return user;
     }

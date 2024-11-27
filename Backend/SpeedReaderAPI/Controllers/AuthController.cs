@@ -13,11 +13,11 @@ using SpeedReaderAPI.Services;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IAuthService _userService;
     private readonly ILogger<AuthController> _logger;
 
     public AuthController(ILogger<AuthController> logger,
-     IUserService userService)
+     IAuthService userService)
     {
         _logger = logger;
         _userService = userService;

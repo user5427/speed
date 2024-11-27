@@ -53,7 +53,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange
         var request = new ArticleCreateRequest(
             Title: "Test Article",
-            CategoryTitle: "Test Category",
+            CategoryTitle: "Test Category", "abcd", "abcd", "abcd", "abce",
             null
         );
 
@@ -74,7 +74,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange: Title does not meet the required length constraints
         var request = new ArticleCreateRequest(
             Title: "Sh",  // Assume this is less than ValidationConstants.MinTitleLength
-            CategoryTitle: "Test Category",
+            CategoryTitle: "Test Category", "abcd", "abcd", "abcd", "abce",
             null
         );
 
@@ -117,7 +117,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange
         var request = new ArticleUpdateRequest(
             Title: "Updated Title",
-            CategoryTitle: "Updated Category",
+            CategoryTitle: "Updated Category", "abcd", "abcd", "abcd", "abce",
             ParagraphIds: null,
             CategoryIds: null
             
@@ -141,7 +141,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         int invalidArticleId = 9999;  // Use an ID that does not exist
         var request = new ArticleUpdateRequest(
             Title: "New Title",
-            CategoryTitle: "New Category",
+            CategoryTitle: "New Category", "abcd", "abcd", "abcd", "abce",
             ParagraphIds: new List<int>{_paragraphId},
             new List<int>{_categoryId}
         );

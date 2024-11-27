@@ -15,6 +15,8 @@ using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.Exceptions;
 
+namespace Unit;
+
 public class QuestionServiceTests
 {
     private readonly ContextCreator _contextCreator;
@@ -53,7 +55,7 @@ public class QuestionServiceTests
                                              _paragraphService);
 
         // Initialize ArticleService with mock data
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null, null);
         createdArticle = _articleService.CreateArticle(request);
 
         // Initialize ParagraphService with mock data

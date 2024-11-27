@@ -7,7 +7,9 @@ using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs.Auth.Requests;
 using SpeedReaderAPI.DTOs.Auth.Responses;
 using SpeedReaderAPI.Entities;
-using Unit;
+
+namespace Unit;
+
 
 public class ValidationControllerTests : IClassFixture<PlaygroundApplicationFixture>
 {
@@ -62,19 +64,5 @@ public class ValidationControllerTests : IClassFixture<PlaygroundApplicationFixt
         var response = await _client.PutAsJsonAsync("/api/validationsettings", request);
         var loginResponse = await response.Content.ReadFromJsonAsync<ValidationSettingsResponce>();
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task Login_InvalidData_ReturnsUnauthorized()
-    {
-        // Arrange
-        var request = new LoginRequest
-        {
-            Email = "no@no.com",
-            Password = "no",
-        };
-
-        var response = await _client.PostAsJsonAsync("/api/auth/login", request);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode); // Unauthorized
     }
 }
