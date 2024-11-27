@@ -6,6 +6,8 @@ import { ParagraphController } from "../../.controllers/.MainControllersExport";
 import { ValidationPatternConstants } from '../../.constants/MainConstants';
 import ErrorPopup from '../.common-components/ErrorPopup';
 
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+
 import { useTranslation } from 'react-i18next'; 
 
 const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
@@ -51,7 +53,7 @@ const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
 
     return (
         <>
-            <Form NoValidate>
+            <Form noValidate>
                 <Form.Group controlId="searchBar" className="input">
                     <Form.Label>{t('paragraphs.search.searchPar')}</Form.Label>
                     <Form.Control
