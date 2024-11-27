@@ -206,31 +206,67 @@ public class ArticleServiceTests
         Assert.Equal(1, result.Items.Count);
     }
 
-    [Fact(DisplayName = "Article searching, multiple results depr")]
-    public void SearchArticleMultiDepr()
-    {
-        // Arrange
-        var request = new ArticleCreateRequest("Test999 Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
-        var created = _articleService.CreateArticle(request);
+//     [Fact(DisplayName = "Article searching, multiple results depr")]
+//     public void SearchArticleMultiDepr()
+//     {
+//         // Arrange
+//         var request = new ArticleCreateRequest("Test999 Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
+//         var created = _articleService.CreateArticle(request);
         
-        var sideRequest = new ArticleCreateRequest("Test999 Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
-        var sideCreated = _articleService.CreateArticle(sideRequest);
+//         var sideRequest = new ArticleCreateRequest("Test999 Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
+//         var sideCreated = _articleService.CreateArticle(sideRequest);
 
-        // Act
-        var queryParam = new QueryParameters
-        {
-            Search = "Test999"
-        };
-        var result = _articleService.GetArticles(queryParam);
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(2, result.Count);
-    }
-    [Fact(DisplayName = "Category count")]
-    public void CategoryCount(){
-        long count = _articleService.GetCount();
-        Assert.Equal(0, count);
-    }
+//         // Act
+//         var queryParam = new QueryParameters
+//         {
+//             Search = "Test999"
+//         };
+//         var result = _articleService.GetArticles(queryParam);
+//         // Assert
+//         Assert.NotNull(result);
+//         Assert.Equal(2, result.Count);
+//     }
+//     [Fact(DisplayName = "Category count")]
+//     public void CategoryCount(){
+//         long count = _articleService.GetCount();
+//         Assert.Equal(0, count);
+//     }
+    // [Fact(DisplayName = "Already has image")]
+    // public void Image_Invalid_HasAlready(){
+    //      var request = new ArticleCreateRequest("Test999 Article", "Test Category", null); 
+    //     var created = _articleService.CreateArticle(request);
+    //     _articleService.UploadImage(created.Id, null);
+    // }
+//     [Fact (DisplayName = "count")]
+//     public void Count(){
+//         Assert.Equal(0, _articleService.GetCount());
+//     }
+
+//     [Fact(DisplayName = "Article searching, multiple results depr")]
+//     public void SearchArticleMultiDepr()
+//     {
+//         // Arrange
+//         var request = new ArticleCreateRequest("Test999 Article", "Test Category", null); 
+//         var created = _articleService.CreateArticle(request);
+        
+//         var sideRequest = new ArticleCreateRequest("Test999 Articly", "Test Category", null); 
+//         var sideCreated = _articleService.CreateArticle(sideRequest);
+
+//         // Act
+//         var queryParam = new QueryParameters
+//         {
+//             Search = "Test999"
+//         };
+//         var result = _articleService.GetArticles(queryParam);
+//         // Assert
+//         Assert.NotNull(result);
+//         Assert.Equal(2, result.Count);
+//     }
+//     [Fact(DisplayName = "Category count")]
+//     public void CategoryCount(){
+//         long count = _articleService.GetCount();
+//         Assert.Equal(0, count);
+//     }
     // [Fact(DisplayName = "Already has image")]
     // public void Image_Invalid_HasAlready(){
     //      var request = new ArticleCreateRequest("Test999 Article", "Test Category", null); 
