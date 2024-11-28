@@ -2,6 +2,7 @@ import { ws } from 'msw'
 
 // const speedreader = ws.link();
 
+import { articlesMockDataFilled, articleMockDataEmpty } from './mockConstants';
 
 import { http, HttpResponse } from 'msw';
 
@@ -13,43 +14,13 @@ export const handlers = [
 
         if (pageNumber === '1') {
             return HttpResponse.json(
-                {
-                    "count": 10,
-                    "articles": [
-                        {
-                            "title": "Matematine analize",
-                            "id": 2,
-                            "categoryTitle": "Matematika",
-                            "author": null,
-                            "publisher": null,
-                            "url": null,
-                            "language": null,
-                            "paragraphIds": [],
-                            "categoryIds": [],
-                            "imageFileName": null
-                        },
-                        {
-                            "title": "JavaScript: The Silent Code that's Eating Your Brain Cells",
-                            "id": 3,
-                            "categoryTitle": "JavaScript",
-                            "author": null,
-                            "publisher": null,
-                            "url": null,
-                            "language": null,
-                            "paragraphIds": [],
-                            "categoryIds": [],
-                            "imageFileName": null
-                        },
-                    ]
-                }
+                articlesMockDataFilled
             ); // Return a JSON response
         }
-        
+
         return HttpResponse.json(
             {
-                "count": 10,
-                "articles": [
-                ]
+                articleMockDataEmpty
             }
         ); // Return a JSON response
     }),
