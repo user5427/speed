@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event'; // Import user-event
-import ArticleSearch from './article-search';
-import { ArticleController } from '../../.controllers/.MainControllersExport';
+import userEvent from '@testing-library/user-event';
+import ArticleSearch from '../article-search';
+import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import { useTranslation } from 'react-i18next';
 
-jest.mock('../../.controllers/.MainControllersExport', () => ({
+jest.mock('../../../.controllers/.MainControllersExport', () => ({
   ArticleController: {
     Search: jest.fn(),
   },
@@ -16,7 +16,7 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key) => key }),
 }));
 
-jest.mock('../.common-components/ErrorPopup', () => ({ showErrorModal, errorMessage, onClose }) => (
+jest.mock('../../.common-components/ErrorPopup', () => ({ showErrorModal, errorMessage, onClose }) => (
   showErrorModal ? <div>{errorMessage}</div> : null
 ));
 
