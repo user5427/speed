@@ -38,7 +38,7 @@ const Categories = () => {
                 <h2>{t('categories.categories')}</h2>
             </div>
             <div>
-                <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
+                <div className='mainContainer' style={{ backgroundColor: "red !important", marginBottom: "1rem"}}>
                     <Row className='row'>
                         <Col xs={12} md={4}>
                             <Button size="lg" className='buttons cyan' onClick={redirectToCreateCategory}><FaPlusSquare className="icons"/> {t('categories.createCategory')}</Button>

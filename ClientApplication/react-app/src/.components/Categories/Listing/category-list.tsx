@@ -1,71 +1,86 @@
 import React, { useEffect, useState } from 'react';
+import { Row, Col } from 'react-bootstrap'; // Import Row and Col
 import CategoryItem from './category-item';
-import { CategoryPage } from '../../../.entities/.MainEntitiesExport';
 import ReactPaginate from 'react-paginate';
-import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons form react-icons
+import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons from react-icons
 import { IconContext } from "react-icons";
 import "../../../styles/stylesPaginator.css"; // stylesheet
 import { CategoryController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
 
-const CategoryList = ({settings, getSelected, update, getEditing}) => {
+interface CategoryListProps {
+    settings?: {
+        showSelectButton?: boolean;
+        showDeleteButton?: boolean;
+        showEditButton?: boolean;
+        showPlayButton?: boolean;
+    };
+    getSelected: (id: string) => void;
+    update: any;
+    getEditing: (id: string) => void;
+}
+
+const CategoryList: React.FC<CategoryListProps> = ({ settings, getSelected, update, getEditing }) => {
     const [categories, setCategories] = useState<any[]>([]);
     const [page, setPage] = useState(0);
-    const [pageSize, setPageSize] = useState(0)
+    const [pageSize, setPageSize] = useState(0);
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     useEffect(() => {
         getCategories();
-    }, [update, page]) // [] if empty, will load for only the first and only first time
+    }, [update, page]); // Reload when update or page changes
 
     const getCategories = async () => {
         try {
-            let categoryPage = await CategoryController.GetPage(page+1);
+            let categoryPage = await CategoryController.GetPage(page + 1);
             if (categoryPage === undefined) {
-
                 return;
             }
             setCategories(categoryPage.categories || []);
             setPageSize(() => {
-                const pagingSize = Number(process.env.REACT_APP_PAGING_SIZE) || 1;
+                const pagingSize = Number(process.env.REACT_APP_PAGING_SIZE) || 10; // Assuming default page size
                 return Math.ceil((categoryPage.count ?? 0) / pagingSize);
-            })
-        } catch (error) {
+            });
+        } catch (error: any) {
             setErrorMessage(error.message);
             setShowErrorModal(true);
         }
-    }
+    };
 
-    const handlePageClick = (data) => {
+    const handlePageClick = (data: { selected: number }) => {
         setPage(data.selected);
-    }
+    };
 
     const closeErrorModal = () => {
         setShowErrorModal(false);
-    }
+    };
 
     return (
         <>
             <div>
                 {categories && categories.length > 0 ? (
-                    categories.map((m, i) => (
-                        <div key={i}>
-                            <CategoryItem 
-                            data={m} 
-                            settings={settings}
-                            selectThis={() => getSelected(m.id)}
-                            editThis={() => getEditing(m.id)}
-                            />
-                        </div>
-                    ))
+                    <Row>
+                        {categories.map((m) => (
+                            <Col key={m.id} xs={12} md={4} className="mb-4">
+                                <CategoryItem 
+                                    data={m} 
+                                    settings={settings}
+                                    selectThis={() => getSelected(m.id)}
+                                    editThis={() => getEditing(m.id)}
+                                    deleteThis={() => { /* Implement delete logic if needed */ }}
+                                    // Add other handlers if needed
+                                />
+                            </Col>
+                        ))}
+                    </Row>
                 ) : (
-                    ""
+                    <p>{/* Optionally, add a message like "No categories found" */}</p>
                 )}
             </div>
 
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center mt-4">
                 <ReactPaginate
                     previousLabel={
                         <IconContext.Provider value={{ color: "#2992a4", size: "36px" }}>
@@ -84,7 +99,8 @@ const CategoryList = ({settings, getSelected, update, getEditing}) => {
                     onPageChange={handlePageClick}
                     containerClassName={'pagination'}
                     pageClassName={"page-item"}
-                    activeClassName={'active'} />
+                    activeClassName={'active'} 
+                />
             </div>
 
              {/* Error Popup */}
@@ -94,7 +110,7 @@ const CategoryList = ({settings, getSelected, update, getEditing}) => {
                 onClose={closeErrorModal} 
             />
         </>
-    )
-}
+    );
+};
 
 export default CategoryList;

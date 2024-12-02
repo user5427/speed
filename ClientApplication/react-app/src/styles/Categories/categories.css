@@ -18,3 +18,8 @@
    font-size: 22px;
    margin-top: 10px;
 }
+
+.mb-4 {
+    margin-bottom: 0.5rem !important;
+}
+

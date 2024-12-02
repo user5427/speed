@@ -374,6 +374,7 @@ const EditArticle = ({
               style={{ marginBottom: '20px' }}
             >
               <input
+                data-testid="file-input"
                 className="form-control darkInput"
                 type="file"
                 onChange={handleFileUpload}
