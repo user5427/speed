@@ -23,6 +23,14 @@
     margin: 0; /* Adjust margin to control spacing */
 }
 
+.article-item .col {
+    flex-grow: 1; /* Allows the column to take up the remaining space */
+    flex-shrink: 1; /* Prevents the column from shrinking too much */
+    flex-basis: 0; /* Makes sure it can expand to fill the container */
+    min-width: 0; /* Allows proper shrinking of overflowing content */
+}
+
+
 .article-item h2 {
     font-size: 24px;
     color: #ffffff;
@@ -68,7 +76,7 @@
 
 .article-item p {
     font-size: 16px;
-    color: #666;
+    color: #d9d9d9;
     line-height: 1.5;
 }
 
@@ -79,15 +87,15 @@
 
 
 
-.wrap-title {
-    word-wrap: break-word;      /* Break long words if needed */
-    overflow-wrap: break-word;  /* Add compatibility for older browsers */
+.wrap-title, .wrap-category {
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    display: block;
+    width: 100%;
+    margin-bottom: 2px;
 }
 
-.wrap-category {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
 
 .wrap-text {
     word-wrap: break-word;
