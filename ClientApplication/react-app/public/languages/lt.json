@@ -41,7 +41,9 @@
         "plsEnterCategoryName" : "Prašome įvesti kategorijos pavadinimą",
         "categoryContent" : "Kategorijos turinys",
         "enterCategoryContent" : "Įveskite kategorijos turinį",
-        "plsEnterCategoryContent" : "Prašome įvesti kategorijos turinį"
+        "plsEnterCategoryContent" : "Prašome įvesti kategorijos turinį",
+
+        "chooseCategories" : "Pasirinkite, kas domina, arba kurkite savo kategorijas"
     },
 
     "editPages" : {

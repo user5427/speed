@@ -41,7 +41,9 @@
         "plsEnterCategoryName": "Bitte Kategoriename eingeben",
         "categoryContent": "Kategorieinhalt",
         "enterCategoryContent": "Kategorieinhalt eingeben",
-        "plsEnterCategoryContent": "Bitte Kategorieinhalt eingeben"
+        "plsEnterCategoryContent": "Bitte Kategorieinhalt eingeben",
+
+        "chooseCategories" : "Choose what intrests you or even create your own categories"
     },
 
     "editPages" : {
