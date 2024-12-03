@@ -24,9 +24,7 @@
 }
 
 
-
-
-.wrap-title, .wrap-category {
+.wrap-category {
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 

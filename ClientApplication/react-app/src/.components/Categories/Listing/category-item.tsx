@@ -88,7 +88,7 @@ const CategoryItem: React.FC<CategoryItemProps> = (props) => {
         >
             <Row className="rowCategories">
                 <Col className="col">
-                    <h2 className="wrap-title">{props.data.title}</h2>
+                    <h2 className="wrap-title" style={{fontSize:"27px"}}>{props.data.title}</h2>
                     <p className="wrap-category">{props.data.text}</p>
                 </Col>
             </Row>

@@ -40,7 +40,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ settings, getSelected, upda
             }
             setCategories(categoryPage.categories || []);
             setPageSize(() => {
-                const pagingSize = Number(process.env.REACT_APP_PAGING_SIZE) || 10; // Assuming default page size
+                const pagingSize = 9; // Assuming default page size
                 return Math.ceil((categoryPage.count ?? 0) / pagingSize);
             });
         } catch (error: any) {
