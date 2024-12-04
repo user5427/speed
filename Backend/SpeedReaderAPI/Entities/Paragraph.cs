@@ -59,6 +59,11 @@ public class Paragraph : IComparable<Paragraph>
     // ONE TO MANY
     public List<int> QuestionIds { get; set; } = [];
     public virtual List<Question> Questions { get; set; } = [];
+
+    [ForeignKey(nameof(User))]  
+    public long UserId { get; set; }
+    public virtual User? User { get; set; }
+
     public int CompareTo(Paragraph other)
     {
         return Title.CompareTo(other.Title);
