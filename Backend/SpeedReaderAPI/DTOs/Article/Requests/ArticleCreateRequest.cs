@@ -10,7 +10,6 @@ public record ArticleCreateRequest
         ErrorMessage = "Title must be between {2} and {1} characters.")]
     string Title,
     string? CategoryTitle,
-    string? Author,
     string? Publisher,
     string? Url,
     string? Language,

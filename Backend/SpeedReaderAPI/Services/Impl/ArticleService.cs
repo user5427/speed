@@ -16,15 +16,17 @@ public class ArticleService : IArticleService
     private readonly IImageService _imageService;
     private readonly IParagraphService _paragraphService;
     private readonly IMapper _mapper;
+    private readonly IAuthService _authService;
 
     // Production constructor
     public ArticleService(ApplicationContext context, IMapper mapper,
-        IImageService imageService, IParagraphService paragraphService)
+        IImageService imageService, IParagraphService paragraphService, IAuthService authService)
     {
         _context = new CombinedRepositories(context);
         _mapper = mapper;
         _imageService = imageService;
         _paragraphService = paragraphService;
+        _authService = authService;
     }
 
     public ArticlePageResponse GetArticles(QueryParameters queryParameters)
@@ -47,7 +49,12 @@ public class ArticleService : IArticleService
 
     public ArticleResponse CreateArticle(ArticleCreateRequest request)
     {
+        User? user = _authService.GetAuthenticatedUser();
+        if (user == null) throw new UnauthorizedAccessException();
+
         Article createdArticle = _mapper.Map<Article>(request);
+        createdArticle.UserId = user.Id;
+
         _context.Article.Add(createdArticle);
         _context.SaveChanges();
         if (request.CategoryIds != null)
@@ -92,10 +99,6 @@ public class ArticleService : IArticleService
             DetachCategoriesFromArticle(articleFound, removedCategoryIdsList);
             AttachCategoriesToArticle(articleFound, addedCategoryIdsList);
             articleFound.CategoryIds = request.CategoryIds;
-        }
-        if (request.Author != null)
-        {
-            articleFound.Author = request.Author;
         }
         if (request.Publisher != null)
         {
