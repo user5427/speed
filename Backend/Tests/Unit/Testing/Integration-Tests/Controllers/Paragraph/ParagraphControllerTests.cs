@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,6 +7,8 @@ using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
+using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Services;
 
 namespace Unit;
 
@@ -15,11 +18,16 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
     private HttpClient _client;
     private int _articleId;
     private int _paragraphId;
+    private User _user;
+    private readonly ITokenService _tokenService;
 
     public ParagraphControllerTests(PlaygroundApplicationFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.CreateClient();
+
+         var configuration = _fixture.Services.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        _tokenService = new TokenService(configuration);
 
         ensureDatabaseIsPrepared();
     }
@@ -35,6 +43,8 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
 
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
+        _user = DBHelperMethods.getUser(context);
+
         _articleId = DBHelperMethods.GetFirstArticleId(context);
         _paragraphId = DBHelperMethods.GetFirstParagraphId(context);
     }
@@ -47,6 +57,11 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
             Text: "Test Content",
             ArticleId: _articleId
         );
+
+        var token = _tokenService.CreateToken(_user);
+
+        // Set up the HTTP client with the Authorization header
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/paragraphs", request);
@@ -68,6 +83,10 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
             Text: "Test Content",
             ArticleId: _articleId
         );
+
+        var token = _tokenService.CreateToken(_user);
+        // Set up the HTTP client with the Authorization header
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/paragraphs", request);
@@ -106,6 +125,10 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
             QuestionIds: null
         );
 
+         var token = _tokenService.CreateToken(_user);
+        // Set up the HTTP client with the Authorization header
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PutAsJsonAsync($"/api/paragraphs/{_paragraphId}", request);
         var updatedParagraph = await response.Content.ReadFromJsonAsync<ParagraphResponse>();
@@ -127,6 +150,10 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
             QuestionIds: null
         );
 
+         var token = _tokenService.CreateToken(_user);
+        // Set up the HTTP client with the Authorization header
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PutAsJsonAsync($"/api/paragraphs/{_paragraphId}", request);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -135,6 +162,10 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
     [Fact]
     public async Task DeleteParagraph_ValidId_ReturnsNoContent()
     {
+         var token = _tokenService.CreateToken(_user);
+        // Set up the HTTP client with the Authorization header
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.DeleteAsync($"/api/paragraphs/{_paragraphId}");
 
@@ -145,6 +176,9 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
     [Fact]
     public async Task DeleteParagraph_InvalidId_ReturnsNotFound()
     {
+        var token = _tokenService.CreateToken(_user);
+        // Set up the HTTP client with the Authorization header
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         // Act
         var response = await _client.DeleteAsync($"/api/paragraphs/0");
 
@@ -187,6 +221,10 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
             Text: "Test Content",
             ArticleId: 0
         );
+
+        var token = _tokenService.CreateToken(_user);
+        // Set up the HTTP client with the Authorization header
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/paragraphs", request);

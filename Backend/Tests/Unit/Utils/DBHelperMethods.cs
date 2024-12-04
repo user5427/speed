@@ -48,14 +48,14 @@ public class DBHelperMethods
     }
     public static void AddParagraph(ApplicationContext context, int articleId, string title = "Test Paragraph", string text = "Test Content")
     {
-        context.Paragraph.Add(new Paragraph { Title = title, Text = text, ArticleId = articleId });
+        context.Paragraph.Add(new Paragraph { Title = title, Text = text, ArticleId = articleId, UserId = getUser(context).Id });
         context.SaveChanges();
     }
 
     private static readonly string[] entity = ["help", "C# struggle", "haskell pain"];
     public static void AddQuestion(ApplicationContext context, int paragraphId, string question = "Test Question", string[] answer = default!, int correctAnswerIndex = 1)
     {
-        context.Question.Add(new Question { QuestionText = question, AnswerChoices = answer ?? entity, ParagraphId = paragraphId, CorrectAnswerIndex = correctAnswerIndex });
+        context.Question.Add(new Question { QuestionText = question, AnswerChoices = answer ?? entity, ParagraphId = paragraphId, CorrectAnswerIndex = correctAnswerIndex, UserId = getUser(context).Id });
         context.SaveChanges();
     }
 

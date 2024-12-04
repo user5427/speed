@@ -17,12 +17,15 @@ public class ParagraphService : IParagraphService
     private readonly IMapper _mapper;
     private readonly IImageService _imageService;
     private readonly IQuestionService _questionService;
-    public ParagraphService(ApplicationContext context, IMapper mapper, IImageService imageService, IQuestionService questionService)
+    private readonly IAuthService _authService;
+
+    public ParagraphService(ApplicationContext context, IMapper mapper, IImageService imageService, IQuestionService questionService,  IAuthService authService)
     {
         _context = new CombinedRepositories(context);
         _mapper = mapper;
         _imageService = imageService;
         _questionService = questionService;
+        _authService = authService;
     }
 
     public ParagraphResponse GetParagraph(int id)
@@ -39,14 +42,17 @@ public class ParagraphService : IParagraphService
 
     public ParagraphResponse CreateParagraph(ParagraphCreateRequest request)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Article? articleFound = _context.Article.FindById(request.ArticleId);
-
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {request.ArticleId} not found.");
         }
+        if (articleFound.UserId != user?.Id)
+            throw new UnauthorizedAccessException();
 
         Paragraph createdParagraph = _mapper.Map<Paragraph>(request);
+        createdParagraph.UserId = user.Id;
 
         _context.Paragraph.Add(createdParagraph);
         _context.SaveChanges();
@@ -59,11 +65,14 @@ public class ParagraphService : IParagraphService
 
     public ParagraphResponse UpdateParagraph(int id, ParagraphUpdateRequest request)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Paragraph? paragraphFound = _context.Paragraph.FindById(id);
         if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
         }
+        if (paragraphFound.UserId != user?.Id)
+            throw new UnauthorizedAccessException();
 
         Article? oldArticleFound = _context.Article.FindById(paragraphFound.ArticleId);
         if (oldArticleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
@@ -76,6 +85,8 @@ public class ParagraphService : IParagraphService
             {
                 throw new ResourceNotFoundException($"Article with ID {request.ArticleId} not found.");
             }
+            if (newArticleFound.UserId != user?.Id)
+                throw new UnauthorizedAccessException();
 
             oldArticleFound.ParagraphIds.Remove(id);
             newArticleFound.ParagraphIds.Add(id);
@@ -104,27 +115,26 @@ public class ParagraphService : IParagraphService
 
     public void DeleteParagraph(int id)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Paragraph? paragraphFound = _context.Paragraph.FindById(id);
-        if (paragraphFound != null)
-        {
-            Article? articleFound = _context.Article.FindById(paragraphFound.ArticleId);
-            if (articleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
+        if (paragraphFound == null)
+             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
+        if (paragraphFound.UserId != user?.Id)
+            throw new UnauthorizedAccessException();
 
-            articleFound.ParagraphIds.Remove(id);
+        Article? articleFound = _context.Article.FindById(paragraphFound.ArticleId);
+        if (articleFound == null) throw new Exception("Illegal state, article  of paragraph must exist");
 
-            if (paragraphFound.Image != null && paragraphFound.Image.HasValue)
-            {
-                _imageService.Delete((Image)paragraphFound.Image);
-            }
-            var copyOfQuestionIds = paragraphFound.QuestionIds.ToList();
-            copyOfQuestionIds.ForEach(_questionService.DeleteQuestion);
-            _context.Paragraph.Remove(paragraphFound);
-            _context.SaveChanges();
-        }
-        else
+        articleFound.ParagraphIds.Remove(id);
+
+        if (paragraphFound.Image != null && paragraphFound.Image.HasValue)
         {
-            throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
+            _imageService.Delete((Image)paragraphFound.Image);
         }
+        var copyOfQuestionIds = paragraphFound.QuestionIds.ToList();
+        copyOfQuestionIds.ForEach(_questionService.DeleteQuestion);
+        _context.Paragraph.Remove(paragraphFound);
+        _context.SaveChanges();
     }
 
     public PageResponse<ParagraphResponse> SearchParagraphs(QueryParameters queryParameters)
@@ -138,11 +148,15 @@ public class ParagraphService : IParagraphService
 
     public async Task<ParagraphResponse> UploadImage(int id, ImageUploadRequest request)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Paragraph? paragraphFound = _context.Paragraph.FindById(id);
         if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
         }
+        if (paragraphFound.UserId != user?.Id)
+            throw new UnauthorizedAccessException();
+
         if (paragraphFound.Image.HasValue)
         {
             throw new ResourceAlreadyExistsException($"Paragraph with ID {id} has an image.");
@@ -177,10 +191,13 @@ public class ParagraphService : IParagraphService
 
     public void DeleteImage(int id)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Paragraph? paragraphFound = _context.Paragraph.FindById(id);
         if (paragraphFound == null)
-        {
-            throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");}
+            throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
+        if (paragraphFound.UserId != user?.Id)
+            throw new UnauthorizedAccessException();
+            
         if (paragraphFound.Image == null || !paragraphFound.Image.HasValue) return;
         _imageService.Delete((Image)paragraphFound.Image);
 

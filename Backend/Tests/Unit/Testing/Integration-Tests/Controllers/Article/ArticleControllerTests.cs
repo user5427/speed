@@ -60,7 +60,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
             null
         );
 
-         var token = _tokenService.CreateToken(_user);
+        var token = _tokenService.CreateToken(_user);
 
         // Set up the HTTP client with the Authorization header
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
