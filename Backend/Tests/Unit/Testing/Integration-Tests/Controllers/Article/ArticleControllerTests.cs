@@ -44,7 +44,6 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
 
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
-        DBHelperMethods.SeedUserData(context);
         _user = DBHelperMethods.getUser(context);
 
         _articleId = DBHelperMethods.GetFirstArticleId(context);
@@ -104,7 +103,6 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         var token = _tokenService.CreateToken(_user);
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-
         // Act
         var response = await _client.PostAsJsonAsync("/api/articles", request);
 
@@ -147,6 +145,9 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
             null
         );
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PutAsJsonAsync($"/api/articles/{_articleId}", request);
         var updatedArticle = await response.Content.ReadFromJsonAsync<ArticleResponse>();
@@ -169,6 +170,9 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
             new List<int>{_categoryId}
         );
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PutAsJsonAsync($"/api/articles/{invalidArticleId}", request);
 
@@ -179,8 +183,12 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     [Fact]
     public async Task DeleteArticle_ValidId_ReturnsNoContent()
     {
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        
         // Act
         var response = await _client.DeleteAsync($"/api/articles/{_articleId}");
+      
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode); //NoContent
@@ -191,6 +199,9 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     {
         // Arrange
         int invalidArticleId = 9999;  // Use an ID that does not exist
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.DeleteAsync($"/api/articles/{invalidArticleId}");

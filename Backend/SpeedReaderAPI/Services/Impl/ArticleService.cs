@@ -69,11 +69,18 @@ public class ArticleService : IArticleService
 
     public ArticleResponse UpdateArticle(int id, ArticleUpdateRequest request)
     {
+        User? user = _authService.GetAuthenticatedUser();
+        if (user == null) throw new UnauthorizedAccessException();
+
         Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
+
+        if (articleFound.UserId != user.Id) 
+            throw new UnauthorizedAccessException();
+
 
         if (request.Title != null)
         {
@@ -144,24 +151,29 @@ public class ArticleService : IArticleService
 
     public void DeleteArticle(int articleId)
     {
+        User? user = _authService.GetAuthenticatedUser();
+        if (user == null) 
+            throw new UnauthorizedAccessException();
+
         Article? articleFound = _context.Article.FindById(articleId);
-        if (articleFound != null)
-        {
-            if (articleFound.Image != null && articleFound.Image.HasValue)
-            {
-                _imageService.Delete((Image)articleFound.Image);
-            }
-            var copyOfParaphIds = articleFound.ParagraphIds.ToList();
-            copyOfParaphIds.ForEach(_paragraphService.DeleteParagraph);
-            var removedCategoryIdsList = articleFound.CategoryIds.ToList();
-            DetachCategoriesFromArticle(articleFound, removedCategoryIdsList);
-            _context.Article.Remove(articleFound);
-            _context.SaveChanges();
-        }
-        else
-        {
+        if (articleFound == null) {
             throw new ResourceNotFoundException($"Article with ID {articleId} not found.");
         }
+
+        if (articleFound.UserId != user.Id) 
+            throw new UnauthorizedAccessException();
+
+        if (articleFound.Image != null && articleFound.Image.HasValue)
+        {
+            _imageService.Delete((Image)articleFound.Image);
+        }
+
+        var copyOfParaphIds = articleFound.ParagraphIds.ToList();
+        copyOfParaphIds.ForEach(_paragraphService.DeleteParagraph);
+        var removedCategoryIdsList = articleFound.CategoryIds.ToList();
+        DetachCategoriesFromArticle(articleFound, removedCategoryIdsList);
+        _context.Article.Remove(articleFound);
+        _context.SaveChanges();
     }
 
     public PageResponse<ArticleResponse> SearchArticles(QueryParameters queryParameters)
@@ -177,11 +189,19 @@ public class ArticleService : IArticleService
 
     public async Task<ArticleResponse> UploadImage(int id, ImageUploadRequest request)
     {
+        User? user = _authService.GetAuthenticatedUser();
+        if (user == null) 
+            throw new UnauthorizedAccessException();
+            
         Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
+
+        if (articleFound.UserId != user.Id) 
+            throw new UnauthorizedAccessException();
+
         if (articleFound.Image.HasValue)
         {
             throw new ResourceAlreadyExistsException($"Article with ID {id} has an image.");
@@ -216,11 +236,20 @@ public class ArticleService : IArticleService
 
     public void DeleteImage(int id)
     {
+        User? user = _authService.GetAuthenticatedUser();
+        if (user == null) 
+            throw new UnauthorizedAccessException();
+        Console.WriteLine("\n\n\nhere");
+            
         Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
+
+        if (articleFound.UserId != user.Id) 
+            throw new UnauthorizedAccessException();
+      
         if (articleFound.Image == null || !articleFound.Image.HasValue) return;
         _imageService.Delete((Image)articleFound.Image);
 

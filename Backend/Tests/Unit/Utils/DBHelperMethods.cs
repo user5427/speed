@@ -7,6 +7,7 @@ public class DBHelperMethods
     // Separate method to handle initial data seeding
     public static void SeedInitialData(ApplicationContext context)
     {
+        AddUser(context);
         AddArticle(context);
         AddParagraph(context, context.Article.Last().Id);
         AddQuestion(context, context.Paragraph.Last().Id);
@@ -37,7 +38,7 @@ public class DBHelperMethods
 
     public static void AddArticle(ApplicationContext context, string title = "Sample Article", string categoryTitle = "Sample Category")
     {
-        context.Article.Add(new Article { Title = title, CategoryTitle = categoryTitle });
+        context.Article.Add(new Article { Title = title, CategoryTitle = categoryTitle, UserId = getUser(context).Id });
         context.SaveChanges();
     }
     public static void AddCategory(ApplicationContext context, string title = "Sample title", string text = "Sample text")
