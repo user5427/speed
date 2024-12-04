@@ -70,15 +70,13 @@ public class ArticleService : IArticleService
     public ArticleResponse UpdateArticle(int id, ArticleUpdateRequest request)
     {
         User? user = _authService.GetAuthenticatedUser();
-        if (user == null) throw new UnauthorizedAccessException();
-
         Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
 
-        if (articleFound.UserId != user.Id) 
+        if (articleFound.UserId != user?.Id) 
             throw new UnauthorizedAccessException();
 
 
@@ -152,15 +150,13 @@ public class ArticleService : IArticleService
     public void DeleteArticle(int articleId)
     {
         User? user = _authService.GetAuthenticatedUser();
-        if (user == null) 
-            throw new UnauthorizedAccessException();
 
         Article? articleFound = _context.Article.FindById(articleId);
         if (articleFound == null) {
             throw new ResourceNotFoundException($"Article with ID {articleId} not found.");
         }
 
-        if (articleFound.UserId != user.Id) 
+        if (articleFound.UserId != user?.Id) 
             throw new UnauthorizedAccessException();
 
         if (articleFound.Image != null && articleFound.Image.HasValue)
@@ -190,8 +186,6 @@ public class ArticleService : IArticleService
     public async Task<ArticleResponse> UploadImage(int id, ImageUploadRequest request)
     {
         User? user = _authService.GetAuthenticatedUser();
-        if (user == null) 
-            throw new UnauthorizedAccessException();
             
         Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
@@ -199,7 +193,7 @@ public class ArticleService : IArticleService
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
 
-        if (articleFound.UserId != user.Id) 
+        if (articleFound.UserId != user?.Id) 
             throw new UnauthorizedAccessException();
 
         if (articleFound.Image.HasValue)
@@ -237,9 +231,6 @@ public class ArticleService : IArticleService
     public void DeleteImage(int id)
     {
         User? user = _authService.GetAuthenticatedUser();
-        if (user == null) 
-            throw new UnauthorizedAccessException();
-        Console.WriteLine("\n\n\nhere");
             
         Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
@@ -247,7 +238,7 @@ public class ArticleService : IArticleService
             throw new ResourceNotFoundException($"Article with ID {id} not found.");
         }
 
-        if (articleFound.UserId != user.Id) 
+        if (articleFound.UserId != user?.Id) 
             throw new UnauthorizedAccessException();
       
         if (articleFound.Image == null || !articleFound.Image.HasValue) return;
