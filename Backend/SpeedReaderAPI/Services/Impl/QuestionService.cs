@@ -150,7 +150,10 @@ public class QuestionService : IQuestionService
     public PageResponse<QuestionResponse> SearchQuestions(QueryParameters queryParameters)
     {
         long questionCount = _context.Question.Count();
-        List<Question> questions = _context.Question.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize).Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search)).ToList();
+        List<Question> questions = _context.Question.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize)
+                                                    .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search)
+                                                    && (queryParameters.UserId == null || a.UserId == queryParameters.UserId))
+                                                    .ToList();
         var sortedList = Sorter.SortList(questions, asc: false);
         List<QuestionResponse> questionResponseList = _mapper.Map<List<QuestionResponse>>(sortedList);
         return new PageResponse<QuestionResponse>(questionCount, questionResponseList);

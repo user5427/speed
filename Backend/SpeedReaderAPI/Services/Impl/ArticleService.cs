@@ -176,7 +176,8 @@ public class ArticleService : IArticleService
     {
         long articleCount = _context.Article.Count();
         List<Article> articles = _context.Article.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize)
-                                                    .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
+                                                    .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search)
+                                                    && (queryParameters.UserId == null || a.UserId == queryParameters.UserId))
                                                     .ToList();
         var sortedArticles = Sorter.SortList(articles);                                
         List<ArticleResponse> articleResponseList = _mapper.Map<List<ArticleResponse>>(sortedArticles);

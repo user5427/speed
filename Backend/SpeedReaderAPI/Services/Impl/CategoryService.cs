@@ -109,7 +109,8 @@ public class CategoryService : ICategoryService
     {
         long categoryCount = _context.Category.Count();
         List<Category> categories = _context.Category.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize)
-                                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
+                                                        .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search)
+                                                        && (queryParameters.UserId == null || a.UserId == queryParameters.UserId))
                                                         .ToList();
         List<CategoryResponse> categoryResponseList = _mapper.Map<List<CategoryResponse>>(categories);
         return new PageResponse<CategoryResponse>(categoryCount, categoryResponseList);

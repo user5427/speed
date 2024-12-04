@@ -15,4 +15,5 @@ public class QueryParameters
     public string OrderBy { get; set; } = string.Empty;
     public bool OrderAsc { get; set; } = true;
     public string Search { get; set; } = string.Empty;
+    public long? UserId { get; set; }
 }

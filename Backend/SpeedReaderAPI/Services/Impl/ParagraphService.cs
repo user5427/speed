@@ -140,7 +140,10 @@ public class ParagraphService : IParagraphService
     public PageResponse<ParagraphResponse> SearchParagraphs(QueryParameters queryParameters)
     {
         long paragraphCount = _context.Paragraph.Count();
-        List<Paragraph> paragraphs = _context.Paragraph.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize).Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search)).ToList();
+        List<Paragraph> paragraphs = _context.Paragraph.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize)
+                                                    .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search)
+                                                    && (queryParameters.UserId == null || a.UserId == queryParameters.UserId))
+                                                    .ToList();
         var sortedList = Sorter.SortList(paragraphs);
         List<ParagraphResponse> paragraphResponseList = _mapper.Map<List<ParagraphResponse>>(sortedList);
         return new PageResponse<ParagraphResponse>(paragraphCount, paragraphResponseList);
