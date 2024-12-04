@@ -1,8 +1,6 @@
 namespace SpeedReaderAPI.Services.Impl;
 
-using System.Globalization;
 using AutoMapper;
-using Azure;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.ArticleSession.Requests;

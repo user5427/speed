@@ -15,7 +15,38 @@ public class DBHelperMethods
     public static void SeedUserData(ApplicationContext context)
     {
         AddUser(context);
+        addArticleSession(context);
     }
+
+    public static void addArticleSession(ApplicationContext context, int articleId = 1, int paragraphId = 1)
+    {
+            User user = getUser(context);
+        var articleSession = new ArticleSession
+        {
+            UserId = user.Id,
+            ArticleId = articleId,
+            Time = DateTime.Now,
+            Wpm = 250, 
+            CorrectQuestionCount = 5,
+            TotalQuestionCount = 10
+        };
+        context.ArticleSession.Add(articleSession);
+        context.SaveChanges(); // Save the article session
+
+
+        var paragraphSession = new ParagraphSession
+        {
+            ArticleSessionId = articleSession.Id,
+            ParagraphId = paragraphId,
+            DurationInSeconds = 60,
+            Wpm = 250,
+            CorrectQuestionCount = 3,
+            TotalQuestionCount = 5
+        };
+        context.ParagraphSession.Add(paragraphSession);
+        context.SaveChanges(); 
+    }
+
 
     public static void AddUser(ApplicationContext context, string username = "TestUser", string email = "email@email.com", string Password = "$2a$11$tImiPnCT57boieMc8i2Jle627H1hUwZ7FlMqcqBScbzPDbORjLAr." /*password*/, Role role = Role.ADMIN)
     {
