@@ -32,7 +32,7 @@
         "astronomy" : "Astronomie",
             "aCategories" : "Milchstraße, nächsteSternbilder, Schwarzen Loche",
         "history" : "Geschichte",
-            "hCategories" : "Altes Ä, Mittelalter, Erste Weltkrieg, Zweite Weltkrieg",
+            "hCategories" : "Altes Ägypten, Mittelalter, Erste Weltkrieg, Zweite Weltkrieg",
         "literature" : "Literatur",
             "lCategories" : "William Shakespeare, Alexandre Dumas, Victor Hugo",
 
@@ -43,7 +43,7 @@
         "enterCategoryContent": "Kategorieinhalt eingeben",
         "plsEnterCategoryContent": "Bitte Kategorieinhalt eingeben",
 
-        "chooseCategories" : "Choose what intrests you or even create your own categories"
+        "chooseCategories" : "Wählen Sie aus, was Sie interesieren, oder erstellen Sie einigene Kategorien"
     },
 
     "editPages" : {
@@ -151,7 +151,7 @@
             "main" : "Zurück"
         },
         "search" : {
-            "enterArticleTitle" : "Geben Sie den Artikeltitel",
+            "enterArticleTitle" : "Geben Sie den Artikeltitel ein",
             "searchArticles" : "Artikel suchen",
             "plsSelectArticle" : "Wählen Sie bitte den Artikel"
         },
@@ -172,14 +172,14 @@
         },
         "answerItem" : {
             "answer" : "Antwort",
-            "enterAnswer" : "Geben Sie die Antwort",
-            "plsEnterAnswer" : "Geben Sie bitte die Antwort",
+            "enterAnswer" : "Geben Sie die Antwort ein",
+            "plsEnterAnswer" : "Geben Sie bitte die Antwort ein",
             "correct" : "Richtig",
             "delete" : "Löschen"
         },
         "search" : {
             "searchQuestions" : "Suchen Fragen",
-            "enterQuestionsTitle" : "Geben Sie den Fragentext",
+            "enterQuestionsTitle" : "Geben Sie den Fragentext ein",
             "plsSelectQuestion" : "Wählen Sie bitte eine Frage"
         }
     },
@@ -198,53 +198,54 @@
     "signup": {
         "signUp": "Sign up",
     
-        "username": "Username",
-        "enterUsername": "Enter Username",
-        "plsEnterUsername": "Please enter Username",
+        "username": "Benutzername",
+        "enterUsername": "Geben Sie die Benutzername ein",
+        "plsEnterUsername": "Geben Sie, bitte, die Benutzername ein",
         
         "email": "Email",
-        "enterEmail": "Enter Email",
-        "plsEnterValidEmail": "Please enter a valid Email address",
+        "enterEmail": "Geben Sie die Email ein",
+        "plsEnterValidEmail": "Geben Sie, bitte, eine gültige Email ein",
         
-        "password": "Password",
-        "enterPassword": "Enter Password",
-        "plsEnterPassword": "Please enter Password",
+        "password": "Passwort",
+        "enterPassword": "Geben Sie das Password ein",
+        "plsEnterPassword": "Geben Sie, bitte, das Password ein",
         
-        "passwordRepeat": "Password repeat",
-        "repeatPassword": "Repeat Password",
-        "plsRepeatPassword": "Please repeat your Password",
+        "passwordRepeat": "Wiederholen Sie das Password",
+        "_comment": "WTH Is the thing above 'password repeat'???"
+        "repeatPassword": "Wiederholen Sie das Password",
+        "plsRepeatPassword": "Wiederholen Sie, bitte, das Password",
         
-        "passwordsDoNotMatch": "Passwords do not match",
+        "passwordsDoNotMatch": "Passwörder sind nicht gleich",
         
-        "profilePicture": "Profile Picture",
-        "optional" : "optional",
+        "profilePicture": "Profilbild",
+        "optional" : "fakulativ",
     
-        "successMessage": "You have successfully signed up!",
+        "successMessage": "Sie haben sich erfolgreich angemeldet!",
         
-        "plsFillAllFields": "Please fill all required fields",
-        "errorOccurred": "An error occurred. Please try again.",
+        "plsFillAllFields": "Füllen Sie, bitte, alle erforderlichen Felder aus.",
+        "errorOccurred": "Ein Fehler ist aufgetreten. Versuchen Sie, bitte, es erneut.",
     
-        "alreadyHaveAnAccount" : "Already have an account",
-        "logIn" : "Log in"
+        "alreadyHaveAnAccount" : "Sie haben bereits ein Profil",
+        "logIn" : "Anmelden"
       
     },
     
     "login": {
-        "logIn": "Log in",
+        "logIn": "Anmelden",
         "email": "Email",
-        "enterEmail": "Enter Email",
-        "plsEnterValidEmail": "Please enter a valid email address",
+        "enterEmail": "Geben Sie die Email ein",
+        "plsEnterValidEmail": "Geben Sie, bitte, eine gültige Email ein",
     
-        "password": "Password",
-        "enterPassword": "Enter Password",
-        "plsEnterPassword": "Please enter your Password",
+        "password": "Passwort",
+        "enterPassword": "Geben Sie das Password ein",
+        "plsEnterPassword": "Geben Sie, bitte, das Password ein",
     
-        "successMessage": "You have successfully logged in!",
+        "successMessage": "Sie haben sich erfolgreich angemeldet",
     
-        "dontHaveAnAccount": "Don't have an account",
+        "dontHaveAnAccount": "Sie haben kein Profil",
     
-        "errorOccurred": "An error occurred. Please try again.",
+        "errorOccurred": "Ein Fehler ist aufgetreten. Versuchen Sie, bitte, es erneut.",
 
-        "signUp": "Sign up"
+        "signUp": "Registrieren"
       }
 }
