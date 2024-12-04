@@ -73,7 +73,7 @@ public class ArticleServiceTests
         _articleService = new ArticleService(context, _mapper, 
                                              _imageService, 
                                              _paragraphService, authService);
-        _categoryService = new CategoryService(context, _mapper, _imageService);
+        _categoryService = new CategoryService(context, _mapper, _imageService, authService);
     }
 
     [Fact (DisplayName  = "Article creating")]

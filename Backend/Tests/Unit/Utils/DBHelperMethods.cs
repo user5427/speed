@@ -43,7 +43,7 @@ public class DBHelperMethods
     }
     public static void AddCategory(ApplicationContext context, string title = "Sample title", string text = "Sample text")
     {
-        context.Category.Add(new Category { Title = title, Text = text });
+        context.Category.Add(new Category { Title = title, Text = text, UserId = getUser(context).Id });
         context.SaveChanges();
     }
     public static void AddParagraph(ApplicationContext context, int articleId, string title = "Test Paragraph", string text = "Test Content")
