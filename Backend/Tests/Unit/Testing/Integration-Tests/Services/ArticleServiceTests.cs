@@ -39,7 +39,6 @@ public class ArticleServiceTests
         _imageService = new ImageService();
         // _mockMapper.Object
 
-        _questionService = new QuestionService(context, _mapper, _imageService);
 
 
         var inMemorySettings = new Dictionary<string, string> 
@@ -67,6 +66,7 @@ public class ArticleServiceTests
         ]));
          var contextAccessor = new HttpContextAccessor { HttpContext = httpContext };
         AuthService authService = new AuthService(context, _mapper, tokenService, contextAccessor);
+        _questionService = new QuestionService(context, _mapper, _imageService, authService);
         _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService, authService);
 
         // Initialize ArticleService with mocks and context

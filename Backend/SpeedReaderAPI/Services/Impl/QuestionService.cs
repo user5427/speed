@@ -16,11 +16,14 @@ public class QuestionService : IQuestionService
     private readonly CombinedRepositories _context;
     private readonly IMapper _mapper;
     private readonly IImageService _imageService;
-    public QuestionService(ApplicationContext context, IMapper mapper, IImageService imageService)
+    private readonly IAuthService _authService;
+
+    public QuestionService(ApplicationContext context, IMapper mapper, IImageService imageService, IAuthService authService)
     {
         _context = new CombinedRepositories(context);
         _mapper = mapper;
         _imageService = imageService;
+        _authService = authService;
     }
 
     public QuestionResponse GetQuestion(int id)
@@ -35,11 +38,14 @@ public class QuestionService : IQuestionService
     }
     public QuestionResponse CreateQuestion(QuestionCreateRequest request)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Paragraph? paragraphFound = _context.Paragraph.FindById(request.ParagraphId);
         if (paragraphFound == null)
         {
             throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
         }
+        if (paragraphFound.UserId != user?.Id) 
+            throw new UnauthorizedAccessException();
 
         if (request.CorrectAnswerIndex < 0 || request.CorrectAnswerIndex >= request.AnswerChoices.Length)
         {
@@ -47,6 +53,7 @@ public class QuestionService : IQuestionService
         }
 
         Question createdQuestion = _mapper.Map<Question>(request);
+        createdQuestion.UserId = user.Id;
         _context.Question.Add(createdQuestion);
         _context.SaveChanges();
         paragraphFound.QuestionIds.Add(createdQuestion.Id);
@@ -57,11 +64,14 @@ public class QuestionService : IQuestionService
 
     public QuestionResponse UpdateQuestion(int id, QuestionUpdateRequest request)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Question? questionFound = _context.Question.FindById(id);
         if (questionFound == null)
         {
             throw new ResourceNotFoundException($"Question with ID {id} not found.");
         }
+        if (questionFound.UserId != user?.Id) 
+            throw new UnauthorizedAccessException();
 
         Paragraph? oldParagraphFound = _context.Paragraph.FindById(questionFound.ParagraphId);
         if (oldParagraphFound == null) throw new Exception("Illegal state, paragraph of question must exist");
@@ -93,6 +103,8 @@ public class QuestionService : IQuestionService
             {
                 throw new ResourceNotFoundException($"Paragraph with ID {request.ParagraphId} not found.");
             }
+            if (newParagrahFound.UserId != user?.Id) 
+                throw new UnauthorizedAccessException();
             oldParagraphFound.QuestionIds.Remove(id);
             newParagrahFound.QuestionIds.Add(id);
             questionFound.ParagraphId = newParagrahFound.Id;
@@ -116,24 +128,23 @@ public class QuestionService : IQuestionService
 
     public void DeleteQuestion(int id)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Question? questionFound = _context.Question.FindById(id);
-        if (questionFound != null)
-        {
-            Paragraph? paragraphFound = _context.Paragraph.FindById(questionFound.ParagraphId);
-            if (paragraphFound == null) throw new Exception("Illegal state, paragraph  of question must exist");
-            paragraphFound.QuestionIds.Remove(id);
-
-            if (questionFound.ImageFileName != null && questionFound.Image.HasValue)
-            {
-                _imageService.Delete((Image)questionFound.Image);
-            }
-            _context.Question.Remove(questionFound);
-            _context.SaveChanges();
-        }
-        else
-        {
+        if (questionFound == null)
             throw new ResourceNotFoundException($"Question with ID {id} not found.");
+        if (questionFound.UserId != user?.Id) 
+            throw new UnauthorizedAccessException();
+
+        Paragraph? paragraphFound = _context.Paragraph.FindById(questionFound.ParagraphId);
+        if (paragraphFound == null) throw new Exception("Illegal state, paragraph  of question must exist");
+        paragraphFound.QuestionIds.Remove(id);
+
+        if (questionFound.ImageFileName != null && questionFound.Image.HasValue)
+        {
+            _imageService.Delete((Image)questionFound.Image);
         }
+        _context.Question.Remove(questionFound);
+        _context.SaveChanges();
     }
 
     public PageResponse<QuestionResponse> SearchQuestions(QueryParameters queryParameters)
@@ -146,11 +157,12 @@ public class QuestionService : IQuestionService
     }
     public async Task<QuestionResponse> UploadImage(int id, ImageUploadRequest request)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Question? questionFound = _context.Question.FindById(id);
         if (questionFound == null)
-        {
             throw new ResourceNotFoundException($"Question with ID {id} not found.");
-        }
+        if (questionFound.UserId != user?.Id) 
+            throw new UnauthorizedAccessException();
         if (questionFound.Image.HasValue)
         {
             throw new ResourceAlreadyExistsException($"Paragraph with ID {id} has an image.");
@@ -185,11 +197,13 @@ public class QuestionService : IQuestionService
 
     public void DeleteImage(int id)
     {
+        User? user = _authService.GetAuthenticatedUser();
         Question? questionFound = _context.Question.FindById(id);
         if (questionFound == null)
-        {
             throw new ResourceNotFoundException($"Question with ID {id} not found.");
-        }
+        if (questionFound.UserId != user?.Id) 
+            throw new UnauthorizedAccessException();
+            
         if (questionFound.Image == null || !questionFound.Image.HasValue) return;
         _imageService.Delete((Image)questionFound.Image);
 
