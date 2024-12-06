@@ -14,6 +14,27 @@
         "flashingSentence": "Pristatome mūsų naują internetinį puslapį \"Speedreader.com\", kuris padeda atsikratyti vidinio monologo skaitant. Šalia to, puslapis siekia pagerinti skaitytojo tekstų supratimą bei skaitytojo dėmesingumą. O svarbiausia - naudojantis šia svetaine, žmonės tiesiog sutaupys laiko skaitydami greičiau."
     },
 
+    "aboutPage": {
+        "title": "Apie mus",
+        "introPart1": "Pasaulyje, kuriame yra \"apytinksliai",
+        "introPart2": "unikalių knygų iki 2023 m.\" (ISBNDB), o UNESCO praneša, kad",
+        "million": "milijonų",
+        "introPart3": "daugiau knygų išleidžiama kasmet, dažnu atveju gali nusvirti rankos norint pasiekti bent daugiau mažiau prasmingą tikslą - per gyvenimą perskaityti, pvz., 300 knygų.",
+        "toQuote": "Cituojant",
+        "quoteAuthor": "Justin Hammond",
+        "quote": "Pirmoji ir galingiausia greito skaitymo pamoka - tai yra įgūdis, kurį galima išmokti, o ne gebėjimas, su kuriuo tik gimstama.",
+        "teamIntroduction": "Mūsų komanda tikėjo, kad galime sukurti kažką prasmingo šioje srityje. Todėl sukūrėme svetainę, kuri skirta padėti viršyti skaitymo lūkesčius, gerinant skaitymo greitį.",
+        "meetTeam": "Mūsų stipri komanda:",
+        "teamList": {
+          "tadasDescription": "Full-Stack programuotojas",
+          "dariusDescription": "Backend programuotojas",
+          "arnasDescription": "Backend programuotojas",
+          "adrianDescription": "Frontend programuotojas"
+        },
+        "conclusion": "Tikimės, kad mūsų programa ne tik pagelbės pasiekti norimą skaitymo greitį, bet ir padės praplėsti žinias įvairiose srityse.",
+        "happyReading": "Linksmo skaitymo!"
+    },
+
     "articleManagment" : {
         "articleHomePage" : "Straipsnių puslapis",
         "createArticle" : "Sukurti straipsnį",
