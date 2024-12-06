@@ -31,7 +31,7 @@ const Landing = () => {
         <>
             <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                 <Row className='row'>
-                    <Col xs={12} md={3}>
+                    <Col xs={12} md={4}>
                         <Button
                             className='buttons purple'
                             size="lg"
@@ -41,7 +41,7 @@ const Landing = () => {
                             <BiSolidCategory className='icon'/> {t('homepage.goToCategories')}
                         </Button>
                     </Col>
-                    <Col xs={12} md={3}>
+                    <Col xs={12} md={4}>
                         <Button
                             className='buttons deepPurple'
                             size="lg"
@@ -51,7 +51,7 @@ const Landing = () => {
                             <MdArticle className='icon'/> {t('homepage.goToArticles')}
                         </Button>
                     </Col>
-                    <Col xs={12} md={3}>
+                    <Col xs={12} md={4}>
                         <Button
                             className='buttons lightBlue'
                             size="lg"

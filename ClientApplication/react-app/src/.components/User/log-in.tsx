@@ -121,7 +121,7 @@ const LogIn = () => {
           type="submit"
           style={{ marginTop: '10px', width: '100%' }}
         >
-          {t('login.logIn')}
+          {t('signup.logIn')}
         </Button>
 
         <Row style={{ marginTop: '25px' }}>
