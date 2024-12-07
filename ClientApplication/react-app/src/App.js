@@ -27,6 +27,7 @@ import EditQuestion from './pages/EditPages/editQuestionPage';
 import CreateCategory from './pages/Categories/createCategoryPage';
 import SignUpPage from './pages/UserPages/signUpPage';
 import LogInPage from './pages/UserPages/logInPage';
+import ProfilePage from './pages/UserPages/profilePage';
 import ArticleListFromCategory from './pages/Categories/ArticleListFromCategories';
 import About from './pages/About/AboutPage';
 
@@ -46,6 +47,7 @@ function App() {
             <Nav.Link as={Link} to="/about">{t('homepage.about')}</Nav.Link>
             <Nav.Link as={Link} to="/sign-up">{t('signup.signUp')}</Nav.Link>
             <Nav.Link as={Link} to="/log-in">{t('login.logIn')}</Nav.Link>
+            <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
 
           </Nav>
           <Nav>
@@ -70,6 +72,7 @@ function App() {
           <Route exact path="/create-category" Component={() => <CreateCategory/>} />
           <Route exact path="/sign-up" Component={() => <SignUpPage/>} />
           <Route exact path="/log-in" Component={() => <LogInPage/>} />
+          <Route exact path="/profile" Component={() => <ProfilePage/>} />
           <Route exact path="/category" Component={() => <ArticleListFromCategory/>} />
         </Routes>
     </Container>

@@ -196,7 +196,7 @@
     },
 
     "signup": {
-        "signUp": "Sign up",
+        "signUp": "Registriieren",
     
         "username": "Benutzername",
         "enterUsername": "Geben Sie die Benutzername ein",
@@ -207,15 +207,15 @@
         "plsEnterValidEmail": "Geben Sie, bitte, eine gültige Email ein",
         
         "password": "Passwort",
-        "enterPassword": "Geben Sie das Password ein",
-        "plsEnterPassword": "Geben Sie, bitte, das Password ein",
+        "enterPassword": "Geben Sie das Passwort ein",
+        "plsEnterPassword": "Geben Sie, bitte, das Passwort ein",
         
-        "passwordRepeat": "Wiederholen Sie das Password",
+        "passwordRepeat": "Wiederholen Sie das Passwort",
         "_comment": "WTH Is the thing above 'password repeat'???",
-        "repeatPassword": "Wiederholen Sie das Password",
-        "plsRepeatPassword": "Wiederholen Sie, bitte, das Password",
+        "repeatPassword": "Wiederholen Sie das Passwort",
+        "plsRepeatPassword": "Wiederholen Sie, bitte, das Passwort",
         
-        "passwordsDoNotMatch": "Passwörder sind nicht gleich",
+        "passwordsDoNotMatch": "Passwörter sind nicht gleich",
         
         "profilePicture": "Profilbild",
         "optional" : "fakulativ",
@@ -237,8 +237,8 @@
         "plsEnterValidEmail": "Geben Sie, bitte, eine gültige Email ein",
     
         "password": "Passwort",
-        "enterPassword": "Geben Sie das Password ein",
-        "plsEnterPassword": "Geben Sie, bitte, das Password ein",
+        "enterPassword": "Geben Sie das Passwort ein",
+        "plsEnterPassword": "Geben Sie, bitte, das Passwort ein",
     
         "successMessage": "Sie haben sich erfolgreich angemeldet",
     

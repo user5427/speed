@@ -14,6 +14,27 @@
         "flashingSentence" : "Introducing our new web page \"Speedreader.com\", designed to help users read sentences quickly without being distracted by inner thoughts, boosting focus, improving comprehension, and saving time with faster reading speeds."
     },
 
+    "aboutPage" : {
+        "title" : "About us",
+        "introPart1" : "In a world with \"roughly",
+        "introPart2" : "unique books as of 2023\" (ISBNDB), and with UNESCO reporting that",
+        "million" : "million",
+        "introPart3" : "more are published every year, it’s easy to feel discouraged about achieving a meaningful reading goal - say, at least 300 books in a lifetime.",
+        "toQuote" : "To quote",
+        "quoteAuthor" : "Justin Hammond",
+        "quote" : "The first and most powerful lesson of speed reading is that it is a skill to be learned – not an ability you’re born with.",
+        "teamIntroduction" : "Our team believed we could do something about it. That’s why we created an application designed to help you surpass your reading expectations by improving your reading speed.",
+        "meetTeam" : "Meet our strong team:",
+        "teamList" : {
+          "tadasDescription" : "Full-Stack Developer",
+          "dariusDescription" : "Backend Developer",
+          "arnasDescription" : "Backend Developer",
+          "adrianDescription" : "Frontend Developer"
+        },
+        "conclusion": "We hope our application not only helps you achieve your desired reading speed but also expands your knowledge across various fields.",
+        "happyReading": "Happy reading!"
+    },
+
     "articleManagment" : {
         "articleHomePage" : "Article Home Page",
         "createArticle" : "Create Article",
