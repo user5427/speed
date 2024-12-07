@@ -8,6 +8,7 @@
     "homepage" : {
         "home" : "Zur Hauptseite",
         "about" : "Über uns",
+        "logOut" : "Log out",
         "goToCategories" : "Zu den Kategorien",
         "goToArticles" : "Zum Artikel",
         "goToExercise" : "Zu den Übungen",

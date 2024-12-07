@@ -81,7 +81,7 @@ function App() {
     </Nav.Link>
     <div style={{height:"100%", width:"2.5px", backgroundColor:"grey", borderRadius:"10%"}}></div>
     <Nav.Link onClick={handleLogout}>
-      Log out <IoIosLogOut className='icon' size={'30px'}/>
+    {t('homepage.logOut')} <IoIosLogOut className='icon' size={'30px'}/>
     </Nav.Link>
     </>
   ) : (

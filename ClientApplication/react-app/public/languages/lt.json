@@ -8,6 +8,7 @@
     "homepage": {
         "home": "Namai",
         "about": "Apie mus",
+        "logOut" : "Atsijungti",
         "goToCategories": "Eiti į Ketegorijos",
         "goToArticles": "Eiti į Straipsniai",
         "goToExercise": "Eiti į Užduotis",

@@ -8,6 +8,7 @@
     "homepage" : {
         "home" : "Home",
         "about" : "About",
+        "logOut" : "Log out",
         "goToCategories" : "Go to Categories",
         "goToArticles" : "Go to Articles",
         "goToExercise" : "Go to Exercise",

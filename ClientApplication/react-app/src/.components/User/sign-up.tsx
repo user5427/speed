@@ -8,9 +8,12 @@ import { ValidationConstants, ValidationPatternConstants } from '../../.constant
 import { Link } from 'react-router-dom';
 import { UserController } from '../../.controllers/userController';
 import { User } from '../../.entities/.MainEntitiesExport';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     username: '',
@@ -99,6 +102,8 @@ const SignUp = () => {
 
   const closeSuccessModal = () => {
     setShowSuccessModal(false);
+    navigate('/categories'); 
+    window.location.reload();
   };
 
   return (
