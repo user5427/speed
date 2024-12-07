@@ -51,7 +51,7 @@ function App() {
 
           </Nav>
           <Nav>
-            <Nav.Link as={Link} to="/" style={{ marginRight: '5px' }}>Jonas Jonaitis <CgProfile data-testid="profile-icon" size={30}/></Nav.Link>
+            <Nav.Link as={Link} to="/" style={{ marginRight: '5px' }}>Guest #123456 <CgProfile data-testid="profile-icon" size={30}/></Nav.Link>
           </Nav>
           <Nav style={{ marginRight: '10px' }}>
           <LanguageSelector data-testid="language-selector"/> 

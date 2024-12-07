@@ -10,6 +10,7 @@ import { ArticleController, ParagraphController, QuestionController} from '../..
 import { useSearchParams } from 'react-router-dom';  // Import hook for query params
 
 import { useTranslation } from 'react-i18next'; 
+import { ThreeDots } from 'react-loader-spinner';
 
 const Exercise = () => {
 
@@ -270,16 +271,18 @@ useEffect(() => {
 
   if (!articleData || paragraphs.length === 0 || questionsPerParagraph.length === 0) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '50vh',
-        }}
-      >
-        <h1 style={{ color: 'white' }}>{t('exercise.loading')}{"..."}</h1>
-      </div>
+
+    <div style={{ display: 'flex', minHeight: '50vh', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+      <ThreeDots 
+        height="80" 
+        width="80" 
+        radius="9"
+        color="white" 
+        ariaLabel="three-dots-loading" 
+        visible={true}
+      />
+    </div>
+
     );
   }
   

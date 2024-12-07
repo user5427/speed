@@ -7,6 +7,7 @@ import { IconContext } from "react-icons";
 import "../../../styles/stylesPaginator.css"; // stylesheet
 import { CategoryController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
+import { ThreeDots } from 'react-loader-spinner';
 
 interface CategoryListProps {
     settings?: {
@@ -76,7 +77,16 @@ const CategoryList: React.FC<CategoryListProps> = ({ settings, getSelected, upda
                         ))}
                     </Row>
                 ) : (
-                    <p>{/* Optionally, add a message like "No categories found" */}</p>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                        <ThreeDots 
+                            height="50" 
+                            width="50" 
+                            radius="9"
+                            color="white" 
+                            ariaLabel="three-dots-loading" 
+                            visible={true}
+                    />
+                    </div>
                 )}
             </div>
 

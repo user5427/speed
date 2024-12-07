@@ -7,6 +7,7 @@ import { IconContext } from "react-icons";
 import "../../../styles/stylesPaginator.css"; // stylesheet
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
+import { ThreeDots } from 'react-loader-spinner';
 
 const ArticleList = ({ settings, getSelected, update, getEditing, getPlay }) => {
     const [articles, setArticles] = useState(null)
@@ -58,7 +59,16 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay }) => 
                         </div>
                     ))
                 ) : (
-                    ""
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                    <ThreeDots 
+                      height="70" 
+                      width="70" 
+                      radius="9"
+                      color="white" 
+                      ariaLabel="three-dots-loading" 
+                      visible={true}
+                    />
+                  </div>
                 )}
             </div>
 

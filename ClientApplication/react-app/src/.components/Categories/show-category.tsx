@@ -5,6 +5,8 @@ import { CategoryController } from '../../.controllers/.MainControllersExport';
 import ErrorPopup from '../.common-components/ErrorPopup';
 import CategoryItem from './Listing/category-item';
 
+import { ThreeDots } from 'react-loader-spinner';
+
 const ShowCategory = ({ id, sendArticleIds, settings }) => {
     const [category, setCategory] = useState<any>(null);
 
@@ -32,15 +34,27 @@ const ShowCategory = ({ id, sendArticleIds, settings }) => {
 
     return (
         <>
-            {category ? (<div>
-                <CategoryItem
-                    data={category}
-                    settings={settings}
-                    selectThis={() => { }}
-                    editThis={() => { }}
-                />
-            </div>) : ""}
-            
+            {category ? (
+                <div>
+                    <CategoryItem
+                        data={category}
+                        settings={settings}
+                        selectThis={() => { }}
+                        editThis={() => { }}
+                    />
+                </div>
+            ) : (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                    <ThreeDots 
+                        height="50" 
+                        width="50" 
+                        radius="9"
+                        color="white" 
+                        ariaLabel="three-dots-loading" 
+                        visible={true}
+                    />
+                </div>
+            )}
 
 
             {/* Error Popup */}
