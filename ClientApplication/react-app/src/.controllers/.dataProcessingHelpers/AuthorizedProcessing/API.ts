@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { TokenManager } from './tokenManager';
+import UserManager from './tokenManager';
 
 const API = axios.create({
     baseURL:  process.env.REACT_APP_API_URL,
 });
 
 API.interceptors.request.use(config => {
-    const token = TokenManager.getToken();
+    const token = UserManager.getUser()?.token;
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }

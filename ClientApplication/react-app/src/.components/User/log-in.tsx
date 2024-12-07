@@ -45,7 +45,7 @@ const LogIn = () => {
     }
 
     try {
-      console.log(user);
+      // console.log(user);
       let myUser = new User();
       myUser.email = user.email;
       myUser.password = user.password;

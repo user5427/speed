@@ -81,6 +81,8 @@ const SignUp = () => {
       myUser.email = user.email;
       myUser.password = user.password;
       await UserController.Post(myUser);
+      await UserController.Login(myUser);
+
 
       setSuccessMessage(t('signup.successMessage'));
       setShowSuccessModal(true);

@@ -1,5 +1,6 @@
 import { fetchEntity, fetchEntityNoReturn, generateRequestOptions, generateImageRequestOptions, downloadImage, getImage } from "./UnauthorizedProcessing/fetch-helper";
 import { isOK, isError, getErrorMessage } from "./UnauthorizedProcessing/status-helper";
+import UserManager from "./AuthorizedProcessing/tokenManager";
 
 const StatusHelper = {
     isOK,
@@ -28,3 +29,5 @@ const FetchHelperAxios = {
 export { FetchHelperAxios };
 
 export { FetchHelper, StatusHelper };
+
+export { UserManager };
