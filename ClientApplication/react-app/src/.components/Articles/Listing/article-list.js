@@ -61,8 +61,8 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay }) => 
                 ) : (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                     <ThreeDots 
-                      height="70" 
-                      width="70" 
+                      height="50" 
+                      width="50" 
                       radius="9"
                       color="white" 
                       ariaLabel="three-dots-loading" 
