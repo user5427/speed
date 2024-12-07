@@ -53,6 +53,14 @@ class UserController {
             throw error;
         }
     }
+
+    static async IsLoggedIn() : Promise<boolean> {
+        try {
+            return UserManager.getUser() !== null;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export { UserController };
