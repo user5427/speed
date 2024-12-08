@@ -12,8 +12,8 @@ using SpeedReaderAPI.Data;
 namespace SpeedReaderAPI.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20241204164954_user_paragraphs_questions")]
-    partial class user_paragraphs_questions
+    [Migration("20241208115527_Add author")]
+    partial class Addauthor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -157,7 +157,12 @@ namespace SpeedReaderAPI.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Category");
                 });
@@ -423,6 +428,17 @@ namespace SpeedReaderAPI.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Article");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SpeedReaderAPI.Entities.Category", b =>
+                {
+                    b.HasOne("SpeedReaderAPI.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
