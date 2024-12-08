@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
 
@@ -10,7 +11,7 @@ public class DbQuestionRepository : IDefaultRepository<Question>
         _context = context;
     }
 
-    public Question? FindById(int? id) => _context.Question.FirstOrDefault(q => q.Id == id);
+    public Question? FindById(int? id) => _context.Question.Include(a => a.User).FirstOrDefault(q => q.Id == id);
 
     public void Add(Question question) => _context.Question.Add(question);
 
@@ -18,6 +19,6 @@ public class DbQuestionRepository : IDefaultRepository<Question>
 
     public long Count() => _context.Question.Count();
 
-    public List<Question> GetPaged(int skip, int take) => _context.Question.Skip(skip).Take(take).ToList();
+    public List<Question> GetPaged(int skip, int take) => _context.Question.Skip(skip).Take(take).Include(a => a.User).ToList();
     
 }
