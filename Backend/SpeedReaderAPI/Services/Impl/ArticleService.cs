@@ -50,6 +50,12 @@ public class ArticleService : IArticleService
         Article createdArticle = _mapper.Map<Article>(request);
         _context.Article.Add(createdArticle);
         _context.SaveChanges();
+        if (request.CategoryIds != null)
+        {
+            var addedCategoryIdsList = request.CategoryIds.ToList();
+            AttachCategoriesToArticle(createdArticle, addedCategoryIdsList);
+        }
+        _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(createdArticle);
     }
 
@@ -79,10 +85,59 @@ public class ArticleService : IArticleService
             }
             articleFound.ParagraphIds = request.ParagraphIds;
         }
+        if (request.CategoryIds != null)
+        {
+            var removedCategoryIdsList = articleFound.CategoryIds.Except(request.CategoryIds).ToList();
+            var addedCategoryIdsList = request.CategoryIds.Except(articleFound.CategoryIds).ToList();
+            DetachCategoriesFromArticle(articleFound, removedCategoryIdsList);
+            AttachCategoriesToArticle(articleFound, addedCategoryIdsList);
+            articleFound.CategoryIds = request.CategoryIds;
+        }
+        if (request.Author != null)
+        {
+            articleFound.Author = request.Author;
+        }
+        if (request.Publisher != null)
+        {
+            articleFound.Publisher = request.Publisher;
+        }
+        if (request.Url != null)
+        {
+            articleFound.Url = request.Url;
+        }
+        if (request.Language != null)
+        {
+            articleFound.Language = request.Language;
+        }
         _context.SaveChanges();
         return _mapper.Map<ArticleResponse>(articleFound);
     }
 
+    private void AttachCategoriesToArticle(Article? articleFound, List<int> addedCategoryIdsList)
+    {
+        foreach (int addedCategoryId in addedCategoryIdsList)
+        {
+            Category? categoryFound = _context.Category.FindById(addedCategoryId);
+            if (categoryFound == null)
+            {
+                throw new ResourceNotFoundException($"Category with ID {addedCategoryId} not found.");
+            }
+            categoryFound.ArticleIds.Add(articleFound.Id);
+        }
+    }
+
+    private void DetachCategoriesFromArticle(Article? articleFound, List<int> removedCategoryIdsList)
+    {
+        foreach (int removedCategoryId in removedCategoryIdsList)
+        {
+            Category? categoryFound = _context.Category.FindById(removedCategoryId);
+            if (categoryFound == null)
+            {
+                throw new ResourceNotFoundException($"Category with ID {removedCategoryId} not found.");
+            }
+            categoryFound.ArticleIds.Remove(articleFound.Id);
+        }
+    }
 
     public void DeleteArticle(int articleId)
     {
@@ -95,6 +150,8 @@ public class ArticleService : IArticleService
             }
             var copyOfParaphIds = articleFound.ParagraphIds.ToList();
             copyOfParaphIds.ForEach(_paragraphService.DeleteParagraph);
+            var removedCategoryIdsList = articleFound.CategoryIds.ToList();
+            DetachCategoriesFromArticle(articleFound, removedCategoryIdsList);
             _context.Article.Remove(articleFound);
             _context.SaveChanges();
         }

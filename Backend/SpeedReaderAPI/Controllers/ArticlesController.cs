@@ -6,6 +6,7 @@ using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
+using Serilog;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -13,12 +14,15 @@ public class ArticlesController : ControllerBase
 {
     private readonly IArticleService _articleService;
     private readonly ILogger<ArticlesController> _logger;
-
+    private readonly IDiagnosticContext _diagnosticContext;
     public ArticlesController(ILogger<ArticlesController> logger,
-     IArticleService articleService)
+     IArticleService articleService, IDiagnosticContext diagnosticContext)
     {
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _diagnosticContext = diagnosticContext ?? throw new ArgumentNullException(nameof(diagnosticContext));
         _articleService = articleService;
+
+        _diagnosticContext.Set("Controller", nameof(ArticlesController));
     }
 
     [HttpPost("{id}/img")]

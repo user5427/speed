@@ -1,4 +1,4 @@
-﻿namespace SpeedReaderAPI.Entities;
+namespace SpeedReaderAPI.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,7 +13,24 @@ public class Article : IComparable<Article>
             MinimumLength = ValidationConstants.MinTitleLength,
             ErrorMessage = "Title must be between {2} and {1} characters.")]
     public required string Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets the title of the category.
+    /// </summary>
+    /// <remarks>
+    /// This property is deprecated and may be removed in future versions.
+    /// </remarks>
+    /// <value>
+    /// The title of the category.
+    /// </value>
+    /// <deprecated>
+    /// This property is deprecated. Use <see cref="NewCategoryTitle"/> instead.
+    /// </deprecated>
     public string? CategoryTitle { get; set; }
+    public string? Author { get; set; }
+    public string? Publisher { get; set; }
+    public string? Url { get; set; }
+    public string? Language { get; set; }
     public string? ImageFileName { get; set; }
     public string? ImageFilePath { get; set; }
     public MimeType? ImageMimeType { get; set; }
@@ -49,6 +66,11 @@ public class Article : IComparable<Article>
     // ONE TO MANY
     public List<int> ParagraphIds { get; set; }  = [];
     public virtual ICollection<Paragraph> Paragraphs { get; set; }  = [];
+
+    // ONE TO MANY
+    public List<int> CategoryIds { get; set; }  = [];
+    public virtual ICollection<Category> Categories { get; set; }  = [];
+
 
     public int CompareTo(Article other)
     {

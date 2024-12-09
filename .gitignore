@@ -482,12 +482,13 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
 /SpeedReaderAPI/SpeedReaderAPI/appsettings.Development.json
 /SpeedReaderAPI/SpeedReaderAPI/.editorconfig
-/Backend/SpeedReaderAPI/appsettings.json
 /Backend/SpeedReaderAPI/appsettings.Development.json
 /Backend/SpeedReaderAPI/uploaded
 Backend/SpeedReaderAPI/dbCons.txt
 
 # Code coverage
 lcov.info
+Backend/SpeedReaderAPI/.vscode/launch.json

@@ -12,6 +12,9 @@ using SpeedReaderAPI;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.DTOs.Article.Responses;
+using SpeedReaderAPI.DTOs.Question.Requests;
+
+namespace Unit;
 
 public class ParagraphServiceTests
 {
@@ -48,7 +51,7 @@ public class ParagraphServiceTests
                                              _paragraphService);
 
         // Initialize ArticleService with mock data
-        var request = new ArticleCreateRequest("Test Article", "Test Category"); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null, null); 
         createdArticle = _articleService.CreateArticle(request);
     }
 
@@ -64,7 +67,41 @@ public class ParagraphServiceTests
         Assert.Equal("Test Paragraph", result.Title);
         Assert.Equal(createdArticle.Id, result.ArticleId);
     }
+    [Fact (DisplayName  = "Paragraph creating with Category")]
+    public void CreateParagraphWithCategory ()
+    {
+        
+        // Arrange
+        var catReq = new ArticleCreateRequest("Test Title", "Test Text", null, null, null, null, null);
+        var catRes = _articleService.CreateArticle(catReq);
+        var list = new List<int>();
+        list.Add(catRes.Id);
+        var request = new ParagraphCreateRequest("Test New Para", catRes.Id,  "Test New Text");
+        var result = _paragraphService.CreateParagraph(request);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("Test New Para", result.Title);
+        Assert.Equal("Test New Text", result.Text);
+    }
 
+    [Fact (DisplayName  = "Paragraph updating")]
+    public void UpdateParagraph_withIDs ()
+    {
+        var requestP = new ParagraphCreateRequest("Test Paragraph", createdArticle.Id, "Test Article");
+        var createdP = _paragraphService.CreateParagraph(requestP);
+        var parQue = new QuestionCreateRequest(createdP.Id, "Test Text", ["ABCasd", "DEFasd", "GHIasd", "IJKasd"], 0);
+        var que = _questionService.CreateQuestion(parQue);
+        var l = new List<int>();
+        l.Add(que.Id);
+        var requestP2 = new ParagraphUpdateRequest("Test Paragraph 2", createdArticle.Id, "Test Article", l);
+        
+        // Act
+        var result = _paragraphService.UpdateParagraph(createdP.Id, requestP2);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("Test Paragraph 2", result.Title);
+        Assert.Equal(createdArticle.Id, result.ArticleId);
+    }
     [Fact (DisplayName  = "Paragraph getting")]
     public void GettingParagraph ()
     {
@@ -93,6 +130,20 @@ public class ParagraphServiceTests
         Assert.NotNull(result);
         Assert.Equal("Test Paragraph 2", result.Title);
         Assert.Equal(createdArticle.Id, result.ArticleId);
+    }
+    [Fact]
+     public void UpdateParagrap_Invalid ()
+    {
+        var requestP = new ParagraphCreateRequest("Test Paragraph", createdArticle.Id, "Test Article");
+        var createdP = _paragraphService.CreateParagraph(requestP);
+
+        var requestP2 = new ParagraphUpdateRequest("Test Paragraph 2", createdArticle.Id, "Test Article", null);
+        
+        // Act
+        
+        Assert.Throws<SpeedReaderAPI.Exceptions.ResourceNotFoundException>(() =>
+            _paragraphService.UpdateParagraph(99999, requestP2)
+        );
     }
 
     [Fact(DisplayName = "Paragraph deleting")]
@@ -169,5 +220,10 @@ public class ParagraphServiceTests
         Assert.NotEmpty(result.Items);
         Assert.Equal(2, result.Items.Count);
 
+    }
+    [Fact(DisplayName = "Category count")]
+    public void CategoryCount(){
+        long count = _paragraphService.GetCount();
+        Assert.Equal(0, count);
     }
 }

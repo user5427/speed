@@ -5,9 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 
 public class ExceptionFilter : IExceptionFilter
 {
+    private readonly ILogger<ExceptionFilter> _logger;
+
+     public ExceptionFilter(ILogger<ExceptionFilter> logger)
+    {
+        _logger = logger;
+    }
+
     public void OnException(ExceptionContext context)
     {
-        Console.WriteLine(context.Exception);
+        var exception = context.Exception;
+        var requestPath = context.HttpContext.Request.Path;
+        var clientIp = context.HttpContext.Connection.RemoteIpAddress;
+
+        _logger.LogError(exception, "An exception occurred during request processing. Path: {RequestPath} | Client IP: {ClientIp}", requestPath, clientIp);
+
+        // Console.WriteLine(context.Exception);
         context.Result = context.Exception switch
         {
             IndexOutOfRangeException => new BadRequestObjectResult(new ProblemDetails

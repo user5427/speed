@@ -22,6 +22,21 @@ namespace SpeedReaderAPI.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ArticleCategory", b =>
+                {
+                    b.Property<int>("ArticlesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArticlesId", "CategoriesId");
+
+                    b.HasIndex("CategoriesId");
+
+                    b.ToTable("ArticleCategory");
+                });
+
             modelBuilder.Entity("SpeedReaderAPI.Entities.Article", b =>
                 {
                     b.Property<int>("Id")
@@ -29,6 +44,13 @@ namespace SpeedReaderAPI.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryTitle")
                         .HasColumnType("nvarchar(max)");
@@ -42,7 +64,51 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.Property<int?>("ImageMimeType")
                         .HasColumnType("int");
 
+                    b.Property<string>("Language")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ParagraphIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Publisher")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Article");
+                });
+
+            modelBuilder.Entity("SpeedReaderAPI.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ArticleIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ImageMimeType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -53,7 +119,77 @@ namespace SpeedReaderAPI.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Article");
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("SpeedReaderAPI.Entities.ArticleSession", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CorrectQuestionCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TotalQuestionCount")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Wpm")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ArticleSession");
+                });
+
+            modelBuilder.Entity("SpeedReaderAPI.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ArticleIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ImageMimeType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("SpeedReaderAPI.Entities.ArticleSession", b =>
@@ -207,6 +343,72 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.ToTable("Question");
                 });
 
+            modelBuilder.Entity("ValidationSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MaxAnswerChoiceLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxParagraphLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxQuestionTextLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxTitleLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinAnswerChoicesCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinParagraphLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinQuestionTextLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinTitleLength")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ValidationSettings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MaxAnswerChoiceLength = 255,
+                            MaxParagraphLength = 1500,
+                            MaxQuestionTextLength = 255,
+                            MaxTitleLength = 255,
+                            MinAnswerChoicesCount = 2,
+                            MinParagraphLength = 10,
+                            MinQuestionTextLength = 5,
+                            MinTitleLength = 3
+                        });
+                });
+
+            modelBuilder.Entity("ArticleCategory", b =>
+                {
+                    b.HasOne("SpeedReaderAPI.Entities.Article", null)
+                        .WithMany()
+                        .HasForeignKey("ArticlesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SpeedReaderAPI.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SpeedReaderAPI.Entities.User", b =>
                 {
                     b.Property<long>("Id")
@@ -248,6 +450,72 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("ValidationSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MaxAnswerChoiceLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxParagraphLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxQuestionTextLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxTitleLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinAnswerChoicesCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinParagraphLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinQuestionTextLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinTitleLength")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ValidationSettings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MaxAnswerChoiceLength = 255,
+                            MaxParagraphLength = 1500,
+                            MaxQuestionTextLength = 255,
+                            MaxTitleLength = 255,
+                            MinAnswerChoicesCount = 2,
+                            MinParagraphLength = 10,
+                            MinQuestionTextLength = 5,
+                            MinTitleLength = 3
+                        });
+                });
+
+            modelBuilder.Entity("ArticleCategory", b =>
+                {
+                    b.HasOne("SpeedReaderAPI.Entities.Article", null)
+                        .WithMany()
+                        .HasForeignKey("ArticlesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SpeedReaderAPI.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SpeedReaderAPI.Entities.ArticleSession", b =>

@@ -19,6 +19,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     private readonly PlaygroundApplicationFixture _fixture;
     private readonly HttpClient _client;
     private int _articleId;
+    private int _paragraphId;
+    private int _categoryId;
 
     public ArticleControllerTests(PlaygroundApplicationFixture fixture)
     {
@@ -41,6 +43,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
         _articleId = DBHelperMethods.GetFirstArticleId(context);
+        _paragraphId = DBHelperMethods.GetFirstParagraphId(context);
+        _categoryId = DBHelperMethods.GetFirstCategoryId(context);
     }
 
     [Fact]
@@ -49,7 +53,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange
         var request = new ArticleCreateRequest(
             Title: "Test Article",
-            CategoryTitle: "Test Category"
+            CategoryTitle: "Test Category", "abcd", "abcd", "abcd", "abce",
+            null
         );
 
         // Act
@@ -69,7 +74,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange: Title does not meet the required length constraints
         var request = new ArticleCreateRequest(
             Title: "Sh",  // Assume this is less than ValidationConstants.MinTitleLength
-            CategoryTitle: "Test Category"
+            CategoryTitle: "Test Category", "abcd", "abcd", "abcd", "abce",
+            null
         );
 
         // Act
@@ -111,8 +117,10 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange
         var request = new ArticleUpdateRequest(
             Title: "Updated Title",
-            CategoryTitle: "Updated Category",
-            ParagraphIds: null
+            CategoryTitle: "Updated Category", "abcd", "abcd", "abcd", "abce",
+            ParagraphIds: null,
+            CategoryIds: null
+            
         );
 
         // Act
@@ -133,8 +141,9 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         int invalidArticleId = 9999;  // Use an ID that does not exist
         var request = new ArticleUpdateRequest(
             Title: "New Title",
-            CategoryTitle: "New Category",
-            ParagraphIds: null
+            CategoryTitle: "New Category", "abcd", "abcd", "abcd", "abce",
+            ParagraphIds: new List<int>{_paragraphId},
+            new List<int>{_categoryId}
         );
 
         // Act
@@ -181,6 +190,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
 
     }
 
+    
+
     [Fact]
     public async Task SearchArticles_InvalidQuery_ReturnsEmptyList()
     {
@@ -192,6 +203,12 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(articlePage);
         Assert.Empty(articlePage.Items);
+    }
+
+    [Fact]
+    public async Task Count(){
+        var resp = await _client.GetAsync($"/api/articles/count");
+        Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
     }
 
     

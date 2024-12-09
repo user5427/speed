@@ -180,8 +180,7 @@ public class ParagraphService : IParagraphService
         Paragraph? paragraphFound = _context.Paragraph.FindById(id);
         if (paragraphFound == null)
         {
-            throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");
-        }
+            throw new ResourceNotFoundException($"Paragraph with ID {id} not found.");}
         if (paragraphFound.Image == null || !paragraphFound.Image.HasValue) return;
         _imageService.Delete((Image)paragraphFound.Image);
 

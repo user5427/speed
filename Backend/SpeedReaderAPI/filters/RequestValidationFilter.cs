@@ -6,10 +6,20 @@ namespace SpeedReaderAPI.Filters;
 
 public class RequestValidationFilter : IActionFilter
 {
+    private readonly ILogger<RequestValidationFilter> _logger;
+
+    public RequestValidationFilter(ILogger<RequestValidationFilter> logger)
+    {
+        _logger = logger;
+    }
+
     public void OnActionExecuting(ActionExecutingContext context)
     {
         if (!context.ModelState.IsValid)
         {
+            _logger.LogWarning("Validation error on request to {Path}. Errors: {Errors}",
+                context.HttpContext.Request.Path, context.ModelState);
+
             context.Result = new BadRequestObjectResult(new ProblemDetails
             {
                 Title = "Validation Error",

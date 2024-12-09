@@ -3,6 +3,7 @@ using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
 namespace SpeedReaderAPI.Controllers;
 
+using Serilog;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
@@ -13,11 +14,15 @@ public class ParagraphsController : ControllerBase
 {
     private readonly IParagraphService _paragraphService;
     private readonly ILogger<ParagraphsController> _logger;
+    private readonly IDiagnosticContext _diagnosticContext;
 
-    public ParagraphsController(ILogger<ParagraphsController> logger, IParagraphService paragraphService)
+    public ParagraphsController(ILogger<ParagraphsController> logger, IParagraphService paragraphService, IDiagnosticContext diagnosticContext)
     {
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _diagnosticContext = diagnosticContext ?? throw new ArgumentNullException(nameof(diagnosticContext));
         _paragraphService = paragraphService;
+
+        _diagnosticContext.Set("Controller", nameof(ParagraphsController));
     }
 
 

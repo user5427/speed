@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
-using Unit;
+
+namespace Unit;
+
 
 public class InitialDataTesting : IClassFixture<PlaygroundApplicationFixture>
 {
