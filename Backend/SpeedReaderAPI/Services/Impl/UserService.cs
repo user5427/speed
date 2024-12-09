@@ -7,8 +7,7 @@ using SpeedReaderAPI.DTOs.Question.Responses;
 public class UserService : IUserService
 {
     private readonly IAuthService _authService;
-    public UserService(ApplicationContext context,
-        IAuthService authService)
+    public UserService(ApplicationContext context, IAuthService authService)
     {
         _authService = authService;
     }

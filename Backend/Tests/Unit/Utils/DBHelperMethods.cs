@@ -12,41 +12,61 @@ public class DBHelperMethods
         AddParagraph(context, context.Article.Last().Id);
         AddQuestion(context, context.Paragraph.Last().Id);
         AddCategory(context);
+        AddArticleSession(context);
     }
 
     public static void SeedUserData(ApplicationContext context)
     {
         AddUser(context);
-        addArticleSession(context);
+        AddArticleSession(context);
     }
 
-    public static void addArticleSession(ApplicationContext context, int articleId = 1, int paragraphId = 1)
+    public static void AddArticleSession(ApplicationContext context)
     {
-            User user = getUser(context);
+        User user = getUser(context);
+
+        var article = new Article { Title = "abcderfgh", CategoryTitle = "abcderfgh", UserId = getUser(context).Id };
+        context.Article.Add(article);
+        context.SaveChanges();
+        var paragraph1 = new Paragraph { Title = "a", Text = "few words. few words.", ArticleId = 2, UserId = getUser(context).Id };
+        var paragraph2 = new Paragraph { Title = "a", Text = "many words. many words. many words.", ArticleId = 2, UserId = getUser(context).Id };
+        context.Paragraph.Add(paragraph1);
+        context.Paragraph.Add(paragraph2);
+        context.SaveChanges();
+
         var articleSession = new ArticleSession
         {
             UserId = user.Id,
-            ArticleId = articleId,
+            ArticleId = article.Id,
             Time = DateTime.Now,
-            Wpm = 250, 
+            Wpm = 250,
             CorrectQuestionCount = 5,
             TotalQuestionCount = 10
         };
         context.ArticleSession.Add(articleSession);
-        context.SaveChanges(); // Save the article session
+        context.SaveChanges();
 
-
-        var paragraphSession = new ParagraphSession
+        var paragraphSession1 = new ParagraphSession
         {
             ArticleSessionId = articleSession.Id,
-            ParagraphId = paragraphId,
+            ParagraphId = paragraph1.Id,
             DurationInSeconds = 60,
             Wpm = 250,
             CorrectQuestionCount = 3,
             TotalQuestionCount = 5
         };
-        context.ParagraphSession.Add(paragraphSession);
-        context.SaveChanges(); 
+        var paragraphSession2 = new ParagraphSession
+        {
+            ArticleSessionId = articleSession.Id,
+            ParagraphId = paragraph1.Id,
+            DurationInSeconds = 30,
+            Wpm = 100,
+            CorrectQuestionCount = 0,
+            TotalQuestionCount = 5
+        };
+        context.ParagraphSession.Add(paragraphSession1);
+        context.ParagraphSession.Add(paragraphSession2);
+        context.SaveChanges();
     }
 
 
