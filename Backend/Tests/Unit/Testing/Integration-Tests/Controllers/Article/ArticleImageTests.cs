@@ -1,6 +1,8 @@
 using System.Net;
+using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.Entities;
 
 namespace Unit;
 
@@ -10,12 +12,17 @@ public class ArticleImageTests : IClassFixture<PlaygroundApplicationFixture>, IC
     private readonly PlaygroundApplicationFixture _fixture;
     private HttpClient _client;
     private int _articleId;
+    private readonly TokenService _tokenService;
+    private User _user;
 
     public ArticleImageTests(PlaygroundApplicationFixture fixture, ImageFixture imageFixture)
     {
         _imageFixture = imageFixture;
         _fixture = fixture;
         _client = fixture.CreateClient();
+
+         var configuration = _fixture.Services.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        _tokenService = new TokenService(configuration);
 
         ensureDatabaseIsPrepared();
     }
@@ -31,6 +38,7 @@ public class ArticleImageTests : IClassFixture<PlaygroundApplicationFixture>, IC
 
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
+        _user = DBHelperMethods.getUser(context);
         _articleId = DBHelperMethods.GetFirstArticleId(context);
     }
 
@@ -41,6 +49,9 @@ public class ArticleImageTests : IClassFixture<PlaygroundApplicationFixture>, IC
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsync($"/api/articles/{_articleId}/img", form);
@@ -57,6 +68,9 @@ public class ArticleImageTests : IClassFixture<PlaygroundApplicationFixture>, IC
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PostAsync($"/api/articles/{invalidArticleId}/img", form);
 
@@ -64,11 +78,14 @@ public class ArticleImageTests : IClassFixture<PlaygroundApplicationFixture>, IC
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
     [Fact]
-    public async Task GetImage_Valid()
+    public async Task UploadImage_Valid()
     {
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+
+                var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsync($"/api/articles/{_articleId}/img", form);
@@ -111,6 +128,9 @@ public class ArticleImageTests : IClassFixture<PlaygroundApplicationFixture>, IC
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PostAsync($"/api/articles/{_articleId}/img", form);
 
@@ -124,15 +144,20 @@ public class ArticleImageTests : IClassFixture<PlaygroundApplicationFixture>, IC
      public async Task DeleteImage_InValid_NoImage()
     {
 
-         await _client.DeleteAsync($"/api/articles/{_articleId}/img");
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        
+        await _client.DeleteAsync($"/api/articles/{_articleId}/img");
         var req = await _client.GetAsync($"/api/articles/{_articleId}/img");
         Assert.Equal(HttpStatusCode.NotFound, req.StatusCode);
     }
     [Fact]
      public async Task DeleteImage_InValid_ID()
     {
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-         var req = await _client.DeleteAsync($"/api/articles/{9999999}/img");
+        var req = await _client.DeleteAsync($"/api/articles/{9999999}/img");
         
         Assert.Equal(HttpStatusCode.NotFound, req.StatusCode);
     }
@@ -141,6 +166,9 @@ public class ArticleImageTests : IClassFixture<PlaygroundApplicationFixture>, IC
     {
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         await _client.PostAsync($"/api/articles/{_articleId}/img", form);

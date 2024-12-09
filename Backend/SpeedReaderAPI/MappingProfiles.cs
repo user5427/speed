@@ -21,15 +21,18 @@ namespace SpeedReaderAPI
         {
             CreateMap<ArticleCreateRequest, Article>();
             CreateMap<ArticleUpdateRequest, Article>();
-            CreateMap<Article, ArticleResponse>();
+            CreateMap<Article, ArticleResponse>()
+            .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.User != null ? src.User.Username : null));
 
             CreateMap<QuestionCreateRequest, Question>();
             CreateMap<QuestionUpdateRequest, Question>();
-            CreateMap<Question, QuestionResponse>();
+            CreateMap<Question, QuestionResponse>()
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.User != null ? src.User.Username : null));
 
             CreateMap<ParagraphCreateRequest, Paragraph>();
             CreateMap<ParagraphUpdateRequest, Paragraph>();
-            CreateMap<Paragraph, ParagraphResponse>();
+            CreateMap<Paragraph, ParagraphResponse>()
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.User != null ? src.User.Username : null));
 
             CreateMap<ValidationSettings, ValidationSettingsResponce>();
             CreateMap<ValidationSettingsUpdateRequest, ValidationSettings>()
@@ -37,8 +40,8 @@ namespace SpeedReaderAPI
             
             CreateMap<CategoryCreateRequest, Category>();
             CreateMap<CategoryUpdateRequest, Category>();
-            CreateMap<Category, CategoryResponse>();
-
+            CreateMap<Category, CategoryResponse>()
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.User != null ? src.User.Username : null));
             CreateMap<ArticleSessionCreateRequest, ArticleSession>();
             CreateMap<ArticleSession, ArticleSessionResponse>();
 

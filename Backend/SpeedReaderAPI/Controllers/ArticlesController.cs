@@ -7,6 +7,7 @@ using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 using Serilog;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -26,6 +27,7 @@ public class ArticlesController : ControllerBase
     }
 
     [HttpPost("{id}/img")]
+    [Authorize(Roles = "USER,ADMIN")]
     public async Task<IActionResult> UploadImage(int id, [FromForm] ImageUploadRequest request)
     {
         ArticleResponse result = await _articleService.UploadImage(id, request);
@@ -33,6 +35,7 @@ public class ArticlesController : ControllerBase
     }
 
     [HttpDelete("{id}/img")]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult DeleteImage(int id)
     {
         _articleService.DeleteImage(id);
@@ -47,6 +50,7 @@ public class ArticlesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult CreateArticle(ArticleCreateRequest createArticle)
     {
         ArticleResponse articleResponse = _articleService.CreateArticle(createArticle);
@@ -75,6 +79,7 @@ public class ArticlesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult UpdateArticle(int id, [FromBody] ArticleUpdateRequest request)
     {
         ArticleResponse articleResponse = _articleService.UpdateArticle(id, request);
@@ -83,6 +88,7 @@ public class ArticlesController : ControllerBase
 
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult DeleteArticle(int id)
     {
         _articleService.DeleteArticle(id);

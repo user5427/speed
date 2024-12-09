@@ -11,6 +11,9 @@ using SpeedReaderAPI.Services.Impl;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI;
 using SpeedReaderAPI.Exceptions;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Unit;
 
@@ -20,6 +23,7 @@ public class CategoryServiceTests
     private readonly IMapper _mapper;
     private readonly ImageService _imageService;
     private readonly CategoryService _categoryService;
+    private readonly User _user;
 
     public CategoryServiceTests()
     {
@@ -37,8 +41,34 @@ public class CategoryServiceTests
         _imageService = new ImageService();
         // _mockMapper.Object
 
+        var inMemorySettings = new Dictionary<string, string> 
+        {
+            { "Jwt:Key", "testkey" },
+            { "Jwt:Issuer", "testissuer" },
+            { "Jwt:Audience", "testaudience" }
+        };
+
+        Microsoft.Extensions.Configuration.IConfiguration configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        TokenService tokenService = new TokenService(configuration);
+
+        DBHelperMethods.SeedUserData(context);
+        _user = DBHelperMethods.getUser(context);
+
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(new ClaimsIdentity(
+        [
+            new Claim(ClaimTypes.NameIdentifier, _user.Id.ToString()),
+            new Claim(ClaimTypes.Email, _user.Email),
+            new Claim(ClaimTypes.Role, _user.Role.ToString()),
+        ]));
+         var contextAccessor = new HttpContextAccessor { HttpContext = httpContext };
+        AuthService authService = new AuthService(context, _mapper, tokenService, contextAccessor);
         
-        _categoryService = new CategoryService(context, _mapper, _imageService);
+        
+        _categoryService = new CategoryService(context, _mapper, _imageService, authService);
     }
 
     [Fact (DisplayName  = "Category creating")]

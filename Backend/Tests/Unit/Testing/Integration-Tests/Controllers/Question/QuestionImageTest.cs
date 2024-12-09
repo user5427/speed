@@ -1,7 +1,9 @@
 // public class 
 using System.Net;
+using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.Entities;
 
 namespace Unit;
 
@@ -12,12 +14,17 @@ public class QuestionImageTests : IClassFixture<PlaygroundApplicationFixture>, I
     private readonly PlaygroundApplicationFixture _fixture;
     private HttpClient _client;
     private int _questionId;
+    private readonly TokenService _tokenService;
+    private User _user;
 
     public QuestionImageTests(PlaygroundApplicationFixture fixture, ImageFixture imageFixture)
     {
         _imageFixture = imageFixture;
         _fixture = fixture;
         _client = fixture.CreateClient();
+
+         var configuration = _fixture.Services.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        _tokenService = new TokenService(configuration);
 
         ensureDatabaseIsPrepared();
     }
@@ -33,6 +40,7 @@ public class QuestionImageTests : IClassFixture<PlaygroundApplicationFixture>, I
 
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
+        _user = DBHelperMethods.getUser(context);
         _questionId = DBHelperMethods.GetFirstQuestionId(context);
     }
 
@@ -43,6 +51,8 @@ public class QuestionImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsync($"/api/questions/{_questionId}/img", form);
@@ -58,7 +68,8 @@ public class QuestionImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         int invalidQuestionId = 9999;  // Use an ID that does not exist
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
-
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         // Act
         var response = await _client.PostAsync($"/api/questions/{invalidQuestionId}/img", form);
 
@@ -71,7 +82,8 @@ public class QuestionImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
-
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         // Act
         var response = await _client.PostAsync($"/api/questions/{_questionId}/img", form);
 
@@ -90,12 +102,13 @@ public class QuestionImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         Assert.NotEmpty(imageData);
     }
     [Fact]
-    public async Task GetImage_InvalidID()
+    public async Task PostImage_InvalidID()
     {
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
-
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         // Act
         var response = await _client.PostAsync($"/api/questions/{_questionId}/img", form);
 
@@ -112,7 +125,8 @@ public class QuestionImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
-
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         // Act
         var response = await _client.PostAsync($"/api/questions/{_questionId}/img", form);
 
@@ -127,7 +141,8 @@ public class QuestionImageTests : IClassFixture<PlaygroundApplicationFixture>, I
     {
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
-
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         // Act
         await _client.PostAsync($"/api/questions/{_questionId}/img", form);
         // Act
