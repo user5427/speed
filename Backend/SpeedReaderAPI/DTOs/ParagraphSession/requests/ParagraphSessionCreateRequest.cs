@@ -8,7 +8,7 @@ public record ParagraphSessionCreateRequest
 
     [Required(ErrorMessage = "Duration is required.")]
     [Range(1, int.MaxValue, ErrorMessage = "Duration must be a positive number.")]
-    int? Duration,
+    int? Duration, // Seconds
 
     [Required(ErrorMessage = "Wpm is required.")]
     [Range(1, int.MaxValue, ErrorMessage = "Duration must be a positive number.")]
