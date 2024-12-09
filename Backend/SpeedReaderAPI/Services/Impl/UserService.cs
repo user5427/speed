@@ -6,13 +6,11 @@ using SpeedReaderAPI.DTOs.Question.Responses;
 
 public class UserService : IUserService
 {
-    private readonly IMapper _mapper;
     private readonly IAuthService _authService;
-    public UserService(ApplicationContext context, IMapper mapper,
+    public UserService(ApplicationContext context,
         IAuthService authService)
     {
         _authService = authService;
-        _mapper = mapper;
     }
 
     public UserInfoResponse GetMyInfo()
@@ -21,12 +19,10 @@ public class UserService : IUserService
         if (user == null)
             throw new UnauthorizedAccessException("User is not authenticated.");
 
-        double averageWpm = user.SecondsRead > 0 ? Math.Round(user.WordsRead / (user.SecondsRead / 60D)) : 0;
 
         return new UserInfoResponse(
            user.Id,
            user.Username,
-           averageWpm,
            user.WordsRead,
            user.SecondsRead / 60D,
            user.CorrectQuestions,
