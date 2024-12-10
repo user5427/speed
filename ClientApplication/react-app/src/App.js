@@ -68,8 +68,7 @@ function App() {
 
           {/* {!loggedInUser && <Nav.Link as={Link} to="/sign-up">{t('signup.signUp')}</Nav.Link>}
           {!loggedInUser && <Nav.Link as={Link} to="/log-in">{t('login.logIn')}</Nav.Link>} */}
-
-          {/* {loggedInUser && <Nav.Link as={Link} to="/profile">Profile</Nav.Link>} */}
+          {loggedInUser && <Nav.Link as={Link} to="/profile">Profile</Nav.Link>}
 
         </Nav>
         <Nav>
@@ -111,7 +110,7 @@ function App() {
         <Route exact path="/create-category" Component={CreateCategory} />
         <Route exact path="/sign-up" Component={SignUpPage} />
         <Route exact path="/log-in" Component={LogInPage} />
-        <Route exact path="/profile" Component={ProfilePage} />
+        <Route exact path="/profile" Component={() => <ProfilePage loggedInUser={loggedInUser} />}/>
         <Route exact path="/category" Component={ArticleListFromCategory} />
       </Routes>
     </Container>
