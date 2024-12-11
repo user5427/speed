@@ -33,3 +33,17 @@
 .css-5ykkx-MuiMarkElement-root{
   fill: var(--color-yellow) !important;
 }
+
+
+.css-1x2wln8-MuiChartsAxis-root-MuiChartsXAxis-root .MuiChartsAxis-label{
+  fill: white !important;
+}
+
+.css-175e1i1-MuiChartsAxis-root-MuiChartsYAxis-root .MuiChartsAxis-label{
+  fill: white !important;
+}
+
+.css-195sd4n-MuiChartsGrid-line{
+  stroke: rgba(255, 255, 255, 0.2) !important;
+
+}

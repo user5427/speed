@@ -1,6 +1,7 @@
 import { Row, Col } from 'react-bootstrap';
-import { LineChart } from '@mui/x-charts';
+import { LineChart, BarChart } from '@mui/x-charts';
 import { dataset } from './basicDataset';
+import { barDataset } from './barDataset';
 import '../../styles/profileStyle.css';
 import Divider from '@mui/material/Divider';
 
@@ -59,12 +60,106 @@ const Profile = ({ loggedInUser }) => {
             />
           </div>
         </Col>
-        <Col style={{ textAlign: 'center' }}>
-          <p>
-            <h2>Past month reading speed:</h2>
-          </p>
-          <p style={{ fontSize: '60px'}}><text style={{ color: 'var(--color-amber-light)' }}>238</text> WPM</p>
+        <Col style={{ textAlign: 'center' }} xs={12} md={4}>
+          <Row style={{marginTop:"25px"}}>
+            <h2>Average reading speed:</h2>
+          </Row>
+          <Row style={{marginBottom:"0px"}}>
+           <text style={{ color: 'var(--color-amber-light)', fontSize: '120px'}}>238</text>
+          </Row>
+          <Row>
+          <h2>WPM</h2>
+          </Row>
         </Col>
+      </Row>
+      <Divider
+        style={{
+          marginTop:"20px",
+          backgroundColor: '#a6a6a6',
+          borderBottomWidth: 3,
+          marginBottom: '20px',
+        }}
+      />
+      <Row>
+      <Col style={{ textAlign: 'center' }} xs={12} md={4}>
+          <Row style={{marginTop:"25px"}}>
+            <h2>Past month answer correctness:</h2>
+          </Row>
+          <Row>
+           <p style={{ fontSize: '120px'}}><text style={{ color: 'var(--color-lime)' }}>70%</text></p>
+          </Row>
+        </Col>
+
+          <Col xs={12} md={8}>
+          <div  style={{
+              width: '100%',
+              overflowX: 'auto',
+              backgroundColor: '#0e0e13',
+              padding: '20px',
+              borderRadius: '8px',
+            }}>
+            <BarChart
+              dataset={barDataset} // Corrected to `dataset`
+              xAxis={[
+                {
+                  dataKey: 'date',
+                  label: 'Date',
+                  scaleType: 'band',
+
+                },
+              ]}
+              yAxis={[
+                {
+                  label: 'Answer correctness (%)',
+                },
+              ]}
+              series={[
+                { dataKey: 'correct'},
+                { dataKey: 'incorrect'},
+              ]}
+              height={300}
+              margin={{ left: 50, right: 30, top: 30, bottom: 50 }}
+              grid={{
+                vertical: true,
+                horizontal: true,
+              }}
+              colors={['var(--color-lime)', 'var(--color-red)']}
+            />
+</div>
+          </Col>
+      </Row>
+
+      <Divider
+        style={{
+          marginTop:"20px",
+          backgroundColor: '#a6a6a6',
+          borderBottomWidth: 3,
+          marginBottom: '20px',
+        }}
+      />
+
+      <Row>
+      <Col style={{ textAlign: 'center' }} xs={12} md={6}>
+          <Row style={{marginTop:"15px"}}>
+            <h2>Last exercise average reading speed:</h2>
+          </Row>
+          <Row style={{marginBottom:"0px"}}>
+           <text style={{ color: 'var(--color-cyan-light)', fontSize: '120px'}}>315</text>
+          </Row>
+          <Row>
+          <h2>WPM</h2>
+          </Row>
+        </Col>
+
+        <Col style={{ textAlign: 'center' }} xs={12} md={6}>
+          <Row style={{marginTop:"15px"}}>
+            <h2>Last exercise answer correctness:</h2>
+          </Row>
+          <Row>
+           <p style={{ fontSize: '120px'}}><text style={{ color: 'var(--color-red)' }}>32%</text></p>
+          </Row>
+        </Col>
+
       </Row>
     </>
   );

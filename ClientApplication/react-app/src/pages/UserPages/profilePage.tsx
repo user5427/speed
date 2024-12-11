@@ -1,7 +1,6 @@
 import React from 'react';
 import '../../styles/Articles/createArticleStyle.css';
 import { Profile } from '../../.components/.MainComponentsExport';
-import { Row, Col } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next'; 
 
