@@ -37,29 +37,34 @@ try
     // Build configuration after loading all sources
     var configuration = builder.Configuration;
 
-    // Dynamically update placeholders in the configuration
-    var dbConnectionString = configuration["db_connection_string"]; // From /run/secrets
-    var jwtKey = configuration["jwt_key"]; // From /run/secrets
+    bool useDefaultFiles = configuration.GetValue<bool>("UseDefaultFiles");
 
-    // Ensure the secrets are loaded and replace placeholders
-    if (!string.IsNullOrEmpty(dbConnectionString))
+    if (!useDefaultFiles)
     {
-        builder.Configuration["ConnectionStrings:Default"] = dbConnectionString;
-    }
-    else
-    {
-        Log.Fatal("DB_CONNECTION_STRING secret not found!");
-        // throw new Exception("DB_CONNECTION_STRING secret not found!");
-    }
+        // Dynamically update placeholders in the configuration
+        var dbConnectionString = configuration["db_connection_string"]; // From /run/secrets
+        var jwtKey = configuration["jwt_key"]; // From /run/secrets
 
-    if (!string.IsNullOrEmpty(jwtKey))
-    {
-        builder.Configuration["Jwt:Key"] = jwtKey;
-    }
-    else
-    {
-        Log.Fatal("JWT_KEY secret not found!");
-        // throw new Exception("JWT_KEY secret not found!");
+        // Ensure the secrets are loaded and replace placeholders
+        if (!string.IsNullOrEmpty(dbConnectionString))
+        {
+            builder.Configuration["ConnectionStrings:Default"] = dbConnectionString;
+        }
+        else
+        {
+            Log.Fatal("DB_CONNECTION_STRING secret not found!");
+            // throw new Exception("DB_CONNECTION_STRING secret not found!");
+        }
+
+        if (!string.IsNullOrEmpty(jwtKey))
+        {
+            builder.Configuration["Jwt:Key"] = jwtKey;
+        }
+        else
+        {
+            Log.Fatal("JWT_KEY secret not found!");
+            // throw new Exception("JWT_KEY secret not found!");
+        }
     }
     
     builder.Services.AddHttpContextAccessor();

@@ -85,12 +85,13 @@ public class ExceptionFilter : IExceptionFilter
                 Status = StatusCodes.Status400BadRequest,
                 Instance = context.HttpContext.Request.Path
             }),
-            _ => new ObjectResult(new ProblemDetails
+            Exception e => new ObjectResult(new ProblemDetails
             {
-                Title = "Internal Server Error",
-                Detail = "An unexpected error occurred.",
+                Title = "Internal Server Error" + e.Message,
+                Detail = "An unexpected error occurred." + e.StackTrace,
                 Status = StatusCodes.Status500InternalServerError,
                 Instance = context.HttpContext.Request.Path
+                
             })
             {
                 StatusCode = StatusCodes.Status500InternalServerError
