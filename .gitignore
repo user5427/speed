@@ -498,3 +498,5 @@ Docker/DB_CONNECTION_STRING
 Docker/DB_CONNECTION_STRING.txt
 Docker/CERTIFICATE_PASSWORD
 Docker/CERTIFICATE_PASSWORD.txt
+
+Backend/SpeedReaderAPI/appsettings.Development.json
