@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main, docker-CI ]
 
+permissions:
+      id-token: write
+      contents: read
+
 jobs:
   docker-front:
     runs-on: ubuntu-latest
@@ -33,6 +37,7 @@ jobs:
           push: true
           tags: user5427/speedreader:latest
 
+          # 4.  Build and push Docker images
       - name: Build and push SpeedReaderAPI image
         uses: docker/build-push-action@v6
         with:
@@ -40,7 +45,7 @@ jobs:
           push: true
           tags: user5427/speedreaderapi:latest
 
-          # 4. Login to Azure
+          # 5. Login to Azure
       - name: Azure login
         uses: azure/login@v2
         with:
