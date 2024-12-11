@@ -485,10 +485,12 @@ $RECYCLE.BIN/
 
 /SpeedReaderAPI/SpeedReaderAPI/appsettings.Development.json
 /SpeedReaderAPI/SpeedReaderAPI/.editorconfig
-/Backend/SpeedReaderAPI/appsettings.Development.json
+/SpeedReaderAPI/.editorconfig
 /Backend/SpeedReaderAPI/uploaded
 Backend/SpeedReaderAPI/dbCons.txt
 
 # Code coverage
 lcov.info
 Backend/SpeedReaderAPI/.vscode/launch.json
+Docker/jwt_key.txt
+Docker/db_connection_string.txt

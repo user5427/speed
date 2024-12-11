@@ -15,6 +15,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
@@ -25,12 +27,48 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     // Build configuration to access appsettings.json
-    var configuration = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json")
-        .Build();
-
     var builder = WebApplication.CreateBuilder(args);
+
+
+    // Add secrets from /run/secrets
+    builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                     .AddKeyPerFile("/run/secrets", optional: true);
+    
+    // Build configuration after loading all sources
+    var configuration = builder.Configuration;
+
+    // Dynamically update placeholders in the configuration
+    var dbConnectionString = configuration["db_connection_string"]; // From /run/secrets
+    var jwtKey = configuration["jwt_key"]; // From /run/secrets
+
+    // Ensure the secrets are loaded and replace placeholders
+    if (!string.IsNullOrEmpty(dbConnectionString))
+    {
+        builder.Configuration["ConnectionStrings:Default"] = dbConnectionString;
+    }
+    else
+    {
+        Log.Fatal("DB_CONNECTION_STRING secret not found!");
+        // throw new Exception("DB_CONNECTION_STRING secret not found!");
+    }
+
+    if (!string.IsNullOrEmpty(jwtKey))
+    {
+        builder.Configuration["Jwt:Key"] = jwtKey;
+    }
+    else
+    {
+        Log.Fatal("JWT_KEY secret not found!");
+        // throw new Exception("JWT_KEY secret not found!");
+    }
+    
     builder.Services.AddHttpContextAccessor();
+    builder.Services.AddOpenTelemetry()
+    .WithMetrics(metrics =>
+    {
+        metrics.AddPrometheusExporter().AddAspNetCoreInstrumentation();
+        metrics.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("dotnet-app"));
+    });
     builder.Host.UseSerilog((context, services, loggerConfig) =>
     {
         bool useElasticsearch = configuration.GetValue<bool>("UseElasticsearch");
@@ -167,16 +205,18 @@ try
     app.UseCors("AllowAll");
 	app.UseAuthorization();
 
+
 	if (usePrometheus)
     {
+        app.MapPrometheusScrapingEndpoint();
 		app.UseMetricServer();
 		app.UseHttpMetrics();
     
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-            endpoints.MapMetrics();
-        });
+        // app.UseEndpoints(endpoints =>
+        // {
+            // endpoints.MapControllers();
+            // endpoints.MapMetrics();
+        // });
 	}
     
 
@@ -189,7 +229,10 @@ try
 
     app.UseHttpsRedirection();
     app.MapControllers();
+    // Log.Fatal("Connection String: {ConnectionString}" + builder.Configuration["ConnectionStrings:Default"]);
+    // Log.Fatal("JWT Key: {JwtKey}" + builder.Configuration["Jwt:Key"]);
     app.Run();
+
 
 }
 catch (Exception ex)

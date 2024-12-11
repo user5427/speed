@@ -1,19 +1,46 @@
-version: '3.4'
 
 services:
+  frontend:
+    container_name: speedreaderfrontend
+    hostname: SpeedReader
+    build:
+      context: ../ClientApplication/react-app
+      dockerfile: Dockerfile 
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - ../ClientApplication/react-app/.env
+    environment:
+      REACT_APP_API_URL: "https://localhost:8084/api/"
+    stdin_open: true
+    tty: true
+    networks:
+      - client-side
+      - server-side
+    ports:
+      - "3001:80"
+    depends_on:
+      - speedreaderapi
+
   speedreaderapi:
+    secrets:
+      - db_connection_string
+      - jwt_key
     container_name: speedreaderapi
     hostname: speedreaderapi
     image: ${DOCKER_REGISTRY-}speedreaderapi
     build:
-      context: SpeedReaderAPI
+      context: ../Backend/SpeedReaderAPI
       dockerfile: Dockerfile
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_URLS=https://+:443;http://+:80
+        # - ASPNETCORE_URLS=https://+:443;http://+:80
+    networks:
+      - server-side
     ports:
-        - 8082:80
-        - 8084:443
+        - 8082:5268
+        - 8084:5267
     depends_on:
         prometheus:
             condition: service_healthy
@@ -25,6 +52,8 @@ services:
     image: grafana/grafana:master
     ports:
       - "3000:3000"
+    networks:
+      - logging
     volumes:
         - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
         - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
@@ -44,6 +73,9 @@ services:
     restart: always
     ports:
       - 9090:9090
+    networks:
+      - server-side
+      - logging
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     healthcheck:
@@ -53,4 +85,13 @@ services:
         retries: 10
         start_period: 10s
 
+secrets:
+  db_connection_string:
+    file: ./db_connection_string
+  jwt_key:
+    file: ./jwt_key
 
+networks:
+  client-side: {}
+  server-side: {}
+  logging: {}
