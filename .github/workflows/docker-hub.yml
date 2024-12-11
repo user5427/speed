@@ -24,9 +24,8 @@ jobs:
       uses: docker/setup-buildx-action@v2
     - name: Install Docker Compose
       run: sudo apt-get update && sudo apt-get install -y docker-compose
-    - name: Change directory to Docker
-      run: cd Docker
     - name: Build the Docker image
+      working-directory: ./Docker
       run: docker-compose build --no-cache --force-rm
 
 
@@ -38,9 +37,8 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Install Docker Compose
         run: sudo apt-get update && sudo apt-get install -y docker-compose
-      - name: Change directory to Docker
-        run: cd Docker
       - name: Test the Docker image
+        working-directory: ./Docker
         run: docker-compose up -d
 
   push_to_registry:
