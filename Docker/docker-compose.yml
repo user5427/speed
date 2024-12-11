@@ -31,6 +31,9 @@ services:
     secrets:
       - db_connection_string
       - jwt_key
+      - certificate_password
+    volumes:
+      - ./certificate/.aspnet/https:/home/app/.aspnet/https:ro
     container_name: speedreaderapi
     hostname: speedreaderapi
     image: ${DOCKER_REGISTRY-}speedreaderapi
@@ -39,6 +42,8 @@ services:
       dockerfile: Dockerfile
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/.aspnet/https/SpeedReaderAPI.pfx
+        - ASPNETCORE_Kestrel__Certificates__Default__Password=dhuiadg451
         # - ASPNETCORE_URLS=https://+:443;http://+:80
     networks:
       - server-side
@@ -94,7 +99,8 @@ secrets:
     file: ./db_connection_string
   jwt_key:
     file: ./jwt_key
-    
+  certificate_password:
+    file: ./certificate_password
 
 networks:
   client-side: {}
