@@ -9,10 +9,14 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    env_file:
-      - ../ClientApplication/react-app/.env
+    # env_file:
+    #   - ../ClientApplication/react-app/.env
     environment:
-      REACT_APP_API_URL: "https://localhost:8084/api/"
+      REACT_APP_API_URL: https://localhost:8084/api/
+      NODE_PATH: ./src
+      REACT_APP_PAGING_SIZE: 9
+      NODE_ENV: production
+      
     stdin_open: true
     tty: true
     networks:
@@ -90,6 +94,7 @@ secrets:
     file: ./db_connection_string
   jwt_key:
     file: ./jwt_key
+    
 
 networks:
   client-side: {}
