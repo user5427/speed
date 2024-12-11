@@ -492,5 +492,7 @@ Backend/SpeedReaderAPI/dbCons.txt
 # Code coverage
 lcov.info
 Backend/SpeedReaderAPI/.vscode/launch.json
-Docker/jwt_key.txt
-Docker/db_connection_string.txt
+Docker/JWT_KEY
+Docker/JWT_KEY.txt
+Docker/DB_CONNECTION_STRING
+Docker/DB_CONNECTION_STRING.txt

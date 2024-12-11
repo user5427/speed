@@ -28,3 +28,7 @@ README.md
 !.git/config
 !.git/packed-refs
 !.git/refs/heads/**
+**/DB_CONNECTION_STRING
+**/DB_CONNECTION_STRING.txt
+**/JWT_KEY
+**/JWT_KEY.txt
