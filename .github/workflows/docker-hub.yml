@@ -17,43 +17,43 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-        # 2. Log in to Docker Hub
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #   # 2. Log in to Docker Hub
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ secrets.DOCKER_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
 
 
-        # 3. Build and push Docker images
-      - name: Build and push SpeedReader image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./ClientApplication/react-app
-          push: true
-          tags: user5427/speedreader:latest
+      #   # 3. Build and push Docker images
+      # - name: Build and push SpeedReader image
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./ClientApplication/react-app
+      #     push: true
+      #     tags: user5427/speedreader:latest
 
-          # 4.  Build and push Docker images
-      - name: Build and push SpeedReaderAPI image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./Backend/SpeedReaderAPI
-          push: true
-          tags: user5427/speedreaderapi:latest
+      #     # 4.  Build and push Docker images
+      # - name: Build and push SpeedReaderAPI image
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./Backend/SpeedReaderAPI
+      #     push: true
+      #     tags: user5427/speedreaderapi:latest
 
-          # 5. Login to Azure
-      - name: Azure login
-        uses: Azure/login@v2.2.0
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          enable-AzPSSession: true
+      #     # 5. Login to Azure
+      # - name: Azure login
+      #   uses: Azure/login@v2.2.0
+      #   with:
+      #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
+      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #     enable-AzPSSession: true
 
       #     # 6
       # - name: Azure CLI script

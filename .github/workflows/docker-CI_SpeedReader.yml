@@ -31,6 +31,7 @@ jobs:
       with:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_cb8d3a9e56694d1b89341893cd19a732 }}/speedreader:${{ github.sha }}
+        context: ./ClientApplication/react-app
         file: ./Dockerfile
 
   deploy:
