@@ -2,7 +2,12 @@ name: ci
 
 on:
   push:
+    # Sequence of patterns matched against refs/heads
     branches: [ main, docker-CI ]
+  
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - delpoy
 
 permissions:
       id-token: write
@@ -47,13 +52,14 @@ jobs:
 
           # 5. Login to Azure
       - name: Azure login
-        uses: azure/login@v2
+        uses: Azure/login@v2.2.0
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
+          # 6
       - name: Azure CLI script
         uses: azure/cli@v2
         with:
@@ -61,6 +67,7 @@ jobs:
             inlineScript: |
               az account show
   
+         # 7
       - name: Azure PowerShell script
         uses: azure/powershell@v2
         with:
