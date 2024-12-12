@@ -6,5 +6,6 @@ public record UserInfoResponse(
     double MinutesRead,
     long CorrectQuestions,
     long TotalQuestions,
-    long ArticlesCountRead
+    long ArticlesCountRead,
+    string? ImageFileName
 );
