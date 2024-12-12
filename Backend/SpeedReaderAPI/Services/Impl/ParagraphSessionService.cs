@@ -41,7 +41,7 @@ public class ParagraphSessionService : IParagraphSessionService
         return _mapper.Map<ParagraphSessionDto>(session);
     }
 
-    public async Task<ParagraphSessionDto[]> CreateParagraphSessions(Article article, 
+    public async Task<ParagraphSessionDto[]> CreateParagraphSessions(Article article,
         ArticleSession articleSession,
         ParagraphSessionCreateRequest[] requests)
     {
