@@ -242,7 +242,8 @@ ClientBin/
 *.dbmdl
 *.dbproj.schemaview
 *.jfm
-*.pfx
+# *.pfx temp disabled because of the following issue:
+# lack of skills
 *.publishsettings
 orleans.codegen.cs
 
