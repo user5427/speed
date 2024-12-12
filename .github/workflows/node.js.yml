@@ -30,7 +30,7 @@ jobs:
 
     - run: npm install
       working-directory: ClientApplication/react-app
-    - run: npm run build --if-present
+    - run: CI=false npm run build --if-present
       working-directory: ClientApplication/react-app
     - run: npm test -- --watchAll
       working-directory: ClientApplication/react-app
