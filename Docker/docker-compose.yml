@@ -11,11 +11,11 @@ services:
       - /app/node_modules
     # env_file:
     #   - ../ClientApplication/react-app/.env
-    environment:
-      REACT_APP_API_URL: https://localhost:8084/api/
-      NODE_PATH: ./src
-      REACT_APP_PAGING_SIZE: 9
-      NODE_ENV: production
+    # environment:
+    #   REACT_APP_API_URL: https://localhost:8084/api/
+    #   NODE_PATH: ./src
+    #   REACT_APP_PAGING_SIZE: 9
+    #   NODE_ENV: production
       
     stdin_open: true
     tty: true
@@ -28,12 +28,12 @@ services:
       - speedreaderapi
 
   speedreaderapi:
-    secrets:
-      - db_connection_string
-      - jwt_key
-      - certificate_password
-    volumes:
-      - ./certificate/.aspnet/https:/home/app/.aspnet/https:ro
+    # secrets:
+    #   - db_connection_string
+    #   - jwt_key
+    #   - certificate_password
+    # volumes:
+      # - ./certificate/.aspnet/https:/home/app/.aspnet/https:ro
     container_name: speedreaderapi
     hostname: speedreaderapi
     image: ${DOCKER_REGISTRY-}speedreaderapi
@@ -42,67 +42,67 @@ services:
       dockerfile: Dockerfile
     environment:
         - ASPNETCORE_ENVIRONMENT=Release
-        - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/.aspnet/https/SpeedReaderAPI.pfx
-        - ASPNETCORE_Kestrel__Certificates__Default__Password=dhuiadg451
+        # - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/.aspnet/https/SpeedReaderAPI.pfx
+        # - ASPNETCORE_Kestrel__Certificates__Default__Password=dhuiadg451
         # - ASPNETCORE_URLS=https://+:443;http://+:80
     networks:
       - server-side
     ports:
         - 8082:5268
         - 8084:5267
-    depends_on:
-        prometheus:
-            condition: service_healthy
-        grafana:
-            condition: service_healthy
+    # depends_on:
+    #     prometheus:
+    #         condition: service_healthy
+    #     grafana:
+    #         condition: service_healthy
     
-  grafana:
-    container_name: grafana_grafprom
-    image: grafana/grafana:master
-    ports:
-      - "3000:3000"
-    networks:
-      - logging
-    volumes:
-        - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
-        - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
-    depends_on:
-        prometheus:
-            condition: service_healthy
-    healthcheck:
-        test: wget -q --tries=1 -O- http://localhost:3000/
-        interval: 3s
-        timeout: 3s
-        retries: 10
-        start_period: 10s
+  # grafana:
+  #   container_name: grafana_grafprom
+  #   image: grafana/grafana:master
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - logging
+  #   volumes:
+  #       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+  #       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+  #   depends_on:
+  #       prometheus:
+  #           condition: service_healthy
+  #   healthcheck:
+  #       test: wget -q --tries=1 -O- http://localhost:3000/
+  #       interval: 3s
+  #       timeout: 3s
+  #       retries: 10
+  #       start_period: 10s
 
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus_grafprom
-    restart: always
-    ports:
-      - 9090:9090
-    networks:
-      - server-side
-      - logging
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    healthcheck:
-        test: wget -q --tries=1 -O- http://localhost:9090/
-        interval: 3s
-        timeout: 3s
-        retries: 10
-        start_period: 10s
+  # prometheus:
+  #   image: prom/prometheus
+  #   container_name: prometheus_grafprom
+  #   restart: always
+  #   ports:
+  #     - 9090:9090
+  #   networks:
+  #     - server-side
+  #     - logging
+  #   volumes:
+  #     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  #   healthcheck:
+  #       test: wget -q --tries=1 -O- http://localhost:9090/
+  #       interval: 3s
+  #       timeout: 3s
+  #       retries: 10
+  #       start_period: 10s
 
-secrets:
-  db_connection_string:
-    file: ./db_connection_string
-  jwt_key:
-    file: ./jwt_key
-  certificate_password:
-    file: ./certificate_password
+# secrets:
+#   db_connection_string:
+#     file: ./db_connection_string
+#   jwt_key:
+#     file: ./jwt_key
+#   certificate_password:
+#     file: ./certificate_password
 
 networks:
   client-side: {}
   server-side: {}
-  logging: {}
+  # logging: {}

@@ -1,0 +1,190 @@
+$ kubectl create secret generic speedreader-secrets \
+  --from-file=SpeedReaderAPI.pfx=Docker/certificate/.aspnet/https/SpeedReaderAPI.pfx \
+  --from-literal=certificate_password=dhuiadg451
+
+secret/speedreader-secrets created
+
+$ kubectl apply -f Kubernetes/speedreader-config.yaml
+namespace/speedreader unchanged
+secret/speedreader-secrets unchanged
+configmap/frontend-config unchanged
+deployment.apps/speedreader-frontend unchanged
+service/speedreader-frontend unchanged
+deployment.apps/speedreader-api unchanged
+deployment.apps/prometheus unchanged
+service/prometheus unchanged
+deployment.apps/grafana unchanged
+service/grafana unchanged
+networkpolicy.networking.k8s.io/allow-all unchanged
+The Service "speedreader-api" is invalid: 
+* spec.ports[0].name: Required value
+* spec.ports[1].name: Required value
+
+$ kubectl get pods -n speedreader
+NAME                                    READY   STATUS              RESTARTS      AGE
+grafana-5b9466698-lsk8t                 0/1     ContainerCreating   0             23m
+prometheus-5b95b85759-5v2kf             0/1     ContainerCreating   0             23m
+speedreader-api-9848476bc-qfk5h         0/1     CrashLoopBackOff    9 (68s ago)   23m
+speedreader-frontend-86db49dbb9-qmv9m   1/1     Running             0             23m
+
+$ kubectl logs -n speedreader speedreader-api-9848476bc-qfk5h
+{"@timestamp":"2024-12-12T09:30:08.452834+00:00","log.level":"Debug","message":"Hosting starting","ecs.version":"8.6.0","log":{"logger":"Microsoft.Extensions.Hosting.Internal.Host"},"labels":{"MessageTemplate":"Hosting starting"},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.452834+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"EventId":{"Id":1,"Name":"Starting"}}}
+{"@timestamp":"2024-12-12T09:30:08.6566949+00:00","log.level":"Warning","message":"Using an in-memory repository. Keys will not be persisted to storage.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.Repositories.EphemeralXmlRepository"},"labels":{"MessageTemplate":"Using an in-memory repository. Keys will not be persisted to storage."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.6566949+00:00","severity":3,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"EventId":{"Id":50,"Name":"UsingInMemoryRepository"}}}
+{"@timestamp":"2024-12-12T09:30:08.6586924+00:00","log.level":"Warning","message":"Neither user profile nor HKLM registry available. Using an ephemeral key repository. Protected data will be unavailable when application exits.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager"},"labels":{"MessageTemplate":"Neither user profile nor HKLM registry available. Using an ephemeral key repository. Protected data will be unavailable when application exits."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.6586924+00:00","severity":3,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"EventId":{"Id":59,"Name":"UsingEphemeralKeyRepository"}}}
+{"@timestamp":"2024-12-12T09:30:08.7038381+00:00","log.level":"Debug","message":"Repository contains no viable default key. Caller should generate a key with immediate activation.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver"},"labels":{"MessageTemplate":"Repository contains no viable default key. Caller should generate a key with immediate activation."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7038381+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"EventId":{"Id":53,"Name":"RepositoryContainsNoViableDefaultKey"}}}
+{"@timestamp":"2024-12-12T09:30:08.7051392+00:00","log.level":"Debug","message":"Policy resolution states that a new key should be added to the key ring.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider"},"labels":{"MessageTemplate":"Policy resolution states that a new key should be added to the key ring."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7051392+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"EventId":{"Id":57,"Name":"PolicyResolutionStatesThatANewKeyShouldBeAddedToTheKeyRing"}}}  
+{"@timestamp":"2024-12-12T09:30:08.7127954+00:00","log.level":"Information","message":"Creating key {1758859a-42b3-4965-9379-1d1cded24ac7} with creation date 2024-12-12 09:30:08Z, activation date 2024-12-12 09:30:08Z, and expiration date 2025-03-12 09:30:08Z.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager"},"labels":{"MessageTemplate":"Creating key {KeyId:B} with creation date {CreationDate:u}, activation date {ActivationDate:u}, and expiration date {ExpirationDate:u}."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7127954+00:00","severity":2,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"KeyId":"1758859a-42b3-4965-9379-1d1cded24ac7","CreationDate":"2024-12-12T09:30:08.705597+00:00","ActivationDate":"2024-12-12T09:30:08.6922671+00:00","ExpirationDate":"2025-03-12T09:30:08.6922671+00:00","EventId":{"Id":58,"Name":"CreatingKey"}}}
+{"@timestamp":"2024-12-12T09:30:08.7428041+00:00","log.level":"Debug","message":"Descriptor deserializer type for key {1758859a-42b3-4965-9379-1d1cded24ac7} is '\"Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60\"'.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager"},"labels":{"MessageTemplate":"Descriptor deserializer type for key {KeyId:B} is '{AssemblyQualifiedName}'.","AssemblyQualifiedName":"Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7428041+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"KeyId":"1758859a-42b3-4965-9379-1d1cded24ac7","EventId":{"Id":32,"Name":"DescriptorDeserializerTypeForKeyIs"}}}
+{"@timestamp":"2024-12-12T09:30:08.7496237+00:00","log.level":"Debug","message":"No key escrow sink found. Not writing key {1758859a-42b3-4965-9379-1d1cded24ac7} to escrow.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager"},"labels":{"MessageTemplate":"No key escrow sink found. Not writing key {KeyId:B} to escrow."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7496237+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"KeyId":"1758859a-42b3-4965-9379-1d1cded24ac7","EventId":{"Id":34,"Name":"NoKeyEscrowSinkFoundNotWritingKeyToEscrow"}}}
+{"@timestamp":"2024-12-12T09:30:08.7500827+00:00","log.level":"Warning","message":"No XML encryptor configured. Key {1758859a-42b3-4965-9379-1d1cded24ac7} may be persisted to storage in unencrypted form.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager"},"labels":{"MessageTemplate":"No XML encryptor configured. Key {KeyId:B} may be persisted to storage in unencrypted form."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7500827+00:00","severity":3,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"KeyId":"1758859a-42b3-4965-9379-1d1cded24ac7","EventId":{"Id":35,"Name":"NoXMLEncryptorConfiguredKeyMayBePersistedToStorageInUnencryptedForm"}}}
+{"@timestamp":"2024-12-12T09:30:08.7570752+00:00","log.level":"Debug","message":"Key cache expiration token triggered by '\"CreateNewKey\"' operation.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager"},"labels":{"MessageTemplate":"Key cache expiration token triggered by '{OperationName}' operation.","OperationName":"CreateNewKey"},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7570752+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"EventId":{"Id":23,"Name":"KeyCacheExpirationTokenTriggeredByOperation"}}}
+{"@timestamp":"2024-12-12T09:30:08.7585052+00:00","log.level":"Debug","message":"Found key {1758859a-42b3-4965-9379-1d1cded24ac7}.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager"},"labels":{"MessageTemplate":"Found key {KeyId:B}."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7585052+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"KeyId":"1758859a-42b3-4965-9379-1d1cded24ac7","EventId":{"Id":18,"Name":"FoundKey"}}}
+{"@timestamp":"2024-12-12T09:30:08.7868314+00:00","log.level":"Debug","message":"Considering key {1758859a-42b3-4965-9379-1d1cded24ac7} with expiration date 2025-03-12 09:30:08Z as default key.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver"},"labels":{"MessageTemplate":"Considering key {KeyId:B} with expiration date {ExpirationDate:u} as default key."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7868314+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian 
+GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"KeyId":"1758859a-42b3-4965-9379-1d1cded24ac7","ExpirationDate":"2025-03-12T09:30:08.6922671+00:00","EventId":{"Id":13,"Name":"ConsideringKeyWithExpirationDateAsDefaultKey"}}}
+{"@timestamp":"2024-12-12T09:30:08.7945609+00:00","log.level":"Debug","message":"Forwarded activator type request from \"Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60\" to \"Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60\"","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.TypeForwardingActivator"},"labels":{"MessageTemplate":"Forwarded activator type request from {FromType} to {ToType}","FromType":"Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60","ToType":"Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60"},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7945609+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"}}
+{"@timestamp":"2024-12-12T09:30:08.7975262+00:00","log.level":"Debug","message":"Using managed symmetric algorithm '\"System.Security.Cryptography.Aes\"'.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory"},"labels":{"MessageTemplate":"Using managed symmetric algorithm '{FullName}'.","FullName":"System.Security.Cryptography.Aes"},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7975262+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"EventId":{"Id":11,"Name":"UsingManagedSymmetricAlgorithm"}}}
+{"@timestamp":"2024-12-12T09:30:08.7989369+00:00","log.level":"Debug","message":"Using managed keyed hash algorithm '\"System.Security.Cryptography.HMACSHA256\"'.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory"},"labels":{"MessageTemplate":"Using managed keyed hash algorithm '{FullName}'.","FullName":"System.Security.Cryptography.HMACSHA256"},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.7989369+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"EventId":{"Id":10,"Name":"UsingManagedKeyedHashAlgorithm"}}}
+{"@timestamp":"2024-12-12T09:30:08.8035815+00:00","log.level":"Debug","message":"Using key {1758859a-42b3-4965-9379-1d1cded24ac7} as the default key.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider"},"labels":{"MessageTemplate":"Using key {KeyId:B} as the default key."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.8035815+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"KeyId":"1758859a-42b3-4965-9379-1d1cded24ac7","EventId":{"Id":2,"Name":"UsingKeyAsDefaultKey"}}}
+{"@timestamp":"2024-12-12T09:30:08.8056291+00:00","log.level":"Debug","message":"Key ring with default key {1758859a-42b3-4965-9379-1d1cded24ac7} was loaded during application startup.","ecs.version":"8.6.0","log":{"logger":"Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService"},"labels":{"MessageTemplate":"Key ring with default key {KeyId:B} was loaded during application startup."},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"event":{"created":"2024-12-12T09:30:08.8056291+00:00","severity":1,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"KeyId":"1758859a-42b3-4965-9379-1d1cded24ac7","EventId":{"Id":65,"Name":"KeyRingWasLoadedOnStartup"}}}
+{"@timestamp":"2024-12-12T09:30:08.9967555+00:00","log.level":"Error","message":"Hosting failed to start","ecs.version":"8.6.0","log":{"logger":"Microsoft.Extensions.Hosting.Internal.Host"},"labels":{"MessageTemplate":"Hosting failed to start"},"agent":{"type":"Elastic.CommonSchema.Serilog","version":"8.6.0+8c0e2e2d81767b6554398f2f326cc96d64a0681f"},"error":{"message":"Could not find file '/home/app/.aspnet/https/SpeedReaderAPI.pfx'.","stack_trace":"System.IO.FileNotFoundException: Could not find file '/home/app/.aspnet/https/SpeedReaderAPI.pfx'.\n   at void Interop.ThrowExceptionForIoErrno(ErrorInfo errorInfo, string path, bool isDirError)\n   at SafeFileHandle Microsoft.Win32.SafeHandles.SafeFileHandle.Open(string path, OpenFlags flags, int mode, bool failForSymlink, out bool wasSymlink, Func<ErrorInfo, OpenFlags, string, Exception> createOpenException) x 2\n   at new System.IO.Strategies.OSFileStreamStrategy(string path, FileMode mode, FileAccess access, FileShare share, FileOptions options, long preallocationSize, UnixFileMode? unixCreateMode)\n   at FileStream System.IO.StreamReader.ValidateArgsAndOpenPath(string path, Encoding encoding, int bufferSize)\n   at string System.IO.File.ReadAllText(string path, Encoding encoding)\n   at void System.Security.Cryptography.X509Certificates.X509Certificate2Collection.ImportFromPemFile(string certPemFilePath)\n   at ValueTuple<X509Certificate2, X509Certificate2Collection> Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Certificates.CertificateConfigLoader.LoadCertificate(CertificateConfig certInfo, string endpointName)\n   at CertificateAndConfig? Microsoft.AspNetCore.Server.Kestrel.Core.TlsConfigurationLoader.LoadDefaultCertificate(ConfigurationReader configurationReader)\n   at ValueTuple<List<ListenOptions>, List<ListenOptions>> Microsoft.AspNetCore.Server.Kestrel.KestrelConfigurationLoader.Reload()\n   at void Microsoft.AspNetCore.Server.Kestrel.KestrelConfigurationLoader.LoadInternal()\n   at async Task Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)\n   at async Task Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync<TContext>(IHttpApplication<TContext> application, CancellationToken cancellationToken)\n   at async Task Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)\n   at async Task Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)+(?) => { }\n   at async Task Microsoft.Extensions.Hosting.Internal.Host.ForeachService<T>(IEnumerable<T> services, CancellationToken token, bool concurrent, bool abortOnFirstException, List<Exception> exceptions, Func<T, CancellationToken, Task> operation)\n   at async Task Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)\n   at async Task Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)","type":"System.IO.FileNotFoundException"},"event":{"created":"2024-12-12T09:30:08.9967555+00:00","severity":4,"timezone":"Coordinated Universal Time"},"host":{"os":{"full":"Debian GNU/Linux 12 (bookworm)","platform":"Unix","version":"5.15.167.4"},"architecture":"X64","hostname":"speedreader-api-9848476bc-qfk5h"},"process":{"executable":"dotnet","name":"dotnet","pid":1,"thread.id":9,"thread.name":".NET Long Running Task","title":""},"service":{"name":"SpeedReaderAPI","type":"dotnet","version":"1.0.0"},"user":{"domain":"speedreader-api-9848476bc-qfk5h","name":"app"},"metadata":{"EventId":{"Id":11,"Name":"HostedServiceStartupFaulted"}}}
+
+$ kubectl delete pod speedreader-api-9848476bc-qfk5h -n speedreader
+pod "speedreader-api-9848476bc-qfk5h" deleted
+
+$ kubectl apply -f Kubernetes/speedreader-config.yaml
+namespace/speedreader unchanged
+secret/speedreader-secrets unchanged
+configmap/frontend-config unchanged
+deployment.apps/speedreader-frontend unchanged
+service/speedreader-frontend unchanged
+deployment.apps/speedreader-api unchanged
+deployment.apps/prometheus unchanged
+service/prometheus unchanged
+deployment.apps/grafana unchanged
+service/grafana unchanged
+networkpolicy.networking.k8s.io/allow-all unchanged
+The Service "speedreader-api" is invalid: 
+* spec.ports[0].name: Required value
+* spec.ports[1].name: Required value
+
+
+-- important stuff VERY VERY IMPORTANT!!!
+
+kubectl create configmap certificate --from-file=Docker/certificate/.aspnet/https/SpeedReaderAPI.pfx -n speedreader
+>> configmap/certificate create
+kubectl describe configmaps certificate
+
+kubectl apply -f Kubernetes/speedreader-config.yaml
+
+
+kubectl exec -it speedreader-api-787548cb45-9dlfk -n speedreader -- ls /etc/config
+
+kubectl delete pod
+kubectl delete pods --all -n speedreader
+
+kubectl logs -n speedreader speedreader-api-787548cb45-wgc8b
+kubectl logs -n speedreader speedreader-api-d5d47c98d-s6gvm
+
+kubectl describe pod speedreader-api-575b97c9f9-fcllk -n speedreader
+kubectl top nodes
+
+kubectl get pvc -n speedreader
+
+
+kubectl create configmap prometheus-config --from-file=Docker/prometheus/prometheus.yml -n speedreader
+kubectl create configmap grafana-config --from-file=Docker/grafana/provisioning/dashboards --from-file=Docker/grafana/provisioning/datasources -n speedreader
+
+
+
+kubectl logs -n speedreader speedreader-api-575b97c9f9-2kqps
+
+kubectl describe pod speedreader-api-575b97c9f9-2kqps
+kubectl describe pod speedreader-api-d5d47c98d-fpv4g -n speedreader
+
+
+kubectl get configmap certificate -n speedreader
+kubectl get configmap prometheus-config -n speedreader
+kubectl get configmap grafana-config -n speedreader
+
+
+kubectl delete pod speedreader-api-d5d47c98d-fpv4g -n speedreader
+kubectl delete pod speedreader-api-575b97c9f9-2kqps -n speedreader
+
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+kubectl create configmap certificate --from-file=Docker/certificate/.aspnet/https/SpeedReaderAPI.pfx -n speedreader
+# kubectl create configmap prometheus-config --from-file=Docker/prometheus/prometheus.yml -n speedreader
+# kubectl create configmap grafana-config --from-file=Docker/grafana/provisioning/dashboards --from-file=Docker/grafana/provisioning/datasources -n speedreader
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+kubectl logs -n speedreader speedreader-api-575b97c9f9-97cgj
+
+kubectl describe pod grafana-6964677d9c-xclhf -n speedreader
+
+kubectl describe configmaps grafana-config
+
+kubectl describe pod speedreader-api-575b97c9f9-97cgj -n speedreader
+
+kubectl delete configmap grafana-config -n speedreader
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+kubectl create configmap grafana-dashboard --from-file=Docker/grafana/provisioning/dashboards -n speedreader
+kubectl create configmap grafana-datasources --from-file=Docker/grafana/provisioning/datasources -n speedreader
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+kubectl describe configmap grafana-dashboard -n speedreader
+kubectl describe configmap grafana-datasources -n speedreader
+
+
+kubectl apply -f Kubernetes/speedreader-config.yaml
+
+kubectl get pods -n speedreader
+
+
+kubectl describe pod speedreader-api-755649f7fb-cvnrj -n speedreader
+kubectl describe pod prometheus-6989f645b8-9krv9 -n speedreader
+
+
+kubectl delete configmap prometheus-config -n speedreader
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+kubectl create configmap prometheus-config --from-file=Docker/prometheus -n speedreader
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+
+kubectl delete pod prometheus-5b95b85759-x6tfb -n speedreader
+
+kubectl describe pod prometheus-5b95b85759-648wl -n speedreader
+
+kubectl get svc -n speedreader
+minikube service grafana -n speedreader
+minikube service speedreader-frontend -n speedreader
+minikube service speedreader-api -n speedreader
+minikube service prometheus -n speedreader
+
+kubectl get pods -n speedreader
+kubectl logs -n speedreader speedreader-api-755649f7fb-cvnrj -n speedreader
+kubectl describe pod speedreader-api-755649f7fb-cvnrj -n speedreader
+
+kubectl apply -f Kubernetes/speedreader-config.yaml
+kubectl describe deployment speedreader-api
+
+kubectl get service speedreader-frontend --watch -n speedreader
+
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+kubectl create configmap front-config --from-file=ClientApplication/react-app/.env -n speedreader
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+kubectl get configmap front-config -n speedreader
+
+kubectl logs -n speedreader speedreader-frontend-79cfc44459-qp4fc
+kubectl describe pod speedreader-frontend-79cfc44459-qp4fc -n speedreader

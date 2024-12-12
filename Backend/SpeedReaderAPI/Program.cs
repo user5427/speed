@@ -31,41 +31,41 @@ try
 
 
     // Add secrets from /run/secrets
-    builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                     .AddKeyPerFile("/run/secrets", optional: true);
+    // builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    //                  .AddKeyPerFile("/run/secrets", optional: true);
     
     // Build configuration after loading all sources
     var configuration = builder.Configuration;
 
-    bool useDefaultFiles = configuration.GetValue<bool>("UseDefaultFiles");
+    // bool useDefaultFiles = configuration.GetValue<bool>("UseDefaultFiles");
 
-    if (!useDefaultFiles)
-    {
-        // Dynamically update placeholders in the configuration
-        var dbConnectionString = configuration["db_connection_string"]; // From /run/secrets
-        var jwtKey = configuration["jwt_key"]; // From /run/secrets
+    // if (!useDefaultFiles)
+    // {
+    //     // Dynamically update placeholders in the configuration
+    //     var dbConnectionString = configuration["db_connection_string"]; // From /run/secrets
+    //     var jwtKey = configuration["jwt_key"]; // From /run/secrets
 
-        // Ensure the secrets are loaded and replace placeholders
-        if (!string.IsNullOrEmpty(dbConnectionString))
-        {
-            builder.Configuration["ConnectionStrings:Default"] = dbConnectionString;
-        }
-        else
-        {
-            Log.Fatal("DB_CONNECTION_STRING secret not found!");
-            // throw new Exception("DB_CONNECTION_STRING secret not found!");
-        }
+    //     // Ensure the secrets are loaded and replace placeholders
+    //     if (!string.IsNullOrEmpty(dbConnectionString))
+    //     {
+    //         builder.Configuration["ConnectionStrings:Default"] = dbConnectionString;
+    //     }
+    //     else
+    //     {
+    //         Log.Fatal("DB_CONNECTION_STRING secret not found!");
+    //         // throw new Exception("DB_CONNECTION_STRING secret not found!");
+    //     }
 
-        if (!string.IsNullOrEmpty(jwtKey))
-        {
-            builder.Configuration["Jwt:Key"] = jwtKey;
-        }
-        else
-        {
-            Log.Fatal("JWT_KEY secret not found!");
-            // throw new Exception("JWT_KEY secret not found!");
-        }
-    }
+    //     if (!string.IsNullOrEmpty(jwtKey))
+    //     {
+    //         builder.Configuration["Jwt:Key"] = jwtKey;
+    //     }
+    //     else
+    //     {
+    //         Log.Fatal("JWT_KEY secret not found!");
+    //         // throw new Exception("JWT_KEY secret not found!");
+    //     }
+    // }
     
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddOpenTelemetry()

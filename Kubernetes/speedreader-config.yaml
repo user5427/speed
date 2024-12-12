@@ -1,0 +1,271 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: speedreader
+---
+# Secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: speedreader-secrets
+  namespace: speedreader
+data:
+  db_connection_string: U2VydmVyPWRlbjEubXNzcWw3LmdlYXIuaG9zdDtEYXRhYmFzZT1zcGVlZHJlYWRlcjtVc2VyIElEPXNwZWVkcmVhZGVyO1Bhc3N3b3JkPUpwMG11XzhnbWk/aDtNdWx0aXBsZUFjdGl2ZVJlc3VsdFNldHM9dHJ1ZTtUcnVzdFNlcnZlckNlcnRpZmljYXRlPVRydWU=
+  jwt_key: ZjRiZWFlNTAyZGE5N2YyZWU3NWJhZTNjMTZmMmRiMjljODk2NDFlOWM2Y2UzODBjYzc4YjcxYWY5NWE5ZGY3MzM2MmJkZDZjN2E5MWUwOTQ3ZGJlMWU5OTQ5NjNmZWJiMDAzMDhiM2IxY2U2OWVhY2UyYzRkZjVmNWMwYjRhOGRlNDhhY2NiZDI1MDRlMDU5NDkyYjQwMjJiODYyMjYyN2RiYjU0ZDYxZDc3ZWE4MTRlZmFlNWVmM2Q1NTlkNzIzOTM0ZjZhOTBlY2U2MGE5MTRlNTE4ZGQ0OWYzMDU3OGZiY2UwYzQ2ZDY0OTI3MDZiZDZmNGY1Mzk2NzY0MzU2OGM1NGE5MzM2NzNlMDIxNWZjYjNhODZhOTRlZDdmNmJmZjAwY2QyODI2MWViYTcwMzU5ZGQxODA3YmQ4NzVjMGIxMzUzYWIxODdhN2YyZjRlYjZkZWI2OWNmZjc2YTNkNWQ4YTg2OWNjZmIwNzdlMTkxOTUzYjUwOTg1M2U0ODZmZjliN2U2OTQxZTlhOWVjMTk2OWRmZGJiYTU1ODljYmNmZThiNGNkOWVkYTVkZGI4NjIyOGRiMmY2NDM3NzYzNzg0NWEwMGI2MDMyMzk3MGEyZWFhMDMxODk0MWEyZTA4OGU3ZjQxNWY2MGJiMTIwYTI1YzA2OWQwMmYwNzkzYTM=
+  certificate_password: ZGh1aWFkZzQ1MQ==
+  
+---
+# ConfigMaps
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: frontend-config
+#   namespace: speedreader
+# data:
+#   REACT_APP_API_URL: "https://localhost:8084/api/"
+#   NODE_PATH: "./src"
+#   REACT_APP_PAGING_SIZE: "9"
+#   NODE_ENV: "production"
+---
+# Frontend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speedreader-frontend
+  namespace: speedreader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: speedreader-frontend
+  template:
+    metadata:
+      labels:
+        app: speedreader-frontend
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: frontend
+          image: user5427/speedreader:latest
+          env:
+            - name: REACT_APP_API_URL
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: frontend-config
+            #       key: REACT_APP_API_URL
+            # - name: NODE_PATH
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: frontend-config
+            #       key: NODE_PATH
+            # - name: REACT_APP_PAGING_SIZE
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: frontend-config
+            #       key: REACT_APP_PAGING_SIZE
+            # - name: NODE_ENV
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: frontend-config
+            #       key: NODE_ENV
+            
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: env-file
+              mountPath: .
+              subPath: .env
+
+      volumes:
+        - name: env-file
+          configMap:
+            name: front-config
+
+---
+# Frontend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: speedreader-frontend
+  namespace: speedreader
+spec:
+  type: ClusterIP
+  selector:
+    app: speedreader-frontend
+  ports:
+    - protocol: TCP
+      port: 3001
+      targetPort: 80
+---
+# Backend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speedreader-api
+  namespace: speedreader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: speedreader-api
+  template:
+    metadata:
+      labels:
+        app: speedreader-api
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: backend
+          image: user5427/speedreaderapi:latest
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Release"
+            - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+              value: "/home/app/.aspnet/https/SpeedReaderAPI.pfx"
+            - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+              valueFrom:
+                secretKeyRef:
+                  name: speedreader-secrets
+                  key: certificate_password
+        
+          ports:
+            - containerPort: 5268
+            - containerPort: 5267
+          volumeMounts:
+            - name: cert-volume
+              mountPath: /home/app/.aspnet/https
+      volumes:
+        - name: cert-volume
+          configMap:
+            name: certificate
+
+---
+# Backend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: speedreader-api
+  namespace: speedreader
+spec:
+  type: ClusterIP
+  selector:
+    app: speedreader-api
+  ports:
+    - name: port-8084  # Name the first port
+      protocol: TCP
+      port: 3001
+      targetPort: 5267
+    - name: port-8082  # Name the second port
+      protocol: TCP
+      port: 8082
+      targetPort: 5268
+---
+# Prometheus Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: speedreader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-config
+              mountPath: /etc/prometheus
+
+      volumes:
+        - name: prometheus-config
+          configMap:
+            name: prometheus-config
+---
+# Prometheus Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: speedreader
+spec:
+  type: ClusterIP
+  selector:
+    app: prometheus
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+---
+# Grafana Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: speedreader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: grafana-dashboard
+              mountPath: /etc/grafana/provisioning/dashboards
+            
+            - name: grafana-datasources
+              mountPath: /etc/grafana/provisioning/datasources
+
+      volumes:
+        - name: grafana-dashboard
+          configMap:
+            name: grafana-dashboard
+        
+        - name: grafana-datasources
+          configMap:
+            name: grafana-datasources
+---
+# Grafana Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: speedreader
+spec:
+  type: ClusterIP
+  selector:
+    app: grafana
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+# Networks in Kubernetes
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all
+  namespace: speedreader
+spec:
+  podSelector: {}
+  ingress:
+    - {}
