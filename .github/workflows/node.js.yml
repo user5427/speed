@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "Frontend-funct-update" ]
+    branches: [ "Frontend-funct-update456" ]
   pull_request:
-    branches: [ "Frontend-funct-update" ]
+    branches: [ "Frontend-funct-update456" ]
 
 jobs:
   build:
