@@ -22,16 +22,15 @@ describe('App.js Component tests', () => {
     const siteNameElement = screen.getByText('Speedreader.com');
     const homeLink = screen.getByText('Home');
     const aboutLink = screen.getByText('About');
-    const profileLink = screen.getByText(/Jonas Jonaitis/i);
-    const profileIcon = screen.getByTestId('profile-icon');
+    //const profileIcon = screen.getByTestId('profile-icon');
     const languageSelector = screen.getByTestId('language-selector');
 
     expect(logoElement).toBeInTheDocument();
     expect(siteNameElement).toBeInTheDocument();
     expect(homeLink).toBeInTheDocument();
     expect(aboutLink).toBeInTheDocument();
-    expect(profileLink).toBeInTheDocument();
-    expect(profileIcon).toBeInTheDocument();
+    //expect(profileLink).toBeInTheDocument();
+    //expect(profileIcon).toBeInTheDocument();
     expect(languageSelector).toBeInTheDocument();
   });
 

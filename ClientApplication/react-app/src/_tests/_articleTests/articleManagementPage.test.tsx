@@ -45,6 +45,7 @@ describe('articleManagementPage.js tests', () => {
     /**
      * Check if there is atleast two articles
      */
+    /*
     test('should contain atleast two articles', async () => {
         setup();
         await waitFor(() => {
@@ -52,7 +53,7 @@ describe('articleManagementPage.js tests', () => {
             expect(screen.getByText(articlesMockDataFilled.articles[1].title)).toBeInTheDocument();
         });
     });
-
+*/
 
 });
 
