@@ -84,7 +84,9 @@ public class ArticleSessionService : IArticleSessionService
             throw new UnauthorizedAccessException("User is not authenticated.");
 
         long sessionCount = _context.ArticleSession.CountByUserAndArticle(user.Id, null);
-        List<ArticleSession> sessions = _context.ArticleSession.GetPagedByUserAndArticle((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize, user.Id, null);
+        List<ArticleSession> sessions = _context.ArticleSession.GetPagedByUserAndArticle((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize, user.Id, null)
+            .Where(s => (queryParameters.startAt == null || s.Time >= queryParameters.startAt) && (queryParameters.endAt == null || s.Time <= queryParameters.endAt))
+            .ToList();
         List<ArticleSessionResponse> sessionResponses = sessions.Select(s =>
         {
             var paragraphSessionDtos = _paragraphSessionService.GetAllByArticleSession(s).ToArray();
