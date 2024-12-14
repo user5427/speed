@@ -86,6 +86,7 @@ try
     builder.Services.AddScoped<IValidationSettingsService, ValidationSettingsService>();
     builder.Services.AddScoped<ICategoryService, CategoryService>();
     builder.Services.AddScoped<IAuthService, AuthService>();
+    builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<IArticleSessionService, ArticleSessionService>();
     builder.Services.AddScoped<IParagraphSessionService, ParagraphSessionService>();
