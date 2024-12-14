@@ -48,6 +48,12 @@ namespace SpeedReaderAPI.Data
                 }
             );
 
+            modelBuilder.Entity<Category>()
+            .HasOne(u => u.User)
+            .WithMany()
+            .HasForeignKey(u => u.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<ArticleSession>()
             .HasOne(a => a.User)
             .WithMany() 

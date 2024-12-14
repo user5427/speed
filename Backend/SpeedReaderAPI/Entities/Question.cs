@@ -60,6 +60,12 @@ public class Question : IComparable<Question>
     }
 
     public virtual Paragraph? Paragraph { get; set; }
+
+    [ForeignKey(nameof(User))]  
+    public long UserId { get; set; }
+    public virtual User? User { get; set; }
+
+
     public int CompareTo(Question other)
     {
         return Id.CompareTo(other.Id);

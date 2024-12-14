@@ -39,9 +39,7 @@ public class ArticleServiceTests
         _imageService = new ImageService();
         // _mockMapper.Object
 
-        _questionService = new QuestionService(context, _mapper, _imageService);
 
-        _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService);
 
         var inMemorySettings = new Dictionary<string, string> 
         {
@@ -68,12 +66,14 @@ public class ArticleServiceTests
         ]));
          var contextAccessor = new HttpContextAccessor { HttpContext = httpContext };
         AuthService authService = new AuthService(context, _mapper, tokenService, contextAccessor);
+        _questionService = new QuestionService(context, _mapper, _imageService, authService);
+        _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService, authService);
 
         // Initialize ArticleService with mocks and context
         _articleService = new ArticleService(context, _mapper, 
                                              _imageService, 
                                              _paragraphService, authService);
-        _categoryService = new CategoryService(context, _mapper, _imageService);
+        _categoryService = new CategoryService(context, _mapper, _imageService, authService);
     }
 
     [Fact (DisplayName  = "Article creating")]

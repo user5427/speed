@@ -3,6 +3,7 @@ using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Paragraph.Responses;
 namespace SpeedReaderAPI.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Serilog;
 using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.Entities;
@@ -27,6 +28,7 @@ public class ParagraphsController : ControllerBase
 
 
     [HttpPost("{id}/img")]
+    [Authorize(Roles = "USER,ADMIN")]
     public async Task<IActionResult> UploadImage(int id, [FromForm] ImageUploadRequest request)
     {
         ParagraphResponse result = await _paragraphService.UploadImage(id, request);
@@ -34,6 +36,7 @@ public class ParagraphsController : ControllerBase
     }
 
     [HttpDelete("{id}/img")]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult DeleteImage(int id)
     {
         _paragraphService.DeleteImage(id);
@@ -48,6 +51,7 @@ public class ParagraphsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "USER,ADMIN")]
     public ActionResult<int> CreateParagraph(ParagraphCreateRequest request)
     {
         ParagraphResponse paragraphResponse = _paragraphService.CreateParagraph(request);
@@ -70,6 +74,7 @@ public class ParagraphsController : ControllerBase
 
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult UpdateParagraph(int id, ParagraphUpdateRequest request)
     {
         ParagraphResponse paragraphResponse = _paragraphService.UpdateParagraph(id, request);
@@ -77,6 +82,7 @@ public class ParagraphsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult DeleteParagraph(int id)
     {
         _paragraphService.DeleteParagraph(id);
