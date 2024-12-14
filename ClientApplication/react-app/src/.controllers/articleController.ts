@@ -53,9 +53,9 @@ class ArticleController {
         }
     }
 
-    static async GetPage(page) {
+    static async GetPage(page: number, userId?: number) {
         try {
-            const response = await ArticleService.getArticles(page);
+            const response = await ArticleService.getArticles(page, userId);
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${ArticlePageErrors.GetError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
@@ -65,9 +65,9 @@ class ArticleController {
         }
     }
 
-    static async Search(query) {
+    static async Search(query?: string, userId?: number) {
         try {
-            const response = await ArticleService.getArticleByTitle(query);
+            const response = await ArticleService.getArticleByQuery(query, userId);
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${ArticlePageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
