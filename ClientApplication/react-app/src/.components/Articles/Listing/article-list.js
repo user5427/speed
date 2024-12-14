@@ -9,7 +9,7 @@ import { ArticleController } from '../../../.controllers/.MainControllersExport'
 import ErrorPopup from '../../.common-components/ErrorPopup';
 import { ThreeDots } from 'react-loader-spinner';
 
-const ArticleList = ({ settings, getSelected, update, getEditing, getPlay }) => {
+const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, loggedInUser}) => {
     const [articles, setArticles] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
@@ -55,6 +55,7 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay }) => 
                             selectThis={() => getSelected(m.id)}
                             editThis={() => getEditing(m.id)}
                             playThis={() => getPlay(m.id)}
+                            loggedInUser={loggedInUser}
                             />
                         </div>
                     ))

@@ -73,6 +73,7 @@ const ArticleHomePage = ({ loggedInUser }) => {
                 settings={settings}
                 getEditing={getSelectedArticle}
                 getPlay={getPlayArticle}
+                loggedInUser={loggedInUser}
             />
         </>
     );
