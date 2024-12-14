@@ -1,4 +1,4 @@
-import ParagraphSession from "../Paragraph/paragraph-session";
+import ParagraphSession from "./paragraph-session";
 
 class ArticleSession {
     private sessionId?: Number;
@@ -62,6 +62,10 @@ class ArticleSession {
 
     addParagraphSession(paragraphSession: ParagraphSession): void {
         this.paragraphSessions.push(paragraphSession);
+    }
+
+    setParagraphSessions(paragraphSessions: Array<ParagraphSession>): void {
+        this.paragraphSessions = paragraphSessions;
     }
 
 }

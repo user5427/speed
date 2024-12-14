@@ -12,4 +12,5 @@ public class ArticleResponse
     public List<int>? CategoryIds { get; set; }
     public string? ImageFileName { get; set; }
     public string? Author { get; set; }
+    public string? OriginalAuthor { get; set; }
 }

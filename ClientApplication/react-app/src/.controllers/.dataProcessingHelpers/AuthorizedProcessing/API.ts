@@ -7,7 +7,7 @@ const API = axios.create({
 
 API.interceptors.request.use(config => {
     const token = UserManager.getUser()?.token;
-    if (token) {
+    if (token !== null) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

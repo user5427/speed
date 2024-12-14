@@ -1,4 +1,4 @@
-import { ParagraphSession, QuestionSession }  from "../../.entities/.MainEntitiesExport";
+import { Paragraph, ParagraphSession, QuestionSession }  from "../../.entities/.MainEntitiesExport";
 import { ParagraphSessionJson } from "../../.constants/MainConstants";  
 
 class ParagraphSessionMapper {
@@ -11,6 +11,30 @@ class ParagraphSessionMapper {
         json[ParagraphSessionJson.correctQuestionCount] = paragraphSession.getQuestionSessions().filter(questionSession => questionSession.getCorrect).length;
 
         return json;
+    }
+
+    static fromJson(data: { [key: string]: any }): ParagraphSession {
+        let paragraphSession = ParagraphSession.createSession(
+            data[ParagraphSessionJson.paragraphId],
+            null,
+            null,
+            data[ParagraphSessionJson.wpm],
+            null
+        );
+
+        let correctCount = data[ParagraphSessionJson.correctQuestionCount];
+        let totalQuestionCount = data[ParagraphSessionJson.totalQuestionCount];
+
+        let questionSessions: Array<QuestionSession> = [];
+
+        for (let i = 0; i < totalQuestionCount; i++) {
+            let questionSession = QuestionSession.createSession(null, null, i < correctCount, null);
+            questionSessions.push(questionSession);
+        }
+
+        paragraphSession.setQuestionSessions(questionSessions);
+
+        return paragraphSession;
     }
 }
 

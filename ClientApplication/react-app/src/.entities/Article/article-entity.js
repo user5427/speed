@@ -33,10 +33,10 @@ class Article {
         }
 
         // Validate category title
-        if (typeof categoryTitle !== "string" ||
-            !ValidationPatternConstants.ArticleCategoryPattern.test(categoryTitle)) {
-            throw new Error("Category title must be a string and match the required pattern.");
-        }
+        // if (typeof categoryTitle !== "string" ||
+        //     !ValidationPatternConstants.ArticleCategoryPattern.test(categoryTitle)) {
+        //     throw new Error("Category title must be a string and match the required pattern.");
+        // }
 
         // Validate paragraph IDs (if provided)
         if (paragraphIDs && !Array.isArray(paragraphIDs)) {

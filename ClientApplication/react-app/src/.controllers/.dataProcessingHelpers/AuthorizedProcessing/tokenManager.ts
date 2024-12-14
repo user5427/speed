@@ -14,13 +14,13 @@ class UserManager {
     const role = localStorage.getItem('_role');
     const token = localStorage.getItem('_token');
 
-    console.log(username, id, role, token);
+    // console.log(username, id, role, token);
 
     if (username && id && role && token) {
       return User.createUserFromParams(username, Number(id), Number(role), token);
     }
 
-    console.log('UserManager.getUser() null');
+    // console.log('UserManager.getUser() null');
     return null;
   }
 

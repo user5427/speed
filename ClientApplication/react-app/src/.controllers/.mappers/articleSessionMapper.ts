@@ -1,5 +1,5 @@
-import { ArticleSession } from "../../.entities/.MainEntitiesExport";
-import { ArticleSessionJson } from "../../.constants/MainConstants";
+import { ArticleSession, ArticleSessionPage } from "../../.entities/.MainEntitiesExport";
+import { ArticleSessionJson, ArticleSessionPageJson } from "../../.constants/MainConstants";
 import ParagraphSessionMapper from "./paragraphSessionMapper";
 
 class ArticleSessionMapper {
@@ -11,6 +11,30 @@ class ArticleSessionMapper {
 
         return json;
     }
+
+    static fromJson(data: { [key: string]: any }): ArticleSession {
+        let articleSession =  ArticleSession.createSession(
+            data[ArticleSessionJson.articleId],
+            data[ArticleSessionJson.id],
+            data[ArticleSessionJson.time]
+        );
+
+        articleSession.setParagraphSessions(data[ArticleSessionJson.paragraphs].map(paragraphSession => ParagraphSessionMapper.fromJson(paragraphSession)));
+
+        return articleSession;
+    }
 }
 
-export { ArticleSessionMapper };
+
+class ArticleSessionPageMapper {
+    static fromJson(data: { [key: string]: any }) : ArticleSessionPage {
+        
+        let count = data[ArticleSessionPageJson.count];
+        let sessions = data[ArticleSessionPageJson.items].map(articleSession => ArticleSessionMapper.fromJson(articleSession));
+
+        return ArticleSessionPage.createArticleSessionPageFromParams(sessions, count);
+    }
+}
+
+
+export { ArticleSessionMapper, ArticleSessionPageMapper };

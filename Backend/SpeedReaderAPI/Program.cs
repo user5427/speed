@@ -164,6 +164,9 @@ try
 
     bool usePrometheus = configuration.GetValue<bool>("UsePrometheus");
 
+    // no touchy
+    app.UseCors("AllowAll");
+
     app.UseRouting();
 	app.UseAuthorization();
 
@@ -189,9 +192,7 @@ try
 
     app.UseHttpsRedirection();
 
-    app.UseCors("AllowAll");
     app.MapControllers();
-
     app.Run();
 
 }

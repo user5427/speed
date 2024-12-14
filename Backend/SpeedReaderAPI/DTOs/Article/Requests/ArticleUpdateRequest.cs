@@ -14,6 +14,7 @@ public record ArticleUpdateRequest
     string? Publisher,
     string? Url,
     string? Language,
+    string? OriginalAuthor,
     List<int>? ParagraphIds,
     List<int>? CategoryIds
 

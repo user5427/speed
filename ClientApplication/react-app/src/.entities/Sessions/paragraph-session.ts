@@ -1,4 +1,4 @@
-import QuestionSession from "../Question/question-session";
+import QuestionSession from "./question-session";
 
 class ParagraphSession {
     private sessionId?: Number;
@@ -87,6 +87,10 @@ class ParagraphSession {
 
     addQuestionSession(questionSession: QuestionSession): void {
         this.questionSessions.push(questionSession);
+    }
+
+    setQuestionSessions(questionSessions: Array<QuestionSession>): void {
+        this.questionSessions = questionSessions;
     }
 }
 

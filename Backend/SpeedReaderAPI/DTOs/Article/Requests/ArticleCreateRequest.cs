@@ -13,5 +13,6 @@ public record ArticleCreateRequest
     string? Publisher,
     string? Url,
     string? Language,
+    string? OriginalAuthor,
     List<int>? CategoryIds
 );

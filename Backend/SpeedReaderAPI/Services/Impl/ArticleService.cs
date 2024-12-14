@@ -80,6 +80,10 @@ public class ArticleService : IArticleService
             throw new UnauthorizedAccessException();
 
 
+        if (request.OriginalAuthor != null)
+        {
+            articleFound.OriginalAuthor = request.OriginalAuthor;
+        }
         if (request.Title != null)
         {
             articleFound.Title = request.Title;
