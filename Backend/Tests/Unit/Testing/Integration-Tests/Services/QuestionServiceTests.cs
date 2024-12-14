@@ -1,9 +1,4 @@
-using System;
-using Moq;
-using Xunit;
-using SpeedReaderAPI.Services;
 using AutoMapper;
-using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.Services.Impl;
@@ -14,6 +9,11 @@ using SpeedReaderAPI.DTOs.Paragraph.Responses;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.Exceptions;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
+
+namespace Unit;
 
 namespace Unit;
 
@@ -28,6 +28,7 @@ public class QuestionServiceTests
     private readonly QuestionService _questionService;
     private readonly ArticleResponse createdArticle;
     private readonly ParagraphResponse createdParagraph;
+    private readonly User _user;
 
     public QuestionServiceTests()
     {
@@ -49,13 +50,40 @@ public class QuestionServiceTests
 
         _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService);
 
+         var inMemorySettings = new Dictionary<string, string> 
+        {
+            { "Jwt:Key", "testkey" },
+            { "Jwt:Issuer", "testissuer" },
+            { "Jwt:Audience", "testaudience" }
+        };
+
+        Microsoft.Extensions.Configuration.IConfiguration configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        TokenService tokenService = new TokenService(configuration);
+
+        DBHelperMethods.SeedUserData(context);
+        _user = DBHelperMethods.getUser(context);
+
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(new ClaimsIdentity(
+        [
+            new Claim(ClaimTypes.NameIdentifier, _user.Id.ToString()),
+            new Claim(ClaimTypes.Email, _user.Email),
+            new Claim(ClaimTypes.Role, _user.Role.ToString()),
+        ]));
+         var contextAccessor = new HttpContextAccessor { HttpContext = httpContext };
+        AuthService authService = new AuthService(context, _mapper, tokenService, contextAccessor);
+
         // Initialize ArticleService with mocks and context
         _articleService = new ArticleService(context, _mapper, 
                                              _imageService, 
-                                             _paragraphService);
+                                             _paragraphService, authService);
+
 
         // Initialize ArticleService with mock data
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null, null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null);
         createdArticle = _articleService.CreateArticle(request);
 
         // Initialize ParagraphService with mock data

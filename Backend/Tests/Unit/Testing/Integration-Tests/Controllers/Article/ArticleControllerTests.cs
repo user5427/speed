@@ -1,16 +1,12 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using Moq;
 using SpeedReaderAPI.Data;
-using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Services;
 
 namespace Unit;
 
@@ -21,6 +17,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     private int _articleId;
     private int _paragraphId;
     private int _categoryId;
+    private User _user;
+    private readonly ITokenService _tokenService;
 
     public ArticleControllerTests(PlaygroundApplicationFixture fixture)
     {
@@ -28,6 +26,10 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         _client = fixture.CreateClient();
         _articleId = -1;
         ensureDatabaseIsPrepared();
+        
+        var configuration = _fixture.Services.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        _tokenService = new TokenService(configuration);
+
         Console.WriteLine("Database prepared Articles " + _articleId);
     }
 
@@ -42,6 +44,9 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
 
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
+        DBHelperMethods.SeedUserData(context);
+        _user = DBHelperMethods.getUser(context);
+
         _articleId = DBHelperMethods.GetFirstArticleId(context);
         _paragraphId = DBHelperMethods.GetFirstParagraphId(context);
         _categoryId = DBHelperMethods.GetFirstCategoryId(context);
@@ -52,10 +57,14 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     {
         // Arrange
         var request = new ArticleCreateRequest(
-            Title: "Test Article",
-            CategoryTitle: "Test Category", "abcd", "abcd", "abcd", "abce",
+            "Test Article", "Test Category", "abcd", "abcd", "abcd",
             null
         );
+
+         var token = _tokenService.CreateToken(_user);
+
+        // Set up the HTTP client with the Authorization header
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/articles", request);
@@ -69,14 +78,32 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     }
 
     [Fact]
+    public async Task CreateArticle_InvalidData_ReturnsUnauthorized()
+    {
+         var request = new ArticleCreateRequest(
+            "Test Article", "Test Category", "abcd", "abcd", "abcd",
+            null
+        );
+
+        // Act
+        var response = await _client.PostAsJsonAsync("/api/articles", request);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
     public async Task CreateArticle_InvalidData_ReturnsBadRequest()
     {
         // Arrange: Title does not meet the required length constraints
-        var request = new ArticleCreateRequest(
-            Title: "Sh",  // Assume this is less than ValidationConstants.MinTitleLength
-            CategoryTitle: "Test Category", "abcd", "abcd", "abcd", "abce",
+         var request = new ArticleCreateRequest(
+            "", "Test Category", "abcd", "abcd", "abcd",
             null
         );
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/articles", request);
@@ -114,13 +141,10 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     [Fact]
     public async Task UpdateArticle_ValidId_UpdatesAndReturnsArticle()
     {
-        // Arrange
-        var request = new ArticleUpdateRequest(
-            Title: "Updated Title",
-            CategoryTitle: "Updated Category", "abcd", "abcd", "abcd", "abce",
-            ParagraphIds: null,
-            CategoryIds: null
-            
+         var request = new ArticleUpdateRequest(
+            "Test Article", "Test Category", "abcd", "abcd", "abcd",
+            null,
+            null
         );
 
         // Act
@@ -140,9 +164,8 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange
         int invalidArticleId = 9999;  // Use an ID that does not exist
         var request = new ArticleUpdateRequest(
-            Title: "New Title",
-            CategoryTitle: "New Category", "abcd", "abcd", "abcd", "abce",
-            ParagraphIds: new List<int>{_paragraphId},
+            "Test Article", "Test Category", "abcd", "abcd", "abcd",
+            new List<int>{_paragraphId},
             new List<int>{_categoryId}
         );
 

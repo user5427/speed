@@ -10,6 +10,13 @@
   <Message Text="Uploaded directory cleaned." Importance="high" />
 </Target>
 
+<!-- Ensure 'uploaded' directory exists after build -->
+  <Target Name="CreateUploadedDirectory" AfterTargets="Build">
+    <Message Text="Ensuring 'uploaded' directory exists at: $(OutputPath)\uploaded" Importance="high" />
+    <MakeDir Directories="$(OutputPath)\uploaded" />
+    <Message Text="'uploaded' directory ensured." Importance="high" />
+  </Target>
+
 
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>

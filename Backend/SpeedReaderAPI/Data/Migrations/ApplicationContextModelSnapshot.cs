@@ -157,6 +157,41 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.ToTable("ArticleSession");
                 });
 
+            modelBuilder.Entity("SpeedReaderAPI.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ArticleIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ImageMimeType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("SpeedReaderAPI.Entities.Paragraph", b =>
                 {
                     b.Property<int>("Id")
@@ -271,6 +306,72 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.HasIndex("ParagraphId");
 
                     b.ToTable("Question");
+                });
+
+            modelBuilder.Entity("ValidationSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MaxAnswerChoiceLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxParagraphLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxQuestionTextLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxTitleLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinAnswerChoicesCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinParagraphLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinQuestionTextLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinTitleLength")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ValidationSettings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MaxAnswerChoiceLength = 255,
+                            MaxParagraphLength = 1500,
+                            MaxQuestionTextLength = 255,
+                            MaxTitleLength = 255,
+                            MinAnswerChoicesCount = 2,
+                            MinParagraphLength = 10,
+                            MinQuestionTextLength = 5,
+                            MinTitleLength = 3
+                        });
+                });
+
+            modelBuilder.Entity("ArticleCategory", b =>
+                {
+                    b.HasOne("SpeedReaderAPI.Entities.Article", null)
+                        .WithMany()
+                        .HasForeignKey("ArticlesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SpeedReaderAPI.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SpeedReaderAPI.Entities.User", b =>

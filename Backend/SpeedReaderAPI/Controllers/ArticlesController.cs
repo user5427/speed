@@ -7,6 +7,7 @@ using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.Services;
 using Serilog;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -47,6 +48,7 @@ public class ArticlesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult CreateArticle(ArticleCreateRequest createArticle)
     {
         ArticleResponse articleResponse = _articleService.CreateArticle(createArticle);
