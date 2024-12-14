@@ -36,7 +36,7 @@ class ArticleSession {
         return this.sessionId;
     }
 
-    setSessionId(sessionId: Number): void {
+    private setSessionId(sessionId: Number): void {
         this.sessionId = sessionId;
     }
 
@@ -52,7 +52,7 @@ class ArticleSession {
         return this.startedAt;
     }
 
-    setStartedAt(startedAt: Date): void {
+    private setStartedAt(startedAt: Date): void {
         this.startedAt = startedAt;
     }
 

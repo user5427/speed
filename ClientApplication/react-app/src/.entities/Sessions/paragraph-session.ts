@@ -26,28 +26,28 @@ class ParagraphSession {
         if (paragraphId !== undefined) {
             newParagraph.setParagraphId(paragraphId);
         }
-        if (sessionId !== undefined) {
-            newParagraph.setSessionId(sessionId);
-        }
+        // if (sessionId !== undefined) {
+        //     newParagraph.setSessionId(sessionId);
+        // }
         if (duration !== undefined) {
             newParagraph.setDuration(duration);
         }
         if (wpm !== undefined) {
             newParagraph.setWpm(wpm);
         }
-        if (startedAt !== undefined) {
-            newParagraph.setStartedAt(startedAt);
-        }
+        // if (startedAt !== undefined) {
+        //     newParagraph.setStartedAt(startedAt);
+        // }
         return newParagraph;
     }
 
-    getSessionId(): Number | undefined {
-        return this.sessionId;
-    }
+    // getSessionId(): Number | undefined {
+    //     return this.sessionId;
+    // }
 
-    setSessionId(sessionId: Number): void {
-        this.sessionId = sessionId;
-    }
+    // setSessionId(sessionId: Number): void {
+    //     this.sessionId = sessionId;
+    // }
 
     getParagraphId(): Number | undefined {
         return this.paragraphId;
@@ -73,13 +73,13 @@ class ParagraphSession {
         this.wpm = wpm;
     }
 
-    getStartedAt(): Date {
-        return this.startedAt;
-    }
+    // getStartedAt(): Date {
+    //     return this.startedAt;
+    // }
 
-    setStartedAt(startedAt: Date): void {
-        this.startedAt = startedAt;
-    }
+    // setStartedAt(startedAt: Date): void {
+    //     this.startedAt = startedAt;
+    // }
 
     getQuestionSessions(): Array<QuestionSession> {
         return this.questionSessions;
