@@ -54,6 +54,21 @@ describe('FeedbackMessage Component', () => {
     expect(mockHandleNext).toHaveBeenCalledTimes(1);
   });
 
+  test('renders Finish button on the last paragraph', () => {
+    render(
+      <FeedbackMessage
+        feedbackMessage="Keep going!"
+        currentParagraphIndex={paragraphs.length - 1}
+        paragraphs={paragraphs}
+        handleNextParagraphOrQuestion={mockHandleNext}
+      />
+    );
+  
+    const button = screen.getByRole('button', { name: /Finish/i });
+    expect(button).toBeInTheDocument();
+  });
+  
+
   test('handles edge case when there are no paragraphs', () => {
     render(
       <FeedbackMessage

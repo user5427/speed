@@ -106,6 +106,13 @@ describe('ResultsTable Component', () => {
     expect(upArrow).toHaveStyle('color: var(--color-lime)');
   });
 
+  test('Go Back to Categories button is enabled', () => {
+    setup();
+  
+    const button = screen.getByRole('button', { name: /Go Back to Categories/i });
+    expect(button).toBeEnabled();
+  });
+    
   test('displays down arrow when WPM is below usersWPM', () => {
     const newTimePerParagraph = [60.0];
     const newWordsPerParagraph = [150];
