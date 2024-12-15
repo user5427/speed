@@ -1,5 +1,3 @@
-   // Additional exercise information
-   // TO ADD TO DB
   export const exerciseInfo = {
     author: 'Erin Garcia de Jesús',
     source: 'https://shorturl.at/4H1md',
