@@ -31,7 +31,7 @@ const ArticleInfo = ({ title, author, publisher, source, addedBy}) => {
         </Col>
         <Col style={{ textAlign: 'center' }}>
           <p style={{ marginBottom: '0px', marginTop: '20px' }}>
-            <span style={{ color: '#4d4d4d' }}>{t('exercise.articleInfo.addedBy')}Added by{':'}</span> {AddedBy}
+            <span style={{ color: '#4d4d4d' }}>{t('exercise.articleInfo.addedBy')}{':'}</span> {addedBy}
           </p>
         </Col>
       </Row>
