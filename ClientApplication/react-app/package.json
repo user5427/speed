@@ -51,10 +51,12 @@
       "!src/reportWebVitals.js",
       "!src/.components/.common-components/**",
       "!src/.constants/**",
-      "!src/.controllers/**",
       "!src/.helpers/**",
       "!src/.entities/**",
-      "!src/pages/Exercise/articleData.js"
+      "!src/_tests/.mocks/**",
+      "!src/pages/Exercise/articleData.js",
+      "!src/jest.config.js"
+
     ],
     "coverageThreshold": {
       "global": {
