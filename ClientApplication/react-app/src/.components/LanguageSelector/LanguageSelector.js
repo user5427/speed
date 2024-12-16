@@ -1,4 +1,3 @@
-// src/.components/LanguageSelector/LanguageSelector.jsx
 import React, { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown } from 'react-bootstrap';
