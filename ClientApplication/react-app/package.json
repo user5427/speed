@@ -31,7 +31,6 @@
     "rsuite": "^5.75.0",
     "styled-components": "^6.1.13",
     "svg-parser": "^2.0.4",
-    "svg-parser": "^2.0.4",
     "typescript": "^4.9.5",
     "util": "^0.12.5",
     "web-vitals": "^2.1.4"
@@ -53,6 +52,7 @@
       "!src/reportWebVitals.js",
       "!src/.components/.common-components/**",
       "!src/.constants/**",
+      "src/.controllers/**",
       "!src/.helpers/**",
       "!src/.entities/**",
       "!src/_tests/.mocks/**",

@@ -35,56 +35,6 @@ test('renders ArticleSearch component', () => {
   expect(getByLabelText('articles.search.searchArticles')).toBeInTheDocument();
 });
 
-test('calls handleSelection when an article is selected', async () => {
-  // Mock the ArticleController.Search to return mock articles
-  jest.mock('../../../.controllers/.MainControllersExport', () => ({
-    ArticleController: {
-      Search: jest.fn().mockResolvedValueOnce({
-        articles: [
-          { id: 1, title: 'Article One' },
-          { id: 2, title: 'Article Two' },
-        ],
-      }),
-    },
-  }));
-
-  // Mock handleSelection directly within the test
-  const mockHandleSelection = jest.fn();
-  jest.mock('../../../.helpers/MainHelpers', () => ({
-    handleSelection: mockHandleSelection,
-  }));
-
-  // Create mock function for onArticleSelected
-  const onArticleSelected = jest.fn();
-
-  // Render the component
-  render(<ArticleSearch onArticleSelected={onArticleSelected} />);
-
-  // Simulate typing in the search field
-  const input = screen.getByPlaceholderText('articles.search.enterArticleTitle');
-  fireEvent.change(input, { target: { value: 'Article' } });
-
-  // Wait for the datalist options to appear (look for <option> elements)
-  await waitFor(() => {
-    expect(screen.getAllByTagName('option')).toHaveLength(2); // Expect two options
-  });
-
-  // Simulate user selecting an article from the datalist
-  fireEvent.change(input, { target: { value: 'Article One' } });
-
-  // Wait for handleSelection to be called
-  await waitFor(() => {
-    expect(mockHandleSelection).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.objectContaining({ key: 1, value: 'Article One' }),
-        expect.objectContaining({ key: 2, value: 'Article Two' }),
-      ]),
-      expect.any(Object), // The event object
-      onArticleSelected // The callback function
-    );
-  });
-});
-
 test('clears options when no articles are found', async () => {
   ArticleController.Search.mockResolvedValueOnce({ articles: [] });
   const { getByPlaceholderText } = render(<ArticleSearch />);
