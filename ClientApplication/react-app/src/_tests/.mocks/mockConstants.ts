@@ -34,5 +34,8 @@ const articleMockDataEmpty = {
     ]
 }
 
+const paragraphMockDataFull = {
+    
+}
 
 export { articlesMockDataFilled, articleMockDataEmpty };

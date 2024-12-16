@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ArticleSearch from '../article-search';
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 jest.mock('../../../.controllers/.MainControllersExport', () => ({
   ArticleController: {
     Search: jest.fn(),
+    GetPage: jest.fn()
   },
 }));
 
@@ -16,8 +17,13 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key) => key }),
 }));
 
+
 jest.mock('../../.common-components/ErrorPopup', () => ({ showErrorModal, errorMessage, onClose }) => (
-  showErrorModal ? <div>{errorMessage}</div> : null
+  showErrorModal ? (
+    <div role="alert" onClick={onClose}>
+      {errorMessage}
+    </div>
+  ) : null
 ));
 
 afterEach(() => {
@@ -27,6 +33,114 @@ afterEach(() => {
 test('renders ArticleSearch component', () => {
   const { getByLabelText } = render(<ArticleSearch />);
   expect(getByLabelText('articles.search.searchArticles')).toBeInTheDocument();
+});
+
+test('calls handleSelection when an article is selected', async () => {
+  // Mock the ArticleController.Search to return mock articles
+  jest.mock('../../../.controllers/.MainControllersExport', () => ({
+    ArticleController: {
+      Search: jest.fn().mockResolvedValueOnce({
+        articles: [
+          { id: 1, title: 'Article One' },
+          { id: 2, title: 'Article Two' },
+        ],
+      }),
+    },
+  }));
+
+  // Mock handleSelection directly within the test
+  const mockHandleSelection = jest.fn();
+  jest.mock('../../../.helpers/MainHelpers', () => ({
+    handleSelection: mockHandleSelection,
+  }));
+
+  // Create mock function for onArticleSelected
+  const onArticleSelected = jest.fn();
+
+  // Render the component
+  render(<ArticleSearch onArticleSelected={onArticleSelected} />);
+
+  // Simulate typing in the search field
+  const input = screen.getByPlaceholderText('articles.search.enterArticleTitle');
+  fireEvent.change(input, { target: { value: 'Article' } });
+
+  // Wait for the datalist options to appear (look for <option> elements)
+  await waitFor(() => {
+    expect(screen.getAllByTagName('option')).toHaveLength(2); // Expect two options
+  });
+
+  // Simulate user selecting an article from the datalist
+  fireEvent.change(input, { target: { value: 'Article One' } });
+
+  // Wait for handleSelection to be called
+  await waitFor(() => {
+    expect(mockHandleSelection).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({ key: 1, value: 'Article One' }),
+        expect.objectContaining({ key: 2, value: 'Article Two' }),
+      ]),
+      expect.any(Object), // The event object
+      onArticleSelected // The callback function
+    );
+  });
+});
+
+test('clears options when no articles are found', async () => {
+  ArticleController.Search.mockResolvedValueOnce({ articles: [] });
+  const { getByPlaceholderText } = render(<ArticleSearch />);
+  const input = getByPlaceholderText('articles.search.enterArticleTitle'); 
+  fireEvent.change(input, { target: { value: 'test' } });
+  await waitFor(() => {
+    const datalist = document.getElementById('articles');
+    expect(datalist).toBeInTheDocument();
+    expect(datalist.children.length).toBe(0);
+  });
+});
+
+test('closes error modal when clicked', async () => {
+  const mockError = new Error('Network Error');
+  ArticleController.Search.mockRejectedValue(mockError);
+  render(<ArticleSearch />);
+  const input = screen.getByPlaceholderText('articles.search.enterArticleTitle');
+  fireEvent.change(input, { target: { value: 'Article' } });
+  const errorMessage = await screen.findByRole('alert');
+  expect(errorMessage).toBeInTheDocument();
+  expect(errorMessage).toHaveTextContent('Network Error');
+  fireEvent.click(errorMessage);
+  await waitFor(() => {
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+});
+
+test('handles article selection', async () => {
+  const mockArticle = { id: 1, title: 'Selected Article' };
+
+  // Mock `ArticleController.Search` to return articles including the mock article
+  ArticleController.Search.mockResolvedValueOnce({
+    articles: [mockArticle],
+  });
+
+  // Render the component
+  const { getByPlaceholderText } = render(<ArticleSearch />);
+  const input = getByPlaceholderText('articles.search.enterArticleTitle');
+
+  // Simulate typing in the input field
+  fireEvent.change(input, { target: { value: 'Selected' } });
+
+  // Wait for the dropdown options to appear
+  await waitFor(() => {
+    const datalist = document.getElementById('articles'); // Assuming the datalist has the id 'articles'
+    expect(datalist).toBeInTheDocument();
+    expect(datalist.children.length).toBe(1); // One option should appear
+  });
+
+  // Simulate selecting the article
+  fireEvent.change(input, { target: { value: mockArticle.title } });
+
+  // Assert that the correct article was selected
+  await waitFor(() => {
+    expect(input.value).toBe(mockArticle.title); // The input value updates to the selected article title
+  });
 });
 
 test('updates options based on user input', async () => {
