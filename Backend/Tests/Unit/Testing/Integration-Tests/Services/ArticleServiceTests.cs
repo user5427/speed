@@ -1,9 +1,4 @@
-using System;
-using Moq;
-using Xunit;
-using SpeedReaderAPI.Services;
 using AutoMapper;
-using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.Services.Impl;
@@ -11,6 +6,9 @@ using SpeedReaderAPI.DTOs;
 using SpeedReaderAPI;
 using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
 
 namespace Unit;
 
@@ -23,6 +21,7 @@ public class ArticleServiceTests
     private readonly ParagraphService _paragraphService;
     private readonly QuestionService _questionService;
     private readonly CategoryService _categoryService;
+    private readonly User _user;
 
     public ArticleServiceTests()
     {
@@ -40,22 +39,48 @@ public class ArticleServiceTests
         _imageService = new ImageService();
         // _mockMapper.Object
 
-        _questionService = new QuestionService(context, _mapper, _imageService);
 
-        _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService);
+
+        var inMemorySettings = new Dictionary<string, string> 
+        {
+            { "Jwt:Key", "testkey" },
+            { "Jwt:Issuer", "testissuer" },
+            { "Jwt:Audience", "testaudience" }
+        };
+
+        Microsoft.Extensions.Configuration.IConfiguration configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        TokenService tokenService = new TokenService(configuration);
+
+        DBHelperMethods.SeedUserData(context);
+        _user = DBHelperMethods.getUser(context);
+
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(new ClaimsIdentity(
+        [
+            new Claim(ClaimTypes.NameIdentifier, _user.Id.ToString()),
+            new Claim(ClaimTypes.Email, _user.Email),
+            new Claim(ClaimTypes.Role, _user.Role.ToString()),
+        ]));
+         var contextAccessor = new HttpContextAccessor { HttpContext = httpContext };
+        AuthService authService = new AuthService(context, _mapper, tokenService, contextAccessor);
+        _questionService = new QuestionService(context, _mapper, _imageService, authService);
+        _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService, authService);
 
         // Initialize ArticleService with mocks and context
         _articleService = new ArticleService(context, _mapper, 
                                              _imageService, 
-                                             _paragraphService);
-        _categoryService = new CategoryService(context, _mapper, _imageService);
+                                             _paragraphService, authService);
+        _categoryService = new CategoryService(context, _mapper, _imageService, authService);
     }
 
     [Fact (DisplayName  = "Article creating")]
     public void CreateArticle ()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null); 
         
         // Act
         var result = _articleService.CreateArticle(request);
@@ -70,7 +95,8 @@ public class ArticleServiceTests
     public void GettingArticle ()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null); 
+
         var created = _articleService.CreateArticle(request);
         
         // Act
@@ -100,7 +126,7 @@ public class ArticleServiceTests
         var catRes = _categoryService.CreateCategory(catReq);
         var list = new List<int>();
         list.Add(catRes.Id);
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null); 
         var result = _articleService.CreateArticle(request);
         // Assert
         Assert.NotNull(result);
@@ -120,14 +146,15 @@ public class ArticleServiceTests
         var list3 = new List<int>();
         list3.Add(catRes.Id);
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null);  
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null); 
+
         var created = _articleService.CreateArticle(request);
         
          var catReq2 = new ParagraphCreateRequest("Test Title", created.Id, "Test Text");
         var catRes2 = _paragraphService.CreateParagraph(catReq2);
         var list2 = new List<int>();
         list2.Add(catRes2.Id);
-        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", "abcd", "abcd", "abcd", "abce", list2, list3);
+        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", "abcd", "abcd", "abce", list2, list3);
         
         // Act
         var result = _articleService.UpdateArticle(created.Id, updateRequest);
@@ -141,7 +168,8 @@ public class ArticleServiceTests
     public void DeleteArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null); 
+
         var created = _articleService.CreateArticle(request);
         
         // Act
@@ -157,10 +185,12 @@ public class ArticleServiceTests
     public void SearchArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null); 
+
         var created = _articleService.CreateArticle(request);
         
-        var sideRequest = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
+        var sideRequest = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null); 
+
         var sideCreated = _articleService.CreateArticle(request);
 
         // Act
@@ -189,10 +219,10 @@ public class ArticleServiceTests
     public void SearchArticleMulti()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abcd", "abce", null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null); 
         var created = _articleService.CreateArticle(request);
         
-        var sideRequest = new ArticleCreateRequest("Test999 Articlse", "Test Category", "abcd", "abcd", "abcd", "abce", null);  
+        var sideRequest = new ArticleCreateRequest("Test999 Articlse", "Test Category", "abcd", "abcd", "abce", null);  
         var sideCreated = _articleService.CreateArticle(sideRequest);
 
         // Act

@@ -1,8 +1,10 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Services;
 
 
 namespace Unit;
@@ -13,6 +15,8 @@ public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, I
     private readonly PlaygroundApplicationFixture _fixture;
     private HttpClient _client;
     private int _categoryId;
+    private User _user;
+    private readonly ITokenService _tokenService;
 
     public CategoryImageTests(PlaygroundApplicationFixture fixture, ImageFixture imageFixture)
     {
@@ -20,6 +24,8 @@ public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         _fixture = fixture;
         _client = fixture.CreateClient();
 
+        var configuration = _fixture.Services.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        _tokenService = new TokenService(configuration);
         ensureDatabaseIsPrepared();
     }
 
@@ -34,6 +40,7 @@ public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, I
 
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
+        _user = DBHelperMethods.getUser(context);
         _categoryId = DBHelperMethods.GetFirstArticleId(context);
     }
 
@@ -45,6 +52,8 @@ public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         // Act
         var response = await _client.PostAsync($"/api/category/{_categoryId}/img", form);
 
@@ -60,6 +69,9 @@ public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PostAsync($"/api/category/{invalidCategoryId}/img", form);
 
@@ -72,6 +84,9 @@ public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsync($"/api/category/{_categoryId}/img", form);
@@ -114,6 +129,9 @@ public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, I
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PostAsync($"/api/category/{_categoryId}/img", form);
 
@@ -128,6 +146,9 @@ public class CategoryImageTests : IClassFixture<PlaygroundApplicationFixture>, I
     {
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         await _client.PostAsync($"/api/category/{_categoryId}/img", form);

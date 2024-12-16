@@ -7,6 +7,7 @@ public class DBHelperMethods
     // Separate method to handle initial data seeding
     public static void SeedInitialData(ApplicationContext context)
     {
+        AddUser(context);
         AddArticle(context);
         AddParagraph(context, context.Article.Last().Id);
         AddQuestion(context, context.Paragraph.Last().Id);
@@ -37,24 +38,24 @@ public class DBHelperMethods
 
     public static void AddArticle(ApplicationContext context, string title = "Sample Article", string categoryTitle = "Sample Category")
     {
-        context.Article.Add(new Article { Title = title, CategoryTitle = categoryTitle });
+        context.Article.Add(new Article { Title = title, CategoryTitle = categoryTitle, UserId = getUser(context).Id });
         context.SaveChanges();
     }
     public static void AddCategory(ApplicationContext context, string title = "Sample title", string text = "Sample text")
     {
-        context.Category.Add(new Category { Title = title, Text = text });
+        context.Category.Add(new Category { Title = title, Text = text, UserId = getUser(context).Id });
         context.SaveChanges();
     }
     public static void AddParagraph(ApplicationContext context, int articleId, string title = "Test Paragraph", string text = "Test Content")
     {
-        context.Paragraph.Add(new Paragraph { Title = title, Text = text, ArticleId = articleId });
+        context.Paragraph.Add(new Paragraph { Title = title, Text = text, ArticleId = articleId, UserId = getUser(context).Id });
         context.SaveChanges();
     }
 
     private static readonly string[] entity = ["help", "C# struggle", "haskell pain"];
     public static void AddQuestion(ApplicationContext context, int paragraphId, string question = "Test Question", string[] answer = default!, int correctAnswerIndex = 1)
     {
-        context.Question.Add(new Question { QuestionText = question, AnswerChoices = answer ?? entity, ParagraphId = paragraphId, CorrectAnswerIndex = correctAnswerIndex });
+        context.Question.Add(new Question { QuestionText = question, AnswerChoices = answer ?? entity, ParagraphId = paragraphId, CorrectAnswerIndex = correctAnswerIndex, UserId = getUser(context).Id });
         context.SaveChanges();
     }
 
