@@ -47,14 +47,14 @@ public class ArticleSessionsControllerTests
             CorrectQuestionCount: 5,
             TotalQuestionCount: 7,  
             Time: new DateTime(),
-            Paragraphs: new[]
-            {
+            Paragraphs:
+            [
                 new ParagraphSessionDto( ParagraphId: 1,
                     Wpm: 200,
                     CorrectQuestionCount: 5,
                     TotalQuestionCount: 7
                   )
-            });
+            ]);
         // Mock the service call
         _mockArticleSessionService.Setup(service => service.CreateArticleSession(It.IsAny<ArticleSessionCreateRequest>()))
             .ReturnsAsync(expectedResponse);
