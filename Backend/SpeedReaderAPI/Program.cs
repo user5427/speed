@@ -189,6 +189,9 @@ try
 
     var app = builder.Build();
 
+    // no touchy
+    app.UseCors("AllowAll");
+
     app.UseSerilogRequestLogging();
 
     app.Use(async (context, next) =>
@@ -207,8 +210,6 @@ try
 
     bool usePrometheus = configuration.GetValue<bool>("UsePrometheus");
 
-    // no touchy
-    app.UseCors("AllowAll");
 
     app.UseRouting();
 	app.UseAuthorization();
