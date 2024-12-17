@@ -233,12 +233,7 @@ try
     // if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     // {
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
-            options.RoutePrefix = string.Empty; // Default swagger route
-        });
-
+        app.UseSwaggerUI();
     // }
 
     // app.UseHttpsRedirection();
