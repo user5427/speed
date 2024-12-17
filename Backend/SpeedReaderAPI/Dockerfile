@@ -27,5 +27,4 @@ RUN dotnet publish "./SpeedReaderAPI.csproj" -c $BUILD_CONFIGURATION -o /app/pub
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY SpeedReaderAPI.pfx .
 ENTRYPOINT ["dotnet", "SpeedReaderAPI.dll"]

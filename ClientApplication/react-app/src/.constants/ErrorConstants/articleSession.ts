@@ -30,5 +30,16 @@ const ArticleSessionErrors = {
     }
 }
 
+const ArticlePageSessionErrors = {
+    type: "article page session",
 
-export { ArticleSessionErrors };
+    GetError(){
+        return `Could not get ${this.type}`;
+    },
+
+    SearchError(){
+        return `Could not search for ${this.type}`;
+    }
+}
+
+export { ArticleSessionErrors, ArticlePageSessionErrors };

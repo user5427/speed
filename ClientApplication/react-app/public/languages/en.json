@@ -111,7 +111,8 @@
             "title" : "Title",
             "author" : "Author",
             "publisher" : "Publisher",
-            "link" : "Link"
+            "link" : "Link",
+            "addedBy" : "Added by"
         },
         "results" : {
             "exerciseCompleted" : "Exercise completed",

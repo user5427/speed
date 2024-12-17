@@ -8,7 +8,7 @@ public record ArticleSessionResponse(
     int Wpm,
     int CorrectQuestionCount,
     int TotalQuestionCount,
-    DateTime Time,
+    DateTime Time, // When
     ParagraphSessionDto[] Paragraphs
 
 );

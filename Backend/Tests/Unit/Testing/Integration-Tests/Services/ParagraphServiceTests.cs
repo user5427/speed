@@ -1,9 +1,4 @@
-using System;
-using Moq;
-using Xunit;
-using SpeedReaderAPI.Services;
 using AutoMapper;
-using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.Services.Impl;
@@ -13,6 +8,9 @@ using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.DTOs.Article.Responses;
 using SpeedReaderAPI.DTOs.Question.Requests;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Unit;
 
@@ -25,12 +23,14 @@ public class ParagraphServiceTests
     private readonly ParagraphService _paragraphService;
     private readonly QuestionService _questionService;
     private readonly ArticleResponse createdArticle;
+    private readonly User _user;
+
     public ParagraphServiceTests()
     {
         // Create the context creator
         var context = ContextCreator.CreateIsolatedContext();
 
-         // Set up AutoMapper with the actual mappings
+        // Set up AutoMapper with the actual mappings
         var mapperConfig = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<MappingProfiles>(); // Replace with your actual AutoMapper profile(s)
@@ -41,25 +41,50 @@ public class ParagraphServiceTests
         _imageService = new ImageService();
         // _mockMapper.Object
 
-        _questionService = new QuestionService(context, _mapper, _imageService);
+        var inMemorySettings = new Dictionary<string, string>
+        {
+            { "Jwt:Key", "testkey" },
+            { "Jwt:Issuer", "testissuer" },
+            { "Jwt:Audience", "testaudience" }
+        };
 
-        _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService);
+        Microsoft.Extensions.Configuration.IConfiguration configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        TokenService tokenService = new TokenService(configuration);
+
+        DBHelperMethods.SeedInitialData(context);
+        _user = DBHelperMethods.getUser(context);
+
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(new ClaimsIdentity(
+        [
+            new Claim(ClaimTypes.NameIdentifier, _user.Id.ToString()),
+            new Claim(ClaimTypes.Email, _user.Email),
+            new Claim(ClaimTypes.Role, _user.Role.ToString()),
+        ]));
+        var contextAccessor = new HttpContextAccessor { HttpContext = httpContext };
+        AuthService authService = new AuthService(context, _mapper, tokenService, contextAccessor);
+
+        _questionService = new QuestionService(context, _mapper, _imageService, authService);
+        _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService, authService);
 
         // Initialize ArticleService with mocks and context
-        _articleService = new ArticleService(context, _mapper, 
-                                             _imageService, 
-                                             _paragraphService);
+        _articleService = new ArticleService(context, _mapper,
+                                             _imageService,
+                                             _paragraphService, authService);
 
         // Initialize ArticleService with mock data
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null, null); 
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null);
         createdArticle = _articleService.CreateArticle(request);
     }
 
-    [Fact (DisplayName  = "Paragraph creating")]
-    public void CreateParagraph ()
+    [Fact(DisplayName = "Paragraph creating")]
+    public void CreateParagraph()
     {
         var requestP = new ParagraphCreateRequest("Test Paragraph", createdArticle.Id, "Test Article");
-        
+
         // Act
         var result = _paragraphService.CreateParagraph(requestP);
         // Assert
@@ -67,16 +92,16 @@ public class ParagraphServiceTests
         Assert.Equal("Test Paragraph", result.Title);
         Assert.Equal(createdArticle.Id, result.ArticleId);
     }
-    [Fact (DisplayName  = "Paragraph creating with Category")]
-    public void CreateParagraphWithCategory ()
+    [Fact(DisplayName = "Paragraph creating with Category")]
+    public void CreateParagraphWithCategory()
     {
-        
+
         // Arrange
-        var catReq = new ArticleCreateRequest("Test Title", "Test Text", null, null, null, null, null);
+        var catReq = new ArticleCreateRequest("Test Title", "Test Text", null, null, null, null);
         var catRes = _articleService.CreateArticle(catReq);
         var list = new List<int>();
         list.Add(catRes.Id);
-        var request = new ParagraphCreateRequest("Test New Para", catRes.Id,  "Test New Text");
+        var request = new ParagraphCreateRequest("Test New Para", catRes.Id, "Test New Text");
         var result = _paragraphService.CreateParagraph(request);
         // Assert
         Assert.NotNull(result);
@@ -84,8 +109,8 @@ public class ParagraphServiceTests
         Assert.Equal("Test New Text", result.Text);
     }
 
-    [Fact (DisplayName  = "Paragraph updating")]
-    public void UpdateParagraph_withIDs ()
+    [Fact(DisplayName = "Paragraph updating")]
+    public void UpdateParagraph_withIDs()
     {
         var requestP = new ParagraphCreateRequest("Test Paragraph", createdArticle.Id, "Test Article");
         var createdP = _paragraphService.CreateParagraph(requestP);
@@ -94,7 +119,7 @@ public class ParagraphServiceTests
         var l = new List<int>();
         l.Add(que.Id);
         var requestP2 = new ParagraphUpdateRequest("Test Paragraph 2", createdArticle.Id, "Test Article", l);
-        
+
         // Act
         var result = _paragraphService.UpdateParagraph(createdP.Id, requestP2);
         // Assert
@@ -102,8 +127,8 @@ public class ParagraphServiceTests
         Assert.Equal("Test Paragraph 2", result.Title);
         Assert.Equal(createdArticle.Id, result.ArticleId);
     }
-    [Fact (DisplayName  = "Paragraph getting")]
-    public void GettingParagraph ()
+    [Fact(DisplayName = "Paragraph getting")]
+    public void GettingParagraph()
     {
         var requestP = new ParagraphCreateRequest("Test Paragraph", createdArticle.Id, "Test Article");
         var createdP = _paragraphService.CreateParagraph(requestP);
@@ -116,14 +141,14 @@ public class ParagraphServiceTests
         Assert.Equal(createdArticle.Id, result.ArticleId);
     }
 
-    [Fact (DisplayName  = "Paragraph updating")]
-    public void UpdateParagraph ()
+    [Fact(DisplayName = "Paragraph updating")]
+    public void UpdateParagraph()
     {
         var requestP = new ParagraphCreateRequest("Test Paragraph", createdArticle.Id, "Test Article");
         var createdP = _paragraphService.CreateParagraph(requestP);
 
         var requestP2 = new ParagraphUpdateRequest("Test Paragraph 2", createdArticle.Id, "Test Article", null);
-        
+
         // Act
         var result = _paragraphService.UpdateParagraph(createdP.Id, requestP2);
         // Assert
@@ -132,15 +157,15 @@ public class ParagraphServiceTests
         Assert.Equal(createdArticle.Id, result.ArticleId);
     }
     [Fact]
-     public void UpdateParagrap_Invalid ()
+    public void UpdateParagrap_Invalid()
     {
         var requestP = new ParagraphCreateRequest("Test Paragraph", createdArticle.Id, "Test Article");
         var createdP = _paragraphService.CreateParagraph(requestP);
 
         var requestP2 = new ParagraphUpdateRequest("Test Paragraph 2", createdArticle.Id, "Test Article", null);
-        
+
         // Act
-        
+
         Assert.Throws<SpeedReaderAPI.Exceptions.ResourceNotFoundException>(() =>
             _paragraphService.UpdateParagraph(99999, requestP2)
         );
@@ -151,12 +176,12 @@ public class ParagraphServiceTests
     {
         var requestP = new ParagraphCreateRequest("Test Paragraph", createdArticle.Id, "Test Article");
         var createdP = _paragraphService.CreateParagraph(requestP);
-        
+
         // Act
         _paragraphService.DeleteParagraph(createdP.Id);
 
         // Assert
-        var exception = Assert.Throws<ResourceNotFoundException>(() => 
+        var exception = Assert.Throws<ResourceNotFoundException>(() =>
             _paragraphService.GetParagraph(createdP.Id));
     }
 
@@ -164,9 +189,9 @@ public class ParagraphServiceTests
     public void CreateParagraphWithArticleId0()
     {
         var requestP = new ParagraphCreateRequest("Test Paragraph", 0, "Test Article");
-        
+
         // Act
-        var exception = Assert.Throws<ResourceNotFoundException>(() => 
+        var exception = Assert.Throws<ResourceNotFoundException>(() =>
             _paragraphService.CreateParagraph(requestP));
     }
 
@@ -222,8 +247,9 @@ public class ParagraphServiceTests
 
     }
     [Fact(DisplayName = "Category count")]
-    public void CategoryCount(){
+    public void CategoryCount()
+    {
         long count = _paragraphService.GetCount();
-        Assert.Equal(0, count);
+        Assert.Equal(3, count);
     }
 }

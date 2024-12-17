@@ -45,9 +45,6 @@ namespace SpeedReaderAPI.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CategoryIds")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -67,6 +64,9 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.Property<string>("Language")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OriginalAuthor")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ParagraphIds")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -82,44 +82,14 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Article");
-                });
-
-            modelBuilder.Entity("SpeedReaderAPI.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ArticleIds")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageFileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageFilePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ImageMimeType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("SpeedReaderAPI.Entities.ArticleSession", b =>
@@ -157,6 +127,46 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.ToTable("ArticleSession");
                 });
 
+            modelBuilder.Entity("SpeedReaderAPI.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ArticleIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ImageMimeType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("SpeedReaderAPI.Entities.Paragraph", b =>
                 {
                     b.Property<int>("Id")
@@ -191,9 +201,14 @@ namespace SpeedReaderAPI.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ArticleId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Paragraph");
                 });
@@ -266,9 +281,14 @@ namespace SpeedReaderAPI.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParagraphId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Question");
                 });
@@ -290,6 +310,15 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ImageMimeType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -382,6 +411,17 @@ namespace SpeedReaderAPI.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SpeedReaderAPI.Entities.Article", b =>
+                {
+                    b.HasOne("SpeedReaderAPI.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SpeedReaderAPI.Entities.ArticleSession", b =>
                 {
                     b.HasOne("SpeedReaderAPI.Entities.Article", "Article")
@@ -401,6 +441,17 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SpeedReaderAPI.Entities.Category", b =>
+                {
+                    b.HasOne("SpeedReaderAPI.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SpeedReaderAPI.Entities.Paragraph", b =>
                 {
                     b.HasOne("SpeedReaderAPI.Entities.Article", "Article")
@@ -409,7 +460,15 @@ namespace SpeedReaderAPI.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SpeedReaderAPI.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Article");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SpeedReaderAPI.Entities.ParagraphSession", b =>
@@ -439,7 +498,15 @@ namespace SpeedReaderAPI.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SpeedReaderAPI.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Paragraph");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SpeedReaderAPI.Entities.Article", b =>

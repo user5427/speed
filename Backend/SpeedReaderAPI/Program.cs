@@ -129,6 +129,7 @@ try
     builder.Services.AddScoped<IValidationSettingsService, ValidationSettingsService>();
     builder.Services.AddScoped<ICategoryService, CategoryService>();
     builder.Services.AddScoped<IAuthService, AuthService>();
+    builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<IArticleSessionService, ArticleSessionService>();
     builder.Services.AddScoped<IParagraphSessionService, ParagraphSessionService>();
@@ -206,8 +207,10 @@ try
 
     bool usePrometheus = configuration.GetValue<bool>("UsePrometheus");
 
-    app.UseRouting();
+    // no touchy
     app.UseCors("AllowAll");
+
+    app.UseRouting();
 	app.UseAuthorization();
 
 
@@ -233,6 +236,7 @@ try
     }
 
     app.UseHttpsRedirection();
+
     app.MapControllers();
     // Log.Fatal("Connection String: {ConnectionString}" + builder.Configuration["ConnectionStrings:Default"]);
     // Log.Fatal("JWT Key: {JwtKey}" + builder.Configuration["Jwt:Key"]);

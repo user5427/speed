@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 import { useTranslation } from 'react-i18next';
 
@@ -31,6 +31,7 @@ import ArticleListFromCategory from './pages/Categories/ArticleListFromCategorie
 function App() {
   const { t } = useTranslation();
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -50,6 +51,7 @@ function App() {
     try {
       await UserController.Logout();
       setLoggedInUser(null);
+      navigate('/');
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -68,8 +70,7 @@ function App() {
 
           {/* {!loggedInUser && <Nav.Link as={Link} to="/sign-up">{t('signup.signUp')}</Nav.Link>}
           {!loggedInUser && <Nav.Link as={Link} to="/log-in">{t('login.logIn')}</Nav.Link>} */}
-
-          {/* {loggedInUser && <Nav.Link as={Link} to="/profile">Profile</Nav.Link>} */}
+          {loggedInUser && <Nav.Link as={Link} to="/profile">Profile</Nav.Link>}
 
         </Nav>
         <Nav>
@@ -81,7 +82,7 @@ function App() {
     </Nav.Link>
     <div style={{height:"100%", width:"2.5px", backgroundColor:"grey", borderRadius:"10%"}}></div>
     <Nav.Link onClick={handleLogout}>
-    {t('homepage.logOut')} <IoIosLogOut className='icon' size={'30px'}/>
+      {t('homepage.logOut')} <IoIosLogOut className='icon' size={'30px'}/>
     </Nav.Link>
     </>
   ) : (
@@ -100,7 +101,7 @@ function App() {
         <Route exact path="/" Component={Landing} />
         <Route exact path="/categories" Component={Categories} />
         <Route exact path="/about" Component={About} />
-        <Route exact path="/articles" Component={ArticleHomePage} />
+        <Route exact path="/articles" Component={() => <ArticleHomePage loggedInUser={loggedInUser} />} />
         <Route exact path="/exercise" Component={Exercise} />
         <Route exact path="/create-article" Component={CreateArticle} />
         <Route exact path="/create-paragraph" Component={CreateParagraph} />
@@ -111,9 +112,11 @@ function App() {
         <Route exact path="/create-category" Component={CreateCategory} />
         <Route exact path="/sign-up" Component={SignUpPage} />
         <Route exact path="/log-in" Component={LogInPage} />
-        <Route exact path="/profile" Component={ProfilePage} />
+        <Route exact path="/profile" Component={() => <ProfilePage loggedInUser={loggedInUser} />}/>
         <Route exact path="/category" Component={ArticleListFromCategory} />
       </Routes>
+
+
     </Container>
   );
 }

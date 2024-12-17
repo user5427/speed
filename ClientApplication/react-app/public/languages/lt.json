@@ -115,7 +115,8 @@
             "title" : "Pavadinimas",
             "author" : "Autorius",
             "publisher" : "Leidėjas",
-            "link" : "Nuoroda"
+            "link" : "Nuoroda",
+            "addedBy" : "Pridėjo"
         },
 
         "results" : {

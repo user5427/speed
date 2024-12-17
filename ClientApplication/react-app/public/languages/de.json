@@ -90,7 +90,8 @@
             "title" : "Der titel",
             "author" : "Der Autor",
             "publisher" : "Der Herausgeber",
-            "link" : "Die URL"
+            "link" : "Die URL",
+            "addedBy" : "Added by"
         },
         "results" : {
             "exerciseCompleted" : "Übung abgeschlossen",

@@ -17,6 +17,7 @@ beforeAll(() => {
           'exercise.articleInfo.author': 'Author',
           'exercise.articleInfo.publisher': 'Publisher',
           'exercise.articleInfo.link': 'Link',
+          'exercise.articleInfo.addedBy': 'Added by',
         },
       },
       lt: {
@@ -25,6 +26,7 @@ beforeAll(() => {
           'exercise.articleInfo.author': 'Autorius',
           'exercise.articleInfo.publisher': 'Leidėjas',
           'exercise.articleInfo.link': 'Nuoroda',
+          'exercise.articleInfo.addedBy': 'Pridėjo',
         },
       },
     },
@@ -44,6 +46,7 @@ describe('ArticleInfo Component', () => {
           author="Jonas Petrauskas"
           publisher="LRT"
           source="https://lrt.lt"
+          addedBy="adas123"
         />
       </I18nextProvider>
     );
@@ -60,6 +63,7 @@ describe('ArticleInfo Component', () => {
     expect(screen.getByText('Kaip būti laimingu')).toBeInTheDocument();
     expect(screen.getByText('Jonas Petrauskas')).toBeInTheDocument();
     expect(screen.getByText('LRT')).toBeInTheDocument();
+    expect(screen.getByText('adas123')).toBeInTheDocument();
   });
 
   test('renders correctly in Lithuanian', () => {
@@ -69,6 +73,7 @@ describe('ArticleInfo Component', () => {
     expect(screen.getByText('Autorius:')).toBeInTheDocument();
     expect(screen.getByText('Leidėjas:')).toBeInTheDocument();
     expect(screen.getByText('Nuoroda:')).toBeInTheDocument();
+    expect(screen.getByText('Pridėjo:')).toBeInTheDocument();
   });
 
   test('updates language dynamically', () => {
@@ -78,6 +83,7 @@ describe('ArticleInfo Component', () => {
     expect(screen.getByText('Author:')).toBeInTheDocument();
     expect(screen.getByText('Publisher:')).toBeInTheDocument();
     expect(screen.getByText('Link:')).toBeInTheDocument();
+    expect(screen.getByText('Added by:')).toBeInTheDocument();
 
     act(() => {
       i18n.changeLanguage('lt');
@@ -87,6 +93,7 @@ describe('ArticleInfo Component', () => {
     expect(screen.getByText('Autorius:')).toBeInTheDocument();
     expect(screen.getByText('Leidėjas:')).toBeInTheDocument();
     expect(screen.getByText('Nuoroda:')).toBeInTheDocument();
+    expect(screen.getByText('Pridėjo:')).toBeInTheDocument();
 
     act(() => {
       i18n.changeLanguage('en');
@@ -96,6 +103,7 @@ describe('ArticleInfo Component', () => {
     expect(screen.getByText('Author:')).toBeInTheDocument();
     expect(screen.getByText('Publisher:')).toBeInTheDocument();
     expect(screen.getByText('Link:')).toBeInTheDocument();
+    expect(screen.getByText('Added by:')).toBeInTheDocument();
   });
 
   test('handles unsupported language gracefully', () => {
@@ -105,5 +113,6 @@ describe('ArticleInfo Component', () => {
     expect(screen.getByText('Author:')).toBeInTheDocument();
     expect(screen.getByText('Publisher:')).toBeInTheDocument();
     expect(screen.getByText('Link:')).toBeInTheDocument();
+    expect(screen.getByText('Added by:')).toBeInTheDocument();
   });
 });

@@ -1,7 +1,14 @@
-
 const ArticleSessionJson = {
+    id: "id",
     articleId: "articleId",
     paragraphSession: "paragraphSession",
+    paragraphs: "paragraphs",
+    time: "time"
 }
 
-export { ArticleSessionJson };
+const ArticleSessionPageJson = {
+    count: "count",
+    items: "items"
+}
+
+export { ArticleSessionJson, ArticleSessionPageJson };

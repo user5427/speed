@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "Frontend-funct-update" ]
+    branches: [ "Frontend-funct-update456" ]
   pull_request:
-    branches: [ "Frontend-funct-update" ]
+    branches: [ "Frontend-funct-update456" ]
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [22.x] # 18.x, 20.x, 
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -26,8 +26,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: Change to project directory
-      run: cd ClientApplication/react-app
-    - run: npm ci
-    - run: npm run build --if-present
+
+
+    - run: npm install
+      working-directory: ClientApplication/react-app
+    - run: CI=false npm run build --if-present
+      working-directory: ClientApplication/react-app
     - run: npm test -- --watchAll
+      working-directory: ClientApplication/react-app

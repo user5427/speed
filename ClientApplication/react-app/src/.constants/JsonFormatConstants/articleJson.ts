@@ -5,8 +5,8 @@ const ArticleJson = {
     id: "id",
     paragraphIds: "paragraphIds",
     imageFileName: "imageFileName",
-    author: "author",
-    publisher: "publisher",
+    author: "originalAuthor",
+    publisher: "publisher", 
     url: "url",
     language: "language",
 };

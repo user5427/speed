@@ -3,8 +3,11 @@ import { FetchHelperAxios } from "../.dataProcessingHelpers/DataProccessingHelpe
 import { SearchSizeConstants } from "../../.constants/SearchSizeConstants/SearchSizeConstants";
 
 const ArticleService = {
-    getArticles: async function(page: Number) {
-        const apiUrl = process.env.REACT_APP_API_URL + `Articles?PageNumber=${page}&PageSize=${process.env.REACT_APP_PAGING_SIZE}`;
+    getArticles: async function(page: Number, userId?: Number) {
+        let apiUrl = process.env.REACT_APP_API_URL + `Articles?PageNumber=${page}&PageSize=${process.env.REACT_APP_PAGING_SIZE}`;
+        if (userId !== undefined) {
+            apiUrl += `&UserId=${userId}`;
+        }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
     },
     
@@ -26,8 +29,11 @@ const ArticleService = {
         return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
     },
 
-    getArticleByTitle: async function(title: String) {
-        const apiUrl = process.env.REACT_APP_API_URL + `Articles/search?Search=${title}&PageSize=${SearchSizeConstants.MaxPageSize}`;
+    getArticleByQuery: async function(title?: String, userId?: Number) {
+        let apiUrl = process.env.REACT_APP_API_URL + `Articles/search?Search=${title}&PageSize=${SearchSizeConstants.MaxPageSize}`;
+        if (userId !== undefined) {
+            apiUrl += `&UserId=${userId}`;
+        }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
     },
 

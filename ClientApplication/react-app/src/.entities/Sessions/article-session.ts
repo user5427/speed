@@ -1,4 +1,4 @@
-import ParagraphSession from "../Paragraph/paragraph-session";
+import ParagraphSession from "./paragraph-session";
 
 class ArticleSession {
     private sessionId?: Number;
@@ -36,7 +36,7 @@ class ArticleSession {
         return this.sessionId;
     }
 
-    setSessionId(sessionId: Number): void {
+    private setSessionId(sessionId: Number): void {
         this.sessionId = sessionId;
     }
 
@@ -52,7 +52,7 @@ class ArticleSession {
         return this.startedAt;
     }
 
-    setStartedAt(startedAt: Date): void {
+    private setStartedAt(startedAt: Date): void {
         this.startedAt = startedAt;
     }
 
@@ -62,6 +62,10 @@ class ArticleSession {
 
     addParagraphSession(paragraphSession: ParagraphSession): void {
         this.paragraphSessions.push(paragraphSession);
+    }
+
+    setParagraphSessions(paragraphSessions: Array<ParagraphSession>): void {
+        this.paragraphSessions = paragraphSessions;
     }
 
 }

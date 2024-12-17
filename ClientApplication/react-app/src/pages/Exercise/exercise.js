@@ -58,6 +58,7 @@ const Exercise = () => {
     author,
     source,
     publisher,
+    addedBy,
   } = exerciseInfo;
 
   const words = useMemo(() => {
@@ -388,7 +389,7 @@ useEffect(() => {
           calculateAverageWPM={calculateAverageWPM}
           redirectToCategories={redirectToCategories}
         />
-        <ArticleInfo title={title} author={author} publisher={publisher} source={source} />
+        <ArticleInfo title={title} author={author} publisher={publisher} source={source} addedBy={addedBy}/>
       </>
     );
   }
@@ -417,7 +418,7 @@ useEffect(() => {
           valuetext={valuetext}
           questionButtonClicked={questionButtonClicked}
         />
-        <ArticleInfo title={title} author={author} publisher={publisher} source={source} />
+        <ArticleInfo title={title} author={author} publisher={publisher} source={source} addedBy={addedBy}/>
         </>
         
       )}

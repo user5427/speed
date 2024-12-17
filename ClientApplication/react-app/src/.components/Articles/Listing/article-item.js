@@ -7,7 +7,7 @@ import { FaBookOpenReader } from "react-icons/fa6";
 
 const ArticleItem = (props) => {
     const { t } = useTranslation();
-    const { settings, selectThis, deleteThis, editThis, playThis } = props;
+    const { settings, selectThis, deleteThis, editThis, playThis, loggedInUser } = props;
 
     return (
         <>
@@ -24,7 +24,7 @@ const ArticleItem = (props) => {
                 <div style={{ display: 'flex', gap: '10px' }}> {/* Add gap between buttons */}
 
                     {settings && settings.showSelectButton && (
-                        <div> {/* Flex for each button container */}
+                        <div>
                             <Button onClick={selectThis} className='buttons amber'>
                                 {t('commonUIelements.select')}
                             </Button>
@@ -39,7 +39,8 @@ const ArticleItem = (props) => {
                         </div>
                     )}
 
-                    {settings && settings.showEditButton && (
+                    {/* Only show the Edit button if a user is logged in */}
+                    {settings && settings.showEditButton && loggedInUser && (
                         <div>
                             <Button onClick={editThis} className='buttons lightBlue'>
                                 <MdModeEdit className="icons" /> {t('commonUIelements.edit')}

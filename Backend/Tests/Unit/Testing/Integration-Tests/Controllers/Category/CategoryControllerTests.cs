@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -10,6 +11,7 @@ using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs;
 
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Services;
 
 namespace Unit;
 
@@ -18,13 +20,16 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
     private readonly PlaygroundApplicationFixture _fixture;
     private readonly HttpClient _client;
     private int _categoryId;
-
+    private User _user;
+    private readonly ITokenService _tokenService;
     public CategoryControllerTests(PlaygroundApplicationFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.CreateClient();
         _categoryId = -1;
         ensureDatabaseIsPrepared();
+        var configuration = _fixture.Services.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        _tokenService = new TokenService(configuration);
         Console.WriteLine("Database prepared Categories " + _categoryId);
     }
 
@@ -36,9 +41,12 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
         // Ensure database is prepared synchronously
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
+        
 
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
+        _user = DBHelperMethods.getUser(context);
+
         _categoryId = DBHelperMethods.GetFirstCategoryId(context);
     }
 
@@ -50,7 +58,9 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
             Title: "Test Article",
             Text: "Test Text"
         );
-
+        
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         // Act
         var response = await _client.PostAsJsonAsync("/api/category", request);
         var createdArticle = await response.Content.ReadFromJsonAsync<CategoryResponse>();
@@ -70,6 +80,9 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
             Title: "Sh",  // Assume this is less than ValidationConstants.MinTitleLength
             Text: "TEST STRING"
         );
+        
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/category", request);
@@ -113,6 +126,9 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
             Text: "Test Text"
         );
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PutAsJsonAsync($"/api/category/{_categoryId}", request);
         var updatedArticle = await response.Content.ReadFromJsonAsync<CategoryResponse>();
@@ -134,6 +150,9 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
             Text: "Test Text"
         );
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PutAsJsonAsync($"/api/category/{invalidArticleId}", request);
 
@@ -144,6 +163,10 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
     [Fact]
     public async Task DeleteCategory_ValidId_ReturnsNoContent()
     {
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.DeleteAsync($"/api/category/{_categoryId}");
 
@@ -156,6 +179,9 @@ public class CategoryControllerTests : IClassFixture<PlaygroundApplicationFixtur
     {
         // Arrange
         int invalidArticleId = 9999;  // Use an ID that does not exist
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.DeleteAsync($"/api/category/{invalidArticleId}");

@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next'; 
 
-const ArticleInfo = ({ title, author, publisher, source }) => {
+const ArticleInfo = ({ title, author, publisher, source, addedBy}) => {
 
   const { t } = useTranslation();
 
@@ -27,6 +27,11 @@ const ArticleInfo = ({ title, author, publisher, source }) => {
             <a href={source} target="_blank" rel="noopener noreferrer">
               {source}
             </a>
+          </p>
+        </Col>
+        <Col style={{ textAlign: 'center' }}>
+          <p style={{ marginBottom: '0px', marginTop: '20px' }}>
+            <span style={{ color: '#4d4d4d' }}>{t('exercise.articleInfo.addedBy')}{':'}</span> {addedBy}
           </p>
         </Col>
       </Row>

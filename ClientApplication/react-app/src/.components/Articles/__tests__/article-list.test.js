@@ -99,14 +99,14 @@ describe('ArticleList Component', () => {
     setup();
 
     await waitFor(() => {
-      expect(ArticleController.GetPage).toHaveBeenCalledWith(1);
+      expect(ArticleController.GetPage).toHaveBeenCalledWith(1, undefined);
     });
 
     const paginateButton = screen.getByText('Go to page 2');
     fireEvent.click(paginateButton);
 
     await waitFor(() => {
-      expect(ArticleController.GetPage).toHaveBeenCalledWith(2);
+      expect(ArticleController.GetPage).toHaveBeenCalledWith(2, undefined);
     });
   });
 
@@ -123,7 +123,7 @@ describe('ArticleList Component', () => {
     );
 
     await waitFor(() => {
-      expect(ArticleController.GetPage).toHaveBeenCalledWith(1);
+      expect(ArticleController.GetPage).toHaveBeenCalledWith(1, undefined);
     });
 
     ArticleController.GetPage.mockResolvedValueOnce(mockArticlesPage2);
@@ -139,7 +139,7 @@ describe('ArticleList Component', () => {
     );
 
     await waitFor(() => {
-      expect(ArticleController.GetPage).toHaveBeenCalledWith(1);
+      expect(ArticleController.GetPage).toHaveBeenCalledWith(1, undefined);
     });
   });
 
@@ -153,7 +153,7 @@ describe('ArticleList Component', () => {
     setup();
 
     await waitFor(() => {
-      expect(ArticleController.GetPage).toHaveBeenCalledWith(1);
+      expect(ArticleController.GetPage).toHaveBeenCalledWith(1, undefined);
     });
 
     const articleItems = screen.queryAllByTestId('article-item');

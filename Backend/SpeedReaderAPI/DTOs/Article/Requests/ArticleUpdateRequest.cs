@@ -11,10 +11,10 @@ public record ArticleUpdateRequest
 
     string? Title,
     string? CategoryTitle,
-    string? Author,
     string? Publisher,
     string? Url,
     string? Language,
+    string? OriginalAuthor,
     List<int>? ParagraphIds,
     List<int>? CategoryIds
 
