@@ -5,10 +5,27 @@ import "../../styles/Articles/articleManagementPage.css";
 import { Row, Col, Button } from 'react-bootstrap';
 import { FaPlusSquare } from "react-icons/fa";
 import { useTranslation } from 'react-i18next'; 
+import { useState, useEffect } from 'react';
 
 const ArticleHomePage = ({ loggedInUser }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+
+    const [settings, setSettings] = useState(null);
+
+    useEffect(() => {
+        if (loggedInUser) {
+            setSettings({
+                showEditButton: true,
+                showPlayButton: true
+            });
+        } else 
+            setSettings({
+                showEditButton: false,
+                showPlayButton: true
+            });
+    }, [loggedInUser]);
+
 
     const redirectToCreateArticle = () => {
         navigate('/create-article');
@@ -30,10 +47,6 @@ const ArticleHomePage = ({ loggedInUser }) => {
         navigate(`/exercise?articleId=${articleId}`);
     }
     
-    const settings = {
-        showEditButton: true,
-        showPlayButton: true
-    };
 
     return (
         <>
@@ -73,7 +86,6 @@ const ArticleHomePage = ({ loggedInUser }) => {
                 settings={settings}
                 getEditing={getSelectedArticle}
                 getPlay={getPlayArticle}
-                loggedInUser={loggedInUser}
             />
         </>
     );

@@ -14,7 +14,7 @@ const DeletePopup = ({ showDeleteModal, message, onClose, onDelete }) => {
                     <Row>
                         <Col>
                             <Button variant="secondary" onClick={onClose}>
-                                Close
+                                Cancel
                             </Button>
                         </Col>
                         <Col>

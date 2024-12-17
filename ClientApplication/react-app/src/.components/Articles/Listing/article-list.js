@@ -8,14 +8,20 @@ import "../../../styles/stylesPaginator.css"; // stylesheet
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
 import { ThreeDots } from 'react-loader-spinner';
+import DeletePopup from '../../.common-components/DeletePopup';
 
-const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userId, loggedInUser}) => {
+
+const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userId}) => {
     const [articles, setArticles] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [deleteMessage , setDeleteMessage] = useState("");
+    const [deleteId, setDeleteId] = useState(null);
 
     useEffect(() => {
         getArticles();
@@ -43,6 +49,29 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
         setShowErrorModal(false);
     };
 
+    const getDeleting = async () => {
+        try {
+            await ArticleController.Delete(deleteId);
+        } catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
+
+        getArticles();
+    }
+
+    const cancelDelete = () => {
+        setShowDeletePopup(false);
+    }
+
+    const Delete = (id) => {
+        setShowDeletePopup(true);
+        setDeleteMessage("Are you sure you want to delete this article?");
+        setDeleteId(id);
+    }
+
+        
+
     return (
         <>
             <div>
@@ -55,7 +84,7 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
                             selectThis={() => getSelected(m.id)}
                             editThis={() => getEditing(m.id)}
                             playThis={() => getPlay(m.id)}
-                            loggedInUser={loggedInUser}
+                            deleteThis={() => Delete(m.id)}
                             />
                         </div>
                     ))
@@ -100,6 +129,14 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
                 showErrorModal={showErrorModal} 
                 errorMessage={errorMessage} 
                 onClose={closeErrorModal} 
+            />
+
+            <DeletePopup 
+                showDeleteModal={showDeletePopup}
+                message={deleteMessage}
+                onClose={cancelDelete}
+                onDelete={getDeleting}
+            
             />
         </>
     )

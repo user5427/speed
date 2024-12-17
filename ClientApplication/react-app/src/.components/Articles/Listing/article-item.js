@@ -7,7 +7,7 @@ import { FaBookOpenReader } from "react-icons/fa6";
 
 const ArticleItem = (props) => {
     const { t } = useTranslation();
-    const { settings, selectThis, deleteThis, editThis, playThis, loggedInUser } = props;
+    const { settings, selectThis, deleteThis, editThis, playThis } = props;
 
     return (
         <>
@@ -40,7 +40,7 @@ const ArticleItem = (props) => {
                     )}
 
                     {/* Only show the Edit button if a user is logged in */}
-                    {settings && settings.showEditButton && loggedInUser && (
+                    {settings && settings.showEditButton && (
                         <div>
                             <Button onClick={editThis} className='buttons lightBlue'>
                                 <MdModeEdit className="icons" /> {t('commonUIelements.edit')}

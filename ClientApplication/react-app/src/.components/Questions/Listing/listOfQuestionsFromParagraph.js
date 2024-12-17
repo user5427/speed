@@ -10,13 +10,19 @@ import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons f
 import { IconContext } from "react-icons";
 import ReactPaginate from 'react-paginate';
 
-const listOfQuestions = ({paragraphId, getSelected, update, settings}) => {
+import DeletePopup from '../../.common-components/DeletePopup';
+
+const listOfQuestions = ({ paragraphId, getSelected, update, settings }) => {
     const [questions, setQuestions] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
 
     const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
+
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [deleteMessage, setDeleteMessage] = useState("");
+    const [deleteId, setDeleteId] = useState(null);
 
     useEffect(() => {
         // get all tests
@@ -64,15 +70,37 @@ const listOfQuestions = ({paragraphId, getSelected, update, settings}) => {
         setShowErrorModal(false);
     }
 
+    const getDeleting = async () => {
+        try {
+            await QuestionController.Delete(deleteId);
+        } catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
+
+        getQuestions();
+    }
+
+    const cancelDelete = () => {
+        setShowDeletePopup(false);
+    }
+
+    const Delete = (id) => {
+        setShowDeletePopup(true);
+        setDeleteMessage("Are you sure you want to delete this question?");
+        setDeleteId(id);
+    }
+
     return (
         <>
             <div>
                 {questions && questions.length > 0 ? (
                     questions.map((m, i) => (
                         <div key={i}>
-                            <QuestionItem 
+                            <QuestionItem
                                 data={m}
                                 selectThis={() => getSelected(m.id)}
+                                deleteThis={() => getDeleting(m.id)}
                                 settings={settings}
                             />
                         </div>
@@ -109,6 +137,14 @@ const listOfQuestions = ({paragraphId, getSelected, update, settings}) => {
                 errorMessage={errorMessage}
                 show={showErrorModal}
                 handleClose={closeErrorModal}
+            />
+
+            <DeletePopup
+                showDeleteModal={showDeletePopup}
+                message={deleteMessage}
+                onClose={cancelDelete}
+                onDelete={getDeleting}
+
             />
         </>
     )
