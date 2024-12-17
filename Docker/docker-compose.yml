@@ -48,8 +48,8 @@ services:
     networks:
       - server-side
     ports:
-        - 8082:5268
-        - 8084:5267
+        - 8082:80
+        - 8084:443
     # depends_on:
     #     prometheus:
     #         condition: service_healthy
