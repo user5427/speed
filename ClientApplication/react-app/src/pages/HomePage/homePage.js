@@ -10,6 +10,7 @@ import { FaBookReader } from "react-icons/fa";
 import FlashingText from '../../.components/HomePage/FlashingText';
 
 import { useTranslation } from 'react-i18next'; 
+import { ArticleList } from "../../.components/.MainComponentsExport";
 
 const Landing = () => {
 
@@ -66,6 +67,7 @@ const Landing = () => {
             
             <FlashingText sentence={t('homepage.flashingSentence')}/>
 
+            
         </>
     );
 }

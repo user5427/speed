@@ -77,6 +77,18 @@ class ArticleController {
         }
     }
 
+    static async Page(page: number, userId?: number, search?: string) {
+        try {
+            const response = await ArticleService.pageArticles(page, userId, search);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ArticlePageErrors.PageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return ArticlePageMapper.fromJson(response);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async PostImage(articleId, file){
         try {
             const response = await ArticleService.postImage(articleId, file);

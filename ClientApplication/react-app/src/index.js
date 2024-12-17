@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './i18n';
 
 async function enableMocking() {
-  if (process.env.NODE_ENV === 'development' && true) {
+  if (process.env.NODE_ENV === 'development' && false) {
     const { worker } = await import('./_tests/.mocks/browser');
     await worker.start();
   }

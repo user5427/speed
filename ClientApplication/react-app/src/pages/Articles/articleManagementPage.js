@@ -17,12 +17,14 @@ const ArticleHomePage = ({ loggedInUser }) => {
         if (loggedInUser) {
             setSettings({
                 showEditButton: true,
-                showPlayButton: true
+                showPlayButton: true,
+                showSearchBar: true
             });
         } else 
             setSettings({
                 showEditButton: false,
-                showPlayButton: true
+                showPlayButton: true,
+                showSearchBar: true
             });
     }, [loggedInUser]);
 

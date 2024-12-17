@@ -10,6 +10,17 @@ const ArticleService = {
         }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
     },
+
+    pageArticles: async function(page: Number, userId?: Number, search?: String) {
+        let apiUrl = process.env.REACT_APP_API_URL + `Articles/search?PageNumber=${page}&PageSize=${SearchSizeConstants.MaxPageSize}`;
+        if (userId !== undefined) {
+            apiUrl += `&UserId=${userId}`;
+        }
+        if (search !== undefined) {
+            apiUrl += `&Search=${search}`;
+        }
+        return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
+    },
     
     postArticle: async function(article) {
         const requestOptions = FetchHelperAxios.generateRequestOptionsAxios("POST", article);

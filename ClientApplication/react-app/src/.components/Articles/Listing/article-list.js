@@ -11,7 +11,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import DeletePopup from '../../.common-components/DeletePopup';
 
 
-const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userId}) => {
+const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userId }) => {
     const [articles, setArticles] = useState(null)
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(0)
@@ -20,21 +20,29 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     const [showDeletePopup, setShowDeletePopup] = useState(false);
-    const [deleteMessage , setDeleteMessage] = useState("");
+    const [deleteMessage, setDeleteMessage] = useState("");
     const [deleteId, setDeleteId] = useState(null);
+
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         getArticles();
-    }, [update, page]) // [] if empty, will load for only the first and only first time
+    }, [update, page, searchTerm]) // [] if empty, will load for only the first and only first time
 
     const getArticles = async () => {
         try {
-            let articlePage = await ArticleController.GetPage(page + 1, userId);
+            let articlePage
+            if (searchTerm === "" || !settings.showSearchBar) {
+                articlePage = await ArticleController.GetPage(page + 1, userId);
+            } else {
+                articlePage = await ArticleController.Page(page + 1, userId, searchTerm);
+            }
             setArticles(articlePage.articles)
             setPageSize(() => {
                 return Math.ceil(articlePage.count / process.env.REACT_APP_PAGING_SIZE)
             })
         } catch (error) {
+            // throw error;
             setErrorMessage(error.message); // Set error message
             setShowErrorModal(true); // Show modal
         }
@@ -70,35 +78,50 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
         setDeleteId(id);
     }
 
-        
+
 
     return (
         <>
+             {settings && settings.showSearchBar && (
+                <div className="search-bar">
+                    <input
+                        type="text"
+                        placeholder="Search articles..."
+                        onChange={(e) => {
+                            const searchTerm = e.target.value;
+
+                            setSearchTerm(searchTerm)
+                        }}
+                    />
+                </div>
+            )}
+
+
             <div>
                 {articles && articles.length > 0 ? (
                     articles.map((m, i) => (
                         <div key={i}>
-                            <ArticleItem 
-                            data={m} 
-                            settings={settings}
-                            selectThis={() => getSelected(m.id)}
-                            editThis={() => getEditing(m.id)}
-                            playThis={() => getPlay(m.id)}
-                            deleteThis={() => Delete(m.id)}
+                            <ArticleItem
+                                data={m}
+                                settings={settings}
+                                selectThis={() => getSelected(m.id)}
+                                editThis={() => getEditing(m.id)}
+                                playThis={() => getPlay(m.id)}
+                                deleteThis={() => Delete(m.id)}
                             />
                         </div>
                     ))
                 ) : (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                    <ThreeDots 
-                      height="50" 
-                      width="50" 
-                      radius="9"
-                      color="white" 
-                      ariaLabel="three-dots-loading" 
-                      visible={true}
-                    />
-                  </div>
+                        <ThreeDots
+                            height="50"
+                            width="50"
+                            radius="9"
+                            color="white"
+                            ariaLabel="three-dots-loading"
+                            visible={true}
+                        />
+                    </div>
                 )}
             </div>
 
@@ -124,19 +147,19 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
                     activeClassName={'active'} />
             </div>
 
-             {/* Error Popup */}
-             <ErrorPopup 
-                showErrorModal={showErrorModal} 
-                errorMessage={errorMessage} 
-                onClose={closeErrorModal} 
+            {/* Error Popup */}
+            <ErrorPopup
+                showErrorModal={showErrorModal}
+                errorMessage={errorMessage}
+                onClose={closeErrorModal}
             />
 
-            <DeletePopup 
+            <DeletePopup
                 showDeleteModal={showDeletePopup}
                 message={deleteMessage}
                 onClose={cancelDelete}
                 onDelete={getDeleting}
-            
+
             />
         </>
     )
