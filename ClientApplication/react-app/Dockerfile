@@ -6,11 +6,6 @@ RUN npm install
 
 # Copy app files
 COPY . .
-# Remove .enc from .dockerignore
-RUN sed -i '/.env/d' .dockerignore
-
-# Copy the .enc file
-COPY ["*.env", "."]
 RUN npm run build
  
 # Production Stage

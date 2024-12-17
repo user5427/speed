@@ -502,3 +502,7 @@ Docker/CERTIFICATE_PASSWORD
 Docker/CERTIFICATE_PASSWORD.txt
 
 Backend/SpeedReaderAPI/appsettings.Development.json
+
+
+# Exclude specific .env file from being ignored
+!ClientApplication/react-app/.env
