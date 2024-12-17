@@ -484,8 +484,6 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-/SpeedReaderAPI/SpeedReaderAPI/appsettings.Development.json
-/SpeedReaderAPI/SpeedReaderAPI/.editorconfig
 /SpeedReaderAPI/.editorconfig
 /Backend/SpeedReaderAPI/uploaded
 Backend/SpeedReaderAPI/dbCons.txt
@@ -501,8 +499,9 @@ Docker/DB_CONNECTION_STRING.txt
 Docker/CERTIFICATE_PASSWORD
 Docker/CERTIFICATE_PASSWORD.txt
 
-Backend/SpeedReaderAPI/appsettings.Development.json
 
 
 # Exclude specific .env file from being ignored
 !ClientApplication/react-app/.env
+/Backend/SpeedReaderAPI/appsettings.Development.json
+/Backend/SpeedReaderAPI/appsettings.Development.json
