@@ -390,9 +390,11 @@ const EditArticle = ({
                   <GrRevert /> {t('commonUIelements.resetImg')}
                 </Button>
                 <Button
+                data-testid='delete-article-image-button'
                   className='buttons pink'
                   onClick={deleteArticleImage}
                   style={{ fontSize: '1rem', width: '100%' }}
+                  
                 >
                   <MdDelete /> {t('commonUIelements.deleteImg')}
                 </Button>
