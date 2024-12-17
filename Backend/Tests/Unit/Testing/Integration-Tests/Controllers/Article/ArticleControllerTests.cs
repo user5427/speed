@@ -246,4 +246,17 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     }
 
     
+    [Fact]
+    public async Task getArticles_ReturnsEmptyList()
+    {
+        // Act
+        var response = await _client.GetAsync("/api/articles"); 
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);  
+
+        var articlePage = await response.Content.ReadFromJsonAsync<ArticlePageResponse>();
+
+        // Assert
+        Assert.NotNull(articlePage);    
+        Assert.Equal(2, articlePage.Count);
+    }
 }

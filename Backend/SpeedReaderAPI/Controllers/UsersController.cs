@@ -20,35 +20,35 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
-    [HttpGet("me")]
-    [Authorize(Roles = "USER,ADMIN")]
-    public IActionResult GetMyData()
-    {
-        var result = _userService.GetMyInfo();
-        return Ok(result);
-    }
+        [HttpGet("me")]
+        [Authorize(Roles = "USER,ADMIN")]
+        public IActionResult GetMyData()
+        {
+            var result = _userService.GetMyInfo();
+            return Ok(result);
+        }
 
-    [HttpPost("img")]
-    [Authorize(Roles = "USER,ADMIN")]
-    public async Task<IActionResult> UploadImage([FromForm] ImageUploadRequest request)
-    {
-        var result = await _userService.UploadImage(-1, request);
-        return Ok(result);
-    }
+        [HttpPost("img")]
+        [Authorize(Roles = "USER,ADMIN")]
+        public async Task<IActionResult> UploadImage([FromForm] ImageUploadRequest request)
+        {
+            var result = await _userService.UploadImage(-1, request);
+            return Ok(result);
+        }
 
-    [HttpDelete("img")]
-    [Authorize(Roles = "USER,ADMIN")]
-    public IActionResult DeleteImage()
-    {
-        _userService.DeleteImage(-1);
-        return Ok("Deleted");
-    }
+        [HttpDelete("img")]
+        [Authorize(Roles = "USER,ADMIN")]
+        public IActionResult DeleteImage()
+        {
+            _userService.DeleteImage(-1);
+            return Ok("Deleted");
+        }
 
-    [HttpGet("{id}/img")]
-    public IActionResult GetImage(int id)
-    {
-        Image img = _userService.GetImage(id);
-        return File(img.FileStream!, img.ImageMimeType.ToMimeString(), img.ImageFilePath);
-    }
+        [HttpGet("{id}/img")]
+        public IActionResult GetImage(int id)
+        {
+            Image img = _userService.GetImage(id);
+            return File(img.FileStream!, img.ImageMimeType.ToMimeString(), img.ImageFilePath);
+        }
 
 }
