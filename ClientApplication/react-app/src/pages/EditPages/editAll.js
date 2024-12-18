@@ -87,6 +87,10 @@ const EditArticleParagraphQuestion = () => {
         setUpdateQuestionList(!updateQuestionList)
     }
 
+    const noArticleFound = () => {
+        window.location.href = `/edit-all`;
+    }
+
     return (
         <>
             <ReturnToArticlesButton />
@@ -103,6 +107,7 @@ const EditArticleParagraphQuestion = () => {
                                 <CreateEditArticle
                                     key={`edit-${articleId}`}
                                     existingArticleId={articleId}
+                                    noArticleFound={noArticleFound}
                                     redirect={false}
                                     sendUpdate={triggerUpdateArticleList}
                                 />

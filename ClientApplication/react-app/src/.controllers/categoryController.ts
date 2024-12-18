@@ -55,9 +55,9 @@ class CategoryController {
         }
     }
 
-    static async Search(search) {
+    static async Search(search: string, userId?: number) {
         try {
-            const response = await CategoryService.getCategoriesByTitle(search);
+            const response = await CategoryService.getCategoriesByTitle(search, userId);
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${CategoryPageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }

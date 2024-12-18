@@ -58,6 +58,10 @@ const EditParagraphQuestion = () => {
         setUpdateQuestionList(!updateQuestionList)
     }
 
+    const noParagraphFound = () => {
+        window.location.href = `/edit-paragraph-question`;
+    }
+
     return (
         <>
             <ReturnToArticlesButton />
@@ -75,6 +79,7 @@ const EditParagraphQuestion = () => {
                                     key={`edit-${paragraphId}`}
                                     existingParagraphId={paragraphId}
                                     redirect={false}
+                                    noParagraphFound={noParagraphFound}
                                 />
                             ) : (
                                 <CreateEditParagraph

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 interface CategoryItemProps {
     data: {
-        id: string; // Ensure each category has a unique id
+        id: number; // Ensure each category has a unique id
         title: string;
         text: string;
     };
@@ -17,7 +17,7 @@ interface CategoryItemProps {
         showPlayButton?: boolean;
     };
     selectThis?: () => void;
-    deleteThis?: () => void;
+    deleteThis?: (id?: number) => void;
     editThis?: () => void;
     playThis?: () => void;
 }
@@ -66,7 +66,7 @@ const CategoryItem: React.FC<CategoryItemProps> = (props) => {
 
     const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        if (deleteThis) deleteThis();
+        if (deleteThis) deleteThis(props.data.id);
     };
 
     const handleEditClick = (e: React.MouseEvent<HTMLButtonElement>) => {

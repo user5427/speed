@@ -5,9 +5,9 @@ class Article {
         this.#createEmptyArticle();
     }
 
-    static createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null, author = null, publisher = null, url = null, language = null) {
+    static createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null, author = null, publisher = null, url = null, language = null, categories = null) {
         const article = new Article();
-        article.#createArticleFromParams(title, categoryTitle, paragraphIDs, id, imageFileName, author, publisher, url, language);
+        article.#createArticleFromParams(title, categoryTitle, paragraphIDs, id, imageFileName, author, publisher, url, language, categories);
         return article;
     }
 
@@ -21,7 +21,7 @@ class Article {
         return newArticle;
     }
 
-    #createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null, author = null, publisher = null, url = null, language = null) {
+    #createArticleFromParams(title, categoryTitle, paragraphIDs = [], id = null, imageFileName = null, author = null, publisher = null, url = null, language = null, categories = null) {
         // Validate title
         if (typeof title !== "string" ||
             title.length < ValidationConstants.MinTitleLength ||
@@ -58,6 +58,7 @@ class Article {
         this._publisher = publisher;
         this._url = url;
         this._language = language;
+        this._categories = categories;
     }
 
     #createEmptyArticle() {
@@ -70,6 +71,7 @@ class Article {
         this._publisher = null;
         this._url = null;
         this._language = null;
+        this._categories = null;
     }
 
     #copyArticle(article) {
@@ -87,6 +89,7 @@ class Article {
         this._publisher = article.publisher;
         this._url = article.url;
         this._language = article.language;
+        this._categories = article.categories;
         if (article.paragraphIDs) {
             this._paragraphIDs = article.paragraphIDs;
         } else {
@@ -209,6 +212,14 @@ class Article {
 
     get id() {
         return this._id;
+    }
+
+    get categories() {
+        return this._categories;
+    }
+
+    set categories(value) {
+        this._categories = value;
     }
 }
 

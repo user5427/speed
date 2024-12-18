@@ -20,9 +20,12 @@ const CategoryService = {
         return FetchHelperAxios.fetchEntityAxios(apiUrl, requestOptions).then(res => {return res});
     },
 
-    getCategoriesByTitle: async function (search) {
+    getCategoriesByTitle: async function (search: string, userId?: number) {
         const requestOptions = FetchHelperAxios.generateRequestOptionsAxios("GET");
-        const apiUrl = process.env.REACT_APP_API_URL + `Category/search?Search=${search}&PageSize=${SearchSizeConstants.MaxPageSize}`;
+        let apiUrl = process.env.REACT_APP_API_URL + `Category/search?Search=${search}&PageSize=${SearchSizeConstants.MaxPageSize}`;
+        if (userId) {
+            apiUrl += `&UserId=${userId}`;
+        }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, requestOptions).then(res => {return res});
     },
 

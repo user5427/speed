@@ -11,7 +11,8 @@ class ArticleMapper {
             data[ArticleJson.author],
             data[ArticleJson.publisher],
             data[ArticleJson.url],
-            data[ArticleJson.language]
+            data[ArticleJson.language],
+            data[ArticleJson.categoryIds] || []
         );
     }
 
@@ -50,6 +51,9 @@ class ArticleMapper {
             json[ArticleJson.language] = article._language;
         }
 
+        if (article._categories) {
+            json[ArticleJson.categoryIds] = article._categories;
+        }
 
 
         return json;
