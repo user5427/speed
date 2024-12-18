@@ -7,6 +7,7 @@ import { IconContext } from "react-icons";
 import "../../../styles/stylesPaginator.css"; // stylesheet
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import ErrorPopup from '../../.common-components/ErrorPopup';
+import { ArticleReadyForReading } from '../../../.helpers/ArticleReadyForReading';
 
 const ArticleListFromArray = ({ settings, getSelected, update, getEditing, getPlay, articleIds }) => {
     const [articles, setArticles] = useState<any[]>([]);
@@ -26,6 +27,7 @@ const ArticleListFromArray = ({ settings, getSelected, update, getEditing, getPl
             setArticles([]);
             for (let i = page *  Number(process.env.REACT_APP_PAGING_SIZE); i < articleIds.length; i++) {
                 let article = await ArticleController.Get(articleIds[i]);
+                article.readyForReading = await ArticleReadyForReading.isArticleReadyForReading(articleIds[i]);
                 setArticles((prev) => [...prev, article]);
                 if (articles.length >= Number(process.env.REACT_APP_PAGING_SIZE)) {
                     break;
@@ -61,7 +63,10 @@ const ArticleListFromArray = ({ settings, getSelected, update, getEditing, getPl
                         <div key={i}>
                             <ArticleItem 
                             data={m} 
-                            settings={settings}
+                            settings={{
+                                ...settings,
+                                disableSelectButton: !m.readyForReading
+                            }}
                             selectThis={() => getSelected(m.id)}
                             editThis={() => getEditing(m.id)}
                             playThis={() => getPlay(m.id)}

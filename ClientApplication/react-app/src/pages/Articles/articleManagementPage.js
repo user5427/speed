@@ -64,7 +64,7 @@ const ArticleHomePage = ({ loggedInUser }) => {
                         <Row className='row'>
                             <Col xs={12} md={12}>
                                 <Button size="lg" className='buttons deepPurple' onClick={redirectToUserArticles}>
-                                    <FaPlusSquare className="icons"/> {t('articleManagment.userArticles')}
+                                    {t('articleManagment.userArticles')}
                                 </Button>
                             </Col>
                         </Row>
