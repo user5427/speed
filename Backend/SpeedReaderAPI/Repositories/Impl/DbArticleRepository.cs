@@ -20,6 +20,8 @@ public class DbArticleRepository : IDefaultRepository<Article>
 
     public List<Article> GetPaged(int skip, int take) => _context.Article.Skip(skip).Take(take).ToList();
     public Article? GetRandom(){
-        return _context.Article.OrderBy(a => Guid.NewGuid()).FirstOrDefault();
+        var validArticles = _context.Article.Where(a => a.Paragraphs.Count > 0 && a.Paragraphs.All(p => p.Questions.Count > 0));
+
+        return validArticles.OrderBy(a => Guid.NewGuid()).FirstOrDefault();
     }
 }
