@@ -9,6 +9,7 @@ const ArticleJson = {
     publisher: "publisher", 
     url: "url",
     language: "language",
+    categoryIds: "categoryIds"
 };
 
 const ArticlePageJson = {

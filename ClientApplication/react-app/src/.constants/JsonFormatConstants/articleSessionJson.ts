@@ -1,7 +1,7 @@
 const ArticleSessionJson = {
     id: "id",
     articleId: "articleId",
-    paragraphSession: "paragraphSession",
+    paragraphSession: "paragraphSessions",
     paragraphs: "paragraphs",
     time: "time"
 }

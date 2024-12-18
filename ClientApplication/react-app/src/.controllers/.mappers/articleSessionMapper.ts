@@ -6,9 +6,11 @@ class ArticleSessionMapper {
     static toJson(articleSession: ArticleSession): { [key: string]: any } {
         const json: { [key: string]: any } = {};
         
-            json[ArticleSessionJson.articleId] = articleSession.getArticleId;
+            json[ArticleSessionJson.articleId] = articleSession.getArticleId();
+            console.log(json);
             json[ArticleSessionJson.paragraphSession] = articleSession.getParagraphSessions().map(paragraphSession => ParagraphSessionMapper.toJson(paragraphSession));
 
+            console.log(json);
         return json;
     }
 
