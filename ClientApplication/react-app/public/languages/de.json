@@ -15,6 +15,28 @@
         "flashingSentence" : "Es war einmal ein Mädchen, dem war die Mutter gestorben. Ihre neue Stiefmutter hatte zwei Töchter mit ins Haus gebracht und sie waren alle sehr gemein zu ihr. Sie musste den ganzen Tag schwer arbeiten, früh aufstehen, Wasser tragen, Feuer machen, kochen und waschen. Abends, wenn sie müde war, musste sie sich neben den Herd in die Asche legen. Und weil sie darum immer staubig und schmutzig war, nannten sie es Aschenputtel. Es begab sich, daß der König ein großes Fest veranstaltete, auf dem sich der Prinz eine Gemahlin aussuchen sollte. Aschenputtel bat die Stiefmutter, sie möchte ihm erlauben hinzugehen. „Aschenputtel,“ antwortete die Stiefmutter, „du bist voll Staub und Schmutz und willst zum Fest? Du darfst nicht mit, denn du hast keine prächtigen Kleider.“ Darauf eilte sie mit ihren stolzen Töchtern fort. Aschenputtel ging zum Grab ihrer Mutter und weinte bis die Tränen darauf herniederfielen. Als sie die Augen wieder öffnete, trug sie plötzlich ein prächtiges Kleid und goldene Schuhe. So ging es zum Fest und der Prinz tanzte mit ihr. Als es Abend war, wollte Aschenputtel fort, der Prinz wollte sie begleiten, aber sie entsprang ihm so geschwind, daß er nicht folgen konnte. Auf der Treppe verlor sie einen ihrer Schuhe. Der Prinz fand den Schuh und sprach: „Keine andere soll meine Gemahlin werden, als die, an deren Fuß dieser goldene Schuh paßt.“ Und er ließ im ganzen Königreich nach dem Mädchen suchen, der der Schuh passte. Als er zu ihrem Hause kam, da passte der Schuh wie angegossen. Und als Aschenputtel sich in die Höhe richtete und dem Prinzen ins Gesicht sah, da erkannte er sie. Und sie lebten glücklich alle Tage."
     },
 
+    "aboutPage": {
+        "title": "Über uns",
+        "introPart1": "In einer Welt mit \"etwa",
+        "introPart2": "einzigartigen Büchern im Jahr 2023\" (ISBNDB) und mit UNESCO, die berichtet, dass",
+        "million": "Millionen",
+        "introPart3": "mehr jedes Jahr veröffentlicht werden, ist es leicht, sich entmutigt zu fühlen, ein sinnvolles Leseziel zu erreichen – sagen wir, mindestens 300 Bücher in einem Leben.",
+        "toQuote": "Um",
+        "quoteAuthor": "Justin Hammond",
+        "quote": "Das erste und wichtigste Prinzip des Schnelllesens ist, dass es eine erlernbare Fähigkeit ist – keine angeborene Eigenschaft.",
+        "teamIntroduction": "Unser Team glaubte, dass wir etwas dagegen tun könnten. Deshalb haben wir eine Anwendung entwickelt, die Ihnen helfen soll, Ihre Leseerwartungen zu übertreffen, indem Sie Ihre Lesegeschwindigkeit verbessern.",
+        "meetTeam": "Lernen Sie unser starkes Team kennen:",
+        "teamList": {
+            "tadasDescription": "Full-Stack-Entwickler",
+            "dariusDescription": "Backend-Entwickler",
+            "arnasDescription": "Backend-Entwickler",
+            "adrianDescription": "Frontend-Entwickler"
+        },
+        "conclusion": "Wir hoffen, dass unsere Anwendung Ihnen nicht nur hilft, Ihre gewünschte Lesegeschwindigkeit zu erreichen, sondern auch Ihr Wissen in verschiedenen Bereichen erweitert.",
+        "happyReading": "Viel Spaß beim Lesen!"
+    },
+
+
     "articleManagment" : {
         "articleHomePage" : "Zur Haupseite des Artikel",
         "createArticle" : "Artikel zumachen",
