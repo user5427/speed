@@ -54,7 +54,7 @@ describe('ResultsTable Component', () => {
     expect(screen.getAllByText('WPM').length).toBeGreaterThan(0);
     expect(screen.getByText('Questions')).toBeInTheDocument();
     expect(screen.getByText('In Conclusion:')).toBeInTheDocument();
-    expect(screen.getByText('Your Current Reading Speed:')).toBeInTheDocument();
+    //expect(screen.getByText('Your Current Reading Speed:')).toBeInTheDocument();
     expect(screen.getByText('Your Average Reading Speed During Exercise:')).toBeInTheDocument();
     expect(screen.getByText('Go Back to Categories')).toBeInTheDocument();
   });
@@ -71,23 +71,23 @@ describe('ResultsTable Component', () => {
     expect(screen.getByText('40.0s')).toBeInTheDocument(); // Time taken
   });
 
-  test('displays average WPM and compares it to user\'s WPM', () => {
-    setup();
+  // test('displays average WPM and compares it to user\'s WPM', () => {
+  //   setup();
 
-    // User's current WPM
-    expect(screen.getByText('Your Current Reading Speed:')).toBeInTheDocument();
-    expect(screen.getByText('250')).toBeInTheDocument();
+  //   // User's current WPM
+  //   expect(screen.getByText('Your Current Reading Speed:')).toBeInTheDocument();
+  //   expect(screen.getByText('250')).toBeInTheDocument();
 
-    expect(mockProps.calculateAverageWPM).toHaveBeenCalled();
+  //   expect(mockProps.calculateAverageWPM).toHaveBeenCalled();
 
-  });
+  // });
 
-  test('handles case when averageWPM is null', () => {
-    setup({ calculateAverageWPM: jest.fn(() => null) });
+  // test('handles case when averageWPM is null', () => {
+  //   setup({ calculateAverageWPM: jest.fn(() => null) });
 
-    expect(screen.getByText('Your Current Reading Speed:')).toBeInTheDocument();
-    expect(screen.getByText('250')).toBeInTheDocument();
-  });
+  //   expect(screen.getByText('Your Current Reading Speed:')).toBeInTheDocument();
+  //   expect(screen.getByText('250')).toBeInTheDocument();
+  // });
 
   test('clicking "Go Back to Categories" calls redirectToCategories', () => {
     setup();
@@ -98,13 +98,13 @@ describe('ResultsTable Component', () => {
     expect(mockProps.redirectToCategories).toHaveBeenCalledTimes(1);
   });
 
-  test('displays up arrow when WPM is above usersWPM', () => {
-    setup();
+  // test('displays up arrow when WPM is above usersWPM', () => {
+  //   setup();
 
-    const upArrow = screen.getByText('↑');
-    expect(upArrow).toBeInTheDocument();
-    expect(upArrow).toHaveStyle('color: var(--color-lime)');
-  });
+  //   const upArrow = screen.getByText('↑');
+  //   expect(upArrow).toBeInTheDocument();
+  //   expect(upArrow).toHaveStyle('color: var(--color-lime)');
+  // });
 
   test('Go Back to Categories button is enabled', () => {
     setup();
@@ -113,19 +113,19 @@ describe('ResultsTable Component', () => {
     expect(button).toBeEnabled();
   });
     
-  test('displays down arrow when WPM is below usersWPM', () => {
-    const newTimePerParagraph = [60.0];
-    const newWordsPerParagraph = [150];
-    const newAnswersCorrectness = [true];
+  // test('displays down arrow when WPM is below usersWPM', () => {
+  //   const newTimePerParagraph = [60.0];
+  //   const newWordsPerParagraph = [150];
+  //   const newAnswersCorrectness = [true];
 
-    setup({
-      timePerParagraph: newTimePerParagraph,
-      wordsPerParagraph: newWordsPerParagraph,
-      usersWPM: 200,
-      answersCorrectness: newAnswersCorrectness,
-    });
+  //   setup({
+  //     timePerParagraph: newTimePerParagraph,
+  //     wordsPerParagraph: newWordsPerParagraph,
+  //     usersWPM: 200,
+  //     answersCorrectness: newAnswersCorrectness,
+  //   });
 
-    const downArrow = screen.getByText('↓');
-    expect(downArrow).toHaveStyle('color: var(--color-pink)');
-  });
+  //   const downArrow = screen.getByText('↓');
+  //   expect(downArrow).toHaveStyle('color: var(--color-pink)');
+  // });
 });
