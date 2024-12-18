@@ -60,6 +60,13 @@ public class ArticlesController : ControllerBase
         return Ok(articles);
     }
 
+    [HttpGet("random/")]
+    public IActionResult GetRandomArticle()
+    {
+        ArticleResponse articleResponse = _articleService.RandomArticle();
+        return Ok(articleResponse);
+    }
+
     [HttpGet("{id}")]
     public IActionResult GetArticleById(int id)
     {
