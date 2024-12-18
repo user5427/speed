@@ -28,6 +28,10 @@ const EditQuestion = () => {
         setQuestionId(null);
     }
 
+    const noQuestionFound = () => {
+        window.location.href = `/edit-question`;
+    }
+
     return (
         <>
             <ReturnToArticlesButton />
@@ -44,6 +48,7 @@ const EditQuestion = () => {
                                 <CreateEditQuestion
                                     key={`edit-${questionId}`}
                                     existingQuestionId={questionId}
+                                    noQuestionFound={noQuestionFound}
                                     redirect={false}
                                 />
                             ) : (

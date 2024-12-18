@@ -27,6 +27,7 @@ const EditArticle = ({
   sendCreatedId = undefined,
   redirect = true,
   sendUpdate = undefined,
+  noArticleFound = undefined,
 }) => {
   const { t } = useTranslation();
 
@@ -50,6 +51,8 @@ const EditArticle = ({
   const [deleteRequest, setDeleteRequest] = useState(null);
 
   const [categories, setCategories] = useState([]);
+
+  const [noArticle, setNoArticle] = useState(false);
 
   // Trigger setArticleFromExisting when component mounts or existingArticleId changes
   useEffect(() => {
@@ -221,6 +224,9 @@ const EditArticle = ({
   // Function to close the error modal
   const closeErrorModal = () => {
     setShowErrorModal(false);
+    if (noArticle) {
+      noArticleFound();
+    }
   };
 
   const setArticleFromExisting = async (exArtId) => {
@@ -245,6 +251,7 @@ const EditArticle = ({
     } catch (error) {
       setErrorMessage(error.message);
       setShowErrorModal(true);
+      setNoArticle(true);
     }
   };
 
