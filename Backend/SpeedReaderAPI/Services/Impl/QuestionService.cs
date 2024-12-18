@@ -151,7 +151,7 @@ public class QuestionService : IQuestionService
     {
         long questionCount = _context.Question.Count();
         List<Question> questions = _context.Question.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize)
-                                                    .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search)
+                                                    .Where(a => (string.IsNullOrEmpty(queryParameters.Search) || a.QuestionText.Contains(queryParameters.Search))
                                                     && (queryParameters.UserId == null || a.UserId == queryParameters.UserId))
                                                     .ToList();
         var sortedList = Sorter.SortList(questions, asc: false);
