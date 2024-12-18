@@ -16,7 +16,6 @@ class ArticleReadyForReading {
                 return false;
             }
         } catch (error) {
-            throw error;
             return false;
         }
         
