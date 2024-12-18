@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpeedReaderAPI.Data;
 
@@ -11,9 +12,11 @@ using SpeedReaderAPI.Data;
 namespace SpeedReaderAPI.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241212105818_Add author to article")]
+    partial class Addauthortoarticle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,6 +47,9 @@ namespace SpeedReaderAPI.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryIds")
                         .IsRequired()
@@ -307,15 +313,6 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageFileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageFilePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ImageMimeType")
-                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .IsRequired()

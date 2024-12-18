@@ -57,6 +57,22 @@ public class AuthControllerTests : IClassFixture<PlaygroundApplicationFixture>
     }
 
     [Fact]
+    public async Task Register_DuplicateEmail()
+    {
+        // Arrange
+        var request = new RegisterRequest 
+        {
+            Username = "testuser",
+            Email = "testuser@example.com",
+            Password = "TestPassword123"
+        };
+
+        var response = await _client.PostAsJsonAsync("/api/auth/register", request);
+        var response2 = await _client.PostAsJsonAsync("/api/auth/register", request);
+        Assert.Equal(HttpStatusCode.BadRequest, response2.StatusCode);
+    }
+
+    [Fact]
     public async Task Login_ValidData_ReturnsToken()
     {
         // Arrange
