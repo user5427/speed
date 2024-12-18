@@ -31,12 +31,22 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
+        if (userId === null) {
+            return;
+        }
         getArticles();
-    }, [update, page, searchTerm]) // [] if empty, will load for only the first and only first time
+    }, [update, userId]) // [] if empty, will load for only the first and only first time
+
+    useEffect(() => {
+        getArticles();
+    }, [page, searchTerm]) // [] if empty, will load for only the first and only first time
 
     const getArticles = async () => {
         try {
             let articlePage
+            if (userId === -1) {
+                return;
+            }
             if (searchTerm === "" || !settings.showSearchBar) {
                 articlePage = await ArticleController.GetPage(page + 1, userId);
             } else {

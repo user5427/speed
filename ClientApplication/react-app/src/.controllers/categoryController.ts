@@ -67,9 +67,9 @@ class CategoryController {
         }
     }
 
-    static async GetPage(page) {
+    static async GetPage(page, userId?: number) {
         try {
-            const response = await CategoryService.getCategoriesByPage(page);
+            const response = await CategoryService.getCategoriesByPage(page, userId);
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${CategoryPageErrors.GetPageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }

@@ -41,7 +41,8 @@
         "createArticle" : "Sukurti straipsnį",
         "createParagraph" : "Sukurti pastraipą",
         "createQuestion" : "Sukurti klausimą",
-        "articleList" : "Straipsnių sąrašas"
+        "articleList" : "Straipsnių sąrašas",
+        "userArticles" : "Mano straipsniai"
     },
 
     "categories" : {
@@ -65,7 +66,11 @@
         "enterCategoryContent" : "Įveskite kategorijos turinį",
         "plsEnterCategoryContent" : "Prašome įvesti kategorijos turinį",
 
-        "chooseCategories" : "Pasirinkite, kas domina, arba kurkite savo kategorijas"
+        "chooseCategories" : "Pasirinkite, kas domina, arba kurkite savo kategorijas",
+        "search" : {
+            "searchCategories" : "Ieškoti kategorijų",
+            "enterCategoryTitle" : "Įveskite kategorijos pavadinimą"
+        }
     },
 
     "editPages" : {

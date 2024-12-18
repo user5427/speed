@@ -63,12 +63,12 @@ export const getImageAxios = async (apiUrl: string) => {
             url: apiUrl,
             method: 'GET',
             headers: headers,
-            data: undefined,
+            responseType: 'blob',  // Ensure the response is a Blob
         };
 
         const response = await API(axiosConfig);
 
-        const blob = await response.data.blob();
+        const blob = await response.data;
 
         const url = URL.createObjectURL(blob);
         return url;

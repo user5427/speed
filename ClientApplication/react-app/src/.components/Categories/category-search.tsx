@@ -52,7 +52,7 @@ const CategorySearch = ({ onCategorySelected, categoryFromOutside, userId}) => {
         <>
             <Form noValidate>
                 <Form.Group controlId="searchBar" className="input">
-                    <Form.Label>{t('category.search.searchCategories')}</Form.Label>
+                    <Form.Label>{t('categories.search.searchCategories')}</Form.Label>
                     <Form.Control
                         value={categoryFromOutside && categoryFromOutside.title || searchValue}
                         list="categories"
