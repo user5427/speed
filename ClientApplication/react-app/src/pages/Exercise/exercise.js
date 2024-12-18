@@ -49,7 +49,29 @@ const Exercise = () => {
   const [answersCorrectness, setAnswersCorrectness] = useState([]); // Array to store correctness per paragraph
   const [confettiActive, setConfettiActive] = useState(false);
 
+  const [paragraphSessions, setParagraphSessions] = useState([]);
+
   const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
+
+  const saveParagraphSession = () => {
+    if (startTime) {
+      const endTime = Date.now();
+      const duration = (endTime - startTime) / 1000; // Duration in seconds
+      const wordsCount = words.length;
+      const wpm = Math.round((wordsCount / duration) * 60); // WPM calculation
+  
+      const paragraphSession = {
+        paragraphId: paragraphs[currentParagraphIndex]?.id,
+        duration: duration,
+        wpm: wpm,
+        startedAt: new Date(startTime),
+      };
+  
+      // Add session data to paragraphSessions state
+      setParagraphSessions((prevSessions) => [...prevSessions, paragraphSession]);
+      console.log("Saved Paragraph Session:", paragraphSession);
+    }
+  };
 
   const {
     avgReadingSpeed,
@@ -209,57 +231,39 @@ const totalParagraphs = paragraphs.length;
   }, [currentParagraphIndex, paragraphs]);
 
 
-// Word reveal loop for each paragraph
-useEffect(() => {
-  if (articleCompleted) return;
-  if (!started || finished) return;
-  if (avgReadingSpeed == null || worldRecordWPM == null) return;
-  if (!words || words.length === 0) return;
-
-  const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM);
-  const intervalTime = 60000 / wpm; // Convert WPM to milliseconds
-
-  if (!startTime) {
-    setStartTime(Date.now());
-  }
-
-  const interval = setInterval(() => {
-    setCurrentWordIndex((prevIndex) => {
-      if (prevIndex < words.length) {
-        return prevIndex + 1;
-      } else {
-        clearInterval(interval); // Finish current paragraph
-        setFinished(true); // Mark paragraph as finished
-
-        // Calculate the time taken to finish the paragraph
-        const endTime = Date.now();
-        const timeTaken = (endTime - startTime) / 1000; // Time in seconds
-
-        setTimePerParagraph((prevTimes) => {
-          if (prevTimes.length < totalParagraphs) {
-            return [...prevTimes, timeTaken];
-          } else {
-            return prevTimes;
-          }
-        });
-        
-        return prevIndex;
-      }
-    });
-  }, intervalTime);
-
-  return () => clearInterval(interval); // Cleanup
-}, [
-  started,
-  finished,
-  inputValue,
-  startTime,
-  avgReadingSpeed,
-  worldRecordWPM,
-  words,
-  articleCompleted,
-  totalParagraphs,
-]);
+  useEffect(() => {
+    if (articleCompleted || !started || finished || !words.length) return;
+  
+    const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM);
+    const intervalTime = 60000 / wpm; // WPM to milliseconds
+  
+    if (!startTime) setStartTime(Date.now());
+  
+    const interval = setInterval(() => {
+      setCurrentWordIndex((prevIndex) => {
+        if (prevIndex < words.length) {
+          return prevIndex + 1;
+        } else {
+          clearInterval(interval);
+          setFinished(true); // Mark paragraph as finished
+          saveParagraphSession(); // Save paragraph session here
+          return prevIndex;
+        }
+      });
+    }, intervalTime);
+  
+    return () => clearInterval(interval);
+  }, [
+    started,
+    finished,
+    inputValue,
+    startTime,
+    avgReadingSpeed,
+    worldRecordWPM,
+    words,
+    articleCompleted,
+  ]);
+  
 
   // Confetti effect when the article is completed
   useEffect(() => {
