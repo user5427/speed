@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 
 
 import { MdOutlineAdd } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 
 const EditQuestions = ({ 
     paragraphFromOutsideId = undefined, 
@@ -25,8 +26,12 @@ const EditQuestions = ({
     redirect = true, 
     sendUpdate = undefined,
     noQuestionFound = undefined, 
+    userId = undefined,
 }) => {
     
+  const navigate = useNavigate();
+
+
     const { t } = useTranslation();
     
     const [question, setQuestion] = useState(
@@ -264,7 +269,7 @@ const EditQuestions = ({
     const closeSuccessModal = () => {
         setShowSuccessModal(false);
         if (MyRedirect) {
-            window.location.href = `/edit-question?questionId=${question.id}`;
+            navigate(`/edit-question?questionId=${question.id}`);
         }
         if (sendCreatedId) {
             sendCreatedId(question.id);
@@ -405,6 +410,7 @@ const EditQuestions = ({
                     <ParagraphSearch
                         onParagraphSelected={updateParagraphId}
                         paragraphFromOutside={outsideParagraph}
+                        userId={userId}
                     />
                 )}
 

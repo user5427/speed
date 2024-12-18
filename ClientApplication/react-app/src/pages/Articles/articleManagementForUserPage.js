@@ -7,14 +7,14 @@ import { FaPlusSquare } from "react-icons/fa";
 import { useTranslation } from 'react-i18next'; 
 import { useState, useEffect } from 'react';
 
-const ArticleHomePage = ({ loggedInUser }) => {
+const ArticleUserHomePage = ({ loggedInUser }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
     const [settings, setSettings] = useState(null);
 
     useEffect(() => {
-        if (loggedInUser && false) {
+        if (loggedInUser) {
             setSettings({
                 showEditButton: true,
                 showPlayButton: true,
@@ -48,10 +48,6 @@ const ArticleHomePage = ({ loggedInUser }) => {
     const getPlayArticle = (articleId) => {
         navigate(`/exercise?articleId=${articleId}`);
     }
-
-    const redirectToUserArticles = () => {
-        navigate('/user-articles');
-    }
     
 
     return (
@@ -59,12 +55,22 @@ const ArticleHomePage = ({ loggedInUser }) => {
             {/* Only show this block if a user is logged in */}
             {loggedInUser && (
                 <div className="article-home-page">
-                    <h2>{t('articleManagment.articleHomePage')}</h2>
+                    <h2>{t('articleManagment.myArticles')}</h2>
                     <div className='mainContainer' style={{ backgroundColor: "red !important" }}>
                         <Row className='row'>
-                            <Col xs={12} md={12}>
-                                <Button size="lg" className='buttons deepPurple' onClick={redirectToUserArticles}>
-                                    <FaPlusSquare className="icons"/> {t('articleManagment.userArticles')}
+                            <Col xs={12} md={4}>
+                                <Button size="lg" className='buttons deepPurple' onClick={redirectToCreateArticle}>
+                                    <FaPlusSquare className="icons"/> {t('articleManagment.createArticle')}
+                                </Button>
+                            </Col>
+                            <Col xs={12} md={4}>
+                                <Button size="lg" className='buttons orange' onClick={redirectToCreateParagraph}>
+                                    <FaPlusSquare className="icons"/> {t('articleManagment.createParagraph')}
+                                </Button>
+                            </Col>
+                            <Col xs={12} md={4}>
+                                <Button size="lg" className='buttons teal' onClick={redirectToCreateQuestion}>
+                                    <FaPlusSquare className="icons"/> {t('articleManagment.createQuestion')}
                                 </Button>
                             </Col>
                         </Row>
@@ -82,9 +88,10 @@ const ArticleHomePage = ({ loggedInUser }) => {
                 settings={settings}
                 getEditing={getSelectedArticle}
                 getPlay={getPlayArticle}
+                userId={loggedInUser ? loggedInUser.id : null}
             />
         </>
     );
 }
 
-export default ArticleHomePage;
+export default ArticleUserHomePage;

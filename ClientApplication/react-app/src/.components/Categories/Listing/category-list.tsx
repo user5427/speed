@@ -19,9 +19,10 @@ interface CategoryListProps {
     getSelected: (id: string) => void;
     update: any;
     getEditing: (id: string) => void;
+    userId?: number;
 }
 
-const CategoryList: React.FC<CategoryListProps> = ({ settings, getSelected, update, getEditing }) => {
+const CategoryList: React.FC<CategoryListProps> = ({ settings, getSelected, update, getEditing, userId }) => {
     const [categories, setCategories] = useState<any[]>([]);
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(0);
@@ -30,12 +31,23 @@ const CategoryList: React.FC<CategoryListProps> = ({ settings, getSelected, upda
     const [showErrorModal, setShowErrorModal] = useState(false); // State to show/hide modal
 
     useEffect(() => {
+        if (userId === null) {
+            return;
+        }
+
         getCategories();
-    }, [update, page]); // Reload when update or page changes
+    }, [update, userId]); // Reload when update or page changes
+
+    useEffect(() => {
+        getCategories();
+    }, [page]); // Reload when update or page changes
 
     const getCategories = async () => {
         try {
-            let categoryPage = await CategoryController.GetPage(page + 1);
+            if (userId === -1) {
+                return;
+            }
+            let categoryPage = await CategoryController.GetPage(page + 1, userId);
             if (categoryPage === undefined) {
                 return;
             }

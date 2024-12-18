@@ -10,7 +10,7 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 
 import { useTranslation } from 'react-i18next'; 
 
-const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
+const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside, userId }) => {
 
     const { t } = useTranslation();
 
@@ -25,7 +25,7 @@ const ParagraphSearch = ({ onParagraphSelected, paragraphFromOutside }) => {
         if (value !== "") {
             setSearchValue(value);
             try {
-                let paragraphPage = await ParagraphController.Search(value);
+                let paragraphPage = await ParagraphController.Search(value, userId);
                 if (paragraphPage.paragraphs.length > 0) {
                     const options = paragraphPage.paragraphs.map((paragraph) => (
                         <option key={paragraph.id} value={paragraph.title}></option>

@@ -22,9 +22,12 @@ const ParagraphService = {
         return FetchHelperAxios.fetchEntityAxios(apiUrl, requestOptions).then(res => {return res});
     },
 
-    getParagraphsByTitle: async function (search) {
+    getParagraphsByTitle: async function (search: string, userId?: number) {
         const requestOptions = FetchHelperAxios.generateRequestOptionsAxios("GET");
-        const apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/search?Search=${search}&PageSize=${SearchSizeConstants.MaxPageSize}`;
+        let apiUrl = process.env.REACT_APP_API_URL + `Paragraphs/search?Search=${search}&PageSize=${SearchSizeConstants.MaxPageSize}`;
+        if (userId !== null && userId !== undefined) {
+            apiUrl.concat(`&UserId=${userId}`);
+        }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, requestOptions).then(res => {return res});
     },
 

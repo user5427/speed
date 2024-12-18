@@ -12,6 +12,7 @@ import DeletePopup from '../.common-components/DeletePopup';
 import { GrRevert } from "react-icons/gr";
 
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 const EditParagraph = ({ 
     articleFromOutsideId = undefined, 
@@ -20,7 +21,11 @@ const EditParagraph = ({
     redirect = true, 
     sendUpdate = undefined,
     noParagraphFound = undefined, 
+    userId = undefined,
 }) => {
+
+  const navigate = useNavigate();
+
 
     const { t } = useTranslation();
 
@@ -250,7 +255,7 @@ const EditParagraph = ({
     const closeSuccessModal = () => {
         setShowSuccessModal(false);
         if (MyRedirect) {
-            window.location.href = `/edit-paragraph-question?paragraphId=${paragraph.id}`;
+            navigate(`/edit-paragraph-question?paragraphId=${paragraph.id}`);
         }
         if (sendCreatedId) {
             sendCreatedId(paragraph.id);
@@ -324,6 +329,7 @@ const EditParagraph = ({
                                 <ArticleSearch
                                     onArticleSelected={updateArticleId}
                                     articleFromOutside={outsideArticle}
+                                    userId={userId}
                                 />
                             )
                     }

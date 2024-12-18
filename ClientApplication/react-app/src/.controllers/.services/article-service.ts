@@ -3,9 +3,15 @@ import { FetchHelperAxios } from "../.dataProcessingHelpers/DataProccessingHelpe
 import { SearchSizeConstants } from "../../.constants/SearchSizeConstants/SearchSizeConstants";
 
 const ArticleService = {
+    /**
+     * One of these is duplicated
+     * @param page 
+     * @param userId 
+     * @returns 
+     */
     getArticles: async function(page: Number, userId?: Number) {
-        let apiUrl = process.env.REACT_APP_API_URL + `Articles?PageNumber=${page}&PageSize=${process.env.REACT_APP_PAGING_SIZE}`;
-        if (userId !== undefined) {
+        let apiUrl = process.env.REACT_APP_API_URL + `Articles/search?PageNumber=${page}&PageSize=${process.env.REACT_APP_PAGING_SIZE}`;
+        if (userId !== null && userId !== undefined) {
             apiUrl += `&UserId=${userId}`;
         }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
@@ -13,10 +19,10 @@ const ArticleService = {
 
     pageArticles: async function(page: Number, userId?: Number, search?: String) {
         let apiUrl = process.env.REACT_APP_API_URL + `Articles/search?PageNumber=${page}&PageSize=${SearchSizeConstants.MaxPageSize}`;
-        if (userId !== undefined) {
+        if (userId !== null && userId !== undefined) {
             apiUrl += `&UserId=${userId}`;
         }
-        if (search !== undefined) {
+        if (search !== null && userId !== undefined) {
             apiUrl += `&Search=${search}`;
         }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
@@ -47,7 +53,7 @@ const ArticleService = {
 
     getArticleByQuery: async function(title?: String, userId?: Number) {
         let apiUrl = process.env.REACT_APP_API_URL + `Articles/search?Search=${title}&PageSize=${SearchSizeConstants.MaxPageSize}`;
-        if (userId !== undefined) {
+        if (userId !== null && userId !== undefined) {
             apiUrl += `&UserId=${userId}`;
         }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
