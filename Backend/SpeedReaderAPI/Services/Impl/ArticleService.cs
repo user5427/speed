@@ -66,6 +66,15 @@ public class ArticleService : IArticleService
         return _mapper.Map<ArticleResponse>(createdArticle);
     }
 
+    public ArticleResponse RandomArticle(){
+        Article? articleFound = _context.Article.GetRandom();
+        if (articleFound == null)
+        {
+            throw new ResourceNotFoundException("No articles found.");
+        }
+        return _mapper.Map<ArticleResponse>(articleFound);
+    }
+
 
     public ArticleResponse UpdateArticle(int id, ArticleUpdateRequest request)
     {
