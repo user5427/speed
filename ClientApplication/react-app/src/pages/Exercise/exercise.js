@@ -4,6 +4,10 @@ import { QuestionComponent } from '../../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
 import { ArticleInfo, FeedbackMessage, ConfettiEffect, ResultsTableComponent, ReadingExerciseComponent} from '../../.components/Exercise/.MainExerciseExport';
 import { exerciseInfo } from './articleData';
+import { ParagraphSession } from '../../.entities/.MainEntitiesExport';
+import { ArticleSession } from '../../.entities/.MainEntitiesExport';
+import { ArticleSessionController } from '../../.controllers/.MainControllersExport';
+
 
 import { ArticleController, ParagraphController, QuestionController} from '../../.controllers/.MainControllersExport';
 import { useSearchParams } from 'react-router-dom';  // Import hook for query params
@@ -47,6 +51,9 @@ const Exercise = () => {
   const [startTime, setStartTime] = useState(null); // Track the start time of a paragraph
   const [answersCorrectness, setAnswersCorrectness] = useState([]); // Array to store correctness per paragraph
   const [confettiActive, setConfettiActive] = useState(false);
+  
+  const [paragraphSessions, setParagraphSessions] = useState([]);
+  const [articleSession, setArticleSession] = useState(null); 
 
   const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
 
@@ -59,6 +66,44 @@ const Exercise = () => {
     publisher,
     addedBy,
   } = exerciseInfo;
+
+  useEffect(() => {
+    if (articleId) {
+      const newArticleSession = ArticleSession.createSession(Number(articleId));
+      setArticleSession(newArticleSession);
+    }
+  }, [articleId]);
+
+  const saveParagraphSession = () => {
+    const currentParagraph = paragraphs[currentParagraphIndex];
+    if (!currentParagraph?.id || !timePerParagraph[currentParagraphIndex] || !inputValue) {
+      console.error("Missing required fields for paragraph session.");
+      return;
+    }
+
+    const session = new ParagraphSession();
+    session.setParagraphId(currentParagraph.id);
+    session.setDuration(timePerParagraph[currentParagraphIndex]);
+    session.setWpm(inputValue);
+
+    // Push the paragraph session into the article session
+    articleSession.addParagraphSession(session);
+
+    console.log("Paragraph session added to ArticleSession:", session);
+    console.log("Current ArticleSession:", articleSession);
+  };
+
+  const finishArticleSession = async () => {
+    try {
+      console.log("Posting ArticleSession:", articleSession);
+      await ArticleSessionController.Post(articleSession);
+      console.log("Article session saved successfully.");
+    } catch (error) {
+      console.error("Error saving article session:", error);
+    }
+  };
+  
+  
 
   const words = useMemo(() => {
     return paragraphs[currentParagraphIndex]?.text?.split(' ') || [];
@@ -318,12 +363,15 @@ useEffect(() => {
     return totalWords / (totalTime / 60);
   };
 
-  const handleStart = () => setStarted(true);
+  const handleStart = () => {
+    setStarted(true);
+    setStartTime(Date.now());
+  };
+
   const handleShowQuestion = () => {
     setShowQuestion(true);
     setQuestionButtonClicked(true);
   };
-
 
   const handleQuestionSubmit = (selectedAnswerIndex) => {
     const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
@@ -352,12 +400,17 @@ useEffect(() => {
   }
   };
   
+  if (!articleSession) {
+    console.error("ArticleSession is not initialized.");
+    return;
+  }
   
   
   
 
   const handleNextParagraphOrQuestion = () => {
     if (currentParagraphIndex < paragraphs.length - 1) {
+      saveParagraphSession();
       setCurrentParagraphIndex(currentParagraphIndex + 1);
       setCurrentWordIndex(0);
       setStarted(false); // Reset to start new paragraph
@@ -368,6 +421,7 @@ useEffect(() => {
       setStartTime(null); // Reset start time for the new paragraph
     } else {
       // All paragraphs are finished
+      saveParagraphSession();
       setStarted(false); // Ensure started is false
       setFinished(true); // Ensure finished is true
       setStartTime(null); // Reset start time

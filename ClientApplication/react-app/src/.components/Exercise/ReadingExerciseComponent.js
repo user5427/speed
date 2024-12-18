@@ -24,7 +24,7 @@ const ReadingExerciseComponent = ({
   linearToLog,
   worldRecordWPM,
   valuetext,
-  questionButtonClicked
+  questionButtonClicked,
 }) => {
   const { t } = useTranslation();
 
@@ -134,7 +134,9 @@ const ReadingExerciseComponent = ({
           <Button
             className="buttons orange"
             size="lg"
-            onClick={handleShowQuestion}
+            onClick={() => {
+              handleShowQuestion();
+            }}
             disabled={!finished || questionButtonClicked}
           >
             <FaQuestion className="icons" /> {t('exercise.reading.goToQuestion')}
