@@ -11,6 +11,7 @@ class ArticleSession {
         this.sessionId = undefined;
         this.articleId = undefined;
         this.startedAt = new Date();
+        this.paragraphSessions = [];
     }
 
     static createEmptySession(): ArticleSession {

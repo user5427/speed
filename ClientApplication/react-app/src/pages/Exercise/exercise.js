@@ -4,6 +4,10 @@ import { QuestionComponent } from '../../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
 import { ArticleInfo, FeedbackMessage, ConfettiEffect, ResultsTableComponent, ReadingExerciseComponent} from '../../.components/Exercise/.MainExerciseExport';
 import { exerciseInfo } from './articleData';
+import { ParagraphSession } from '../../.entities/.MainEntitiesExport';
+import { ArticleSession } from '../../.entities/.MainEntitiesExport';
+import { ArticleSessionController } from '../../.controllers/.MainControllersExport';
+import { QuestionSession } from '../../.entities/.MainEntitiesExport';
 
 import { ArticleController, ParagraphController, QuestionController} from '../../.controllers/.MainControllersExport';
 import { useSearchParams } from 'react-router-dom';  // Import hook for query params
@@ -47,6 +51,9 @@ const Exercise = () => {
   const [startTime, setStartTime] = useState(null); // Track the start time of a paragraph
   const [answersCorrectness, setAnswersCorrectness] = useState([]); // Array to store correctness per paragraph
   const [confettiActive, setConfettiActive] = useState(false);
+  
+  const [paragraphSessions, setParagraphSessions] = useState([]);
+  const [articleSession, setArticleSession] = useState(null); 
 
   const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
 
@@ -60,6 +67,15 @@ const Exercise = () => {
     addedBy,
   } = exerciseInfo;
 
+  useEffect(() => {
+    if (articleId) {
+      const newArticleSession = ArticleSession.createSession(Number(articleId));
+      setArticleSession(newArticleSession);
+    }
+  }, [articleId]);
+
+   
+  
   const words = useMemo(() => {
     return paragraphs[currentParagraphIndex]?.text?.split(' ') || [];
   }, [paragraphs, currentParagraphIndex]);
@@ -88,15 +104,7 @@ useEffect(() => {
       const paragraphsData = await Promise.all(
         articleData.paragraphIDs.map((id) => ParagraphController.Get(id))
       );
-/*
-      // Sort the paragraphsData based on the numbers in the titles
-      //TO RECONSIDER
-      paragraphsData.sort((a, b) => {
-        const aNumber = parseInt(a.title.split('.')[0]);
-        const bNumber = parseInt(b.title.split('.')[0]);
-        return aNumber - bNumber;
-      });
-*/
+
     setParagraphs(paragraphsData);
     } catch (error) {
       console.error('Error fetching paragraphs:', error);
@@ -188,13 +196,13 @@ const totalParagraphs = paragraphs.length;
           if (imageURL) {
             setParagraphImageUrl(imageURL);
           } else {
-            setParagraphImageUrl(null); // Set to NoImage when no image is available
+            setParagraphImageUrl(null);
           }
         }
       } catch (error) {
         console.error('Error fetching image:', error);
         if (isMounted) {
-          setParagraphImageUrl(null); // Set to NoImage on error
+          setParagraphImageUrl(null); 
         }
       }
     };
@@ -216,8 +224,8 @@ useEffect(() => {
   if (avgReadingSpeed == null || worldRecordWPM == null) return;
   if (!words || words.length === 0) return;
 
-  const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM);
-  const intervalTime = 60000 / wpm; // Convert WPM to milliseconds
+  const wpm = Math.min(parseInt(inputValue), worldRecordWPM);
+  const intervalTime = 60000 / wpm; // Fixed time per word in milliseconds
 
   if (!startTime) {
     setStartTime(Date.now());
@@ -228,21 +236,20 @@ useEffect(() => {
       if (prevIndex < words.length) {
         return prevIndex + 1;
       } else {
-        clearInterval(interval); // Finish current paragraph
-        setFinished(true); // Mark paragraph as finished
+        // End of paragraph
+        clearInterval(interval);
+        setFinished(true);
 
         // Calculate the time taken to finish the paragraph
         const endTime = Date.now();
         const timeTaken = (endTime - startTime) / 1000; // Time in seconds
 
         setTimePerParagraph((prevTimes) => {
-          if (prevTimes.length < totalParagraphs) {
-            return [...prevTimes, timeTaken];
-          } else {
-            return prevTimes;
-          }
+          const updatedTimes = [...prevTimes];
+          updatedTimes[currentParagraphIndex] = timeTaken;
+          return updatedTimes;
         });
-        
+
         return prevIndex;
       }
     });
@@ -258,8 +265,9 @@ useEffect(() => {
   worldRecordWPM,
   words,
   articleCompleted,
-  totalParagraphs,
+  currentParagraphIndex,
 ]);
+
 
   // Confetti effect when the article is completed
   useEffect(() => {
@@ -319,63 +327,158 @@ useEffect(() => {
     return totalWords / (totalTime / 60);
   };
 
-  const handleStart = () => setStarted(true);
-  const handleShowQuestion = () => {
-    setShowQuestion(true);
-    setQuestionButtonClicked(true);
-  };
+  const handleStart = () => {
+    const currentParagraph = paragraphs[currentParagraphIndex];
+    setStarted(true);
+    setStartTime(Date.now());
+};
 
 
-  const handleQuestionSubmit = (selectedAnswerIndex) => {
-    const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
-    const question = currentQuestions[0]; // Assuming one question per paragraph 
-    // TO COME BACK ^^^^^^^^
-    if (!question) {
-      setFeedbackMessage('No question available for this paragraph.');
-      return;
-    }
-    const correctAnswerIndex = question.correctAnswerIndex;
-    const isCorrect = selectedAnswerIndex === correctAnswerIndex;
-  
-    setAnswersCorrectness((prevAnswers) => {
-      if (prevAnswers.length < totalParagraphs) {
-        return [...prevAnswers, isCorrect];
-      } else {
-        return prevAnswers;
-      }
-    });
-  
-    if (isCorrect) {
-      setFeedbackMessage(`${t('exercise.message.correct')}!`);
-  } else {
-      const correctAnswerText = question.answerChoices[correctAnswerIndex];
-      setFeedbackMessage(`${t('exercise.message.incorrect')} '${correctAnswerText}'.`);
+const handleShowQuestion = () => {
+  const currentParagraph = paragraphs[currentParagraphIndex];
+
+  if (!currentParagraph?.id) {
+    console.error("Missing required fields to create a new paragraph session.");
+    return;
   }
-  };
+
+  const paragraphText = currentParagraph.text || '';
+  const wordsCount = paragraphText.split(' ').length;
+
+  // Calculate time taken
+  const endTime = Date.now();
+  const timeTaken = startTime ? (endTime - startTime) / 1000 : 0; // Time in seconds
+
+  // Create or update the time for this paragraph
+  setTimePerParagraph((prevTimes) => {
+    const updatedTimes = [...prevTimes];
+    updatedTimes[currentParagraphIndex] = timeTaken; // Update the current paragraph's time
+    return updatedTimes;
+  });
+
+  const wpm = Math.round((60 * wordsCount) / timeTaken);
+
+  // Create a new ParagraphSession
+  const newParagraphSession = new ParagraphSession();
+  newParagraphSession.setParagraphId(currentParagraph.id);
+  newParagraphSession.setDuration(timeTaken);
+  newParagraphSession.setWpm(wpm);
+  newParagraphSession.setQuestionSessions([]);
+
+  // Update paragraph sessions
+  const updatedParagraphSessions = [...paragraphSessions];
+  updatedParagraphSessions[currentParagraphIndex] = newParagraphSession;
+  setParagraphSessions(updatedParagraphSessions);
+
+  console.log("New ParagraphSession created:", newParagraphSession);
+  console.log("Updated ParagraphSessions:", updatedParagraphSessions);
+
+  // Show the question
+  setShowQuestion(true);
+  setQuestionButtonClicked(true);
+};
+
+
+
+
+
+const handleQuestionSubmit = (selectedAnswerIndex) => {
+  const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
+  const question = currentQuestions[0]; // Assuming one question per paragraph
+
+  if (!question) {
+    setFeedbackMessage('No question available for this paragraph.');
+    return;
+  }
+
+  const correctAnswerIndex = question.correctAnswerIndex;
+  const isCorrect = selectedAnswerIndex === correctAnswerIndex;
+
+  setAnswersCorrectness((prevAnswers) => {
+    if (prevAnswers.length < totalParagraphs) {
+      return [...prevAnswers, isCorrect];
+    } else {
+      return prevAnswers;
+    }
+  });
+
+  // Create a new QuestionSession
+  const questionSession = new QuestionSession();
+  questionSession.setCorrect(isCorrect);
+
+  // Add the question session to the current paragraph session
+  const updatedParagraphSessions = [...paragraphSessions];
+  const currentParagraphSession = updatedParagraphSessions[currentParagraphIndex];
+
+  if (currentParagraphSession) {
+    currentParagraphSession.addQuestionSession(questionSession);
+
+    // Push the updated paragraph session into the article session
+    if (articleSession) {
+      articleSession.setParagraphSessions(updatedParagraphSessions);
+    } else {
+      console.error("ArticleSession not initialized.");
+    }
+
+    setParagraphSessions(updatedParagraphSessions);
+
+    console.log("Question session added to ParagraphSession:", questionSession);
+    console.log("Updated ParagraphSessions:", updatedParagraphSessions);
+    console.log("Updated ArticleSession:", articleSession);
+  } else {
+    console.error("ParagraphSession for current paragraph not found.");
+    return;
+  }
+
+  if (isCorrect) {
+    setFeedbackMessage(`${t('exercise.message.correct')}!`);
+  } else {
+    const correctAnswerText = question.answerChoices[correctAnswerIndex];
+    setFeedbackMessage(`${t('exercise.message.incorrect')} '${correctAnswerText}'.`);
+  }
+};
+
+
   
   
   
   
 
-  const handleNextParagraphOrQuestion = () => {
-    if (currentParagraphIndex < paragraphs.length - 1) {
-      setCurrentParagraphIndex(currentParagraphIndex + 1);
-      setCurrentWordIndex(0);
-      setStarted(false); // Reset to start new paragraph
-      setFinished(false);
-      setQuestionButtonClicked(false);
-      setShowQuestion(false); // Hide question for new paragraph
-      setFeedbackMessage(''); // Reset feedback
-      setStartTime(null); // Reset start time for the new paragraph
-    } else {
-      // All paragraphs are finished
-      setStarted(false); // Ensure started is false
-      setFinished(true); // Ensure finished is true
-      setStartTime(null); // Reset start time
-      setArticleCompleted(true); // Mark article as completed
+const handleNextParagraphOrQuestion = () => {
+  if (currentParagraphIndex < paragraphs.length - 1) {
+    setCurrentParagraphIndex(currentParagraphIndex + 1);
+    setCurrentWordIndex(0);
+    setStarted(false); // Reset to start new paragraph
+    setFinished(false);
+    setQuestionButtonClicked(false);
+    setShowQuestion(false); // Hide question for new paragraph
+    setFeedbackMessage(''); // Reset feedback
+    setStartTime(Date.now()); // Reset start time for the new paragraph
+  } else {
+    // All paragraphs are finished
+    setStarted(false); // Ensure started is false
+    setFinished(true); // Ensure finished is true
+    setStartTime(null); // Reset start time
+    setArticleCompleted(true); // Mark article as completed
+
+    try {
+      if (articleSession) {
+        console.log("Posting ArticleSession:", articleSession);
+
+        ArticleSessionController.Post(articleSession);
+
+        console.log("Article session saved successfully.");
+      } else {
+        console.error("ArticleSession is not initialized.");
+      }
+    } catch (error) {
+      console.error("Error saving article session:", error);
     }
-  
-  };
+
+    
+  }
+};
+
 
   if (articleCompleted) {
     return (
@@ -418,7 +521,7 @@ useEffect(() => {
           valuetext={valuetext}
           questionButtonClicked={questionButtonClicked}
         />
-        <ArticleInfo title={title} author={author} publisher={publisher} source={source} addedBy={addedBy}/>
+          <ArticleInfo title={title} author={author} publisher={publisher} source={source} addedBy={addedBy}/>
         </>
         
       )}
