@@ -4,7 +4,6 @@ import { QuestionComponent } from '../../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
 import { ArticleInfo, FeedbackMessage, ConfettiEffect, ResultsTableComponent, ReadingExerciseComponent} from '../../.components/Exercise/.MainExerciseExport';
 import { exerciseInfo } from './articleData';
-import NoImage from '../../no-image.png'
 
 import { ArticleController, ParagraphController, QuestionController} from '../../.controllers/.MainControllersExport';
 import { useSearchParams } from 'react-router-dom';  // Import hook for query params
@@ -30,8 +29,8 @@ const Exercise = () => {
   const [articleData, setArticleData] = useState(null);
   const [paragraphs, setParagraphs] = useState([]);
   const [questionsPerParagraph, setQuestionsPerParagraph] = useState([]);
-  const [paragraphImageUrl, setParagraphImageUrl] = useState(NoImage);
-  const [questionImageUrl, setQuestionImageUrl] = useState(NoImage);
+  const [paragraphImageUrl, setParagraphImageUrl] = useState(null);
+  const [questionImageUrl, setQuestionImageUrl] = useState(null);
 
 
 
@@ -49,29 +48,7 @@ const Exercise = () => {
   const [answersCorrectness, setAnswersCorrectness] = useState([]); // Array to store correctness per paragraph
   const [confettiActive, setConfettiActive] = useState(false);
 
-  const [paragraphSessions, setParagraphSessions] = useState([]);
-
   const currentQuestions = questionsPerParagraph[currentParagraphIndex] || [];
-
-  const saveParagraphSession = () => {
-    if (startTime) {
-      const endTime = Date.now();
-      const duration = (endTime - startTime) / 1000; // Duration in seconds
-      const wordsCount = words.length;
-      const wpm = Math.round((wordsCount / duration) * 60); // WPM calculation
-  
-      const paragraphSession = {
-        paragraphId: paragraphs[currentParagraphIndex]?.id,
-        duration: duration,
-        wpm: wpm,
-        startedAt: new Date(startTime),
-      };
-  
-      // Add session data to paragraphSessions state
-      setParagraphSessions((prevSessions) => [...prevSessions, paragraphSession]);
-      console.log("Saved Paragraph Session:", paragraphSession);
-    }
-  };
 
   const {
     avgReadingSpeed,
@@ -163,7 +140,7 @@ const totalParagraphs = paragraphs.length;
     const fetchQuestionImage = async () => {
       try {
         if (currentQuestions.length === 0) {
-          setQuestionImageUrl(NoImage);
+          setQuestionImageUrl(null);
           return;
         }
   
@@ -174,13 +151,13 @@ const totalParagraphs = paragraphs.length;
           if (imageURL) {
             setQuestionImageUrl(imageURL);
           } else {
-            setQuestionImageUrl(NoImage);
+            setQuestionImageUrl(null);
           }
         }
       } catch (error) {
         console.error('Error fetching question image:', error);
         if (isMounted) {
-          setQuestionImageUrl(NoImage);
+          setQuestionImageUrl(null);
         }
       }
     };
@@ -210,13 +187,13 @@ const totalParagraphs = paragraphs.length;
           if (imageURL) {
             setParagraphImageUrl(imageURL);
           } else {
-            setParagraphImageUrl(NoImage); // Set to NoImage when no image is available
+            setParagraphImageUrl(null); // Set to NoImage when no image is available
           }
         }
       } catch (error) {
         console.error('Error fetching image:', error);
         if (isMounted) {
-          setParagraphImageUrl(NoImage); // Set to NoImage on error
+          setParagraphImageUrl(null); // Set to NoImage on error
         }
       }
     };
@@ -231,39 +208,57 @@ const totalParagraphs = paragraphs.length;
   }, [currentParagraphIndex, paragraphs]);
 
 
-  useEffect(() => {
-    if (articleCompleted || !started || finished || !words.length) return;
-  
-    const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM);
-    const intervalTime = 60000 / wpm; // WPM to milliseconds
-  
-    if (!startTime) setStartTime(Date.now());
-  
-    const interval = setInterval(() => {
-      setCurrentWordIndex((prevIndex) => {
-        if (prevIndex < words.length) {
-          return prevIndex + 1;
-        } else {
-          clearInterval(interval);
-          setFinished(true); // Mark paragraph as finished
-          saveParagraphSession(); // Save paragraph session here
-          return prevIndex;
-        }
-      });
-    }, intervalTime);
-  
-    return () => clearInterval(interval);
-  }, [
-    started,
-    finished,
-    inputValue,
-    startTime,
-    avgReadingSpeed,
-    worldRecordWPM,
-    words,
-    articleCompleted,
-  ]);
-  
+// Word reveal loop for each paragraph
+useEffect(() => {
+  if (articleCompleted) return;
+  if (!started || finished) return;
+  if (avgReadingSpeed == null || worldRecordWPM == null) return;
+  if (!words || words.length === 0) return;
+
+  const wpm = Math.min(parseInt(inputValue) || avgReadingSpeed, worldRecordWPM);
+  const intervalTime = 60000 / wpm; // Convert WPM to milliseconds
+
+  if (!startTime) {
+    setStartTime(Date.now());
+  }
+
+  const interval = setInterval(() => {
+    setCurrentWordIndex((prevIndex) => {
+      if (prevIndex < words.length) {
+        return prevIndex + 1;
+      } else {
+        clearInterval(interval); // Finish current paragraph
+        setFinished(true); // Mark paragraph as finished
+
+        // Calculate the time taken to finish the paragraph
+        const endTime = Date.now();
+        const timeTaken = (endTime - startTime) / 1000; // Time in seconds
+
+        setTimePerParagraph((prevTimes) => {
+          if (prevTimes.length < totalParagraphs) {
+            return [...prevTimes, timeTaken];
+          } else {
+            return prevTimes;
+          }
+        });
+        
+        return prevIndex;
+      }
+    });
+  }, intervalTime);
+
+  return () => clearInterval(interval); // Cleanup
+}, [
+  started,
+  finished,
+  inputValue,
+  startTime,
+  avgReadingSpeed,
+  worldRecordWPM,
+  words,
+  articleCompleted,
+  totalParagraphs,
+]);
 
   // Confetti effect when the article is completed
   useEffect(() => {

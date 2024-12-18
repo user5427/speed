@@ -27,14 +27,13 @@ const QuestionComponent = ({
   onSubmit,
   currentParagraphIndex,
 }) => {
-  const [shuffledOptions, setShuffledOptions] = useState([]); // Store shuffled options
-  const [selectedAnswer, setSelectedAnswer] = useState(''); // Track selected answer
-  const [submitted, setSubmitted] = useState(false); // Track if the user has submitted the answer
+  const [shuffledOptions, setShuffledOptions] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [submitted, setSubmitted] = useState(false);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(null);
 
-  const optionsShuffled = useRef(false); // Track if options are already shuffled
+  const optionsShuffled = useRef(false);
 
-  // Shuffle the options only once when the component is first rendered
   useEffect(() => {
     if (!optionsShuffled.current) {
       const optionsWithIndices = options.map((optionText, index) => ({
@@ -46,7 +45,6 @@ const QuestionComponent = ({
     }
   }, [options]);
 
-  // Handle answer selection
   const handleListItemClick = (optionText, originalIndex) => {
     setSelectedAnswer(optionText);
     setSelectedOptionIndex(originalIndex);
@@ -59,11 +57,10 @@ const QuestionComponent = ({
 
   const { t } = useTranslation();
 
-  
   return (
     <div>
       <Row className="align-items-stretch">
-        <Col xs={12} md={8} className="d-flex flex-column">
+        <Col xs={12} md={questionImageUrl ? 8 : 12} className="d-flex flex-column">
           <div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div className="yellowCircle">{currentParagraphIndex + 1}</div>
@@ -146,14 +143,16 @@ const QuestionComponent = ({
             </Button>
           </div>
         </Col>
-        <Col xs={12} md={4} className="d-flex">
-          <img
-            src={questionImageUrl}
-            alt="Question Illustration"
-            className="img-fluid w-100 h-100"
-            style={{ objectFit: 'cover', borderRadius: '15px' }}
-          />
-        </Col>
+        {questionImageUrl && (
+          <Col xs={12} md={4} className="d-flex">
+            <img
+              src={questionImageUrl}
+              alt="Question Illustration"
+              className="img-fluid w-100 h-100"
+              style={{ objectFit: 'cover', borderRadius: '15px' }}
+            />
+          </Col>
+        )}
       </Row>
     </div>
   );
