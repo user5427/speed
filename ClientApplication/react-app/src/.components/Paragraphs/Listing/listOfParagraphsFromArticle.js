@@ -80,6 +80,7 @@ const listOfParagraphs = ({ articleId, getSelected, update, settings }) => {
         }
 
         getParagraphs();
+        setShowDeletePopup(false);
     }
 
     const cancelDelete = () => {
