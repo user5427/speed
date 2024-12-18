@@ -141,7 +141,7 @@ public class ParagraphService : IParagraphService
     {
         long paragraphCount = _context.Paragraph.Count();
         List<Paragraph> paragraphs = _context.Paragraph.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize)
-                                                    .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search)
+                                                    .Where(a => (string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
                                                     && (queryParameters.UserId == null || a.UserId == queryParameters.UserId))
                                                     .ToList();
         var sortedList = Sorter.SortList(paragraphs);

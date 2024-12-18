@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import "../../../styles/Articles/articleItemStyle.css"; // stylesheet
 import { MdModeEdit } from "react-icons/md";
 
-import { useTranslation } from 'react-i18next'; 
+import { useTranslation } from 'react-i18next';
 
 const ParagraphItem = (props) => {
 
@@ -19,29 +19,31 @@ const ParagraphItem = (props) => {
                     </Col>
                 </Row>
 
-                <div>
+                <div style={{ display: 'flex', gap: '10px' }}>
                     {settings && settings.showSelectButton && (
-                        <Row className="row">
-                            <Col xs={12} md={2} className="col col-12 col-md-2">
-                                <Button onClick={selectThis} className='buttons amber' style={{wordWrap:"normal", width:"auto"}}>{t('commonUIelements.select')}</Button> {/* Apply a button class */}
-                            </Col>
-                        </Row>
+                        <div>
+                            <Button onClick={selectThis} className='buttons amber'>
+                                {t('commonUIelements.select')}
+                            </Button>
+                        </div>
                     )}
 
                     {settings && settings.showDeleteButton && (
-                        <Row className="row">
-                            <Col xs={12} md={2} className="col col-12 col-md-2">
-                                <Button onClick={deleteThis} className="editButton" variant="delete" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}>{t('commonUIelements.delete')}</Button> {/* Apply a button class */}
-                            </Col>
-                        </Row>
+                        <div>
+                            <Button onClick={deleteThis} className='buttons red'>
+                                {t('commonUIelements.delete')}
+                            </Button>
+                        </div>
                     )}
 
+
+
                     {settings && settings.showEditButton && (
-                        <Row className="row">
-                            <Col xs={12} md={2} className="col col-12 col-md-2">
-                                <Button onClick={editThis} className="editButton" variant="primary" style={{ backgroundColor: '#294aa4', borderColor: '#294aa4' }}><MdModeEdit className="icons" /> {t('commonUIelements.edit')}</Button> {/* Apply a button class */}
-                            </Col>
-                        </Row>
+                        <div>
+                            <Button onClick={editThis} className='buttons lightBlue'>
+                                <MdModeEdit className="icons" /> {t('commonUIelements.edit')}
+                            </Button>
+                        </div>
                     )}
 
                 </div>

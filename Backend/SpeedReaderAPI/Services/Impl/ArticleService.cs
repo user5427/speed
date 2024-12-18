@@ -66,6 +66,15 @@ public class ArticleService : IArticleService
         return _mapper.Map<ArticleResponse>(createdArticle);
     }
 
+    public ArticleResponse RandomArticle(){
+        Article? articleFound = _context.Article.GetRandom();
+        if (articleFound == null)
+        {
+            throw new ResourceNotFoundException("No articles found.");
+        }
+        return _mapper.Map<ArticleResponse>(articleFound);
+    }
+
 
     public ArticleResponse UpdateArticle(int id, ArticleUpdateRequest request)
     {
@@ -181,7 +190,7 @@ public class ArticleService : IArticleService
     {
         long articleCount = _context.Article.Count();
         List<Article> articles = _context.Article.GetPaged((queryParameters.PageNumber - 1) * queryParameters.PageSize, queryParameters.PageSize)
-                                                    .Where(a => string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search)
+                                                    .Where(a => (string.IsNullOrEmpty(queryParameters.Search) || a.Title.Contains(queryParameters.Search))
                                                     && (queryParameters.UserId == null || a.UserId == queryParameters.UserId))
                                                     .ToList();
         var sortedArticles = Sorter.SortList(articles);

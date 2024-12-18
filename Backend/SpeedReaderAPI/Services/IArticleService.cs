@@ -10,6 +10,7 @@ public interface IArticleService : IServiceWithImage<ArticleResponse>
     PageResponse<ArticleResponse> SearchArticles(QueryParameters queryParameters);
     ArticleResponse GetArticleById(int id);
     ArticleResponse UpdateArticle(int id, ArticleUpdateRequest request);
+    ArticleResponse RandomArticle();
     void DeleteArticle(int articleId);
     long GetCount();
 }

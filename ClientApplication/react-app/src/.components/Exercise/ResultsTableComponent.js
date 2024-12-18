@@ -43,7 +43,7 @@ const ResultsTable = ({
             <tbody>
               {timePerParagraph.map((time, index) => {
                 const wordsInParagraph = wordsPerParagraph[index];
-                const wpm = (wordsInParagraph / (time / 60)).toFixed(0);
+                const wpm = ((wordsInParagraph * 60) / time ).toFixed(0);
                 const isAboveUsersWPM = wpm >= usersWPM;
                 return (
                   <tr key={index}>
@@ -54,11 +54,11 @@ const ResultsTable = ({
                       {answersCorrectness[index] ? (
                         <>
                           {wpm}{' '}
-                          {isAboveUsersWPM ? (
+                          {/* {isAboveUsersWPM ? (
                             <span style={{ color: 'var(--color-lime)' }}>↑</span>
                           ) : (
                             <span style={{ color: 'var(--color-pink)' }}>↓</span>
-                          )}
+                          )} */}
                         </>
                       ) : (
                         <TiMinus />
@@ -87,18 +87,18 @@ const ResultsTable = ({
           >
             <tbody>
               <tr>
-                <td>{t('exercise.results.yourCurrentReadingSpeed')}{": "}</td>
+                {/* <td>{t('exercise.results.yourCurrentReadingSpeed')}{": "}</td>
                 <td>
                   <span style={{ color: '#ce99ff' }}>{usersWPM}</span> {t('commonUIelements.wpm')}
-                </td>
+                </td> */}
                 <td>{t('exercise.results.yourAverageReadingSpeedDuringExercise')}{':'}</td>
                 <td>
                   {averageWPM ? (
                     <>
                       {usersWPM < averageWPM.toFixed(0) ? (
-                        <span style={{ color: 'var(--color-lime)' }}>{averageWPM.toFixed(0)}</span>
+                        <span style={{ color: 'var(--color-amber)' }}>{averageWPM.toFixed(0)}</span>
                       ) : (
-                        <span style={{ color: 'var(--color-pink)' }}>{averageWPM.toFixed(0)}</span>
+                        <span style={{ color: 'var(--color-amber)' }}>{averageWPM.toFixed(0)}</span>
                       )}{' '}
                       {t('commonUIelements.wpm')}
                     </>

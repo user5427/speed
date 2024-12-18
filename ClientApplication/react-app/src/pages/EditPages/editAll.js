@@ -195,7 +195,7 @@ const EditArticleParagraphQuestion = () => {
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={4}>
                         <ArticleList
-                            settings={{ showSelectButton: true }}
+                            settings={{ showSelectButton: true, showDeleteButton: true }}
                             getSelected={getSelectedArticle}
                             update={updateArticleList}
                         />
@@ -205,7 +205,7 @@ const EditArticleParagraphQuestion = () => {
                             articleId ? (
                                 <ParagraphList
                                     articleId={articleId}
-                                    settings={{ showSelectButton: true }}
+                                    settings={{ showSelectButton: true, showDeleteButton: true }}
                                     getSelected={getSelectedParagraph}
                                     update={updateParagraphList}
                                 />
@@ -219,7 +219,7 @@ const EditArticleParagraphQuestion = () => {
                             paragraphId ? (
                                 <QuestionList
                                     paragraphId={paragraphId}
-                                    settings={{ showSelectButton: true }}
+                                    settings={{ showSelectButton: true, showDeleteButton: true }}
                                     getSelected={getSelectedQuestion}
                                     update={updateQuestionList}
                                 />

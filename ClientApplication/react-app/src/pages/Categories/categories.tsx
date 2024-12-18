@@ -14,9 +14,19 @@ import '../../styles/Categories/categories.css';
 
 import { CategoryList } from '../../.components/.MainComponentsExport';
 
+import { useEffect, useState } from 'react';
+import { UserManager } from '../../.controllers/.dataProcessingHelpers/DataProccessingHelpersExport';
+
 const Categories = () => {
 
     const { t } = useTranslation();
+
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const user = UserManager.getUser();
+        setUser(user);
+    }, []);
 
     const navigate = useNavigate();
 
@@ -38,14 +48,16 @@ const Categories = () => {
                 <h2>{t('categories.categories')}</h2>
             </div>
             <div>
-                <div className='mainContainer' style={{ backgroundColor: "red !important", marginBottom: "1rem"}}>
+                <div className='mainContainer' style={{ backgroundColor: "red !important", marginBottom: "1rem" }}>
                     <Row className='row'>
                         <Col xs={12} md={8} >
-                            <p style={{fontSize:"24px", color:"#d9d9d9", marginBottom:"0px", textAlign:"center", marginTop:"5px"}}>{t('categories.chooseCategories')}</p>
+                            <p style={{ fontSize: "24px", color: "#d9d9d9", marginBottom: "0px", textAlign: "center", marginTop: "5px" }}>{t('categories.chooseCategories')}</p>
                         </Col>
-                        <Col xs={12} md={4}>
-                            <Button size="lg" className='buttons cyan' onClick={redirectToCreateCategory}><FaPlusSquare className="icons"/> {t('categories.createCategory')}</Button>
-                        </Col>
+                        {user && (
+                            <Col xs={12} md={4}>
+                                <Button size="lg" className='buttons cyan' onClick={redirectToCreateCategory}><FaPlusSquare className="icons" /> {t('categories.createCategory')}</Button>
+                            </Col>
+                        )}
                     </Row>
                 </div>
             </div>

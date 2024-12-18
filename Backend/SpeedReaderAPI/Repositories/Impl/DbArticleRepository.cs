@@ -20,4 +20,9 @@ public class DbArticleRepository : IDefaultRepository<Article>
     public void Remove(Article article) => _context.Article.Remove(article);
 
     public List<Article> GetPaged(int skip, int take) => _context.Article.Skip(skip).Take(take).Include(a => a.User).ToList();
+    public Article? GetRandom(){
+        var validArticles = _context.Article.Where(a => a.Paragraphs.Count > 0 && a.Paragraphs.All(p => p.Questions.Count > 0));
+
+        return validArticles.OrderBy(a => Guid.NewGuid()).FirstOrDefault();
+    }
 }

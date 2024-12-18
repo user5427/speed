@@ -28,6 +28,18 @@ class ArticleController {
         }
     }
 
+    static async GetRandom(){
+        try {
+            const response = await ArticleService.getRandomArticle();
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ArticleErrors.GetRandomError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return ArticleMapper.fromJson(response);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async Put(Article) {
         try {
             let jsonData = ArticleMapper.toJson(Article);
@@ -70,6 +82,18 @@ class ArticleController {
             const response = await ArticleService.getArticleByQuery(query, userId);
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${ArticlePageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return ArticlePageMapper.fromJson(response);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async Page(page: number, userId?: number, search?: string) {
+        try {
+            const response = await ArticleService.pageArticles(page, userId, search);
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ArticlePageErrors.PageError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }
             return ArticlePageMapper.fromJson(response);
         } catch (error) {
