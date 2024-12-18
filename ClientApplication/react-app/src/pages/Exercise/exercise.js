@@ -4,7 +4,6 @@ import { QuestionComponent } from '../../.components/.MainComponentsExport';
 import { useNavigate } from 'react-router-dom';
 import { ArticleInfo, FeedbackMessage, ConfettiEffect, ResultsTableComponent, ReadingExerciseComponent} from '../../.components/Exercise/.MainExerciseExport';
 import { exerciseInfo } from './articleData';
-import NoImage from '../../no-image.png'
 
 import { ArticleController, ParagraphController, QuestionController} from '../../.controllers/.MainControllersExport';
 import { useSearchParams } from 'react-router-dom';  // Import hook for query params
@@ -30,8 +29,8 @@ const Exercise = () => {
   const [articleData, setArticleData] = useState(null);
   const [paragraphs, setParagraphs] = useState([]);
   const [questionsPerParagraph, setQuestionsPerParagraph] = useState([]);
-  const [paragraphImageUrl, setParagraphImageUrl] = useState(NoImage);
-  const [questionImageUrl, setQuestionImageUrl] = useState(NoImage);
+  const [paragraphImageUrl, setParagraphImageUrl] = useState(null);
+  const [questionImageUrl, setQuestionImageUrl] = useState(null);
 
 
 
@@ -141,7 +140,7 @@ const totalParagraphs = paragraphs.length;
     const fetchQuestionImage = async () => {
       try {
         if (currentQuestions.length === 0) {
-          setQuestionImageUrl(NoImage);
+          setQuestionImageUrl(null);
           return;
         }
   
@@ -152,13 +151,13 @@ const totalParagraphs = paragraphs.length;
           if (imageURL) {
             setQuestionImageUrl(imageURL);
           } else {
-            setQuestionImageUrl(NoImage);
+            setQuestionImageUrl(null);
           }
         }
       } catch (error) {
         console.error('Error fetching question image:', error);
         if (isMounted) {
-          setQuestionImageUrl(NoImage);
+          setQuestionImageUrl(null);
         }
       }
     };
@@ -188,13 +187,13 @@ const totalParagraphs = paragraphs.length;
           if (imageURL) {
             setParagraphImageUrl(imageURL);
           } else {
-            setParagraphImageUrl(NoImage); // Set to NoImage when no image is available
+            setParagraphImageUrl(null); // Set to NoImage when no image is available
           }
         }
       } catch (error) {
         console.error('Error fetching image:', error);
         if (isMounted) {
-          setParagraphImageUrl(NoImage); // Set to NoImage on error
+          setParagraphImageUrl(null); // Set to NoImage on error
         }
       }
     };

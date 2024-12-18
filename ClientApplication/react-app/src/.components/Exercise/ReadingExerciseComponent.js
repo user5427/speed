@@ -2,9 +2,9 @@ import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import Slider from '@mui/material/Slider';
 import { VscDebugStart } from 'react-icons/vsc';
-import { FaQuestion} from 'react-icons/fa6';
+import { FaQuestion } from 'react-icons/fa6';
 
-import { useTranslation } from 'react-i18next'; 
+import { useTranslation } from 'react-i18next';
 
 const ReadingExerciseComponent = ({
   subject,
@@ -26,7 +26,6 @@ const ReadingExerciseComponent = ({
   valuetext,
   questionButtonClicked
 }) => {
-
   const { t } = useTranslation();
 
   return (
@@ -46,44 +45,48 @@ const ReadingExerciseComponent = ({
       </Row>
 
       <Row>
-  <Col xs={12} md={8}>
-    <div className="exerciseWindow">
-      <p className="singleWord">
-        {started ? (
-          <>
-            {words[currentWordIndex]}
-            {finished && (
-              <>
-                {' '}
-                <span>{t('exercise.reading.endOfParagraph')}</span>{' '}
-                <span className="yellowCircle" style={{ marginLeft: '3px' }}>
-                  {currentParagraphIndex + 1}
-                </span>
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            {t('exercise.reading.pressStartToBeginPar')}{' '}
-            <span className="yellowCircle">
-              {currentParagraphIndex + 1}
-            </span>
-          </>
+        <Col 
+          xs={12} 
+          md={paragraphImageUrl ? 8 : 12} 
+          style={{ height: paragraphImageUrl ? 'auto' : '300px' }}
+        >
+          <div className="exerciseWindow">
+            <p className="singleWord">
+              {started ? (
+                <>
+                  {words[currentWordIndex]}
+                  {finished && (
+                    <>
+                      {' '}
+                      <span>{t('exercise.reading.endOfParagraph')}</span>{' '}
+                      <span className="yellowCircle" style={{ marginLeft: '3px' }}>
+                        {currentParagraphIndex + 1}
+                      </span>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  {t('exercise.reading.pressStartToBeginPar')}{' '}
+                  <span className="yellowCircle">
+                    {currentParagraphIndex + 1}
+                  </span>
+                </>
+              )}
+            </p>
+          </div>
+        </Col>
+
+        {paragraphImageUrl && (
+          <Col xs={12} md={4}>
+            <img
+              src={paragraphImageUrl}
+              alt="Paragraph Illustration"
+              style={{ width: '100%', height: 'auto', borderRadius: '15px' }}
+            />
+          </Col>
         )}
-      </p>
-    </div>
-  </Col>
-
-<Col xs={12} md={4}>
-<img
-      src={paragraphImageUrl}
-      alt="Paragraph Illustration"
-      style={{ width: '100%', height: 'auto', borderRadius:'15px'}}
-    />
-</Col>
-
-</Row>
-
+      </Row>
 
       <Row style={{ marginTop: '18px', marginBottom: '0px' }}>
         <Col xs={12} md={2}>
@@ -93,7 +96,7 @@ const ReadingExerciseComponent = ({
             onClick={handleStart}
             disabled={started}
           >
-            {t('exercise.reading.start')}<VscDebugStart className="icons"/>
+            {t('exercise.reading.start')}<VscDebugStart className="icons" />
           </Button>
         </Col>
 

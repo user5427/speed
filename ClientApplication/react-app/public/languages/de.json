@@ -249,5 +249,7 @@
         "errorOccurred": "Ein Fehler ist aufgetreten. Versuchen Sie, bitte, es erneut.",
 
         "signUp": "Registrieren"
-      }
+    },
+
+    "searchArticle" : "Search articles..."
 }

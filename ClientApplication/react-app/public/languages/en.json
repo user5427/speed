@@ -270,7 +270,9 @@
     "errorOccurred": "An error occurred. Please try again.",
 
     "signUp": "Register"
-  }
+  },
+
+  "searchArticle" : "Search articles..."
     
 }
 

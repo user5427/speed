@@ -275,5 +275,7 @@
         "errorOccurred": "Įvyko klaida. Prašome dar kartą bandyti prisjungti",
     
         "signUp": "Registruotis"
-    }
+    },
+
+    "searchArticle" : "Ieškoti straipsnio..."
 }
