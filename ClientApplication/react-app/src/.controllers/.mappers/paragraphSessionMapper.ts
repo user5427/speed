@@ -5,10 +5,11 @@ class ParagraphSessionMapper {
     static toJson(paragraphSession: ParagraphSession): { [key: string]: any } {
         const json: { [key: string]: any } = {};
         
-        json[ParagraphSessionJson.paragraphId] = paragraphSession.getParagraphId;
-        json[ParagraphSessionJson.duration] = paragraphSession.getDuration;
-        json[ParagraphSessionJson.wpm] = paragraphSession.getWpm;
-        json[ParagraphSessionJson.correctQuestionCount] = paragraphSession.getQuestionSessions().filter(questionSession => questionSession.getCorrect).length;
+        json[ParagraphSessionJson.paragraphId] = paragraphSession.getParagraphId();
+        json[ParagraphSessionJson.duration] = paragraphSession.getDuration();
+        json[ParagraphSessionJson.wpm] = paragraphSession.getWpm();
+        json[ParagraphSessionJson.correctQuestionCount] = paragraphSession.getQuestionSessions().filter(questionSession => questionSession.getCorrect()).length;
+        console.log(json);
 
         return json;
     }

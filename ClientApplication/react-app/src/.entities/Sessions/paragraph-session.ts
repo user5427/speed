@@ -58,7 +58,7 @@ class ParagraphSession {
     }
 
     getDuration(): Number {
-        return this.duration;
+        return Math.floor(this.duration as number);
     }
 
     setDuration(duration: Number): void {
