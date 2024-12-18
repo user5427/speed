@@ -18,7 +18,6 @@ const getLastData = (data, key) => {
   return data && data.length > 0 ? data[data.length - 1][key] : 0;
 };
 
-// Generate date range for a given start and end date
 function generateDateRange(startDateStr, endDateStr) {
   const start = new Date(startDateStr);
   const end = new Date(endDateStr);
@@ -33,18 +32,20 @@ function generateDateRange(startDateStr, endDateStr) {
 }
 
 const Profile = ({ loggedInUser }) => {
-
   const { t } = useTranslation();
-
+  
   const [lineData, setLineData] = useState([]);
   const [loadingLineData, setLoadingLineData] = useState(true);
   const [error, setError] = useState(null);
 
-  // Determine current month and year
+  // Add these states if not already present
+  const [lastExerciseWpm, setLastExerciseWpm] = useState(0);
+  const [lastExerciseCorrectness, setLastExerciseCorrectness] = useState(0);
+
   const now = new Date();
   const year = now.getFullYear();
-  const month = now.getMonth() + 1; // month is zero-based, so add 1
-  const lastDay = new Date(year, month, 0).getDate(); // last day of current month
+  const month = now.getMonth() + 1; 
+  const lastDay = new Date(year, month, 0).getDate();
 
   const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
   const endDate = `${year}-${String(month).padStart(2, '0')}-${lastDay}`;
@@ -58,9 +59,10 @@ const Profile = ({ loggedInUser }) => {
         const articleSessionPage = await ArticleSessionController.Get(startDate, endDate);
         const sessions = articleSessionPage.getArticleSessions();
 
-        // Map date to average WPM
-        const wpmMap = new Map();
+        console.log('Fetched sessions:', sessions.map(s => s.getStartedAt()));
 
+        // Map date to average WPM for the line chart
+        const wpmMap = new Map();
         sessions.forEach(session => {
           const paragraphSessions = session.getParagraphSessions();
           if (!paragraphSessions || paragraphSessions.length === 0) return;
@@ -71,19 +73,63 @@ const Profile = ({ loggedInUser }) => {
           const dateStr = session.getStartedAt();
           const date = new Date(dateStr);
 
-          const dayKey = date.toDateString();
-          wpmMap.set(dayKey, Math.round(avgWpm));
+          const dayKey = date.toISOString().split('T')[0];
+          if (!wpmMap.has(dayKey)) {
+            wpmMap.set(dayKey, { totalWpm: Math.round(avgWpm), count: 1 });
+          } else {
+            const data = wpmMap.get(dayKey);
+            data.totalWpm += Math.round(avgWpm);
+            data.count += 1;
+            wpmMap.set(dayKey, data);
+          }
         });
 
-        // Generate all days and fill with actual WPM or null
         const allDays = generateDateRange(startDate, endDate);
         const sessionData = allDays.map(d => {
-          const dayKey = d.toDateString();
-          const wpm = wpmMap.has(dayKey) ? wpmMap.get(dayKey) : null;
+          const dayKey = d.toISOString().split('T')[0];
+          const data = wpmMap.get(dayKey);
+          const wpm = data ? Math.round(data.totalWpm / data.count) : null;
           return { x: d, y: wpm };
         });
 
         setLineData(sessionData);
+
+        // Now compute today's last exercise data
+        const todayStr = new Date().toISOString().split('T')[0];
+        const todaysSessions = sessions.filter(session => {
+          const sessionDate = new Date(session.getStartedAt());
+          const sessionDateStr = sessionDate.toISOString().split('T')[0];
+          return sessionDateStr === todayStr;
+        });
+
+        const lastSession = todaysSessions.length > 0 
+          ? todaysSessions[todaysSessions.length - 1] 
+          : sessions[sessions.length - 1]; // fallback to last overall if no today's session
+
+        let lastSessionWpm = 0;
+        let lastSessionCorrectness = 0;
+        if (lastSession) {
+          const pSessions = lastSession.getParagraphSessions() || [];
+          if (pSessions.length > 0) {
+            const totalWpm = pSessions.reduce((sum, p) => sum + p.getWpm().valueOf(), 0);
+            lastSessionWpm = Math.round(totalWpm / pSessions.length);
+          }
+
+          let correctCount = 0;
+          let questionCount = 0;
+          pSessions.forEach(p => {
+            const qSessions = p.getQuestionSessions() || [];
+            qSessions.forEach(q => {
+              questionCount++;
+              if (q.getCorrect()) correctCount++;
+            });
+          });
+          lastSessionCorrectness = questionCount > 0 ? Math.round((correctCount / questionCount) * 100) : 0;
+        }
+
+        setLastExerciseWpm(lastSessionWpm);
+        setLastExerciseCorrectness(lastSessionCorrectness);
+
       } catch (err) {
         setError(err.message || "Error fetching data");
       } finally {
@@ -108,12 +154,12 @@ const Profile = ({ loggedInUser }) => {
     return <p>Error loading line chart data: {error}</p>;
   }
 
-  // Dynamically create a label for the X-axis using the current month name and year
   const monthName = now.toLocaleString('default', { month: 'long' }); 
   const xAxisLabel = `${monthName} ${year}`;
 
   return (
     <>
+      {/* The existing rendering code for your charts and stats stays the same */}
       <Row>
         <Col>
           <p>
@@ -135,6 +181,7 @@ const Profile = ({ loggedInUser }) => {
 
       <Row>
         <Col xs={12} md={8}>
+          {/* LineChart Code */}
           <div
             className="chart-container"
             style={{
@@ -156,11 +203,6 @@ const Profile = ({ loggedInUser }) => {
                     const date = new Date(value);
                     return `${date.getDate()}`;
                   },
-                },
-              ]}
-              yAxis={[
-                {
-                  //label: 'Reading Speed (WPM)',
                 },
               ]}
               series={[{ dataKey: 'y'}]}
@@ -208,6 +250,7 @@ const Profile = ({ loggedInUser }) => {
         </Col>
 
         <Col xs={12} md={8}>
+          {/* BarChart Code */}
           <div
             style={{
               width: '100%',
@@ -230,16 +273,10 @@ const Profile = ({ loggedInUser }) => {
                   },
                 },
               ]}
-              yAxis={[{ 
-              //  label: 'Answer correctness (%)' 
-              }]}
+              yAxis={[{}]}
               series={[
-                { dataKey: 'correct', 
-                //  label: 'Correct' 
-                },
-                { dataKey: 'incorrect', 
-                  //label: 'Incorrect' 
-                },
+                { dataKey: 'correct' },
+                { dataKey: 'incorrect' },
               ]}
               height={300}
               margin={{ left: 50, right: 30, top: 30, bottom: 50 }}
@@ -265,8 +302,9 @@ const Profile = ({ loggedInUser }) => {
             <h2>{t('profile.lastExerciseAverageReadingSpeed')}{':'}</h2>
           </Row>
           <Row style={{ marginBottom: "0px" }}>
+            {/* Use the lastReadingSpeed from line chart data or switch to lastExerciseWpm if you prefer */}
             <text style={{ color: 'var(--color-orange)', fontSize: '120px' }}>
-              {lastReadingSpeed}
+              {lastExerciseWpm}
             </text>
           </Row>
           <Row>
@@ -280,7 +318,7 @@ const Profile = ({ loggedInUser }) => {
           </Row>
           <Row>
             <p style={{ fontSize: '120px' }}>
-              <text style={{ color: 'var(--color-teal)' }}>{lastCorrectness}%</text>
+              <text style={{ color: 'var(--color-teal)' }}>{lastExerciseCorrectness}%</text>
             </p>
           </Row>
         </Col>
