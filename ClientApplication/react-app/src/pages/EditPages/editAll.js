@@ -7,8 +7,13 @@ import { Row, Col } from 'react-bootstrap';
 import { ParagraphList, QuestionList, ArticleList } from '../../.components/.MainComponentsExport';
 
 import { useTranslation } from 'react-i18next';
+import { UserManager } from '../../.controllers/.dataProcessingHelpers/DataProccessingHelpersExport';
+import { useNavigate } from 'react-router-dom';
 
 const EditArticleParagraphQuestion = () => {
+  const navigate = useNavigate();
+
+    const [userId, setUserID] = useState(-1);
 
     const { t } = useTranslation();
 
@@ -24,6 +29,10 @@ const EditArticleParagraphQuestion = () => {
 
     // Get the articleId from the query string, or default to null if not provided
     useEffect(() => {
+        let user = UserManager.getUser();
+        if (user !== null && user !== undefined) {
+            setUserID(user.id);
+        }        
         setArticleId(searchParams.get('articleId'));
     }, [searchParams]); // Only runs when searchParams changes
 
@@ -88,7 +97,7 @@ const EditArticleParagraphQuestion = () => {
     }
 
     const noArticleFound = () => {
-        window.location.href = `/edit-all`;
+        navigate('/edit-all');
     }
 
     return (
@@ -110,12 +119,14 @@ const EditArticleParagraphQuestion = () => {
                                     noArticleFound={noArticleFound}
                                     redirect={false}
                                     sendUpdate={triggerUpdateArticleList}
+                                    userId={userId}
                                 />
                             ) : (
                                 <CreateEditArticle
                                     sendCreatedId={receiveArticleId}
                                     redirect={false}
                                     sendUpdate={triggerUpdateArticleList}
+                                    userId={userId}
                                 />
                             )}
                     </Col>
@@ -127,6 +138,7 @@ const EditArticleParagraphQuestion = () => {
                                     existingParagraphId={paragraphId}
                                     redirect={false}
                                     sendUpdate={triggerUpdateParagraphList}
+                                    userId={userId}
                                 />
                             ) : articleId ? (
                                 <CreateEditParagraph
@@ -134,6 +146,7 @@ const EditArticleParagraphQuestion = () => {
                                     sendCreatedId={receiveParagraphId}
                                     redirect={false}
                                     sendUpdate={triggerUpdateParagraphList}
+                                    userId={userId}
                                 />
                             ) : (
                                 <p>{t('editPages.all.parUnavailable')}</p>
@@ -148,6 +161,7 @@ const EditArticleParagraphQuestion = () => {
                                     existingQuestionId={questionId}
                                     redirect={false}
                                     sendUpdate={triggerUpdateQuestionList}
+                                    userId={userId}
                                 />
                             ) : paragraphId ? (
                                 <CreateEditQuestion
@@ -155,6 +169,7 @@ const EditArticleParagraphQuestion = () => {
                                     sendCreatedId={receiveQuestionId}
                                     redirect={false}
                                     sendUpdate={triggerUpdateQuestionList}
+                                    userId={userId}
                                 />
                             ) : (
                                 <p>{t('editPages.all.questUnavailable')}</p>
@@ -203,7 +218,8 @@ const EditArticleParagraphQuestion = () => {
                             settings={{ showSelectButton: true, showDeleteButton: true }}
                             getSelected={getSelectedArticle}
                             update={updateArticleList}
-                        />
+                            userId={userId}
+                            />
                     </Col>
                     <Col xs={12} md={4}>
                         {

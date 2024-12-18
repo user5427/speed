@@ -23,15 +23,18 @@ const CategoryService = {
     getCategoriesByTitle: async function (search: string, userId?: number) {
         const requestOptions = FetchHelperAxios.generateRequestOptionsAxios("GET");
         let apiUrl = process.env.REACT_APP_API_URL + `Category/search?Search=${search}&PageSize=${SearchSizeConstants.MaxPageSize}`;
-        if (userId) {
+        if (userId !== null && userId !== undefined) {
             apiUrl += `&UserId=${userId}`;
         }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, requestOptions).then(res => {return res});
     },
 
-    getCategoriesByPage: async function (page) {
+    getCategoriesByPage: async function (page, userId?: number) {
         const requestOptions = FetchHelperAxios.generateRequestOptionsAxios("GET");
-        const apiUrl = process.env.REACT_APP_API_URL + `Category/search?PageNumber=${page}&PageSize=${process.env.REACT_APP_PAGING_SIZE}`;
+        let apiUrl = process.env.REACT_APP_API_URL + `Category/search?PageNumber=${page}&PageSize=${process.env.REACT_APP_PAGING_SIZE}`;
+        if (userId !== null && userId !== undefined) {
+            apiUrl += `&UserId=${userId}`;
+        }
         return FetchHelperAxios.fetchEntityAxios(apiUrl, requestOptions).then(res => {return res});
     },
 

@@ -53,9 +53,9 @@ class ParagraphController {
         }
     }
 
-    static async Search(query) {
+    static async Search(query: string, userId?: number) {
         try {
-            const response = await ParagraphService.getParagraphsByTitle(query);
+            const response = await ParagraphService.getParagraphsByTitle(query, userId);
             if (!response || StatusHelper.isError(response)) {
                 throw new Error(`${ParagraphPageErrors.SearchError()}. Details ${StatusHelper.getErrorMessage(response)}`);
             }

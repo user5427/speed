@@ -41,7 +41,8 @@
         "createArticle" : "Create Article",
         "createParagraph" : "Create Paragraph",
         "createQuestion" : "Create Question",
-        "articleList" : "Article list"
+        "articleList" : "Article list",
+        "userArticles" : "My articles"
     },
 
     "categories" : {
@@ -65,7 +66,11 @@
         "enterCategoryContent" : "Enter Category Content",
         "plsEnterCategoryContent" : "Please enter Category Content",
 
-        "chooseCategories" : "Choose what intrests you or even create your own categories"
+        "chooseCategories" : "Choose what intrests you or even create your own categories",
+        "search" : {
+            "searchCategories" : "Search categories",
+            "enterCategoryTitle" : "Enter category title"
+        }
     },
 
     "editPages" : {

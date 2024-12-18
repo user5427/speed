@@ -7,7 +7,7 @@ import ErrorPopup from '../.common-components/ErrorPopup';
 
 import { useTranslation } from 'react-i18next'; 
 
-const ArticleSearch = ({ onArticleSelected, articleFromOutside}) => {
+const ArticleSearch = ({ onArticleSelected, articleFromOutside, userId}) => {
 
     const { t } = useTranslation();
 
@@ -22,7 +22,7 @@ const ArticleSearch = ({ onArticleSelected, articleFromOutside}) => {
         setSearchValue(value);
         if (value !== "") {
             try {
-                let articlePage = await ArticleController.Search(value);
+                let articlePage = await ArticleController.Search(value, userId);
                 if (articlePage.articles.length > 0) {
                     const options = articlePage.articles.map((article) => (
                         <option key={article.id} value={article.title}></option>

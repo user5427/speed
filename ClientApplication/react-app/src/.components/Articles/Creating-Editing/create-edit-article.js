@@ -21,6 +21,7 @@ import CategoryItem from '../../Categories/Listing/category-item';
 import Divider from '@mui/material/Divider';
 import { CategoryController } from "../../../.controllers/.MainControllersExport";
 import { Category } from '../../../.entities/.MainEntitiesExport';
+import { useNavigate } from 'react-router-dom';
 
 const EditArticle = ({
   existingArticleId = undefined,
@@ -28,8 +29,11 @@ const EditArticle = ({
   redirect = true,
   sendUpdate = undefined,
   noArticleFound = undefined,
+  userId = undefined,
 }) => {
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
 
   const [article, setArticle] = useState(new Article());
   const [validated, setValidated] = useState(false);
@@ -258,7 +262,7 @@ const EditArticle = ({
   const closeSuccessModal = () => {
     setShowSuccessModal(false);
     if (MyRedirect) {
-      window.location.href = `/edit-all?articleId=${article.id}`;
+      navigate(`/edit-all?articleId=${article.id}`);
     }
     if (sendCreatedId) {
       sendCreatedId(article.id);

@@ -27,6 +27,7 @@ import SignUpPage from './pages/UserPages/signUpPage';
 import LogInPage from './pages/UserPages/logInPage';
 import ProfilePage from './pages/UserPages/profilePage';
 import ArticleListFromCategory from './pages/Categories/ArticleListFromCategories';
+import ArticleUserHomePage from './pages/Articles/articleManagementForUserPage';
 
 function App() {
   const { t } = useTranslation();
@@ -102,6 +103,7 @@ function App() {
         <Route exact path="/categories" Component={Categories} />
         <Route exact path="/about" Component={About} />
         <Route exact path="/articles" Component={() => <ArticleHomePage loggedInUser={loggedInUser} />} />
+        <Route exact path="/user-articles" Component={() => <ArticleUserHomePage loggedInUser={loggedInUser} />} />
         <Route exact path="/exercise" Component={Exercise} />
         <Route exact path="/create-article" Component={CreateArticle} />
         <Route exact path="/create-paragraph" Component={CreateParagraph} />

@@ -7,8 +7,13 @@ import { Row, Col } from 'react-bootstrap';
 import { QuestionList } from '../../.components/.MainComponentsExport';
 
 import { useTranslation } from 'react-i18next';
+import { UserManager } from '../../.controllers/.dataProcessingHelpers/DataProccessingHelpersExport';
+import { useNavigate } from 'react-router-dom';
 
 const EditParagraphQuestion = () => {
+      const navigate = useNavigate();
+    
+    const [userId, setUserID] = useState(-1);
 
     const { t } = useTranslation();
 
@@ -22,6 +27,10 @@ const EditParagraphQuestion = () => {
     // Get the articleId from the query string, or default to null if not provided
     // setArticleId(searchParams.get('articleId'));
     useEffect(() => {
+        let user = UserManager.getUser();
+        if (user !== null && user !== undefined) {
+            setUserID(user.id);
+        } 
         setParagraphId(searchParams.get('paragraphId'));
     }, [searchParams]); // Only runs when searchParams changes
 
@@ -59,7 +68,7 @@ const EditParagraphQuestion = () => {
     }
 
     const noParagraphFound = () => {
-        window.location.href = `/edit-paragraph-question`;
+        navigate('/edit-paragraph-question');
     }
 
     return (
@@ -80,11 +89,13 @@ const EditParagraphQuestion = () => {
                                     existingParagraphId={paragraphId}
                                     redirect={false}
                                     noParagraphFound={noParagraphFound}
+                                    userId={userId}
                                 />
                             ) : (
                                 <CreateEditParagraph
                                     sendCreatedId={receiveParagraphId}
                                     redirect={false}
+                                    userId={userId}
                                 />
                             )
                         }
@@ -97,6 +108,7 @@ const EditParagraphQuestion = () => {
                                     existingQuestionId={questionId}
                                     redirect={false}
                                     sendUpdate={triggerUpdateQuestionList}
+                                    userId={userId}
                                 />
                             ) : paragraphId ? (
                                 <CreateEditQuestion
@@ -104,6 +116,7 @@ const EditParagraphQuestion = () => {
                                     sendCreatedId={receiveQuestionId}
                                     redirect={false}
                                     sendUpdate={triggerUpdateQuestionList}
+                                    userId={userId}
                                 />
                             ) : (
                                 <p>{t('editPages.paragraphs.qEditingorCreating')}</p>
