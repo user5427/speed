@@ -40,6 +40,11 @@ const ArticleService = {
         return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
     },
 
+    getRandomArticle: async function() {
+        const apiUrl = process.env.REACT_APP_API_URL + `Articles/random`;
+        return FetchHelperAxios.fetchEntityAxios(apiUrl, null).then(res => {return res});
+    },
+
     getArticleByQuery: async function(title?: String, userId?: Number) {
         let apiUrl = process.env.REACT_APP_API_URL + `Articles/search?Search=${title}&PageSize=${SearchSizeConstants.MaxPageSize}`;
         if (userId !== undefined) {

@@ -69,7 +69,8 @@ const Exercise = () => {
       try {
         let MyArticleId = articleId;
         if (MyArticleId === null) {
-          MyArticleId = 155; // DEFAULT ARTICLE ID
+          let randomArticle = await ArticleController.GetRandom();
+          MyArticleId = randomArticle.id; // DEFAULT ARTICLE ID
         }
         const article = await ArticleController.Get(MyArticleId);
         setArticleData(article);
