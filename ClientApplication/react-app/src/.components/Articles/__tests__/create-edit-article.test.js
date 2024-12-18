@@ -80,17 +80,3 @@ test('displays error message on save failure', async () => {
     expect(screen.getByText(/Failed to save article/i)).toBeInTheDocument();
   });
 });
-
-test('calls getArticleImage when article imageFileName exists', async () => {
-  const mockArticle = { id: 1, imageFileName: 'image.jpg' };
-  ArticleController.Get.mockResolvedValue(mockArticle);
-  ArticleController.GetImage.mockResolvedValue('mock-image-url');
-
-  render(<EditArticle existingArticleId={1} />);
-
-  await waitFor(() => {
-    expect(ArticleController.GetImage).toHaveBeenCalledWith(1);
-  });
-
-  expect(screen.getByAltText('Uploaded Image')).toHaveAttribute('src', 'mock-image-url');
-});

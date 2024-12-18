@@ -5,7 +5,7 @@ using SpeedReaderAPI.Entities;
 public class CombinedRepositories : ICombinedRepository
 {
     private readonly ApplicationContext? _context;
-    public readonly IDefaultRepository<Article> Article;
+    public readonly DbArticleRepository Article;
     public readonly IDefaultRepository<Paragraph> Paragraph;
     public readonly IDefaultRepository<Question> Question;
     public readonly IValidationSettingsRepository ValidationSettings;

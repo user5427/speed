@@ -79,6 +79,7 @@ const listOfQuestions = ({ paragraphId, getSelected, update, settings }) => {
         }
 
         getQuestions();
+        setShowDeletePopup(false);
     }
 
     const cancelDelete = () => {

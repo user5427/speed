@@ -11,6 +11,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import DeletePopup from '../../.common-components/DeletePopup';
 import { useTranslation } from 'react-i18next'; 
 import { FaSearch } from "react-icons/fa";
+import { ArticleReadyForReading } from '../../../.helpers/ArticleReadyForReading';
 
 
 const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userId }) => {
@@ -41,7 +42,17 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
             } else {
                 articlePage = await ArticleController.Page(page + 1, userId, searchTerm);
             }
-            setArticles(articlePage.articles)
+
+            // check which articles are ready for reading
+            let newArticles = await Promise.all(articlePage.articles.map(async article => {
+                article.readyForReading = await ArticleReadyForReading.isArticleReadyForReading(article.id);
+                return article;
+            }));
+
+            // console.log(newArticles);
+
+
+            setArticles(newArticles)
             setPageSize(() => {
                 return Math.ceil(articlePage.count / process.env.REACT_APP_PAGING_SIZE)
             })
@@ -70,6 +81,7 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
         }
 
         getArticles();
+        setShowDeletePopup(false);
     }
 
     const cancelDelete = () => {
@@ -109,9 +121,13 @@ const ArticleList = ({ settings, getSelected, update, getEditing, getPlay, userI
                 {articles && articles.length > 0 ? (
                     articles.map((m, i) => (
                         <div key={i}>
+                            {/* {console.log(m.readyForReading + " " + m.id)} */}
                             <ArticleItem
                                 data={m}
-                                settings={settings}
+                                settings={{
+                                    ...settings,
+                                    disableSelectButton: !m.readyForReading
+                                }}
                                 selectThis={() => getSelected(m.id)}
                                 editThis={() => getEditing(m.id)}
                                 playThis={() => getPlay(m.id)}

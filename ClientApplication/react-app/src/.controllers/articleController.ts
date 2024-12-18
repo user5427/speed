@@ -28,6 +28,18 @@ class ArticleController {
         }
     }
 
+    static async GetRandom(){
+        try {
+            const response = await ArticleService.getRandomArticle();
+            if (!response || StatusHelper.isError(response)) {
+                throw new Error(`${ArticleErrors.GetRandomError()}. Details ${StatusHelper.getErrorMessage(response)}`);
+            }
+            return ArticleMapper.fromJson(response);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async Put(Article) {
         try {
             let jsonData = ArticleMapper.toJson(Article);

@@ -25,7 +25,7 @@ const ArticleItem = (props) => {
 
                     {settings && settings.showSelectButton && (
                         <div>
-                            <Button onClick={selectThis} className='buttons amber'>
+                            <Button onClick={selectThis} className='buttons amber' > 
                                 {t('commonUIelements.select')}
                             </Button>
                         </div>
@@ -50,7 +50,7 @@ const ArticleItem = (props) => {
 
                     {settings && settings.showPlayButton && (
                         <div>
-                            <Button onClick={playThis} className='buttons yellow'>
+                            <Button onClick={playThis} className='buttons yellow' disabled={settings.disableSelectButton}>
                                 <FaBookOpenReader className="icons" /> {t('articles.item.read')}
                             </Button>
                         </div>
