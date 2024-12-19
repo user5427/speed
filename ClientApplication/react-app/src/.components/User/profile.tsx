@@ -74,7 +74,12 @@ const Profile = ({ loggedInUser }) => {
           const avgWpm = totalWpm / paragraphSessions.length;
 
           const date = new Date(session.getStartedAt());
-          const dayKey = date.toISOString().split('T')[0];
+          // Extract year, month, day in local time
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          const dayKey = `${year}-${month}-${day}`;
+
           if (!wpmMap.has(dayKey)) {
             wpmMap.set(dayKey, { totalWpm: Math.round(avgWpm), count: 1 });
           } else {
@@ -99,7 +104,10 @@ const correctnessMap = new Map();
 
 sessions.forEach(session => {
   const date = new Date(session.getStartedAt());
-  const dayKey = date.toISOString().split('T')[0];
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const dayKey = `${year}-${month}-${day}`;
 
   const paragraphSessions = session.getParagraphSessions() || [];
   let sessionCorrectCount = 0;
@@ -140,7 +148,6 @@ const barChartData = allDays.map(d => {
 });
 
 setBarData(barChartData);
-
 
         const todayStr = new Date().toISOString().split('T')[0];
         const todaysSessions = sessions.filter(session => {
