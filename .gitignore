@@ -492,3 +492,4 @@ Backend/SpeedReaderAPI/dbCons.txt
 # Code coverage
 lcov.info
 Backend/SpeedReaderAPI/.vscode/launch.json
+Docker/CERTIFICATE_PASSWORD

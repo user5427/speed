@@ -64,6 +64,9 @@ namespace SpeedReaderAPI.Data.Migrations
                     b.Property<string>("Language")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OriginalAuthor")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ParagraphIds")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

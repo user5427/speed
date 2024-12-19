@@ -80,7 +80,7 @@ public class ArticleServiceTests
     public void CreateArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null, null);
 
         // Act
         var result = _articleService.CreateArticle(request);
@@ -95,7 +95,7 @@ public class ArticleServiceTests
     public void GettingArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null, null);
 
         var created = _articleService.CreateArticle(request);
 
@@ -126,7 +126,7 @@ public class ArticleServiceTests
         var catRes = _categoryService.CreateCategory(catReq);
         var list = new List<int>();
         list.Add(catRes.Id);
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null, null);
         var result = _articleService.CreateArticle(request);
         // Assert
         Assert.NotNull(result);
@@ -146,7 +146,7 @@ public class ArticleServiceTests
         var list3 = new List<int>();
         list3.Add(catRes.Id);
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null, null);
 
         var created = _articleService.CreateArticle(request);
 
@@ -154,7 +154,7 @@ public class ArticleServiceTests
         var catRes2 = _paragraphService.CreateParagraph(catReq2);
         var list2 = new List<int>();
         list2.Add(catRes2.Id);
-        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", "abcd", "abcd", "abce", list2, list3);
+        var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", "abcd", "abcd", "abce", null, list2, list3);
         // Act
         var result = _articleService.UpdateArticle(created.Id, updateRequest);
         // Assert
@@ -167,7 +167,7 @@ public class ArticleServiceTests
     public void DeleteArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null, null);
 
         var created = _articleService.CreateArticle(request);
 
@@ -184,11 +184,11 @@ public class ArticleServiceTests
     public void SearchArticle()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null, null);
 
         var created = _articleService.CreateArticle(request);
 
-        var sideRequest = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null);
+        var sideRequest = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null, null);
 
         var sideCreated = _articleService.CreateArticle(request);
 
@@ -218,10 +218,10 @@ public class ArticleServiceTests
     public void SearchArticleMulti()
     {
         // Arrange
-        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", "abcd", "abcd", "abce", null, null);
         var created = _articleService.CreateArticle(request);
 
-        var sideRequest = new ArticleCreateRequest("Test999 Articlse", "Test Category", "abcd", "abcd", "abce", null);
+        var sideRequest = new ArticleCreateRequest("Test999 Articlse", "Test Category", "abcd", "abcd", "abce", null, null);
         var sideCreated = _articleService.CreateArticle(sideRequest);
 
         // Act

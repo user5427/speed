@@ -26,6 +26,9 @@ public class Article : IComparable<Article>
     /// <deprecated>
     /// This property is deprecated. Use <see cref="NewCategoryTitle"/> instead.
     /// </deprecated>
+    /// 
+
+    public string? OriginalAuthor { get; set; }
     public string? CategoryTitle { get; set; }
     public string? Publisher { get; set; }
     public string? Url { get; set; }

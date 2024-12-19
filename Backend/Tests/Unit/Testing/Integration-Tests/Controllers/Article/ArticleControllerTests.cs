@@ -57,7 +57,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange
         var request = new ArticleCreateRequest(
             "Test Article", "Test Category", "abcd", "abcd", "abcd",
-            null
+            null, null
         );
 
         var token = _tokenService.CreateToken(_user);
@@ -81,7 +81,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     {
          var request = new ArticleCreateRequest(
             "Test Article", "Test Category", "abcd", "abcd", "abcd",
-            null
+            null, null
         );
 
         // Act
@@ -97,7 +97,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange: Title does not meet the required length constraints
          var request = new ArticleCreateRequest(
             "", "Test Category", "abcd", "abcd", "abcd",
-            null
+            null, null
         );
 
         var token = _tokenService.CreateToken(_user);
@@ -142,7 +142,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
          var request = new ArticleUpdateRequest(
             "Test Article", "Test Category", "abcd", "abcd", "abcd",
             null,
-            null
+            null, null
         );
 
         var token = _tokenService.CreateToken(_user);
@@ -164,7 +164,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     {
          var request = new ArticleUpdateRequest(
             "Test Article", "Test Category", "abcd", "abcd", "abcd",
-            null,
+            null, null,
             [2,3]
         );
 
@@ -185,7 +185,7 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
         // Arrange
         int invalidArticleId = 9999;  // Use an ID that does not exist
         var request = new ArticleUpdateRequest(
-            "Test Article", "Test Category", "abcd", "abcd", "abcd",
+            "Test Article", "Test Category", "abcd", "abcd", "abcd", null,
             new List<int>{_paragraphId},
             new List<int>{_categoryId}
         );
