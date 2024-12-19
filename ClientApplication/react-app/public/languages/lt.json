@@ -70,7 +70,9 @@
         "search" : {
             "searchCategories" : "Ieškoti kategorijų",
             "enterCategoryTitle" : "Įveskite kategorijos pavadinimą"
-        }
+        },
+
+        "myCategories" : "Kurti savo kategoriją"
     },
 
     "editPages" : {
@@ -282,5 +284,14 @@
         "signUp": "Registruotis"
     },
 
-    "searchArticle" : "Ieškoti straipsnio..."
+    "searchArticle" : "Ieškoti straipsnio...",
+
+    "profile" : {
+        "personalStatystics" : "Asmeninė statistika",
+        "wpm" : "ŽPM",
+        "averageReadingSpeed": "Vidutinis skaitymo greitis šį mėnesį",
+        "answerCorrectnessThisMonth" : "Atsakymų tesingumas šį mėnesį",
+        "lastExerciseAverageReadingSpeed" : "Paskutinės užduoties vidutinis skaitymo greitis",
+        "lastExerciseAnswerCorrectness" : "Paskutinės užduoties atsakymų tesingumas"
+    }
 }

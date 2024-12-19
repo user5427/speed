@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { LineChart, BarChart } from '@mui/x-charts';
-import { barDataset } from './barDataset';
 import '../../styles/profileStyle.css';
 import Divider from '@mui/material/Divider';
 import { useTranslation } from 'react-i18next';
+import { ThreeDots } from 'react-loader-spinner';
 
 import { ArticleSessionController } from '../../.controllers/.MainControllersExport';
 
@@ -35,10 +35,10 @@ const Profile = ({ loggedInUser }) => {
   const { t } = useTranslation();
   
   const [lineData, setLineData] = useState([]);
+  const [barData, setBarData] = useState([]); 
   const [loadingLineData, setLoadingLineData] = useState(true);
   const [error, setError] = useState(null);
 
-  // Add these states if not already present
   const [lastExerciseWpm, setLastExerciseWpm] = useState(0);
   const [lastExerciseCorrectness, setLastExerciseCorrectness] = useState(0);
 
@@ -59,9 +59,12 @@ const Profile = ({ loggedInUser }) => {
         const articleSessionPage = await ArticleSessionController.Get(startDate, endDate);
         const sessions = articleSessionPage.getArticleSessions();
 
-        console.log('Fetched sessions:', sessions.map(s => s.getStartedAt()));
+        console.log("Fetched Article Sessions:", sessions);
+        sessions.forEach(session => {
+          console.log("Session Timestamp:", session.getStartedAt());
+        });
 
-        // Map date to average WPM for the line chart
+        // --- LINE CHART LOGIC ---
         const wpmMap = new Map();
         sessions.forEach(session => {
           const paragraphSessions = session.getParagraphSessions();
@@ -70,9 +73,7 @@ const Profile = ({ loggedInUser }) => {
           const totalWpm = paragraphSessions.reduce((sum, p) => sum + p.getWpm().valueOf(), 0);
           const avgWpm = totalWpm / paragraphSessions.length;
 
-          const dateStr = session.getStartedAt();
-          const date = new Date(dateStr);
-
+          const date = new Date(session.getStartedAt());
           const dayKey = date.toISOString().split('T')[0];
           if (!wpmMap.has(dayKey)) {
             wpmMap.set(dayKey, { totalWpm: Math.round(avgWpm), count: 1 });
@@ -91,10 +92,56 @@ const Profile = ({ loggedInUser }) => {
           const wpm = data ? Math.round(data.totalWpm / data.count) : null;
           return { x: d, y: wpm };
         });
-
         setLineData(sessionData);
 
-        // Now compute today's last exercise data
+
+const correctnessMap = new Map();
+
+sessions.forEach(session => {
+  const date = new Date(session.getStartedAt());
+  const dayKey = date.toISOString().split('T')[0];
+
+  const paragraphSessions = session.getParagraphSessions() || [];
+  let sessionCorrectCount = 0;
+  let sessionQuestionCount = 0;
+
+  paragraphSessions.forEach(p => {
+    const qSessions = p.getQuestionSessions() || [];
+    qSessions.forEach(q => {
+      sessionQuestionCount++;
+      if (q.getCorrect()) {
+        sessionCorrectCount++;
+      }
+    });
+  });
+
+  if (sessionQuestionCount === 0) return;
+
+  if (!correctnessMap.has(dayKey)) {
+    correctnessMap.set(dayKey, { correct: sessionCorrectCount, total: sessionQuestionCount });
+  } else {
+    const data = correctnessMap.get(dayKey);
+    data.correct += sessionCorrectCount;
+    data.total += sessionQuestionCount;
+    correctnessMap.set(dayKey, data);
+  }
+});
+
+const barChartData = allDays.map(d => {
+  const dayKey = d.toISOString().split('T')[0];
+  const data = correctnessMap.get(dayKey);
+  if (data && data.total > 0) {
+    const correctPercent = Math.round((data.correct / data.total) * 100);
+    const incorrectPercent = 100 - correctPercent;
+    return { x: d, correct: correctPercent, incorrect: incorrectPercent };
+  } else {
+    return { x: d, correct: null, incorrect: null };
+  }
+});
+
+setBarData(barChartData);
+
+
         const todayStr = new Date().toISOString().split('T')[0];
         const todaysSessions = sessions.filter(session => {
           const sessionDate = new Date(session.getStartedAt());
@@ -104,7 +151,7 @@ const Profile = ({ loggedInUser }) => {
 
         const lastSession = todaysSessions.length > 0 
           ? todaysSessions[todaysSessions.length - 1] 
-          : sessions[sessions.length - 1]; // fallback to last overall if no today's session
+          : sessions[sessions.length - 1];
 
         let lastSessionWpm = 0;
         let lastSessionCorrectness = 0;
@@ -142,12 +189,26 @@ const Profile = ({ loggedInUser }) => {
 
   const filteredLineData = lineData.filter(d => d.y != null);
   const averageReadingSpeed = calculateAverage(filteredLineData, 'y');
-  const averageCorrectness = calculateAverage(barDataset, 'correct');
+  
+  const filteredBarData = barData.filter(d => d.correct !== null && d.incorrect !== null);
+  const averageCorrectness = calculateAverage(filteredBarData, 'correct');
+
   const lastReadingSpeed = getLastData(filteredLineData, 'y');
-  const lastCorrectness = getLastData(barDataset, 'correct');
+  const lastCorrectness = getLastData(filteredBarData, 'correct');
 
   if (loadingLineData) {
-    return <p>Loading line chart data...</p>;
+    return (
+      <div style={{ display: 'flex', minHeight: '50vh', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+        <ThreeDots
+          height="80"
+          width="80"
+          radius="9"
+          color="white"
+          ariaLabel="three-dots-loading"
+          visible={true}
+        />
+      </div>
+    );
   }
 
   if (error) {
@@ -159,7 +220,7 @@ const Profile = ({ loggedInUser }) => {
 
   return (
     <>
-      {/* The existing rendering code for your charts and stats stays the same */}
+    <div className='mainContainer' style={{ backgroundColor: "red !important"}}>
       <Row>
         <Col>
           <p>
@@ -181,7 +242,6 @@ const Profile = ({ loggedInUser }) => {
 
       <Row>
         <Col xs={12} md={8}>
-          {/* LineChart Code */}
           <div
             className="chart-container"
             style={{
@@ -250,7 +310,6 @@ const Profile = ({ loggedInUser }) => {
         </Col>
 
         <Col xs={12} md={8}>
-          {/* BarChart Code */}
           <div
             style={{
               width: '100%',
@@ -261,7 +320,7 @@ const Profile = ({ loggedInUser }) => {
             }}
           >
             <BarChart
-              dataset={barDataset}
+              dataset={barData}
               xAxis={[
                 {
                   dataKey: 'x',
@@ -302,7 +361,6 @@ const Profile = ({ loggedInUser }) => {
             <h2>{t('profile.lastExerciseAverageReadingSpeed')}{':'}</h2>
           </Row>
           <Row style={{ marginBottom: "0px" }}>
-            {/* Use the lastReadingSpeed from line chart data or switch to lastExerciseWpm if you prefer */}
             <text style={{ color: 'var(--color-orange)', fontSize: '120px' }}>
               {lastExerciseWpm}
             </text>
@@ -323,6 +381,7 @@ const Profile = ({ loggedInUser }) => {
           </Row>
         </Col>
       </Row>
+      </div>
     </>
   );
 };
