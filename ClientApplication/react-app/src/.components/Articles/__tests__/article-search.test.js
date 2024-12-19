@@ -109,7 +109,7 @@ test('updates options based on user input', async () => {
   fireEvent.change(input, { target: { value: 'Article' } });
 
   await waitFor(() => {
-    expect(ArticleController.Search).toHaveBeenCalledWith('Article');
+    expect(ArticleController.Search).toHaveBeenCalledWith('Article',undefined);
     const datalist = document.getElementById('articles');
     expect(datalist).toBeInTheDocument();
     expect(datalist.children.length).toBe(2);
