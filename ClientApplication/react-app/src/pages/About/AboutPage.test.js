@@ -1,30 +1,24 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import About from './AboutPage';  // Adjust the path to where your About component is located
-
-// Mock the useTranslation hook from 'react-i18next'
+import About from './AboutPage';  
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key) => key, // Mock translation returns the key as the text
-  }),
+    t: (key) => key, 
+   }),
 }));
 
 describe('About Component', () => {
   test('renders About component with translation', () => {
     render(<About />);
 
-    // Check if the main title is rendered
     expect(screen.getByText('aboutPage.title')).toBeInTheDocument();
-    // Check if the team introduction is rendered
     expect(screen.getByText('aboutPage.teamIntroduction')).toBeInTheDocument();
     expect(screen.getByText('aboutPage.meetTeam')).toBeInTheDocument();
     
-    // Check the conclusion and happy reading texts
-    expect(screen.getByText('aboutPage.conclusion')).toBeInTheDocument();
+   expect(screen.getByText('aboutPage.conclusion')).toBeInTheDocument();
   });
   test('checks dynamic styles and colors', () => {
     render(<About />);
-    // Check if specific colors are applied (using CSS classes or inline styles)
     const tadasElement = screen.getByText('Tadas');
     expect(tadasElement).toHaveStyle('color: var(--color-lime-light)');
     const dariusElement = screen.getByText('Darius');

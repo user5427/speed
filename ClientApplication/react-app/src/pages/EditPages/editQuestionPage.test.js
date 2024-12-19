@@ -2,14 +2,12 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import EditQuestion from './editQuestionPage';
 
-// Mocking necessary components and hooks
 jest.mock('../../.components/.MainComponentsExport', () => ({
   CreateEditQuestion: jest.fn(() => <div>Mocked CreateEditQuestion</div>),
   ReturnToArticlesButton: jest.fn(() => <button>Return to Articles</button>),
 }));
 
 beforeEach(() => {
-  // Mock useSearchParams globally
   jest.spyOn(require('react-router-dom'), 'useSearchParams').mockReturnValue([new URLSearchParams()]);
 });
 
