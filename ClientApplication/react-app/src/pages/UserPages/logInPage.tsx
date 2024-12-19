@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next'; 
 
-const Register = () => {
+const Register = ({triggerUpdate}) => {
 
     const { t } = useTranslation();
 
@@ -18,7 +18,9 @@ const Register = () => {
             <div className='mainContainer' style={{ backgroundColor: "red !important", borderStyle:"dashed", borderWidth:"thick", borderColor:"var(--color-orange-dark)"}}>
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={6}>
-                        <LogIn/>
+                        <LogIn
+                            triggerUpdate={triggerUpdate}
+                        />
                     </Col>
                 </Row>
             </div>

@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next'; 
 
-const SignUpPage = () => {
+const SignUpPage = ({triggerUpdate}) => {
 
     const { t } = useTranslation();
 
@@ -18,7 +18,9 @@ const SignUpPage = () => {
             <div className='mainContainer' style={{ backgroundColor: "red !important", borderStyle:"dashed", borderWidth:"thick", borderColor:"var(--color-pink-dark)"}}>
                 <Row className='justify-content-md-center'>
                     <Col xs={12} md={6}>
-                        <SignUp/>
+                        <SignUp
+                            triggerUpdate={triggerUpdate}
+                        />
                     </Col>
                 </Row>
             </div>

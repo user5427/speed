@@ -10,7 +10,7 @@ import { UserController } from '../../.controllers/userController';
 import { User } from '../../.entities/.MainEntitiesExport';
 import { useNavigate } from 'react-router-dom';
 
-const SignUp = () => {
+const SignUp = ({triggerUpdate}) => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -102,8 +102,10 @@ const SignUp = () => {
 
   const closeSuccessModal = () => {
     setShowSuccessModal(false);
-    // navigate('/categories'); 
-    window.location.reload();
+    navigate('/categories');
+    triggerUpdate();
+
+    // window.location.reload();
   };
 
   return (

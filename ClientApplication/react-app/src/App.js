@@ -35,6 +35,8 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const navigate = useNavigate();
 
+  const [trigger, setTrigger] = useState(false);
+
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
@@ -47,7 +49,7 @@ function App() {
     }
 
     fetchCurrentUser();
-  }, []);
+  }, [trigger]);
 
   const handleLogout = async () => {
     try {
@@ -58,6 +60,11 @@ function App() {
       console.error('Error logging out:', error);
     }
   };
+
+  const triggerUpdate = () => {
+    setTrigger(!trigger);
+  }
+
 
   return (
     <Container>
@@ -114,8 +121,8 @@ function App() {
         <Route exact path="/edit-question" Component={EditQuestion} />
         <Route exact path="/create-category" Component={CreateCategory} />
         <Route exact path="/user-categories" Component={CategoriesUserEditing} />
-        <Route exact path="/sign-up" Component={SignUpPage} />
-        <Route exact path="/log-in" Component={LogInPage} />
+        <Route exact path="/sign-up" Component={() => <SignUpPage triggerUpdate={triggerUpdate}/>} />
+        <Route exact path="/log-in" Component={() => <LogInPage triggerUpdate={triggerUpdate}/>} />
         <Route exact path="/profile" Component={() => <ProfilePage loggedInUser={loggedInUser} />}/>
         <Route exact path="/category" Component={ArticleListFromCategory} />
       </Routes>
