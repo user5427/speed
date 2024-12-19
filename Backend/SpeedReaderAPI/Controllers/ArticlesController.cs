@@ -19,8 +19,8 @@ public class ArticlesController : ControllerBase
     public ArticlesController(ILogger<ArticlesController> logger,
      IArticleService articleService, IDiagnosticContext diagnosticContext)
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _diagnosticContext = diagnosticContext ?? throw new ArgumentNullException(nameof(diagnosticContext));
+        _logger = logger;
+        _diagnosticContext = diagnosticContext;
         _articleService = articleService;
 
         _diagnosticContext.Set("Controller", nameof(ArticlesController));

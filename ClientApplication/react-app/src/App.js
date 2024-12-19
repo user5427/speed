@@ -28,6 +28,7 @@ import LogInPage from './pages/UserPages/logInPage';
 import ProfilePage from './pages/UserPages/profilePage';
 import ArticleListFromCategory from './pages/Categories/ArticleListFromCategories';
 import ArticleUserHomePage from './pages/Articles/articleManagementForUserPage';
+import CategoriesUserEditing from './pages/Categories/categoriesForUserPage';
 
 function App() {
   const { t } = useTranslation();
@@ -112,6 +113,7 @@ function App() {
         <Route exact path="/edit-paragraph-question" Component={EditParagraphQuestion} />
         <Route exact path="/edit-question" Component={EditQuestion} />
         <Route exact path="/create-category" Component={CreateCategory} />
+        <Route exact path="/user-categories" Component={CategoriesUserEditing} />
         <Route exact path="/sign-up" Component={SignUpPage} />
         <Route exact path="/log-in" Component={LogInPage} />
         <Route exact path="/profile" Component={() => <ProfilePage loggedInUser={loggedInUser} />}/>

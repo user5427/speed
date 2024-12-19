@@ -70,7 +70,9 @@
         "search" : {
             "searchCategories" : "Search categories",
             "enterCategoryTitle" : "Enter category title"
-        }
+        },
+
+        "myCategories" : "Create my own category"
     },
 
     "editPages" : {
@@ -277,7 +279,16 @@
     "signUp": "Register"
   },
 
-  "searchArticle" : "Search articles..."
-    
+  "searchArticle" : "Search articles...",
+
+  "profile" : {
+    "personalStatystics" : "Personal statistics",
+    "wpm" : "WPM",
+    "averageReadingSpeed": "Average reading speed this month",
+    "answerCorrectnessThisMonth" : "Answer correctness this month",
+    "lastExerciseAverageReadingSpeed" : "Last exercise average reading speed",
+    "lastExerciseAnswerCorrectness" : "Last exercise answer correctness"
+  }
+  
 }
 

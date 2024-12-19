@@ -71,19 +71,11 @@ public class UserService : IUserService
         {
             throw new ResourceNotFoundException($"User with ID {id} not found.");
         }
-        try
-        {
-            if (!userFound.Image.HasValue) throw new Exception();
+            if (!userFound.Image.HasValue) throw new ResourceNotFoundException($"User with ID {id} doesn't have an image.");
             Image img = userFound.Image.Value;
             Stream? stream = _imageService.Get(img);
-            if (stream == null) throw new Exception();
             img.FileStream = stream;
             return img;
-        }
-        catch (Exception)
-        {
-            throw new ResourceNotFoundException($"User with ID {id} doesn't have an image.");
-        }
     }
 
     public void DeleteImage(int id)

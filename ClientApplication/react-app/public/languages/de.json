@@ -71,7 +71,9 @@
         "search" : {
             "searchCategories" : "Kategorien suchen",
             "enterCategoryTitle" : "Geben Sie den Kategorietitel ein"
-        }
+        },
+
+        "myCategories" : "Erstelle meine eigene Kategorie"
     },
 
     "editPages" : {
@@ -278,5 +280,14 @@
         "signUp": "Registrieren"
     },
 
-    "searchArticle" : "Artikel suchen..."
+    "searchArticle" : "Artikel suchen...",
+
+    "profile" : {
+        "personalStatystics" : "Persönliche Statistiken",
+        "wpm" : "WPM",
+        "averageReadingSpeed": "Durchschnittliche Lesegeschwindigkeit diesen Monat",
+        "answerCorrectnessThisMonth" : "Antwortgenauigkeit diesen Monat",
+        "lastExerciseAverageReadingSpeed" : "Durchschnittliche Lesegeschwindigkeit der letzten Übung",
+        "lastExerciseAnswerCorrectness" : "Antwortgenauigkeit der letzten Übung"
+    }
 }

@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SpeedReaderAPI;
 using SpeedReaderAPI.DTOs;
+using SpeedReaderAPI.DTOs.ArticleSession.Requests;
+using SpeedReaderAPI.DTOs.ParagraphSession.Requests;
 using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Exceptions;
 using SpeedReaderAPI.Services.Impl;
 using Unit;
 
@@ -89,31 +92,42 @@ public class ArticleSessionServiceTests
         Assert.Equal(2, firstItem.ArticleId);
     }
 
-    // [Fact(DisplayName = "Article session creation succeeds with valid input")]
-    // public async Task CreateArticleSession_ValidInput_Succeeds()
-    // {
 
-    //     // Arrange
-    //    var request = new ArticleSessionCreateRequest
-    //     (
-    //         ArticleId: (int?)_articleId,
-    //         ParagraphSessions:
-    //         [
-    //             new ParagraphSessionCreateRequest
-    //             (
-    //                 ParagraphId: (int?)_paragraphId, 
-    //                 Wpm: 200,
-    //                 Duration: 20,
-    //                 CorrectQuestionCount: 1
-    //             )
-    //         ]
-    //     );
+    [Fact]
+    public async Task CreateArticleSession_ShouldCreateSession_AndUpdateUserStats()
+    {
+        // Arrange
+        var request = new ArticleSessionCreateRequest
+        (
+            ArticleId: 1,
+            ParagraphSessions:
+            [
+                new ParagraphSessionCreateRequest(ParagraphId: 1, Duration: 60, Wpm: 200, CorrectQuestionCount: 1)
+            ]
+        );
 
-    //     // Act
-    //     var response = await _articleSessionService.CreateArticleSession(request);
+        // Act
+        var result = await _articleSessionService.CreateArticleSession(request);
 
-    //     // Assert
-    //     Assert.NotNull(response);
-    // }
+        // Assert that the article session was created successfully
+        Assert.NotNull(result);
+        Assert.Equal(200, result.Wpm);
+        Assert.Equal(1, result.CorrectQuestionCount);
+    }
 
+     [Fact]
+    public async Task CreateArticleSession_InvalidParagraphId()
+    {
+        // Arrange
+        var request = new ArticleSessionCreateRequest
+        (
+            ArticleId: 1,
+            ParagraphSessions:
+            [
+                new ParagraphSessionCreateRequest(ParagraphId: 999, Duration: 60, Wpm: 200, CorrectQuestionCount: 1)
+            ]
+        );
+
+        var exception = await Assert.ThrowsAsync<ResourceNotFoundException>(async () =>await _articleSessionService.CreateArticleSession(request));
+    }
 }

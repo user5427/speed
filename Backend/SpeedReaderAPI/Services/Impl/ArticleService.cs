@@ -201,7 +201,6 @@ public class ArticleService : IArticleService
     public async Task<ArticleResponse> UploadImage(int id, ImageUploadRequest request)
     {
         User? user = _authService.GetAuthenticatedUser();
-
         Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
@@ -246,7 +245,6 @@ public class ArticleService : IArticleService
     public void DeleteImage(int id)
     {
         User? user = _authService.GetAuthenticatedUser();
-
         Article? articleFound = _context.Article.FindById(id);
         if (articleFound == null)
         {
