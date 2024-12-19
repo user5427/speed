@@ -33,9 +33,6 @@ const EditQuestion = () => {
         setQuestionId(questionId);
     }
 
-    const handleCreateQuestion = () => {
-        setQuestionId(null);
-    }
 
     const noQuestionFound = () => {
         navigate('/edit-question');
