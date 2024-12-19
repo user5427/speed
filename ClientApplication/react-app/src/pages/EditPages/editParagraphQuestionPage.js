@@ -54,10 +54,7 @@ const EditParagraphQuestion = () => {
         setUpdateQuestionList(!updateQuestionList);
     }
 
-    const handleResetParagraph = () => {
-        setParagraphId(null);
-        setQuestionId(null);
-    }
+
 
     const handleResetQuestion = () => {
         setQuestionId(null);

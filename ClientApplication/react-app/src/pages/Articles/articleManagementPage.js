@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { ArticleList } from "../../.components/.MainComponentsExport";
 import "../../styles/Articles/articleManagementPage.css";
 import { Row, Col, Button } from 'react-bootstrap';
-import { FaPlusSquare } from "react-icons/fa";
 import { useTranslation } from 'react-i18next'; 
 import { useState, useEffect } from 'react';
 
@@ -14,32 +13,12 @@ const ArticleHomePage = ({ loggedInUser }) => {
     const [settings, setSettings] = useState(null);
 
     useEffect(() => {
-        if (loggedInUser && false) {
-            setSettings({
-                showEditButton: true,
-                showPlayButton: true,
-                showSearchBar: true
-            });
-        } else 
-            setSettings({
-                showEditButton: false,
-                showPlayButton: true,
-                showSearchBar: true
-            });
+        setSettings({
+            showEditButton: false,
+            showPlayButton: true,
+            showSearchBar: true
+        });
     }, [loggedInUser]);
-
-
-    const redirectToCreateArticle = () => {
-        navigate('/create-article');
-    }
-
-    const redirectToCreateParagraph = () => {
-        navigate('/create-paragraph');
-    }
-
-    const redirectToCreateQuestion = () => {
-        navigate('/create-question');
-    }
 
     const getSelectedArticle = (articleId) => {
         navigate(`/edit-all?articleId=${articleId}`);
@@ -53,7 +32,6 @@ const ArticleHomePage = ({ loggedInUser }) => {
         navigate('/user-articles');
     }
     
-
     return (
         <>
             {/* Only show this block if a user is logged in */}

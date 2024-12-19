@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event';
 import EditArticle from '../Creating-Editing/create-edit-article';
 import { ArticleController } from '../../../.controllers/.MainControllersExport';
 import { useTranslation } from 'react-i18next';
+import { MemoryRouter as Router } from 'react-router-dom';
+
 
 jest.mock('../../../.controllers/.MainControllersExport', () => ({
   ArticleController: {
@@ -25,7 +27,11 @@ afterEach(() => {
 });
 
 test('renders EditArticle component', () => {
-  render(<EditArticle />);
+  render(
+  <Router> 
+    <EditArticle />
+  </Router>
+  );
 
   expect(screen.getByText(/articles.createEdit.articleTitle/i)).toBeInTheDocument();
   // expect(screen.getByText(/articles.createEdit.articleCategory/i)).toBeInTheDocument();
@@ -33,7 +39,11 @@ test('renders EditArticle component', () => {
 });
 
 test('handles file upload', async () => {
-  render(<EditArticle />);
+  render(
+    <Router> 
+      <EditArticle />
+    </Router>
+    );
 
   const fileInput = screen.getByTestId('file-input');
   const file = new File(['dummy content'], 'example.png', { type: 'image/png' });
@@ -70,7 +80,11 @@ test('handles file upload', async () => {
 test('displays error message on save failure', async () => {
   ArticleController.Post.mockRejectedValue(new Error('Failed to save article'));
 
-  render(<EditArticle />);
+  render(
+    <Router> 
+      <EditArticle />
+    </Router>
+    );
 
   //const submitButton = screen.getByRole('button', { name: /create/i ,type: "submit"});
   const submitButton = screen.getByText('commonUIelements.create');

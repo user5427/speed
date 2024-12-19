@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { useSearchParams } from 'react-router-dom';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter as Router } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import EditArticleParagraphQuestion from './editAll';
 import {
@@ -14,42 +14,44 @@ import {
   QuestionList,
 } from '../../.components/.MainComponentsExport';
 
-// Mock hooks and components
-jest.mock('react-router-dom', () => ({
-  useSearchParams: jest.fn(),
-}));
-
 jest.mock('../../.components/.MainComponentsExport', () => ({
-  CreateEditArticle: jest.fn(() => <div>CreateEditArticle</div>),
-  CreateEditParagraph: jest.fn(() => <div>CreateEditParagraph</div>),
-  ReturnToArticlesButton: jest.fn(() => <button>Return to Articles</button>),
-  CreateEditQuestion: jest.fn(() => <div>CreateEditQuestion</div>),
-  ArticleList: jest.fn(() => <div>ArticleList</div>),
-  ParagraphList: jest.fn(() => <div>ParagraphList</div>),
-  QuestionList: jest.fn(() => <div>QuestionList</div>),
-}));
+    CreateEditArticle: jest.fn(() => <div>Create/Edit Article Component</div>),
+    CreateEditParagraph: jest.fn(() => <div>Create/Edit Paragraph Component</div>),
+    ReturnToArticlesButton: jest.fn(() => <button>Return</button>),
+    CreateEditQuestion: jest.fn(() => <div>Create/Edit Question Component</div>),
+    ParagraphList: jest.fn(() => <div>Paragraph List Component</div>),
+    QuestionList: jest.fn(() => <div>Question List Component</div>),
+    ArticleList: jest.fn(() => <div>Article List Component</div>),
+  }));
+  
+  jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: jest.fn(() => jest.fn()),
+    useSearchParams: jest.fn(() => [
+      new URLSearchParams({ articleId: '123' }), 
+    ]),
+  }));
 
 describe('EditArticleParagraphQuestion Component', () => {
   let mockSetSearchParams;
 
   beforeEach(() => {
-    // Mock `useSearchParams`
     mockSetSearchParams = jest.fn();
     useSearchParams.mockReturnValue([{ get: jest.fn().mockReturnValue(null) }, mockSetSearchParams]);
 
-    jest.clearAllMocks(); // Clear any previous mocks
-  });
+    jest.clearAllMocks();   });
 
 
   test('reset buttons disable correctly when no data is set', () => {
-    render(<EditArticleParagraphQuestion />);
+    render(
+    <Router>
+        <EditArticleParagraphQuestion />
+    </Router>);
 
-    // Check for reset buttons
     const resetArticleButton = screen.getByText('editPages.all.resetArticle');
     const resetParagraphButton = screen.getByText('editPages.all.resetParagraph');
     const resetQuestionButton = screen.getByText('editPages.all.resetQuestion');
 
-    // Ensure they are disabled by default
     expect(resetArticleButton).toBeDisabled();
     expect(resetParagraphButton).toBeDisabled();
     expect(resetQuestionButton).toBeDisabled();
@@ -57,24 +59,18 @@ describe('EditArticleParagraphQuestion Component', () => {
   test('renders the component with all main elements', () => {
     render(<EditArticleParagraphQuestion />);
 
-    // Check for the heading
     expect(screen.getByText('editPages.all.editAll')).toBeInTheDocument();
 
-    // Check for the return button
-
-    // Check for default article editor and lists
   });
 
 
   test('reset buttons disable correctly when no data is set', () => {
     render(<EditArticleParagraphQuestion />);
 
-    // Check for reset buttons
     const resetArticleButton = screen.getByText('editPages.all.resetArticle');
     const resetParagraphButton = screen.getByText('editPages.all.resetParagraph');
     const resetQuestionButton = screen.getByText('editPages.all.resetQuestion');
 
-    // Ensure they are disabled by default
     expect(resetArticleButton).toBeDisabled();
     expect(resetParagraphButton).toBeDisabled();
     expect(resetQuestionButton).toBeDisabled();
@@ -87,7 +83,6 @@ describe('EditArticleParagraphQuestion Component2', () => {
     beforeEach(() => {
         mockSetSearchParams = jest.fn();
         useSearchParams.mockReturnValue([{ get: jest.fn().mockReturnValue(null) }]);
-        //useTranslation.mockReturnValue({ t: jest.fn((key) => key) });
     });
 
     it('should call resetArticleId when Reset Article button is clicked', () => {
@@ -96,7 +91,7 @@ describe('EditArticleParagraphQuestion Component2', () => {
         const button = screen.getByText('editPages.all.resetArticle');
         fireEvent.click(button);
 
-        expect(button).toBeDisabled(); // Button is disabled initially
+        expect(button).toBeDisabled();
     });
 
     it('should call resetParagraphId when Reset Paragraph button is clicked', () => {
@@ -105,7 +100,7 @@ describe('EditArticleParagraphQuestion Component2', () => {
         const button = screen.getByText('editPages.all.resetParagraph');
         fireEvent.click(button);
 
-        expect(button).toBeDisabled(); // Button is disabled initially
+        expect(button).toBeDisabled();
     });
 
     it('should call resetQuestionId when Reset Question button is clicked', () => {
@@ -114,25 +109,6 @@ describe('EditArticleParagraphQuestion Component2', () => {
         const button = screen.getByText('editPages.all.resetQuestion');
         fireEvent.click(button);
 
-        expect(button).toBeDisabled(); // Button is disabled initially
+        expect(button).toBeDisabled();
     });
-
-    // it('should trigger updates for article list when corresponding function is called', () => {
-    //     // render(<EditArticleParagraphQuestion />);
-
-    //     // const articleListTrigger = jest.fn();
-    //     // const button = screen.getByText('editPages.all.resetArticle');
-    //     // fireEvent.click(button);
-
-    //     // expect(articleListTrigger).toHaveBeenCalled();
-    //     const articleListTrigger = jest.fn();
-
-    //     render(<EditArticleParagraphQuestion />);
-
-    //     const button = screen.getByText('editPages.all.resetArticle');
-    //     fireEvent.click(button);
-
-    //     // Ensure the trigger function is called
-    //     expect(articleListTrigger).toHaveBeenCalled();
-    // });
 });

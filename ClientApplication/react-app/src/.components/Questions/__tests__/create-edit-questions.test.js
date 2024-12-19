@@ -3,6 +3,7 @@ import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import EditQuestions from '../create-edit-questions'
 
+import { MemoryRouter as Router } from 'react-router-dom';
 // Mock dependencies
 jest.mock('../../../.controllers/.MainControllersExport', () => ({
   QuestionController: {
@@ -24,7 +25,10 @@ jest.mock('react-i18next', () => ({
 
 describe('EditQuestions Component', () => {
   test('renders without crashing', () => {
-    render(<EditQuestions />);
+    render(
+    <Router>
+      <EditQuestions />
+    </Router>);
     expect(screen.getByText('questions.createEdit.addAnswer')).toBeInTheDocument();
   });
 
@@ -41,8 +45,10 @@ describe('EditQuestions Component', () => {
     const { QuestionController, ParagraphController } = require('../../../.controllers/.MainControllersExport');
     QuestionController.Get.mockResolvedValueOnce(mockQuestion);
     ParagraphController.Get.mockResolvedValueOnce({ id: 101, text: 'Sample Paragraph' });
-
-    render(<EditQuestions existingQuestionId={1} />);
+    render(
+      <Router>
+        <EditQuestions existingQuestionId={1} />
+      </Router>);
 
     await waitFor(() => expect(screen.getByText('Sample Question')).toBeInTheDocument());
     expect(screen.getByText('Sample Question')).toBeInTheDocument();
@@ -50,7 +56,10 @@ describe('EditQuestions Component', () => {
   });
 
   test('adds a new answer', () => {
-    render(<EditQuestions />);
+    render(
+      <Router>
+        <EditQuestions />
+      </Router>);
     const addAnswerButton = screen.getByText('questions.createEdit.addAnswer');
     fireEvent.click(addAnswerButton);
 
@@ -58,7 +67,10 @@ describe('EditQuestions Component', () => {
   });
 
   test('deletes an answer', () => {
-    render(<EditQuestions />);
+    render(
+      <Router>
+        <EditQuestions />
+      </Router>);
     const addAnswerButton = screen.getByText('questions.createEdit.addAnswer');
     fireEvent.click(addAnswerButton);
 
@@ -82,7 +94,10 @@ describe('EditQuestions Component', () => {
 //   });
 
   test('validates form submission', async () => {
-    render(<EditQuestions />);
+    render(
+      <Router>
+        <EditQuestions />
+      </Router>);
     const submitButton = screen.getByText('commonUIelements.create');
 
     fireEvent.click(submitButton);
@@ -97,7 +112,10 @@ describe('EditQuestions Component', () => {
     const { QuestionController } = require('../../../.controllers/.MainControllersExport');
     QuestionController.Post = mockPost;
 
-    render(<EditQuestions />);
+    render(
+      <Router>
+        <EditQuestions />
+      </Router>);
 
     fireEvent.change(screen.getByPlaceholderText('paragraphs.search.enterParTitle'), {
         target: { value: 'Paragraph title' },
@@ -146,7 +164,10 @@ describe('EditQuestions Component', () => {
     const { QuestionController } = require('../../../.controllers/.MainControllersExport');
     QuestionController.Post = mockPost;
 
-    render(<EditQuestions />);
+    render(
+      <Router>
+        <EditQuestions />
+      </Router>);
 
     fireEvent.click(screen.getByText('commonUIelements.create'));
 

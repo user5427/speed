@@ -439,6 +439,7 @@ const EditParagraph = ({
                             <input
                                 className="form-control darkInput"
                                 type="file"
+                                data-testid="file-upload"
                                 onChange={handleFileUpload}
                             />
                         </Form.Group>

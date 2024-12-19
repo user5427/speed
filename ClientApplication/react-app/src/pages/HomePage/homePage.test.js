@@ -5,7 +5,6 @@ import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-// Mock react-i18next
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key) => {
@@ -20,7 +19,6 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-// Mock useNavigate
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: jest.fn(),

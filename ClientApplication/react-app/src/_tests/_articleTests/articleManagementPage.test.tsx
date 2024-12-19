@@ -37,9 +37,9 @@ describe('articleManagementPage.js tests', () => {
         const mockUser = { username: 'testUser' }; // Mock user object
         setup(mockUser); // Pass loggedInUser as prop
         await waitFor(() => {
-            expect(screen.getByText('articleManagment.createArticle')).toBeInTheDocument();
-            expect(screen.getByText('articleManagment.createParagraph')).toBeInTheDocument();
-            expect(screen.getByText('articleManagment.createQuestion')).toBeInTheDocument();
+            expect(screen.getByText('articleManagment.articleHomePage')).toBeInTheDocument();
+            expect(screen.getByText('articleManagment.userArticles')).toBeInTheDocument();
+            expect(screen.getByText('articleManagment.articleList')).toBeInTheDocument();
         });
     });
 
