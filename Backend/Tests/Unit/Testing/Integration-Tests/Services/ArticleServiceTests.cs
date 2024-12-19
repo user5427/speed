@@ -155,7 +155,6 @@ public class ArticleServiceTests
         var list2 = new List<int>();
         list2.Add(catRes2.Id);
         var updateRequest = new ArticleUpdateRequest("Updated Article", "Updated Category", "abcd", "abcd", "abce", list2, list3);
-
         // Act
         var result = _articleService.UpdateArticle(created.Id, updateRequest);
         // Assert

@@ -160,6 +160,26 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     }
 
     [Fact]
+    public async Task UpdateArticle_InvalidCategories()
+    {
+         var request = new ArticleUpdateRequest(
+            "Test Article", "Test Category", "abcd", "abcd", "abcd",
+            null,
+            [2,3]
+        );
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        // Act
+        var response = await _client.PutAsJsonAsync($"/api/articles/{_articleId}", request);
+        var updatedArticle = await response.Content.ReadFromJsonAsync<ArticleResponse>();
+
+        // Assert
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
     public async Task UpdateArticle_InvalidId_ReturnsNotFound()
     {
         // Arrange
@@ -246,4 +266,17 @@ public class ArticleControllerTests : IClassFixture<PlaygroundApplicationFixture
     }
 
     
+    [Fact]
+    public async Task getArticles_ReturnsEmptyList()
+    {
+        // Act
+        var response = await _client.GetAsync("/api/articles"); 
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);  
+
+        var articlePage = await response.Content.ReadFromJsonAsync<ArticlePageResponse>();
+
+        // Assert
+        Assert.NotNull(articlePage);    
+        Assert.Equal(2, articlePage.Count);
+    }
 }

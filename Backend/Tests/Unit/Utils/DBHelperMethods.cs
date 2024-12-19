@@ -8,10 +8,10 @@ public class DBHelperMethods
     public static void SeedInitialData(ApplicationContext context)
     {
         AddUser(context);
+        AddCategory(context);
         AddArticle(context);
         AddParagraph(context, context.Article.Last().Id);
         AddQuestion(context, context.Paragraph.Last().Id);
-        AddCategory(context);
         AddArticleSession(context);
     }
 
@@ -89,7 +89,7 @@ public class DBHelperMethods
 
     public static void AddArticle(ApplicationContext context, string title = "Sample Article", string categoryTitle = "Sample Category")
     {
-        context.Article.Add(new Article { Title = title, CategoryTitle = categoryTitle, UserId = getUser(context).Id });
+        context.Article.Add(new Article { Title = title, CategoryTitle = categoryTitle, UserId = getUser(context).Id, CategoryIds=[GetFirstCategoryId(context)] });
         context.SaveChanges();
     }
     public static void AddCategory(ApplicationContext context, string title = "Sample title", string text = "Sample text")

@@ -70,12 +70,7 @@ public class AuthService : IAuthService
 
     public User? GetAuthenticatedUser()
     {
-        string? userIdClaim = _httpContextAccessor
-            .HttpContext
-            ?.User
-            .Claims
-            .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
-            ?.Value;
+        string? userIdClaim = _httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
         if (userIdClaim == null)
         {

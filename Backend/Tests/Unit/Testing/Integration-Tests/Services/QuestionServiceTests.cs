@@ -15,8 +15,6 @@ using Microsoft.Extensions.Configuration;
 
 namespace Unit;
 
-namespace Unit;
-
 public class QuestionServiceTests
 {
     private readonly ContextCreator _contextCreator;
@@ -104,6 +102,16 @@ public class QuestionServiceTests
         Assert.Equal(createdParagraph.Id, result.ParagraphId);
     }
 
+    [Fact (DisplayName  = "Question creating")]
+    public void CreationQuetion_InvalidIndex ()
+    {
+        // Arrange
+        var request = new QuestionCreateRequest(createdParagraph.Id, "Test Question", ["answer 1", "answer 2"], -1);
+        
+        // Assert
+        Assert.Throws<IndexOutOfRangeException>(() =>_questionService.CreateQuestion(request));
+    }
+
     [Fact (DisplayName  = "Question getting")]
     public void GettingQuestion ()
     {
@@ -133,6 +141,38 @@ public class QuestionServiceTests
         Assert.NotNull(result);
         Assert.Equal("Test Question 2", result.QuestionText);
         Assert.Equal(createdParagraph.Id, result.ParagraphId);
+    }
+
+    [Fact (DisplayName  = "Question updating invalid index")]
+    public void UpdateQuestion_invalidIndex ()
+    {
+        // Arrange
+        var request = new QuestionCreateRequest(createdParagraph.Id, "Test Question", ["answer 1", "answer 2"],0);
+        var created = _questionService.CreateQuestion(request);
+        
+        var request2 = new QuestionUpdateRequest(createdParagraph.Id, "Test Question 2", ["answer 1", "answer 2"], -1);
+
+        // Assert
+        Assert.Throws<IndexOutOfRangeException>(() =>_questionService.UpdateQuestion(created.Id, request2));
+    }
+
+    [Fact (DisplayName  = "Question updating invalid index 2")]
+    public void UpdateQuestion_invalidIndex2 ()
+    {
+        // Arrange
+        var request = new QuestionCreateRequest(createdParagraph.Id, "Test Question", ["answer 1", "answer 2"],1);
+        var created = _questionService.CreateQuestion(request);
+        var request2 = new QuestionUpdateRequest(createdParagraph.Id, "Test Question 2", ["answer 1"], null);
+        // Assert
+        Assert.Throws<IndexOutOfRangeException>(() =>_questionService.UpdateQuestion(created.Id, request2));
+    }
+
+    [Fact (DisplayName  = "Question updating invalid id")]
+    public void UpdateQuestion_invalidId ()
+    {
+        var request2 = new QuestionUpdateRequest(createdParagraph.Id, "Test Question 2", ["answer 1", "answer 2"], -1);
+        // Assert
+        Assert.Throws<ResourceNotFoundException>(() =>_questionService.UpdateQuestion(21, request2));
     }
 
     [Fact(DisplayName = "Question deleting")]
