@@ -27,6 +27,8 @@ import SignUpPage from './pages/UserPages/signUpPage';
 import LogInPage from './pages/UserPages/logInPage';
 import ProfilePage from './pages/UserPages/profilePage';
 import ArticleListFromCategory from './pages/Categories/ArticleListFromCategories';
+import ArticleUserHomePage from './pages/Articles/articleManagementForUserPage';
+import CategoriesUserEditing from './pages/Categories/categoriesForUserPage';
 
 function App() {
   const { t } = useTranslation();
@@ -102,6 +104,7 @@ function App() {
         <Route exact path="/categories" Component={Categories} />
         <Route exact path="/about" Component={About} />
         <Route exact path="/articles" Component={() => <ArticleHomePage loggedInUser={loggedInUser} />} />
+        <Route exact path="/user-articles" Component={() => <ArticleUserHomePage loggedInUser={loggedInUser} />} />
         <Route exact path="/exercise" Component={Exercise} />
         <Route exact path="/create-article" Component={CreateArticle} />
         <Route exact path="/create-paragraph" Component={CreateParagraph} />
@@ -110,6 +113,7 @@ function App() {
         <Route exact path="/edit-paragraph-question" Component={EditParagraphQuestion} />
         <Route exact path="/edit-question" Component={EditQuestion} />
         <Route exact path="/create-category" Component={CreateCategory} />
+        <Route exact path="/user-categories" Component={CategoriesUserEditing} />
         <Route exact path="/sign-up" Component={SignUpPage} />
         <Route exact path="/log-in" Component={LogInPage} />
         <Route exact path="/profile" Component={() => <ProfilePage loggedInUser={loggedInUser} />}/>

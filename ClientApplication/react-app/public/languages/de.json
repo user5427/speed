@@ -42,7 +42,8 @@
         "createArticle" : "Artikel zumachen",
         "createParagraph" : "Absatz zumachen",
         "createQuestion" : "Frage zumachen",
-        "articleList" : "Artikelliste"
+        "articleList" : "Artikelliste",
+        "userArticles" : "Artikelliste"
     },
 
     "categories" : {
@@ -66,7 +67,13 @@
         "enterCategoryContent": "Kategorieinhalt eingeben",
         "plsEnterCategoryContent": "Bitte Kategorieinhalt eingeben",
 
-        "chooseCategories" : "Wählen Sie aus, was Sie interesieren, oder erstellen Sie einigene Kategorien"
+        "chooseCategories" : "Wählen Sie aus, was Sie interesieren, oder erstellen Sie einigene Kategorien",
+        "search" : {
+            "searchCategories" : "Kategorien suchen",
+            "enterCategoryTitle" : "Geben Sie den Kategorietitel ein"
+        },
+
+        "myCategories" : "Erstelle meine eigene Kategorie"
     },
 
     "editPages" : {
@@ -273,5 +280,14 @@
         "signUp": "Registrieren"
     },
 
-    "searchArticle" : "Artikel suchen..."
+    "searchArticle" : "Artikel suchen...",
+
+    "profile" : {
+        "personalStatystics" : "Persönliche Statistiken",
+        "wpm" : "WPM",
+        "averageReadingSpeed": "Durchschnittliche Lesegeschwindigkeit diesen Monat",
+        "answerCorrectnessThisMonth" : "Antwortgenauigkeit diesen Monat",
+        "lastExerciseAverageReadingSpeed" : "Durchschnittliche Lesegeschwindigkeit der letzten Übung",
+        "lastExerciseAnswerCorrectness" : "Antwortgenauigkeit der letzten Übung"
+    }
 }

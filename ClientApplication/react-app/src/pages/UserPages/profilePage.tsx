@@ -14,9 +14,7 @@ const ProfilePage = ({ loggedInUser }) => {
                 <h2>Profile</h2> 
             </div>
 
-            <div className='mainContainer' style={{ backgroundColor: "red !important"}}>
-                <Profile loggedInUser={loggedInUser} />
-            </div>
+            <Profile loggedInUser={loggedInUser} />
         </>
     )
 }

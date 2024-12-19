@@ -41,7 +41,8 @@
         "createArticle" : "Sukurti straipsnį",
         "createParagraph" : "Sukurti pastraipą",
         "createQuestion" : "Sukurti klausimą",
-        "articleList" : "Straipsnių sąrašas"
+        "articleList" : "Straipsnių sąrašas",
+        "userArticles" : "Mano straipsniai"
     },
 
     "categories" : {
@@ -65,7 +66,13 @@
         "enterCategoryContent" : "Įveskite kategorijos turinį",
         "plsEnterCategoryContent" : "Prašome įvesti kategorijos turinį",
 
-        "chooseCategories" : "Pasirinkite, kas domina, arba kurkite savo kategorijas"
+        "chooseCategories" : "Pasirinkite, kas domina, arba kurkite savo kategorijas",
+        "search" : {
+            "searchCategories" : "Ieškoti kategorijų",
+            "enterCategoryTitle" : "Įveskite kategorijos pavadinimą"
+        },
+
+        "myCategories" : "Kurti savo kategoriją"
     },
 
     "editPages" : {
@@ -277,5 +284,14 @@
         "signUp": "Registruotis"
     },
 
-    "searchArticle" : "Ieškoti straipsnio..."
+    "searchArticle" : "Ieškoti straipsnio...",
+
+    "profile" : {
+        "personalStatystics" : "Asmeninė statistika",
+        "wpm" : "ŽPM",
+        "averageReadingSpeed": "Vidutinis skaitymo greitis šį mėnesį",
+        "answerCorrectnessThisMonth" : "Atsakymų tesingumas šį mėnesį",
+        "lastExerciseAverageReadingSpeed" : "Paskutinės užduoties vidutinis skaitymo greitis",
+        "lastExerciseAnswerCorrectness" : "Paskutinės užduoties atsakymų tesingumas"
+    }
 }

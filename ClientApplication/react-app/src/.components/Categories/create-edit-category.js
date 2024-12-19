@@ -9,8 +9,11 @@ import DeletePopup from '../.common-components/DeletePopup';
 import { useTranslation } from 'react-i18next'; 
 import { ValidationConstants, ValidationPatternConstants } from '../../.constants/MainConstants';
 
-const EditCategory = () => {
+const EditCategory = ({existingCategoryId = undefined}) => {
 
+    useEffect(() => {
+        setCategoryFromExisting(existingCategoryId);
+    }, [existingCategoryId]);
 
     const { t } = useTranslation();
 
@@ -180,6 +183,23 @@ const EditCategory = () => {
 
     const closeSuccessModal = () => {
         setShowSuccessModal(false);
+    };
+
+    const setCategoryFromExisting = async (categoryId) => {
+        if (!categoryId) {
+            return;
+        }
+
+        try {
+            const existingCategory = await CategoryController.Get(categoryId);
+
+            setCategory(existingCategory);
+            setUpdate(true);
+        }
+        catch (error) {
+            setErrorMessage(error.message); // Set error message
+            setShowErrorModal(true); // Show modal
+        }
     };
 
     return (

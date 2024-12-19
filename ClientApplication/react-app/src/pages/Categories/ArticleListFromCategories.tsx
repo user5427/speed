@@ -29,13 +29,16 @@ const ArticleListFromCategory = () => {
 
 
     const settings = {
-
+        showPlayButton: true,
     }
 
     const receiveArticleIds = (articleIds) => {
         setArticleIds(articleIds);
     }
-
+    
+    const getPlayArticle = (articleId) => {
+        navigate(`/exercise?articleId=${articleId}`);
+    }
 
     return (
         <>
@@ -63,7 +66,7 @@ const ArticleListFromCategory = () => {
                 settings={settings}
                 getSelected={() => { }}
                 getEditing={() => { }}
-                getPlay={() => { }}
+                getPlay={getPlayArticle}
                 update={false}
                 articleIds={articleIds}
             />

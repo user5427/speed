@@ -17,9 +17,21 @@ import { useTranslation } from 'react-i18next';
 
 
 import { MdOutlineAdd } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 
-const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId = undefined, sendCreatedId = undefined, redirect = true, sendUpdate = undefined }) => {
+const EditQuestions = ({ 
+    paragraphFromOutsideId = undefined, 
+    existingQuestionId = undefined, 
+    sendCreatedId = undefined, 
+    redirect = true, 
+    sendUpdate = undefined,
+    noQuestionFound = undefined, 
+    userId = undefined,
+}) => {
     
+  const navigate = useNavigate();
+
+
     const { t } = useTranslation();
     
     const [question, setQuestion] = useState(
@@ -49,6 +61,8 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
     const [deleteMessage, setDeleteMessage] = useState(""); // State for success message
     const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show/hide modal
     const [deleteRequest, setDeleteRequest] = useState(null)
+
+    const [noQuestion, setNoQuestion] = useState(false);
 
     useEffect(() => {
         getParagraphFromOutside(paragraphFromOutsideId);
@@ -247,12 +261,15 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
     // Function to close the error modal
     const closeErrorModal = () => {
         setShowErrorModal(false);
+        if (noQuestion) {
+            noQuestionFound();
+        }
     };
 
     const closeSuccessModal = () => {
         setShowSuccessModal(false);
         if (MyRedirect) {
-            window.location.href = `/edit-question?questionId=${question.id}`;
+            navigate(`/edit-question?questionId=${question.id}`);
         }
         if (sendCreatedId) {
             sendCreatedId(question.id);
@@ -375,6 +392,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
             } catch (error) {
                 setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
+                setNoQuestion(true);
             }
         }
 
@@ -392,6 +410,7 @@ const EditQuestions = ({ paragraphFromOutsideId = undefined, existingQuestionId 
                     <ParagraphSearch
                         onParagraphSelected={updateParagraphId}
                         paragraphFromOutside={outsideParagraph}
+                        userId={userId}
                     />
                 )}
 

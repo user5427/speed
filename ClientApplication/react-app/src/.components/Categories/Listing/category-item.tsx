@@ -14,12 +14,10 @@ interface CategoryItemProps {
         showSelectButton?: boolean;
         showDeleteButton?: boolean;
         showEditButton?: boolean;
-        showPlayButton?: boolean;
     };
-    selectThis?: () => void;
+    selectThis?: (id?: number) => void;
     deleteThis?: (id?: number) => void;
-    editThis?: () => void;
-    playThis?: () => void;
+    editThis?: (id?: number) => void;
 }
 
 const CategoryItem: React.FC<CategoryItemProps> = (props) => {
@@ -61,7 +59,7 @@ const CategoryItem: React.FC<CategoryItemProps> = (props) => {
     };
 
     const handleContainerClick = () => {
-        if (selectThis) selectThis();
+        if (selectThis) selectThis(props.data.id);
     };
 
     const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -71,7 +69,7 @@ const CategoryItem: React.FC<CategoryItemProps> = (props) => {
 
     const handleEditClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        if (editThis) editThis();
+        if (editThis) editThis(props.data.id);
     };
 
     return (

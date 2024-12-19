@@ -11,10 +11,22 @@ import SuccessPopup from '../.common-components/SuccessPopup';
 import DeletePopup from '../.common-components/DeletePopup';
 import { GrRevert } from "react-icons/gr";
 
-import { useTranslation } from 'react-i18next'; 
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=undefined, sendCreatedId=undefined, redirect=true, sendUpdate=undefined }) => {
-    
+const EditParagraph = ({ 
+    articleFromOutsideId = undefined, 
+    existingParagraphId = undefined, 
+    sendCreatedId = undefined, 
+    redirect = true, 
+    sendUpdate = undefined,
+    noParagraphFound = undefined, 
+    userId = undefined,
+}) => {
+
+  const navigate = useNavigate();
+
+
     const { t } = useTranslation();
 
     const [paragraph, setParagraph] = useState(
@@ -40,6 +52,8 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
     const [deleteMessage, setDeleteMessage] = useState(""); // State for success message
     const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show/hide modal
     const [deleteRequest, setDeleteRequest] = useState(null)
+
+    const [noParagraph, setNoParagraph] = useState(false);
 
     // Trigger getArticleFromOutside when component mounts or articleFromOutside changes
     useEffect(() => {
@@ -130,7 +144,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
 
     const deleteConfirmed = async () => {
         setShowDeleteModal(false);
-        if (deleteRequest === 1){
+        if (deleteRequest === 1) {
             try {
                 if (paragraph.imageFileName) {
                     await ParagraphController.DeleteImage(paragraph.id);
@@ -232,13 +246,16 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
     // Function to close the error modal
     const closeErrorModal = () => {
         setShowErrorModal(false);
+        if (noParagraph) {
+            noParagraphFound();
+        }
     };
 
     // Function to close the success modal
     const closeSuccessModal = () => {
         setShowSuccessModal(false);
         if (MyRedirect) {
-            window.location.href = `/edit-paragraph-question?paragraphId=${paragraph.id}`;
+            navigate(`/edit-paragraph-question?paragraphId=${paragraph.id}`);
         }
         if (sendCreatedId) {
             sendCreatedId(paragraph.id);
@@ -292,6 +309,7 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
             } catch (error) {
                 setErrorMessage(error.message); // Set error message
                 setShowErrorModal(true); // Show modal
+                setNoParagraph(true);
             }
         }
 
@@ -299,154 +317,155 @@ const EditParagraph = ({ articleFromOutsideId=undefined, existingParagraphId=und
 
     return (
         <>
-        <Row>
+            <Row>
 
 
 
-            <Col>
+                <Col>
 
-            {
-                outsideArticle ? "" :
-                    (
-                        <ArticleSearch
-                            onArticleSelected={updateArticleId}
-                            articleFromOutside={outsideArticle}
-                        />
-                    )
-            }
-
-
-            <Form validated={validated} onSubmit={handleSave}>
-                {
-                    outsideArticle ? "" :
-                        (
-                            <Form.Group controlId="formtestTitle" className="input">
-                                <Form.Label>{t('paragraphs.createEdit.articleID')}</Form.Label>
-                                <Form.Control
-                                    name={Paragraph.varArticleIdName()}
-                                    value={paragraph.articleId}
-                                    required type="number"
-                                    autoComplete='off'
-                                    placeholder={t('paragraphs.createEdit.enterArticleID')}
-                                    className="form-control darkInput"
-                                    onChange={handleFieldChange}
-                                    pattern={ValidationPatternConstants.IdPattern.source}
+                    {
+                        outsideArticle ? "" :
+                            (
+                                <ArticleSearch
+                                    onArticleSelected={updateArticleId}
+                                    articleFromOutside={outsideArticle}
+                                    userId={userId}
                                 />
-                                <Form.Control.Feedback type="invalid">
-                                    {t('paragraphs.createEdit.plsEnterArticleID')}{'.'}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                        )
-                }
+                            )
+                    }
 
 
-                <Form.Group controlId="formtestTitle" className="input">
-                    <Form.Label>{t('paragraphs.createEdit.parTitle')}</Form.Label>
-                    <Form.Control
-                        name={Paragraph.varTitleName()}
-                        value={paragraph.title}
-                        autoComplete='off'
-                        placeholder={t('paragraphs.createEdit.enterParTitle')}
-                        className="form-control darkInput"
-                        onChange={handleFieldChange}
-                        required type="text"
-                        minLength={ValidationConstants.MinTitleLength}
-                        maxLength={ValidationConstants.MaxTitleLength}
-                        pattern={ValidationPatternConstants.TitlePattern.source}
+                    <Form validated={validated} onSubmit={handleSave}>
+                        {
+                            outsideArticle ? "" :
+                                (
+                                    <Form.Group controlId="formtestTitle" className="input">
+                                        <Form.Label>{t('paragraphs.createEdit.articleID')}</Form.Label>
+                                        <Form.Control
+                                            name={Paragraph.varArticleIdName()}
+                                            value={paragraph.articleId}
+                                            required type="number"
+                                            autoComplete='off'
+                                            placeholder={t('paragraphs.createEdit.enterArticleID')}
+                                            className="form-control darkInput"
+                                            onChange={handleFieldChange}
+                                            pattern={ValidationPatternConstants.IdPattern.source}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {t('paragraphs.createEdit.plsEnterArticleID')}{'.'}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                )
+                        }
+
+
+                        <Form.Group controlId="formtestTitle" className="input">
+                            <Form.Label>{t('paragraphs.createEdit.parTitle')}</Form.Label>
+                            <Form.Control
+                                name={Paragraph.varTitleName()}
+                                value={paragraph.title}
+                                autoComplete='off'
+                                placeholder={t('paragraphs.createEdit.enterParTitle')}
+                                className="form-control darkInput"
+                                onChange={handleFieldChange}
+                                required type="text"
+                                minLength={ValidationConstants.MinTitleLength}
+                                maxLength={ValidationConstants.MaxTitleLength}
+                                pattern={ValidationPatternConstants.TitlePattern.source}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {t('paragraphs.createEdit.plsEnterValidParTitle')}{'.'}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+
+                        <Form.Group controlId="formtestText" className="input">
+                            <Form.Label>{t('paragraphs.createEdit.paragraphText')}</Form.Label>
+                            <Form.Control
+                                name={Paragraph.varTextName()}
+                                value={paragraph.text}
+                                as="textarea"
+                                rows={3}
+                                className="form-control darkInput"
+                                required type="text"
+                                autoComplete='off'
+                                placeholder={t('paragraphs.createEdit.eneterParText')}
+                                onChange={handleFieldChange}
+                                minLength={ValidationConstants.MinParagraphLength}
+                                maxLength={ValidationConstants.MaxParagraphLength}
+                                pattern={ValidationPatternConstants.ParagraphPattern.source}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {t('paragraphs.createEdit.plsEnterParText')}{'.'}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+
+                    </Form>
+
+                    {/* Error Popup */}
+                    <ErrorPopup
+                        showErrorModal={showErrorModal}
+                        errorMessage={errorMessage}
+                        onClose={closeErrorModal}
                     />
-                    <Form.Control.Feedback type="invalid">
-                        {t('paragraphs.createEdit.plsEnterValidParTitle')}{'.'}
-                    </Form.Control.Feedback>
-                </Form.Group>
 
-                <Form.Group controlId="formtestText" className="input">
-                    <Form.Label>{t('paragraphs.createEdit.paragraphText')}</Form.Label>
-                    <Form.Control
-                        name={Paragraph.varTextName()}
-                        value={paragraph.text}
-                        as="textarea"
-                        rows={3}
-                        className="form-control darkInput"
-                        required type="text"
-                        autoComplete='off'
-                        placeholder={t('paragraphs.createEdit.eneterParText')}
-                        onChange={handleFieldChange}
-                        minLength={ValidationConstants.MinParagraphLength}
-                        maxLength={ValidationConstants.MaxParagraphLength}
-                        pattern={ValidationPatternConstants.ParagraphPattern.source}
+                    {/* Success Popup */}
+                    <SuccessPopup
+                        showCreateModal={showSuccessModal}
+                        message={successMessage}
+                        onClose={closeSuccessModal}
                     />
-                    <Form.Control.Feedback type="invalid">
-                        {t('paragraphs.createEdit.plsEnterParText')}{'.'}
-                    </Form.Control.Feedback>
-                </Form.Group>
 
-            </Form>
+                    <DeletePopup
+                        showDeleteModal={showDeleteModal}
+                        message={deleteMessage}
+                        onClose={closeDeleteModal}
+                        onDelete={deleteConfirmed}
+                    />
 
-            {/* Error Popup */}
-            <ErrorPopup
-                showErrorModal={showErrorModal}
-                errorMessage={errorMessage}
-                onClose={closeErrorModal}
-            />
+                </Col>
 
-            {/* Success Popup */}
-            <SuccessPopup
-                showCreateModal={showSuccessModal}
-                message={successMessage}
-                onClose={closeSuccessModal}
-            />
+                <Col>
+                    <Form>
+                        <Form.Group
+                            className="d-flex justify-content-center"
+                            style={{ marginBottom: '20px' }}
+                        >
+                            <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
+                        </Form.Group>
+                        <Form.Group
+                            className="d-flex justify-content-center"
+                            style={{ marginBottom: '20px' }}
+                        >
+                            <input
+                                className="form-control darkInput"
+                                type="file"
+                                onChange={handleFileUpload}
+                            />
+                        </Form.Group>
 
-            <DeletePopup
-                showDeleteModal={showDeleteModal}
-                message={deleteMessage}
-                onClose={closeDeleteModal}
-                onDelete={deleteConfirmed}
-            />
+                        {paragraph.imageFileName && (
+                            <Col>
 
-        </Col>
+                                <Button onClick={getParagraphImage} className='buttons blue' style={{ marginBottom: '10px' }}><GrRevert className="icons" /> {t('commonUIelements.resetImg')}</Button>
+                            </Col>
+                        )}
 
-        <Col>
-            <Form>
-            <Form.Group
-              className="d-flex justify-content-center"
-              style={{ marginBottom: '20px' }}
-            >
-              <Image height="200" src={imageFileUrl} alt="Uploaded Image" />
-            </Form.Group>
-            <Form.Group
-              className="d-flex justify-content-center"
-              style={{ marginBottom: '20px' }}
-            >
-              <input
-                className="form-control darkInput"
-                type="file"
-                onChange={handleFileUpload}
-              />
-            </Form.Group>
+                        {paragraph.imageFileName && (
+                            <Col>
 
-                {paragraph.imageFileName && (
-                        <Col>
+                                <Button className='buttons pink' onClick={deleteParagraphImage}><MdDelete className="icons" /> {t('commonUIelements.deleteImg')}</Button>
+                            </Col>
+                        )}
+                    </Form>
+                </Col>
 
-                            <Button onClick={getParagraphImage} className='buttons blue' style={{marginBottom:'10px'}}><GrRevert className="icons" /> {t('commonUIelements.resetImg')}</Button>
-                        </Col>
-                    )}
+                <Form validated={validated} onSubmit={handleSave}>
+                    <Button className='buttons orange' type="submit" style={{ marginTop: '10px', width: '100%' }}>
+                        {update ? t('commonUIelements.update') : t('commonUIelements.create')}
+                    </Button>
+                </Form>
 
-                    {paragraph.imageFileName && (
-                        <Col>
-
-                            <Button className='buttons pink' onClick={deleteParagraphImage}><MdDelete className="icons" /> {t('commonUIelements.deleteImg')}</Button>
-                        </Col>
-                    )}
-            </Form>
-            </Col>
-
-        <Form validated={validated} onSubmit={handleSave}>
-        <Button className='buttons orange' type="submit" style={{ marginTop: '10px', width: '100%'}}>
-            {update ? t('commonUIelements.update') : t('commonUIelements.create')}
-          </Button>
-          </Form>
-
-        </Row>
+            </Row>
         </>
     )
 }

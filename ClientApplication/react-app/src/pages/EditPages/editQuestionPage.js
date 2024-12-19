@@ -6,8 +6,13 @@ import { React, useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next';
+import { UserManager } from '../../.controllers/.dataProcessingHelpers/DataProccessingHelpersExport';
+import { useNavigate } from 'react-router-dom';
 
 const EditQuestion = () => {
+  const navigate = useNavigate();
+
+    const [userId, setUserID] = useState(-1);
 
     const { t } = useTranslation();
 
@@ -17,6 +22,10 @@ const EditQuestion = () => {
 
     // Get the articleId from the query string, or default to null if not provided
     useEffect(() => {
+        let user = UserManager.getUser();
+        if (user !== null && user !== undefined) {
+            setUserID(user.id);
+        } 
         setQuestionId(searchParams.get('questionId'));
     }, [searchParams]); // Only runs when searchParams changes
 
@@ -26,6 +35,10 @@ const EditQuestion = () => {
 
     const handleCreateQuestion = () => {
         setQuestionId(null);
+    }
+
+    const noQuestionFound = () => {
+        navigate('/edit-question');
     }
 
     return (
@@ -44,12 +57,15 @@ const EditQuestion = () => {
                                 <CreateEditQuestion
                                     key={`edit-${questionId}`}
                                     existingQuestionId={questionId}
+                                    noQuestionFound={noQuestionFound}
                                     redirect={false}
+                                    userId={userId}
                                 />
                             ) : (
                                 <CreateEditQuestion
                                     sendCreatedId={receiveQuestionId}
                                     redirect={false}
+                                    userId={userId}
                                 />
                             )
                         }
