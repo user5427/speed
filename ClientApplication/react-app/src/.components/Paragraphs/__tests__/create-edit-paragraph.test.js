@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import EditParagraph from '../create-edit-paragraph';
 import { ParagraphController, ArticleController } from '../../../.controllers/paragraphController';
 
+import { MemoryRouter as Router } from 'react-router-dom';
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({ t: (key) => key }),
   }));
@@ -22,18 +23,19 @@ jest.mock('../../../.controllers/.MainControllersExport', () => ({
 }));
 
 describe('EditParagraph Component', () => {
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   test('renders the EditParagraph component', () => {
-    render(<EditParagraph />);
+    render(<Router><EditParagraph /></Router>);
     expect(screen.getByPlaceholderText('paragraphs.createEdit.enterParTitle')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('paragraphs.createEdit.eneterParText')).toBeInTheDocument();
   });
 
   test('handles field change correctly', () => {
-    render(<EditParagraph />);
+    render(<Router><EditParagraph /></Router>);
     const titleInput = screen.getByPlaceholderText('paragraphs.createEdit.enterParTitle');
 
     fireEvent.change(titleInput, { target: { value: 'New Title' } });
@@ -44,7 +46,7 @@ describe('EditParagraph Component', () => {
   test('handles image upload correctly', () => {
     const file = new File(['dummy content'], 'test-image.png', { type: 'image/png' });
 
-    render(<EditParagraph />);
+    render(<Router><EditParagraph /></Router>);
     const fileInput = screen.getByTestId('file-upload');
 
     fireEvent.change(fileInput, { target: { files: [file] } });
@@ -62,7 +64,7 @@ describe('EditParagraph Component', () => {
     const post = jest.fn().mockResolvedValueOnce({ ...mockParagraph, id: 1 });
     ParagraphController.Post = post;
         
-    render(<EditParagraph />);
+    render(<Router><EditParagraph /></Router>);
     const titleInput = screen.getByPlaceholderText('paragraphs.createEdit.enterParTitle');
     const textInput = screen.getByPlaceholderText('paragraphs.createEdit.eneterParText');
     const submitButton = screen.getByText('commonUIelements.create');
