@@ -64,7 +64,7 @@ const LogIn = () => {
   const closeSuccessModal = () => {
     setShowSuccessModal(false);
     navigate('/categories'); 
-    window.location.reload(); 
+    // window.location.reload(); 
   };
 
   return (
