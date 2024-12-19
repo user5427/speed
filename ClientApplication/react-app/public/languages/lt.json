@@ -42,7 +42,8 @@
         "createParagraph" : "Sukurti pastraipą",
         "createQuestion" : "Sukurti klausimą",
         "articleList" : "Straipsnių sąrašas",
-        "userArticles" : "Mano straipsniai"
+        "userArticles" : "Mano straipsniai",
+        "myArticles" : "Mano straipsniai"
     },
 
     "categories" : {
@@ -72,7 +73,8 @@
             "enterCategoryTitle" : "Įveskite kategorijos pavadinimą"
         },
 
-        "myCategories" : "Kurti savo kategoriją"
+        "myCategories" : "Kurti savo kategoriją",
+        "userCategories" : "Mano kategorijos"
     },
 
     "editPages" : {

@@ -43,7 +43,8 @@
         "createParagraph" : "Absatz zumachen",
         "createQuestion" : "Frage zumachen",
         "articleList" : "Artikelliste",
-        "userArticles" : "Artikelliste"
+        "userArticles" : "Artikelliste des Benutzers",
+        "myArticles" : "Meine Artikelen"
     },
 
     "categories" : {
@@ -73,7 +74,8 @@
             "enterCategoryTitle" : "Geben Sie den Kategorietitel ein"
         },
 
-        "myCategories" : "Erstelle meine eigene Kategorie"
+        "myCategories" : "Erstelle meine eigene Kategorie",
+        "userCategories" : "Benutzerkategorien"
     },
 
     "editPages" : {

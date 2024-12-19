@@ -102,7 +102,7 @@ const SignUp = () => {
 
   const closeSuccessModal = () => {
     setShowSuccessModal(false);
-    navigate('/categories'); 
+    // navigate('/categories'); 
     window.location.reload();
   };
 

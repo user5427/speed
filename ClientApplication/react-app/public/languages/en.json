@@ -42,7 +42,8 @@
         "createParagraph" : "Create Paragraph",
         "createQuestion" : "Create Question",
         "articleList" : "Article list",
-        "userArticles" : "My articles"
+        "userArticles" : "My articles",
+        "myArticles" : "My Articles"
     },
 
     "categories" : {
@@ -72,7 +73,9 @@
             "enterCategoryTitle" : "Enter category title"
         },
 
-        "myCategories" : "Create my own category"
+        "myCategories" : "Create my own category",
+        "userCategories" : "My categories"
+
     },
 
     "editPages" : {
