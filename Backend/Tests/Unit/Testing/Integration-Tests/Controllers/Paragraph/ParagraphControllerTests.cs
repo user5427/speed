@@ -141,6 +141,28 @@ public class ParagraphControllerTests : IClassFixture<PlaygroundApplicationFixtu
     }
 
     [Fact]
+    public async Task UpdateParagraph_InvalidQuestionsIds()
+    {
+        var request = new ParagraphUpdateRequest(
+            Title: "Updated Title",
+            Text: "Updated Content",
+            ArticleId: _articleId,
+            QuestionIds: [1,3,4]
+        );
+
+         var token = _tokenService.CreateToken(_user);
+        // Set up the HTTP client with the Authorization header
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        // Act
+        var response = await _client.PutAsJsonAsync($"/api/paragraphs/{_paragraphId}", request);
+        var updatedParagraph = await response.Content.ReadFromJsonAsync<ParagraphResponse>();
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
     public async Task UpdateParagraph_InvalidData_ReturnsBadRequest()
     {
         var request = new ParagraphUpdateRequest(

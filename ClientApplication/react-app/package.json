@@ -58,7 +58,6 @@
       "!src/_tests/.mocks/**",
       "!src/pages/Exercise/articleData.js",
       "!src/jest.config.js"
-
     ],
     "coverageThreshold": {
       "global": {

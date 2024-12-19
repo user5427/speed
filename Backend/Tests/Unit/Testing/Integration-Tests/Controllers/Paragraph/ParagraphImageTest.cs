@@ -79,6 +79,9 @@ public class ParagraphImageTests : IClassFixture<PlaygroundApplicationFixture>, 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
+
+ 
+
     [Fact]
      public async Task DeleteImage_InValid_NoImage()
     {
@@ -133,7 +136,7 @@ public class ParagraphImageTests : IClassFixture<PlaygroundApplicationFixture>, 
         Assert.Equal(HttpStatusCode.NotFound, req.StatusCode);
     }
     [Fact]
-     public async Task DeleteImage_Valid()
+    public async Task DeleteImage_Valid()
     {
         // Arrange
         var form = new MultipartFormDataContent();

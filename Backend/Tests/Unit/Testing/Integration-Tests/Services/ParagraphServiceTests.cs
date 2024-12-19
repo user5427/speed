@@ -76,7 +76,7 @@ public class ParagraphServiceTests
                                              _paragraphService, authService);
 
         // Initialize ArticleService with mock data
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null, null);
         createdArticle = _articleService.CreateArticle(request);
     }
 
@@ -97,7 +97,7 @@ public class ParagraphServiceTests
     {
 
         // Arrange
-        var catReq = new ArticleCreateRequest("Test Title", "Test Text", null, null, null, null);
+        var catReq = new ArticleCreateRequest("Test Title", "Test Text", null, null, null, null, null);
         var catRes = _articleService.CreateArticle(catReq);
         var list = new List<int>();
         list.Add(catRes.Id);
