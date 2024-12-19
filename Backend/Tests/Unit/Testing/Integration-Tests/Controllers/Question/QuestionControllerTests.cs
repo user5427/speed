@@ -1,10 +1,13 @@
 
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.DTOs.Question.Responses;
+using SpeedReaderAPI.Entities;
+using SpeedReaderAPI.Services;
 
 namespace Unit;
 
@@ -16,11 +19,16 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
     private int _articleId;
     private int _paragraphId;
     private int _questionId;
+    private User _user;
+    private readonly ITokenService _tokenService;
 
     public QuestionControllerTests(PlaygroundApplicationFixture fixture)
     {
         _fixture = fixture;
         _client = fixture.CreateClient();
+
+        var configuration = _fixture.Services.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        _tokenService = new TokenService(configuration);
 
         ensureDatabaseIsPrepared();
     }
@@ -36,6 +44,8 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
 
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
+        _user = DBHelperMethods.getUser(context);
+
         _articleId = DBHelperMethods.GetFirstArticleId(context);
         _paragraphId = DBHelperMethods.GetFirstParagraphId(context);
         _questionId = DBHelperMethods.GetFirstQuestionId(context);
@@ -50,6 +60,9 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
             AnswerChoices: new string[] { "help", "C# struggle", "haskell pain" },
             CorrectAnswerIndex: 1
         );
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/questions", request);
@@ -73,6 +86,9 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
             AnswerChoices: new string[] { "help", "C# struggle", "haskell pain" },
             CorrectAnswerIndex: 4
         );
+
+         var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/questions", request);
@@ -114,6 +130,9 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
             CorrectAnswerIndex: 2
         );
 
+         var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PutAsJsonAsync($"/api/questions/{_questionId}", request);
         var updatedQuestion = await response.Content.ReadFromJsonAsync<QuestionResponse>();
@@ -136,6 +155,9 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
             CorrectAnswerIndex: 4
         );
 
+         var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PutAsJsonAsync($"/api/questions/{_questionId}", request);
 
@@ -146,6 +168,10 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
     [Fact]
     public async Task DeleteQuestion_ValidId_ReturnsNoContent()
     {
+
+         var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.DeleteAsync($"/api/questions/{_questionId}");
 
@@ -156,6 +182,10 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
     [Fact]
     public async Task DeleteQuestion_InvalidId_ReturnsNotFound()
     {
+
+         var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.DeleteAsync($"/api/questions/0");
 
@@ -198,6 +228,9 @@ public class QuestionControllerTests : IClassFixture<PlaygroundApplicationFixtur
             AnswerChoices: new string[] { "help", "C# struggle", "haskell pain" },
             CorrectAnswerIndex: 1
         );
+
+         var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/questions", request);

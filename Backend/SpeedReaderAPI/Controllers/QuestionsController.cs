@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using SpeedReaderAPI.DTOs;
@@ -25,6 +26,7 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpPost("{id}/img")]
+    [Authorize(Roles = "USER,ADMIN")]
     public async Task<IActionResult> UploadImage(int id, [FromForm] ImageUploadRequest request)
     {
         QuestionResponse result = await _questionService.UploadImage(id, request);
@@ -32,6 +34,7 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpDelete("{id}/img")]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult DeleteImage(int id)
     {
         _questionService.DeleteImage(id);
@@ -61,6 +64,7 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "USER,ADMIN")]
     public ActionResult<int> CreateQuestion(QuestionCreateRequest request)
     {
         QuestionResponse questionResponse = _questionService.CreateQuestion(request);
@@ -68,6 +72,7 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult UpdateQuestion(int id, QuestionUpdateRequest request)
     {
         QuestionResponse questionResponse = _questionService.UpdateQuestion(id, request);
@@ -75,6 +80,7 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "USER,ADMIN")]
     public IActionResult DeleteQuestion(int id)
     {
         _questionService.DeleteQuestion(id);

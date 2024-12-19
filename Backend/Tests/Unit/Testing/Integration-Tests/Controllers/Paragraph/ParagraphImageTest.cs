@@ -1,7 +1,9 @@
 // public class 
 using System.Net;
+using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedReaderAPI.Data;
+using SpeedReaderAPI.Entities;
 
 namespace Unit;
 
@@ -11,12 +13,18 @@ public class ParagraphImageTests : IClassFixture<PlaygroundApplicationFixture>, 
     private readonly PlaygroundApplicationFixture _fixture;
     private HttpClient _client;
     private int _paragraphId;
+    private readonly TokenService _tokenService;
+    private User _user;
+
 
     public ParagraphImageTests(PlaygroundApplicationFixture fixture, ImageFixture imageFixture)
     {
         _imageFixture = imageFixture;
         _fixture = fixture;
         _client = fixture.CreateClient();
+
+         var configuration = _fixture.Services.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        _tokenService = new TokenService(configuration);
 
         ensureDatabaseIsPrepared();
     }
@@ -32,6 +40,7 @@ public class ParagraphImageTests : IClassFixture<PlaygroundApplicationFixture>, 
 
         // Call SeedInitialData and ensure it completes before proceeding
         DBHelperMethods.SeedInitialData(context);
+        _user = DBHelperMethods.getUser(context);
         _paragraphId = DBHelperMethods.GetFirstParagraphId(context);
     }
 
@@ -42,6 +51,9 @@ public class ParagraphImageTests : IClassFixture<PlaygroundApplicationFixture>, 
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsync($"/api/paragraphs/{_paragraphId}/img", form);
@@ -58,25 +70,36 @@ public class ParagraphImageTests : IClassFixture<PlaygroundApplicationFixture>, 
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
 
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
         // Act
         var response = await _client.PostAsync($"/api/paragraphs/{invalidParagraphId}/img", form);
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
+
+ 
+
     [Fact]
      public async Task DeleteImage_InValid_NoImage()
     {
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         await _client.DeleteAsync($"/api/paragraphs/{_paragraphId}/img");
         var req = await _client.DeleteAsync($"/api/paragraphs/{_paragraphId}/img");
         Assert.Equal(HttpStatusCode.OK, req.StatusCode);
     }
     [Fact]
-    public async Task GetImage_Valid()
+    public async Task PostImage_Valid()
     {
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsync($"/api/paragraphs/{_paragraphId}/img", form);
@@ -113,11 +136,14 @@ public class ParagraphImageTests : IClassFixture<PlaygroundApplicationFixture>, 
         Assert.Equal(HttpStatusCode.NotFound, req.StatusCode);
     }
     [Fact]
-     public async Task DeleteImage_Valid()
+    public async Task DeleteImage_Valid()
     {
         // Arrange
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         var response = await _client.PostAsync($"/api/paragraphs/{_paragraphId}/img", form);
@@ -133,6 +159,9 @@ public class ParagraphImageTests : IClassFixture<PlaygroundApplicationFixture>, 
     {
         var form = new MultipartFormDataContent();
         form.Add(new StreamContent(_imageFixture.Image), "file", "placeholder.gif");
+
+        var token = _tokenService.CreateToken(_user);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         // Act
         await _client.PostAsync($"/api/paragraphs/{_paragraphId}/img", form);

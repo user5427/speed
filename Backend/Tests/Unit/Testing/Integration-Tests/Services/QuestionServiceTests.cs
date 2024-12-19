@@ -1,9 +1,4 @@
-using System;
-using Moq;
-using Xunit;
-using SpeedReaderAPI.Services;
 using AutoMapper;
-using SpeedReaderAPI.Data;
 using SpeedReaderAPI.Entities;
 using SpeedReaderAPI.DTOs.Article.Requests;
 using SpeedReaderAPI.Services.Impl;
@@ -14,6 +9,9 @@ using SpeedReaderAPI.DTOs.Paragraph.Responses;
 using SpeedReaderAPI.DTOs.Paragraph.Requests;
 using SpeedReaderAPI.DTOs.Question.Requests;
 using SpeedReaderAPI.Exceptions;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
 
 namespace Unit;
 
@@ -28,6 +26,7 @@ public class QuestionServiceTests
     private readonly QuestionService _questionService;
     private readonly ArticleResponse createdArticle;
     private readonly ParagraphResponse createdParagraph;
+    private readonly User _user;
 
     public QuestionServiceTests()
     {
@@ -45,17 +44,43 @@ public class QuestionServiceTests
         _imageService = new ImageService();
         // _mockMapper.Object
 
-        _questionService = new QuestionService(context, _mapper, _imageService);
+         var inMemorySettings = new Dictionary<string, string> 
+        {
+            { "Jwt:Key", "testkey" },
+            { "Jwt:Issuer", "testissuer" },
+            { "Jwt:Audience", "testaudience" }
+        };
 
-        _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService);
+        Microsoft.Extensions.Configuration.IConfiguration configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        TokenService tokenService = new TokenService(configuration);
+
+        DBHelperMethods.SeedUserData(context);
+        _user = DBHelperMethods.getUser(context);
+
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(new ClaimsIdentity(
+        [
+            new Claim(ClaimTypes.NameIdentifier, _user.Id.ToString()),
+            new Claim(ClaimTypes.Email, _user.Email),
+            new Claim(ClaimTypes.Role, _user.Role.ToString()),
+        ]));
+         var contextAccessor = new HttpContextAccessor { HttpContext = httpContext };
+        AuthService authService = new AuthService(context, _mapper, tokenService, contextAccessor);
+
+        _questionService = new QuestionService(context, _mapper, _imageService, authService);
+        _paragraphService = new ParagraphService(context, _mapper, _imageService, _questionService, authService);
 
         // Initialize ArticleService with mocks and context
         _articleService = new ArticleService(context, _mapper, 
                                              _imageService, 
-                                             _paragraphService);
+                                             _paragraphService, authService);
+
 
         // Initialize ArticleService with mock data
-        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null, null);
+        var request = new ArticleCreateRequest("Test Article", "Test Category", null, null, null, null);
         createdArticle = _articleService.CreateArticle(request);
 
         // Initialize ParagraphService with mock data
@@ -75,6 +100,16 @@ public class QuestionServiceTests
         Assert.NotNull(result);
         Assert.Equal("Test Question", result.QuestionText);
         Assert.Equal(createdParagraph.Id, result.ParagraphId);
+    }
+
+    [Fact (DisplayName  = "Question creating")]
+    public void CreationQuetion_InvalidIndex ()
+    {
+        // Arrange
+        var request = new QuestionCreateRequest(createdParagraph.Id, "Test Question", ["answer 1", "answer 2"], -1);
+        
+        // Assert
+        Assert.Throws<IndexOutOfRangeException>(() =>_questionService.CreateQuestion(request));
     }
 
     [Fact (DisplayName  = "Question getting")]
@@ -106,6 +141,38 @@ public class QuestionServiceTests
         Assert.NotNull(result);
         Assert.Equal("Test Question 2", result.QuestionText);
         Assert.Equal(createdParagraph.Id, result.ParagraphId);
+    }
+
+    [Fact (DisplayName  = "Question updating invalid index")]
+    public void UpdateQuestion_invalidIndex ()
+    {
+        // Arrange
+        var request = new QuestionCreateRequest(createdParagraph.Id, "Test Question", ["answer 1", "answer 2"],0);
+        var created = _questionService.CreateQuestion(request);
+        
+        var request2 = new QuestionUpdateRequest(createdParagraph.Id, "Test Question 2", ["answer 1", "answer 2"], -1);
+
+        // Assert
+        Assert.Throws<IndexOutOfRangeException>(() =>_questionService.UpdateQuestion(created.Id, request2));
+    }
+
+    [Fact (DisplayName  = "Question updating invalid index 2")]
+    public void UpdateQuestion_invalidIndex2 ()
+    {
+        // Arrange
+        var request = new QuestionCreateRequest(createdParagraph.Id, "Test Question", ["answer 1", "answer 2"],1);
+        var created = _questionService.CreateQuestion(request);
+        var request2 = new QuestionUpdateRequest(createdParagraph.Id, "Test Question 2", ["answer 1"], null);
+        // Assert
+        Assert.Throws<IndexOutOfRangeException>(() =>_questionService.UpdateQuestion(created.Id, request2));
+    }
+
+    [Fact (DisplayName  = "Question updating invalid id")]
+    public void UpdateQuestion_invalidId ()
+    {
+        var request2 = new QuestionUpdateRequest(createdParagraph.Id, "Test Question 2", ["answer 1", "answer 2"], -1);
+        // Assert
+        Assert.Throws<ResourceNotFoundException>(() =>_questionService.UpdateQuestion(21, request2));
     }
 
     [Fact(DisplayName = "Question deleting")]
